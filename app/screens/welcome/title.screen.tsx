@@ -5,11 +5,13 @@ import MonoIcon from '../../components/shared/mono-icon.component';
 
 const StyledView = styled(View);
 
-const Title = () => (
-  <StyledView className="flex h-full w-full items-center justify-center">
-    <MonoIcon iconName="Send" />
-    <Button onPress={() => {}}>Get started</Button>
-  </StyledView>
-);
+const Title = () => {
+  return (
+    <StyledView className="flex h-full w-full items-center justify-center">
+      <MonoIcon iconName="Send" />
+      <Button onPress={() => {}}>Get started</Button>
+    </StyledView>
+  );
+};
 
 export default Title;

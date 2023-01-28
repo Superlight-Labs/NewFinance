@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "expo": "^47.0.0",
+    "expo-crypto": "~12.0.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.71.1",
