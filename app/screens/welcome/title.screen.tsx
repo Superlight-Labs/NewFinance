@@ -1,7 +1,7 @@
 import {styled} from 'nativewind';
 import {View} from 'react-native';
-import Button from '../../components/shared/input/button.component';
-import MonoIcon from '../../components/shared/mono-icon.component';
+import Button from '../../components/shared/input/button/button.component';
+import MonoIcon from '../../components/shared/mono-icon/mono-icon.component';
 
 const StyledView = styled(View);
 

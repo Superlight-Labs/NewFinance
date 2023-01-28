@@ -1,4 +1,4 @@
-name: App - E2E Tests
+name: App - Tests
 
 # Controls when the workflow will run
 on:
