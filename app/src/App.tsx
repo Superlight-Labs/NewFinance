@@ -6,8 +6,7 @@
  */
 
 import React from 'react';
-
-import Title from './screens/welcome/title.screen';
+import Title from 'screens/welcome/title.screen';
 
 function App(): JSX.Element {
   return <Title />;

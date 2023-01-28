@@ -1,18 +1,18 @@
 import {styled} from 'nativewind';
 import {ReactNode} from 'react';
-import {Text, TouchableNativeFeedback} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 
 type Props = {
   onPress: () => void;
   children: ReactNode;
 };
 
-const StyledButton = styled(TouchableNativeFeedback);
+const StyledButton = styled(TouchableOpacity);
 const StyledText = styled(Text);
 
 const Button = ({onPress, children}: Props) => (
-  <StyledButton onPress={onPress}>
-    <StyledText>{children}</StyledText>
+  <StyledButton onPress={onPress} className=" rounded-full bg-slate-800 p-2">
+    <StyledText className="text-gray-50">{children}</StyledText>
   </StyledButton>
 );
 
