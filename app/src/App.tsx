@@ -5,11 +5,16 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import Title from 'screens/welcome/title.screen';
+import Welcome from 'screens/welcome/welcome.screen';
 
 function App(): JSX.Element {
-  return <Title />;
+  return (
+    <NavigationContainer>
+      <Welcome />
+    </NavigationContainer>
+  );
 }
 
 export default App;
