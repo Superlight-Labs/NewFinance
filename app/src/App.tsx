@@ -5,6 +5,7 @@
  * @format
  */
 
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {
   createNativeStackNavigator,
@@ -12,20 +13,45 @@ import {
 } from '@react-navigation/native-stack';
 import React from 'react';
 import Home from 'screens/home/home.screen';
+import Overview from 'screens/wallets/tabs/overview.screen';
+import Receive from 'screens/wallets/tabs/receive.screen';
+import Send from 'screens/wallets/tabs/send.screen';
 import Welcome from 'screens/welcome/welcome.screen';
+import {RootStackParamList} from './navigation/main-navigation';
+import {WalletScreenList} from './navigation/wallet-navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerLeft: () => null,
+  headerBackVisible: false,
 };
+
+const Tab = createMaterialTopTabNavigator<WalletScreenList>();
 
 function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Group>
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Group>
+
+        <Stack.Group screenOptions={{presentation: 'modal'}}>
+          <Stack.Screen name="Wallet">
+            {() => (
+              <Tab.Navigator
+                tabBarPosition="bottom"
+                screenOptions={screenOptions}
+                initialRouteName="Overview">
+                <Tab.Screen name="Recieve" component={Receive} />
+                <Tab.Screen name="Overview" component={Overview} />
+                <Tab.Screen name="Send" component={Send} />
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );
