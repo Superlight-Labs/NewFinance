@@ -1,4 +1,4 @@
-import {Text, View} from 'custom/react-native';
+import {Text, View} from 'custom/styled-react-native';
 import {} from 'nativewind';
 
 const Receive = () => {

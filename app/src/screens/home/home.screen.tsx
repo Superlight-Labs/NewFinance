@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Button from 'components/shared/input/button/button.component';
-import {Text, View} from 'custom/react-native';
+import {Text, View} from 'custom/styled-react-native';
 import {RootStackParamList} from 'src/navigation/main-navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wallet'>;

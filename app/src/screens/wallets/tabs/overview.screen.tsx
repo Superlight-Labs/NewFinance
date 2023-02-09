@@ -1,4 +1,4 @@
-import {Text, View} from 'custom/react-native';
+import {Text, View} from 'custom/styled-react-native';
 
 const Overview = () => {
   return (
