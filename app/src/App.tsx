@@ -7,10 +7,13 @@
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {NavigationContainer} from '@react-navigation/native';
+import 'react-native-gesture-handler';
+
 import {
-  createNativeStackNavigator,
-  NativeStackNavigationOptions,
-} from '@react-navigation/native-stack';
+  createStackNavigator,
+  StackNavigationOptions,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import React from 'react';
 import Home from 'screens/home/home.screen';
 import Overview from 'screens/wallets/tabs/overview.screen';
@@ -20,11 +23,10 @@ import Welcome from 'screens/welcome/welcome.screen';
 import {RootStackParamList} from './navigation/main-navigation';
 import {WalletScreenList} from './navigation/wallet-navigation';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
-const screenOptions: NativeStackNavigationOptions = {
+const screenOptions: StackNavigationOptions = {
   headerLeft: () => null,
-  headerBackVisible: false,
 };
 
 const Tab = createMaterialTopTabNavigator<WalletScreenList>();
@@ -38,7 +40,12 @@ function App(): JSX.Element {
           <Stack.Screen name="Home" component={Home} />
         </Stack.Group>
 
-        <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Group
+          screenOptions={{
+            presentation: 'modal',
+            gestureEnabled: true,
+            ...TransitionPresets.ModalPresentationIOS,
+          }}>
           <Stack.Screen name="Wallet">
             {() => (
               <Tab.Navigator
