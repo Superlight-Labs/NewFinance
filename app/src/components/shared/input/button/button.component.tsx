@@ -1,6 +1,6 @@
+import {Pressable, Text} from 'custom/styled-react-native';
 import {styled} from 'nativewind';
 import {ReactNode} from 'react';
-import {Pressable, Text} from 'react-native';
 
 type Props = {
   onPress: () => void;
@@ -8,15 +8,12 @@ type Props = {
   style?: string;
 };
 
-const StyledButton = styled(Pressable);
-const StyledText = styled(Text);
-
 const Button = ({onPress, children, style}: Props) => (
-  <StyledButton
+  <Pressable
     onPress={onPress}
     className={`${style} rounded-full bg-slate-800 p-4`}>
-    <StyledText className="text-white">{children}</StyledText>
-  </StyledButton>
+    <Text className="text-white">{children}</Text>
+  </Pressable>
 );
 
 export default styled(Button);

@@ -1,18 +1,17 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import Button from 'components/shared/input/button/button.component';
-import {Text, View} from 'custom/styled-react-native';
+import {StackScreenProps} from '@react-navigation/stack';
+import Title from 'components/shared/title/title.component';
+import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
+import {View} from 'custom/styled-react-native';
 import {RootStackParamList} from 'src/navigation/main-navigation';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Wallet'>;
+type Props = StackScreenProps<RootStackParamList, 'Wallet'>;
 
 const Home = ({navigation}: Props) => {
   return (
-    <View className="flex h-full w-full flex-col items-center justify-center pb-8">
-      <Text>Hi this is home</Text>
+    <View className="flex h-full w-full flex-col p-8 pt-24">
+      <Title>Wallets</Title>
 
-      <Button onPress={() => navigation.navigate('Wallet')}>
-        Open Main Wallet
-      </Button>
+      <WalletMenuItem navigate={() => navigation.navigate('Wallet')} />
     </View>
   );
 };
