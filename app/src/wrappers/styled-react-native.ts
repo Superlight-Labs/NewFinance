@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 const ScrollView = styled(RNScrollView);
-const Text = styled(RNText);
+const Text = styled(RNText, 'font-nunito');
 const Button = styled(RNButton);
 const Pressable = styled(RNPressable);
 const SafeAreaView = styled(RNSafeAreaView);
