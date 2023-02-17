@@ -315,6 +315,9 @@ PODS:
   - React-jsinspector (0.71.1)
   - React-logger (0.71.1):
     - glog
+  - react-native-blockchain-crypto-mpc (0.2.0):
+    - OpenSSL-Universal
+    - React-Core
   - react-native-pager-view (6.0.1):
     - React-Core
   - react-native-safe-area-context (4.4.1):
@@ -472,6 +475,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../../../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../../../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../../../node_modules/react-native/ReactCommon/logger`)
+  - "react-native-blockchain-crypto-mpc (from `../../../node_modules/@superlight/react-native-blockchain-crypto-mpc`)"
   - react-native-pager-view (from `../../../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../../../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../../../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -568,6 +572,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../../../node_modules/react-native/ReactCommon/logger"
+  react-native-blockchain-crypto-mpc:
+    :path: "../../../node_modules/@superlight/react-native-blockchain-crypto-mpc"
   react-native-pager-view:
     :path: "../../../node_modules/react-native-pager-view"
   react-native-safe-area-context:
@@ -651,6 +657,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 60cf272aababc5212410e4249d17cea14fc36caa
   React-jsinspector: ff56004b0c974b688a6548c156d5830ad751ae07
   React-logger: 60a0b5f8bed667ecf9e24fecca1f30d125de6d75
+  react-native-blockchain-crypto-mpc: f1c2be520508203af7f16643683035c798b8d8bc
   react-native-pager-view: 3051346698a0ba0c4e13e40097cc11b00ee03cca
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   React-perflogger: ec8eef2a8f03ecfa6361c2c5fb9197ef4a29cc85

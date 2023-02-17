@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@superlight/react-native-blockchain-crypto-mpc": "*",
     "@react-navigation/material-top-tabs": "^6.5.2",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/stack": "^6.3.12",
