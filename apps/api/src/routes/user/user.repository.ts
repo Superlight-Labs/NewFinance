@@ -1,5 +1,5 @@
 import { notFound, other, RouteError } from "@lib/route/error";
-import { client } from "./../../server";
+import { client } from "../../server";
 import { CreateUserRequest, User } from "./user";
 import { MpcKeyShare } from "./wallet";
 

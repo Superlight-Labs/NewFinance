@@ -1,0 +1,12 @@
+{
+  "name": "@superlight/eslint-config",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "author": "Laurenz Honauer",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Nothing to build'",
+    "test": "echo 'Nothing to test'",
+    "lint": "echo 'Nothing to lint'"
+  }
+}

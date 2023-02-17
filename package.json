@@ -6,8 +6,13 @@
     "apps/*",
     "packages/*"
   ],
+  "nohoist": ["husky"]
+,
   "scripts": {
-    "db:start": "cd ./packages/database && docker compose up"
+    "db:start": "cd ./packages/database && docker compose up",
+    "test": "yarn workspaces run test",
+    "build": "yarn workspaces run build",
+    "lint": "yarn workspaces run lint"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",

@@ -66,7 +66,7 @@ export const signWithEcdsaShare = (connection: SocketStream, user: User) => {
             return;
           }
 
-          connection.socket.send(stepOutput);
+          connection.socket.send(stepOutput as string);
         } catch (err) {
           logger.error({ err }, "Error while stepping in sign");
           context?.free();

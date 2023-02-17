@@ -32,7 +32,7 @@ export const importGenericSecret = (connection: SocketStream, user: User) => {
             return;
           }
 
-          connection.socket.send(stepOutput);
+          connection.socket.send(stepOutput as string);
         }
         break;
     }

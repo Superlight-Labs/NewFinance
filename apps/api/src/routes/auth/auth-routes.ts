@@ -1,7 +1,7 @@
 import { setNonceRoute } from "@lib/route/handlers";
-import { Server } from "@server";
 import { FastifyRequest } from "fastify";
 import { ResultAsync } from "neverthrow";
+import { Server } from "../../server";
 import { CreateNonceResponse } from "./auth";
 
 const getNonce = setNonceRoute<CreateNonceResponse>(

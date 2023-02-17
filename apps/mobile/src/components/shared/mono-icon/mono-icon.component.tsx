@@ -1,6 +1,6 @@
-import {styled} from 'nativewind';
+import { styled } from 'nativewind';
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import * as Icon from 'react-native-feather';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const StyledView = styled(View);
 
-const MonoIcon = ({iconName}: Props) => {
+const MonoIcon = ({ iconName }: Props) => {
   const FeatherIcon = Icon[iconName];
 
   return (

@@ -1,4 +1,4 @@
-name: Api - Build
+name: Check Codebase
 
 # Controls when the workflow will run
 on:
@@ -13,17 +13,17 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
-    defaults:
-      run:
-        working-directory: api
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache-dependency-path: api/package-lock.json
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
 
-      - run: npm ci
-      - run: npm run build
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn build
+      - run: yarn test

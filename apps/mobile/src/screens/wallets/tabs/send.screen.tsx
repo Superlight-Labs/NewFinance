@@ -1,4 +1,4 @@
-import {Text, View} from 'custom/styled-react-native';
+import { Text, View } from 'custom/styled-react-native';
 
 const Send = () => {
   return (

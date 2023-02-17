@@ -1,5 +1,5 @@
-import {styled} from 'nativewind';
-import React, {ReactNode, useRef} from 'react';
+import { styled } from 'nativewind';
+import React, { ReactNode, useRef } from 'react';
 import {
   Animated,
   SafeAreaView,
@@ -16,10 +16,10 @@ const StyledAreaView = styled(SafeAreaView);
 const StyledView = styled(View);
 const StyledScrollView = styled(ScrollView);
 
-const Carousel = ({children}: Props) => {
+const Carousel = ({ children }: Props) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const {width: windowWidth} = useWindowDimensions();
+  const { width: windowWidth } = useWindowDimensions();
 
   return (
     <StyledAreaView className="flex w-full flex-1 flex-col items-center justify-center">
@@ -38,7 +38,7 @@ const Carousel = ({children}: Props) => {
                 },
               },
             ],
-            {useNativeDriver: false},
+            { useNativeDriver: false }
           )}
           scrollEventThrottle={1}>
           {children.map((child, childIndex) => {
@@ -64,7 +64,7 @@ const Carousel = ({children}: Props) => {
             return (
               <Animated.View
                 key={childIndex}
-                style={{width}}
+                style={{ width }}
                 className="my-4 mx-1 h-4 w-4 rounded-full bg-slate-600"
               />
             );

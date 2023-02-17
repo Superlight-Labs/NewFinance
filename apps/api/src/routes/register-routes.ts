@@ -1,4 +1,4 @@
-import { Server } from "@server";
+import { Server } from "../server";
 import registerAuthRoutes from "./auth/auth-routes";
 import registerMcpRoutes from "./mpc/mpc-routes";
 import registerUserRoutes from "./user/user-routes";

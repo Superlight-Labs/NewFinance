@@ -1,8 +1,8 @@
 import { SocketStream } from "@fastify/websocket";
 import logger from "@lib/logger";
 import { authenticate } from "@lib/utils/auth";
-import { Server } from "@server";
 import { FastifyInstance, FastifyRequest } from "fastify";
+import { Server } from "../../server";
 import { User } from "../user/user";
 import { deriveBIP32 } from "./ecdsa/derive/deriveBIP32";
 import { generateEcdsaKey } from "./ecdsa/generateEcdsa";

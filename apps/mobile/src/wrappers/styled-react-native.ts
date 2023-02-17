@@ -1,4 +1,4 @@
-import {styled} from 'nativewind';
+import { styled } from 'nativewind';
 import {
   Button as RNButton,
   Pressable as RNPressable,
@@ -15,4 +15,4 @@ const Pressable = styled(RNPressable);
 const SafeAreaView = styled(RNSafeAreaView);
 const View = styled(RNView);
 
-export {SafeAreaView, View, Pressable, Button, Text, ScrollView};
+export { SafeAreaView, View, Pressable, Button, Text, ScrollView };

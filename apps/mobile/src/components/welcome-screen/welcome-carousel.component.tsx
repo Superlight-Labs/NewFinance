@@ -1,5 +1,5 @@
 import Carousel from 'components/shared/carousel/carousel.component';
-import {Text, View} from 'custom/styled-react-native';
+import { Text, View } from 'custom/styled-react-native';
 
 const WelcomeCarousel = () => {
   return (

@@ -5,8 +5,8 @@
  * @format
  */
 
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {NavigationContainer} from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 
 import {
@@ -20,8 +20,8 @@ import Overview from 'screens/wallets/tabs/overview.screen';
 import Receive from 'screens/wallets/tabs/receive.screen';
 import Send from 'screens/wallets/tabs/send.screen';
 import Welcome from 'screens/welcome/welcome.screen';
-import {RootStackParamList} from './navigation/main-navigation';
-import {WalletScreenList} from './navigation/wallet-navigation';
+import { RootStackParamList } from './navigation/main-navigation';
+import { WalletScreenList } from './navigation/wallet-navigation';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -35,7 +35,7 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>
-        <Stack.Group screenOptions={{headerShown: false}}>
+        <Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="Home" component={Home} />
         </Stack.Group>

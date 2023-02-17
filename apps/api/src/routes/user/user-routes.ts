@@ -1,6 +1,6 @@
 import { authenticatedRoute, nonceRoute, setNonceRoute } from "@lib/route/handlers";
-import { Server } from "@server";
 import { FastifyRequest, FastifySchema } from "fastify";
+import { Server } from "../../server";
 import { CreateUserRequest, CreateUserResponse, UpdateUserWalletByPathRequest, User, VerifyUserRequest } from "./user";
 import { createUser, updateUserWalletAddress, verifyUser } from "./user.service";
 

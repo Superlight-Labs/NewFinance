@@ -1,7 +1,7 @@
 import fastifyCookie from "@fastify/cookie";
 import underPressure, {
   TYPE_HEAP_USED_BYTES,
-  TYPE_RSS_BYTES,
+  TYPE_RSS_BYTES
 } from "@fastify/under-pressure";
 import websocketPlugin from "@fastify/websocket";
 import config from "@lib/config";

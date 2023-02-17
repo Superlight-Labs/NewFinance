@@ -4,5 +4,5 @@
     "node_modules/(?!@react-native|react-native|@react-navigation)"
   ],
   "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
-  "setupFiles": ["./node_modules/react-native-gesture-handler/jestSetup.js"]
+  "setupFiles": ["./../../node_modules/react-native-gesture-handler/jestSetup.js"]
 }

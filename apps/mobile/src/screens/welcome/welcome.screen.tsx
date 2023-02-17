@@ -1,15 +1,15 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
 import WelcomeCarousel from 'components/welcome-screen/welcome-carousel.component';
-import {styled} from 'nativewind';
-import {View} from 'react-native';
-import {RootStackParamList} from 'src/navigation/main-navigation';
+import { styled } from 'nativewind';
+import { View } from 'react-native';
+import { RootStackParamList } from 'src/navigation/main-navigation';
 
 const StyledView = styled(View);
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
+type Props = StackScreenProps<RootStackParamList, 'Welcome'>;
 
-const Welcome = ({navigation}: Props) => {
+const Welcome = ({ navigation }: Props) => {
   return (
     <StyledView className="flex h-full w-full flex-col items-center justify-center pb-8">
       <WelcomeCarousel />
