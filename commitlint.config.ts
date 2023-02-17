@@ -1,4 +1,4 @@
-const scopes = ["app", "api", "workspace"];
+const scopes = ["app", "api", "workspace", "rn-mpc"];
 
 export default {
   extends: ["@commitlint/config-conventional"],

@@ -1,0 +1,80 @@
+buildscript {
+    if (project == rootProject) {
+        repositories {
+            google()
+            mavenCentral()
+            jcenter()
+        }
+
+        dependencies {
+            classpath 'com.android.tools.build:gradle:3.5.3'
+        }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
+android {
+    compileSdkVersion safeExtGet('BlockchainCryptoMpc_compileSdkVersion', 29)
+    defaultConfig {
+        minSdkVersion safeExtGet('BlockchainCryptoMpc_minSdkVersion', 16)
+        targetSdkVersion safeExtGet('BlockchainCryptoMpc_targetSdkVersion', 29)
+        versionCode 1
+        versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                version "3.10.2"
+                cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
+                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    lintOptions {
+        disable 'GradleCompatible'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        prefab true
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+        url("$rootDir/../node_modules/react-native/android")
+    }
+    google()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    //noinspection GradleDynamicVersion
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.android.ndk.thirdparty:openssl:1.1.1l-beta-1'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
+}
