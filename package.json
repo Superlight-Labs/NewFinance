@@ -6,8 +6,9 @@
     "apps/*",
     "packages/*"
   ],
-  "nohoist": ["husky"]
-,
+  "nohoist": [
+    "husky"
+  ],
   "scripts": {
     "db:start": "cd ./packages/database && docker compose up",
     "test": "yarn workspaces run test",
@@ -21,5 +22,9 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "eslint": "^8.19.0"
+  },
+  "dependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2"
   }
 }
