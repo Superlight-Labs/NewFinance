@@ -24,27 +24,7 @@
 
 #pragma once
 
-#ifdef __APPLE__
-#include <cryptoopen.h>
-#include <crypto.h>
-#include <rsa.h>
-#include <objects.h>
-#include <ecdsa.h>
-#include <ecdh.h>
-#include <sha.h>
-#include <aes.h>
-#include <rand.h>
-#include <evp.h>
-#include <bn.h>
-#include <x509.h>
-#include <x509v3.h>
-#include <pkcs7.h>
-#include <pkcs12.h>
-#include <err.h>
-#include <pem.h>
-#include <hmac.h>
-#include <cmac.h>
-#else
+
 #include <openssl/crypto.h>
 #include <openssl/rsa.h>
 #include <openssl/objects.h>
@@ -63,7 +43,7 @@
 #include <openssl/pem.h>
 #include <openssl/hmac.h>
 #include <openssl/cmac.h>
-#endif
+
 #define DES_BLOCK_SIZE 8
 
 #if OPENSSL_VERSION_NUMBER >= 0x10100000

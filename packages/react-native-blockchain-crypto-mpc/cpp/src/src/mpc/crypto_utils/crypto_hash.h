@@ -23,17 +23,12 @@
 
 #pragma once
 
-#ifdef __APPLE__
-#include <crypto.h>
-#include <hmac.h>
-#include <sha.h>
-#include <evp.h>
-#else
+
 #include <openssl/crypto.h>
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
 #include <openssl/evp.h>
-#endif
+
 #include "ub_common.h"
 
 namespace crypto

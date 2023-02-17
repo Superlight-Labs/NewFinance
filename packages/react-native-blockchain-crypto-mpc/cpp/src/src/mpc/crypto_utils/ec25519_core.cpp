@@ -32,13 +32,11 @@
  */
 
 #include <string.h>
-#ifdef __APPLE__
-#include <sha.h>
-#include <crypto.h>
-#else
+
 #include <openssl/sha.h>
 #include <openssl/crypto.h>
-#endif
+#include <openssl/rand.h>
+
 
 #include "ec25519_core.h"
 
@@ -4634,7 +4632,8 @@ int ED25519_sign_with_scalar(uint8_t *out_sig, const uint8_t *message, size_t me
   uint8_t hram[SHA512_DIGEST_LENGTH];
   SHA512_CTX hash_ctx;
 
-  RAND_bytes(nonce, SHA512_DIGEST_LENGTH);
+#include <openssl/rand.h>
+(nonce, SHA512_DIGEST_LENGTH);
 
   x25519_sc_reduce(nonce);
   ge_scalarmult_base(&R, nonce);
