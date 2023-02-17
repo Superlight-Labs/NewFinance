@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": ">=18.0"
+    "node": ">=16.0"
   },
   "dependencies": {
     "@fastify/cookie": "^7.0.0",

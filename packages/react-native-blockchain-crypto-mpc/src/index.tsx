@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Buffer } from 'buffer';
-import { NativeModules, Platform } from 'react-native';
+import { Buffer } from "buffer";
+import { NativeModules, Platform } from "react-native";
 
 const LINKING_ERROR =
   `The package 'react-native-blockchain-crypto-mpc' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+  Platform.select({ ios: "- You have run 'pod install'\n", default: "" }) +
+  "- You rebuilt the app after installing the package\n" +
+  "- You are not using Expo managed workflow\n";
 
 const BlockchainCryptoMpc = NativeModules.BlockchainCryptoMpc
   ? NativeModules.BlockchainCryptoMpc
@@ -27,7 +27,7 @@ export function initGenerateGenericSecret(): Promise<boolean> {
 export function initImportGenericSecret(secret: string): Promise<boolean> {
   reset();
   return BlockchainCryptoMpc.importGenericSecret([
-    ...Buffer.from(secret, 'hex'),
+    ...Buffer.from(secret, "hex"),
   ]);
 }
 
@@ -84,11 +84,11 @@ export function getPublicKey(share: string): Promise<string> {
 
 export function getXPubKey(
   share: string,
-  network: 'main' | 'test'
+  network: "main" | "test"
 ): Promise<string> {
   return new Promise(async (res) => {
     await useShare(share);
-    const key = await BlockchainCryptoMpc.getXPubKey(network === 'main');
+    const key = await BlockchainCryptoMpc.getXPubKey(network === "main");
     res(key);
 
     reset();

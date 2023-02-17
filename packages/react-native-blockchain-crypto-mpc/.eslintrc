@@ -1,0 +1,6 @@
+{
+  "extends": ["@superlight/eslint-config","@react-native-community"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
