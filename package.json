@@ -1,0 +1,20 @@
+{
+  "name": "Superlight",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "db:start": "cd ./packages/database && docker compose up"
+  },
+  "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
+  "main": "index.js",
+  "repository": "https://github.com/lauhon/superlight-app.git",
+  "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "eslint": "^8.19.0"
+  }
+}

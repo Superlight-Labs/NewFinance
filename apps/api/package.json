@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "@superlight/api",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^5.23.0",
     "concurrently": "^7.2.0",
     "elliptic": "^6.5.4",
-    "eslint": "^8.15.0",
+    "eslint": "^8.19.0",
     "nodemon": "^2.0.16",
     "pino-pretty": "^8.1.0",
     "prisma": "^3.14.0",
