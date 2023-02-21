@@ -1,5 +1,5 @@
-import { CircleWallet } from "../circle/circle";
-import { MpcKeyShare } from "./wallet";
+import { CircleWallet } from '../circle/circle';
+import { MpcKeyShare } from './key-share';
 
 export interface User {
   id: string;

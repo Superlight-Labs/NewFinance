@@ -1,6 +1,6 @@
-import ffi from "ffi-napi";
-import path from "path";
-import ref from "ref-napi";
+import ffi from 'ffi-napi';
+import path from 'path';
+import ref from 'ref-napi';
 
 const IntPtr = ref.refType(ref.types.int);
 const Uint8Ptr = ref.refType(ref.types.uint8);
@@ -18,7 +18,7 @@ const errorCodes = {
 // Copy from mpc_crypto.h
 
 const mpc = ffi.Library(
-  path.join(__dirname, "..", "..", "..", "crypto-mpc-js", "deps", "MPCCrypto"),
+  path.join(__dirname, '..', '..', '..', 'crypto-mpc-js', 'deps', 'MPCCrypto'),
   {
     // Memory management
     // MPCCRYPTO_API void MPCCrypto_freeShare(MPCCryptoShare * share);

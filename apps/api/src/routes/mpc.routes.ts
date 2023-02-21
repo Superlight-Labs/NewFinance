@@ -1,28 +1,26 @@
-import { SocketStream } from "@fastify/websocket";
-import logger from "@lib/logger";
-import { authenticate } from "@lib/utils/auth";
-import { FastifyInstance, FastifyRequest } from "fastify";
-import { Server } from "../../server";
-import { User } from "../user/user";
-import { deriveBIP32 } from "./ecdsa/derive/deriveBIP32";
-import { generateEcdsaKey } from "./ecdsa/generateEcdsa";
-import { generateGenericSecret } from "./ecdsa/generateSecret";
-import { importGenericSecret } from "./ecdsa/importSecret";
-import { signWithEcdsaShare } from "./ecdsa/sign";
+import { SocketStream } from '@fastify/websocket';
+import logger from '@lib/logger';
+import { authenticate } from '@lib/utils/auth';
+import { FastifyInstance, FastifyRequest } from 'fastify';
+import { User } from '../repository/user';
+import { deriveBIP32 } from '../service/mpc/ecdsa/derive/deriveBIP32';
+import { generateEcdsaKey } from '../service/mpc/ecdsa/generateEcdsa';
+import { generateGenericSecret } from '../service/mpc/ecdsa/generateSecret';
+import { importGenericSecret } from '../service/mpc/ecdsa/importSecret';
+import { signWithEcdsaShare } from '../service/mpc/ecdsa/sign';
 
-export type ActionStatus = "Init" | "Stepping";
+export type ActionStatus = 'Init' | 'Stepping';
 
-const route = "/mpc/ecdsa";
+const route = '/mpc/ecdsa';
 
-const registerMcpRoutes = (server: Server): void => {
-  // Routes that need Authentication
+const registerMcpRoutes = (server: FastifyInstance): void => {
   server.register(async function plugin(privatePlugin, opts) {
-    privatePlugin.addHook("onRequest", async (req) => {
+    privatePlugin.addHook('onRequest', async req => {
       const userResult = await authenticate(req);
 
       if (userResult.isErr()) throw userResult.error;
 
-      req["user"] = userResult.value;
+      req['user'] = userResult.value;
     });
 
     registerPrivateMpcRoutes(privatePlugin);
@@ -32,10 +30,10 @@ const registerMcpRoutes = (server: Server): void => {
 const registerPrivateMpcRoutes = (server: FastifyInstance) => {
   server.register(async function (server) {
     server.get(
-      route + "/generateSecret",
+      route + '/generateSecret',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req["user"];
+        const user: User = req['user'];
         generateGenericSecret(connection, user);
       }
     );
@@ -43,10 +41,10 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + "/import",
+      route + '/import',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req["user"];
+        const user: User = req['user'];
         importGenericSecret(connection, user);
       }
     );
@@ -54,19 +52,19 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + "/derive",
+      route + '/derive',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
         const usage = server.memoryUsage();
         logger.info(
           {
             ...usage,
-            heapUsed: usage.heapUsed / 1000000 + " MB",
-            rssBytes: usage.rssBytes / 1000000 + " MB",
+            heapUsed: usage.heapUsed / 1000000 + ' MB',
+            rssBytes: usage.rssBytes / 1000000 + ' MB',
           },
-          "Starting Bip Derive - Monitoring Memory usage"
+          'Starting Bip Derive - Monitoring Memory usage'
         );
-        const user: User = req["user"];
+        const user: User = req['user'];
         deriveBIP32(connection, user);
       }
     );
@@ -74,10 +72,10 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + "/generateEcdsa",
+      route + '/generateEcdsa',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req["user"];
+        const user: User = req['user'];
         generateEcdsaKey(connection, user);
       }
     );
@@ -85,10 +83,10 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + "/sign",
+      route + '/sign',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req["user"];
+        const user: User = req['user'];
         signWithEcdsaShare(connection, user);
       }
     );

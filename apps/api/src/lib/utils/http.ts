@@ -1,5 +1,3 @@
-import { RequestInit } from "@lib/utils/fetch";
-
 export type HttpParams = {
   args?: RequestInit;
   method?: HttpMethod;
@@ -7,6 +5,6 @@ export type HttpParams = {
 };
 
 export enum HttpMethod {
-  POST = "POST",
-  GET = "GET",
+  POST = 'POST',
+  GET = 'GET',
 }

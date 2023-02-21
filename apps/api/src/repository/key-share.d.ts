@@ -1,6 +1,6 @@
 export interface MpcKeyShare {
   id: string;
   path: string;
-  keyShare: string;
+  value: string;
   address: string | null;
 }

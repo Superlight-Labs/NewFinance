@@ -2,26 +2,24 @@
   "name": "@superlight/api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.ts",
+  "types": "",
   "scripts": {
     "test": "echo 'Nothing to test'",
-    "build": "tsc -p tsconfig.json && tsc-alias",
-    "start": "node ./build/server.js",
+    "build": "yarn copy-mpc && tsc -p tsconfig.json && tsc-alias",
+    "start": "node ./build/index.js",
     "lint": "eslint \"./src/**/*.ts\"",
-    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon build/server.js | pino-pretty\"",
-    "db:reset": "prisma db push --force-reset"
+    "dev": "yarn build && concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon build/index.js | pino-pretty\"",
+    "copy-mpc": "mkdir -p build/crypto-mpc-js/deps/ && cp -a src/crypto-mpc-js/deps/. build/crypto-mpc-js/deps/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines": {
-    "node": ">=16.0"
-  },
   "dependencies": {
+    "@superlight/database": "*",
     "@fastify/cookie": "^7.0.0",
     "@fastify/under-pressure": "^7.0.0",
     "@fastify/websocket": "^6.0.1",
-    "@prisma/client": "^4.0.0",
     "@types/node": "^18.7.15",
     "@types/ref-napi": "^3.0.4",
     "ajv": "^6.12.6",
@@ -36,9 +34,9 @@
   },
   "devDependencies": {
     "@superlight/eslint-config": "*",
+    "@superlight/prettier-config": "*",
     "@tsconfig/node18": "^1.0.1",
     "@types/elliptic": "^6.4.14",
-    "@types/node-fetch": "^2.6.2",
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
@@ -48,7 +46,6 @@
     "eslint-plugin-neverthrow": "^1.1.4",
     "nodemon": "^2.0.16",
     "pino-pretty": "^8.1.0",
-    "prisma": "^3.14.0",
     "tsc-alias": "^1.6.7",
     "tweetnacl": "^1.0.3",
     "typescript": "^4.9.5"

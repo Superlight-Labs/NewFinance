@@ -1,24 +1,20 @@
-import { notFound, other } from "@lib/route/error";
-import { client } from "../../server";
-import { User } from "./user";
-import { MpcKeyShare } from "./wallet";
+import { notFound, other } from '@lib/route/error';
+import { client } from '@superlight/database';
+import { MpcKeyShare } from './key-share';
+import { User } from './user';
 
-export const deleteWallet = (wallet: MpcKeyShare) => {
+export const deleteKeyShare = (keyShare: MpcKeyShare) => {
   return client.mpcKeyShare.delete({
     where: {
-      id: wallet.id,
+      id: keyShare.id,
     },
   });
 };
 
-export const createDerivedWallet = async (
-  user: User,
-  share: string,
-  path: string
-): Promise<MpcKeyShare> => {
+export const saveKeyShare = (user: User, share: string, path: string): Promise<MpcKeyShare> => {
   return client.mpcKeyShare.create({
     data: {
-      keyShare: share,
+      value: share,
       path,
       user: {
         connect: {
@@ -32,48 +28,24 @@ export const createDerivedWallet = async (
   });
 };
 
-export const createWallet = (
-  user: User,
-  share: string,
-  path: string
-): Promise<MpcKeyShare> => {
-  return client.mpcKeyShare.create({
-    data: {
-      keyShare: share,
-      path,
-      user: {
-        connect: {
-          id_devicePublicKey: {
-            id: user.id,
-            devicePublicKey: user.devicePublicKey,
-          },
-        },
-      },
-    },
-  });
-};
-
-export const getWallet = async (
-  id: string,
-  userId: string
-): Promise<MpcKeyShare> => {
-  const wallet = await client.mpcKeyShare.findFirst({
+export const readKeyShare = async (id: string, userId: string): Promise<MpcKeyShare> => {
+  const keyShare = await client.mpcKeyShare.findFirst({
     where: {
       id,
       userId,
     },
   });
 
-  if (!wallet) throw notFound("No Wallet Found");
+  if (!keyShare) throw notFound('No keyShare Found');
 
-  return wallet;
+  return keyShare;
 };
 
-export const getWalletByPath = async (
+export const readKeyShareByPath = async (
   path: string,
   userId: string
 ): Promise<MpcKeyShare | null> => {
-  const wallet = await client.mpcKeyShare.findUnique({
+  const keyShare = await client.mpcKeyShare.findUnique({
     where: {
       userId_path: {
         userId,
@@ -82,10 +54,10 @@ export const getWalletByPath = async (
     },
   });
 
-  return wallet;
+  return keyShare;
 };
 
-export const createBip44MasterKeyShare = async (
+export const saveBip44MasterKeyShare = async (
   user: User,
   parentId: string,
   share: string,
@@ -100,7 +72,7 @@ export const createBip44MasterKeyShare = async (
       }),
       client.mpcKeyShare.create({
         data: {
-          keyShare: share,
+          value: share,
           path,
           user: {
             connect: {
@@ -116,7 +88,7 @@ export const createBip44MasterKeyShare = async (
 
     const master = result[1];
 
-    if (!master) throw other("Error while creating BIP44 Master Wallet");
+    if (!master) throw other('Error while creating BIP44 Master keyShare');
 
     return master;
   } catch (err) {

@@ -1,6 +1,6 @@
 datasource db {
     provider = "postgresql"
-    url      = env("MAIN_DB_URL")
+    url      = env("DB_URL")
 }
 
 generator client {
@@ -18,7 +18,7 @@ model User {
 model MpcKeyShare {
     id       String  @id @default(uuid())
     path     String
-    keyShare String
+    value    String
     address  String?
 
     user                User   @relation("KeySharesForUser", fields: [userId, userDevicePublicKey], references: [id, devicePublicKey])

@@ -6,6 +6,9 @@
     "packages": [
       "./apps/*",
       "./packages/*"
+    ],
+    "nohoist": [
+      "**/@prisma/client"
     ]
   },
   "scripts": {
@@ -21,6 +24,9 @@
   "repository": "https://github.com/lauhon/superlight-app.git",
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=18.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
@@ -29,7 +35,6 @@
     "eslint": "^8.19.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
-    "prettier": "^2.4.1",
-    "prettier-plugin-tailwindcss": "^0.2.2"
+    "prettier": "^2.4.1"
   }
 }
