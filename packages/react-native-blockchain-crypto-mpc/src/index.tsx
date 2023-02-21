@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { Buffer } from "buffer";
-import { NativeModules, Platform } from "react-native";
+import { Buffer } from 'buffer';
+import { NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
-  `The package 'react-native-blockchain-crypto-mpc' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: "" }) +
-  "- You rebuilt the app after installing the package\n" +
-  "- You are not using Expo managed workflow\n";
+  "The package 'react-native-blockchain-crypto-mpc' doesn't seem to be linked. Make sure: \n\n" +
+  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
+  '- You rebuilt the app after installing the package\n' +
+  '- You are not using Expo managed workflow\n';
 
 const BlockchainCryptoMpc = NativeModules.BlockchainCryptoMpc
   ? NativeModules.BlockchainCryptoMpc
@@ -27,7 +26,7 @@ export function initGenerateGenericSecret(): Promise<boolean> {
 export function initImportGenericSecret(secret: string): Promise<boolean> {
   reset();
   return BlockchainCryptoMpc.importGenericSecret([
-    ...Buffer.from(secret, "hex"),
+    ...Buffer.from(secret, 'hex'),
   ]);
 }
 
@@ -37,7 +36,7 @@ export function initDeriveBIP32(
   hardened: boolean
 ): Promise<boolean> {
   reset();
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useShare(share);
     const success = await BlockchainCryptoMpc.initDeriveBIP32(
       index,
@@ -59,7 +58,7 @@ export function initSignEcdsa(
 ): Promise<boolean> {
   reset();
 
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useShare(share);
     const success = await BlockchainCryptoMpc.initSignEcdsa(
       Array.from(message)
@@ -73,7 +72,7 @@ export function step(messageIn: string | null): Promise<StepResult> {
 }
 
 export function getPublicKey(share: string): Promise<string> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useShare(share);
     const key = await BlockchainCryptoMpc.getPublicKey();
     res(key);
@@ -84,11 +83,11 @@ export function getPublicKey(share: string): Promise<string> {
 
 export function getXPubKey(
   share: string,
-  network: "main" | "test"
+  network: 'main' | 'test'
 ): Promise<string> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useShare(share);
-    const key = await BlockchainCryptoMpc.getXPubKey(network === "main");
+    const key = await BlockchainCryptoMpc.getXPubKey(network === 'main');
     res(key);
 
     reset();
@@ -96,7 +95,7 @@ export function getXPubKey(
 }
 
 export function getDerSignature(context: string): Promise<string> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useContext(context);
     const signature = await BlockchainCryptoMpc.getDerSignature();
     res(signature);
@@ -114,7 +113,7 @@ export function getBinSignature(
   context: string,
   share: string
 ): Promise<BinSignature> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useContext(context);
     await useShare(share);
 
@@ -130,7 +129,7 @@ export function verifySignature(
   signature: Uint8Array,
   share: string
 ): Promise<boolean> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useShare(share);
     const ok = await BlockchainCryptoMpc.verifySignature(
       Array.from(message),
@@ -143,7 +142,7 @@ export function verifySignature(
 }
 
 export function getShare(context: string): Promise<string> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useContext(context);
     const share = await BlockchainCryptoMpc.getShare();
     res(share);
@@ -153,7 +152,7 @@ export function getShare(context: string): Promise<string> {
 }
 
 export function getResultDeriveBIP32(context: string): Promise<string> {
-  return new Promise(async (res) => {
+  return new Promise(async res => {
     await useContext(context);
     const share = await BlockchainCryptoMpc.getResultDeriveBIP32();
     res(share);

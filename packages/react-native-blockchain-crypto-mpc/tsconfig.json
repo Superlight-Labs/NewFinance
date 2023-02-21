@@ -2,10 +2,7 @@
   "extends": "./../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "baseUrl": "./",
-    "paths": {
-      "react-native-blockchain-crypto-mpc": ["./src/index"]
-    },
+    "rootDir": "./src",
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "importsNotUsedAsValues": "error",

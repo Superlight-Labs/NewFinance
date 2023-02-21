@@ -1,19 +1,5 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./apps/api"
-    },
-    {
-      "path": "./apps/mobile"
-    },
-    {
-      "path": "./packages/react-native-blockchain-crypto-mpc"
-    }
-  ],
-
   "compilerOptions": {
     "target": "es2022",
     "module": "commonjs",
@@ -23,7 +9,8 @@
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "incremental": true
   },
   "exclude": ["**/node_modules", "**/dist", "**/build"]
 }

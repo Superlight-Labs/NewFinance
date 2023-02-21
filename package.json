@@ -2,19 +2,18 @@
   "name": "Superlight",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "nohoist": [
-    "husky"
-  ],
+  "workspaces": {
+    "packages": [
+      "./apps/*",
+      "./packages/*"
+    ]
+  },
   "scripts": {
     "db:start": "cd ./packages/database && docker compose up",
     "test": "yarn workspaces run test",
     "build": "yarn workspaces run build",
     "lint": "yarn workspaces run lint",
-    "reset": "git clean -xdf && yarn install",
+    "reset": "rm yarn.lock && git clean -xdf && yarn install",
     "prepare": "husky install"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
@@ -25,10 +24,12 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
-    "@rnx-kit/metro-resolver-symlinks": "^0.1.26",
     "@rnx-kit/metro-config": "^1.3.5",
+    "@rnx-kit/metro-resolver-symlinks": "^0.1.26",
     "eslint": "^8.19.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.1.2"
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.4.1",
+    "prettier-plugin-tailwindcss": "^0.2.2"
   }
 }

@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": ".",
-    "composite": true,
     "types": ["react-native", "jest"],
     "lib": ["es2019"],
     "allowJs": true,
@@ -17,7 +16,10 @@
     "paths": {
       "components/*": ["src/components/*"],
       "screens/*": ["src/screens/*"],
-      "custom/*": ["src/wrappers/*"]
+      "custom/*": ["src/wrappers/*"],
+      "@superlight/react-native-blockchain-crypto-mpc": [
+        "./../../packages/react-native-blockchain-crypto-mpc/src/index"
+      ]
     }
   },
   "include": ["src/**/*"],
