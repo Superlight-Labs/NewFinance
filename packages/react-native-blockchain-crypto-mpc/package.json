@@ -2,11 +2,7 @@
   "name": "@superlight/react-native-blockchain-crypto-mpc",
   "version": "0.2.0",
   "description": "React Native wrapper for (blockchain-crypto-mpc)[https://github.com/unboundsecurity/blockchain-crypto-mpc]",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index",
-  "source": "src/index",
+  "main": "src/index.tsx",
   "files": [
     "src",
     "lib",

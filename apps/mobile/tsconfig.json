@@ -16,10 +16,7 @@
     "paths": {
       "components/*": ["src/components/*"],
       "screens/*": ["src/screens/*"],
-      "custom/*": ["src/wrappers/*"],
-      "@superlight/react-native-blockchain-crypto-mpc": [
-        "./../../packages/react-native-blockchain-crypto-mpc/src/index"
-      ]
+      "custom/*": ["src/wrappers/*"]
     }
   },
   "include": ["src/**/*"],
