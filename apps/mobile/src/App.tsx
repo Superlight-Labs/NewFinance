@@ -7,14 +7,13 @@
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import 'react-native-gesture-handler';
-
 import {
   createStackNavigator,
   StackNavigationOptions,
   TransitionPresets,
 } from '@react-navigation/stack';
 import React from 'react';
+import 'react-native-gesture-handler';
 import Home from 'screens/home/home.screen';
 import Overview from 'screens/wallets/tabs/overview.screen';
 import Receive from 'screens/wallets/tabs/receive.screen';
@@ -34,10 +33,12 @@ const Tab = createMaterialTopTabNavigator<WalletScreenList>();
 function App(): JSX.Element {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
         <Stack.Group screenOptions={{ headerShown: false }}>
+          {/* Weird workaround to "fix" react navigation type issues */}
+          <Stack.Screen name={'Home' as 'Wallet'} component={Home} />
+
           <Stack.Screen name="Welcome" component={Welcome} />
-          <Stack.Screen name="Home" component={Home} />
         </Stack.Group>
 
         <Stack.Group

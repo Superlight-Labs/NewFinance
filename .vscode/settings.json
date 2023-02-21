@@ -1,5 +1,6 @@
 {
   "java.compile.nullAnalysis.mode": "automatic",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cmake.sourceDirectory": "${workspaceFolder}/node_modules/react-native/ReactAndroid/src/main/jni/react/hermes/reactexecutor"
 }

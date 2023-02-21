@@ -1,11 +1,29 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",
+  "extends": "./../../tsconfig.json",
   "compilerOptions": {
+    "outDir": "./build",
     "baseUrl": ".",
+    "types": ["react-native", "jest"],
+    "lib": ["es2019"],
+    "allowJs": true,
+    "jsx": "react-native",
+    "noEmit": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "components/*": ["src/components/*"],
       "screens/*": ["src/screens/*"],
       "custom/*": ["src/wrappers/*"]
     }
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

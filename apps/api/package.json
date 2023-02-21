@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": ">=18.0"
+    "node": ">=16.0"
   },
   "dependencies": {
     "@fastify/cookie": "^7.0.0",
@@ -26,7 +26,6 @@
     "@types/ref-napi": "^3.0.4",
     "ajv": "^6.12.6",
     "dotenv": "^16.0.2",
-    "eslint-plugin-neverthrow": "^1.1.4",
     "ethers": "^5.7.0",
     "fastify": "^4.0.3",
     "ffi-napi": "^4.0.3",
@@ -46,11 +45,12 @@
     "concurrently": "^7.2.0",
     "elliptic": "^6.5.4",
     "eslint": "^8.19.0",
+    "eslint-plugin-neverthrow": "^1.1.4",
     "nodemon": "^2.0.16",
     "pino-pretty": "^8.1.0",
     "prisma": "^3.14.0",
     "tsc-alias": "^1.6.7",
     "tweetnacl": "^1.0.3",
-    "typescript": "^4.6.4"
+    "typescript": "^4.9.5"
   }
 }
