@@ -1,10 +1,16 @@
 import { Context } from '@crypto-mpc';
+import logger from '@lib/logger';
+import { WSClientMessage } from '@lib/routes/types';
 import {
   databaseError,
   mpcInternalError,
   WebsocketError,
 } from '@lib/routes/websocket/websocket-error';
-import { MPCWebsocketMessage, MPCWebsocketResult } from '@lib/routes/websocket/websocket-handlers';
+import {
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  WebSocketOutput,
+} from '@lib/routes/websocket/websocket-types';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
@@ -19,28 +25,40 @@ export const generateGenericSecret = (
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
   const context = Context.createGenerateGenericSecretContext(2, 256);
 
-  messages.subscribe(message => {
-    const stepOutput = step(message.toString(), context);
-
-    switch (stepOutput.type) {
-      case 'inProgress':
-        output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
-        return;
-      case 'success':
-        const keyShare = context.getNewShare().toString('base64');
-        output.next(processGenericSecret(user, keyShare));
-        context.free();
-        return;
-      case 'error':
-        output.next(errAsync(mpcInternalError()));
-        context.free();
-        return;
-      default:
-        throw new Error('Unexpected step output');
-    }
+  messages.subscribe({
+    next: message => onMessage(message, context, output, user),
+    error: err => {
+      logger.error({ err, user: user.id }, 'Error received from client on websocket');
+      context.free();
+    },
+    complete: () => {
+      logger.info({ user: user.id }, 'Connection on Websocket closed');
+      context.free;
+    },
   });
 
   return output;
+};
+
+export const importGenericSecret = (
+  user: User,
+  messages: Observable<RawData>,
+  initParameter: WSClientMessage
+): MPCWebsocketResult => {
+  const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
+  const context = Context.createImportGenericSecretContext(2, 256, initParameter);
+
+  messages.subscribe({
+    next: message => onMessage(message, context, output, user),
+    error: err => {
+      logger.error({ err, user: user.id }, 'Error received from client on websocket');
+      context.free();
+    },
+    complete: () => {
+      logger.info({ user: user.id }, 'Connection on Websocket closed');
+      context.free;
+    },
+  });
 };
 
 const processGenericSecret = (
@@ -50,4 +68,25 @@ const processGenericSecret = (
   return ResultAsync.fromPromise(saveKeyShare(user, keyShare, 'secret'), err =>
     databaseError(err, 'Error while saving generic secret key share')
   ).map(keyShare => ({ type: 'success', result: keyShare.id }));
+};
+
+const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
+  const stepOutput = step(message.toString(), context);
+
+  switch (stepOutput.type) {
+    case 'inProgress':
+      output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+      return;
+    case 'success':
+      const keyShare = context.getNewShare().toString('base64');
+      output.next(processGenericSecret(user, keyShare));
+      context.free();
+      return;
+    case 'error':
+      output.next(errAsync(mpcInternalError()));
+      context.free();
+      return;
+    default:
+      throw new Error('Unexpected step output');
+  }
 };

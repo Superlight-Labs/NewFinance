@@ -1,23 +1,14 @@
 import { SocketStream } from '@fastify/websocket';
 import logger from '@lib/logger';
 import { FastifyRequest } from 'fastify';
-import { ResultAsync } from 'neverthrow';
-import { Observable, Subject } from 'rxjs';
-import { User } from 'src/repository/user';
+import { firstValueFrom, skip, Subject } from 'rxjs';
 import { RawData, WebSocket } from 'ws';
-import { mapWebsocketError, WebsocketError } from './websocket-error';
-
-export type MPCWebsocketMessage<T = string> =
-  | {
-      type: 'inProgress';
-      message: string;
-    }
-  | { type: 'success'; result: T };
-
-export type MPCWebsocketResult<T = string> = Observable<
-  ResultAsync<MPCWebsocketMessage<T>, WebsocketError>
->;
-type MPCWebsocketHandler<T> = (user: User, message: Observable<RawData>) => MPCWebsocketResult<T>;
+import { mapWebsocketError } from './websocket-error';
+import {
+  MPCWebsocketHandler,
+  MPCWebsocketResult,
+  MPCWebsocketWithInitParameterHandler,
+} from './websocket-types';
 
 const wrapMPCWebsocketHandler = <T>(
   handlerResult: MPCWebsocketResult<T>,
@@ -57,7 +48,30 @@ export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
 
     connection.socket.on('message', messages.next);
     connection.socket.on('error', messages.error);
+    connection.socket.on('close', messages.complete);
+    connection.on('close', messages.complete);
 
     wrapMPCWebsocketHandler(handler(req.user!, messages), connection.socket);
+  };
+};
+
+export const websocketRouteWithInitParameter = <T>(
+  handler: MPCWebsocketWithInitParameterHandler<T>
+) => {
+  return async (connection: SocketStream, req: FastifyRequest) => {
+    const messages = new Subject<RawData>();
+
+    connection.socket.on('message', messages.next);
+    connection.socket.on('error', messages.error);
+    connection.socket.on('close', messages.complete);
+    connection.on('close', messages.complete);
+
+    const initParameter = await firstValueFrom(messages);
+    connection.socket.send(JSON.stringify({ type: 'start' }));
+
+    wrapMPCWebsocketHandler(
+      handler(req.user!, messages.pipe(skip(1)), initParameter),
+      connection.socket
+    );
   };
 };

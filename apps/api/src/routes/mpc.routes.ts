@@ -2,12 +2,15 @@ import { SocketStream } from '@fastify/websocket';
 import logger from '@lib/logger';
 import { authenticate } from '@lib/utils/auth';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { generateGenericSecret } from 'src/service/mpc/ecdsa/generic-secret.service';
+import {
+  generateGenericSecret,
+  importGenericSecret,
+} from 'src/service/mpc/ecdsa/generic-secret.service';
 import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
 import { deriveBIP32 } from '../service/mpc/ecdsa/derive/deriveBIP32';
 import { generateEcdsaKey } from '../service/mpc/ecdsa/generateEcdsa';
-import { importGenericSecret } from '../service/mpc/ecdsa/importSecret';
 import { signWithEcdsaShare } from '../service/mpc/ecdsa/sign';
+import { websocketRouteWithInitParameter } from './../lib/routes/websocket/websocket-handlers';
 
 export type ActionStatus = 'Init' | 'Stepping';
 
@@ -30,7 +33,7 @@ const registerMcpRoutes = (server: FastifyInstance): void => {
 const registerPrivateMpcRoutes = (server: FastifyInstance) => {
   server.register(async function (server) {
     server.get(
-      route + '/generateSecret',
+      route + '/generateGenericSecret',
       { websocket: true },
       websocketRoute(generateGenericSecret)
     );
@@ -38,11 +41,9 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + '/import',
+      route + '/importGenericSecret',
       { websocket: true },
-      (connection: SocketStream, req: FastifyRequest) => {
-        importGenericSecret(connection, req.user!);
-      }
+      websocketRouteWithInitParameter(importGenericSecret)
     );
   });
 
