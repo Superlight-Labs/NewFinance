@@ -16,10 +16,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@superlight/database": "*",
     "@fastify/cookie": "^7.0.0",
     "@fastify/under-pressure": "^7.0.0",
     "@fastify/websocket": "^6.0.1",
+    "@superlight/database": "*",
     "@types/node": "^18.7.15",
     "@types/ref-napi": "^3.0.4",
     "ajv": "^6.12.6",
@@ -30,7 +30,8 @@
     "neverthrow": "^4.3.1",
     "openpgp": "^5.5.0",
     "pino": "^7.11.0",
-    "ref-napi": "^3.0.3"
+    "ref-napi": "^3.0.3",
+    "rxjs": "^7.8.0"
   },
   "devDependencies": {
     "@superlight/eslint-config": "*",

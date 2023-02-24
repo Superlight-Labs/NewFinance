@@ -2,11 +2,11 @@ import fastifyCookie from '@fastify/cookie';
 import underPressure, { TYPE_HEAP_USED_BYTES, TYPE_RSS_BYTES } from '@fastify/under-pressure';
 import websocketPlugin from '@fastify/websocket';
 import config from '@lib/config';
-import { PrismaClient } from '@prisma/client';
 import { FastifyInstance } from 'fastify';
 import logger from './lib/logger';
 import { registerRoutes } from './routes/register-routes';
 
+import { PrismaClient } from '@superlight/database';
 import fastify from 'fastify';
 
 declare module 'fastify' {

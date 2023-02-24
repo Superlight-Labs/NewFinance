@@ -6,9 +6,6 @@
     "packages": [
       "./apps/*",
       "./packages/*"
-    ],
-    "nohoist": [
-      "**/@prisma/client"
     ]
   },
   "scripts": {
@@ -16,7 +13,7 @@
     "test": "yarn workspaces run test",
     "build": "yarn workspaces run build",
     "lint": "yarn workspaces run lint",
-    "reset": "rm yarn.lock && git clean -xdf && yarn install",
+    "reset": "rm -f yarn.lock && git clean -xdf && yarn install",
     "prepare": "husky install"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",

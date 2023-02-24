@@ -1,6 +1,6 @@
 {
   "name": "@superlight/database",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
@@ -13,7 +13,7 @@
     "with-env": "dotenv -e .env --"
   },
   "dependencies": {
-    "@prisma/client": "4.10.1"
+    "@prisma/client": "^4.10.1"
   },
   "devDependencies": {
     "dotenv-cli": "^7.0.0",
