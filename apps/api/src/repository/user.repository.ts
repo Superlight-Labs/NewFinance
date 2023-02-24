@@ -1,4 +1,4 @@
-import { notFound, other, RouteError } from '@lib/route/error';
+import { notFound, other, RouteError } from '@lib/routes/rest/error';
 import { client } from '@superlight/database';
 import { MpcKeyShare } from './key-share';
 import { CreateUserRequest, User } from './user';
