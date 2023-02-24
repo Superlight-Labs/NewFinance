@@ -1,49 +1,45 @@
-import { ResultAsync } from "neverthrow";
-
-interface HttpError {
-  statusCode: number;
-  errorMsg: string;
-}
+import { ResultAsync } from 'neverthrow';
+import { HttpError } from '../types';
 
 export const mapRouteError = (err: RouteError): HttpError => {
   switch (err.type) {
-    case "InvalidAuthentication": {
+    case 'InvalidAuthentication': {
       return {
         statusCode: 401,
-        errorMsg: err.context || "Invalid Authentication",
+        errorMsg: err.context || 'Invalid Authentication',
       };
     }
 
-    case "MissingHeader": {
+    case 'MissingHeader': {
       return {
         statusCode: 400,
-        errorMsg: "Missing `Authorization` header",
+        errorMsg: 'Missing `Authorization` header',
       };
     }
 
-    case "InvalidSession": {
+    case 'InvalidSession': {
       return {
         statusCode: 401,
-        errorMsg: "Invalid Session",
+        errorMsg: 'Invalid Session',
       };
     }
 
-    case "BadRequest": {
+    case 'BadRequest': {
       return {
         statusCode: 400,
         errorMsg: err.context,
       };
     }
 
-    case "Conflict": {
+    case 'Conflict': {
       return {
         statusCode: 409,
-        errorMsg: "Conflict",
+        errorMsg: 'Conflict',
       };
     }
 
-    case "NotFound": {
-      const withMaybeContext = err.context ? ` - ${err.context}` : "";
+    case 'NotFound': {
+      const withMaybeContext = err.context ? ` - ${err.context}` : '';
 
       return {
         statusCode: 404,
@@ -51,38 +47,38 @@ export const mapRouteError = (err: RouteError): HttpError => {
       };
     }
 
-    case "ThirdPartyError": {
+    case 'ThirdPartyError': {
       return {
         statusCode: 503,
-        errorMsg: err.context || "Our Partners are not reachable",
+        errorMsg: err.context || 'Our Partners are not reachable',
       };
     }
 
-    case "Other": {
+    case 'Other': {
       return {
         statusCode: 500,
-        errorMsg: err.context || "An Internal Error Occurred :(",
+        errorMsg: err.context || 'An Internal Error Occurred :(',
       };
     }
 
     default: {
       return {
         statusCode: 500,
-        errorMsg: "An Internal Error Occurred :(",
+        errorMsg: 'An Internal Error Occurred :(',
       };
     }
   }
 };
 
 enum ErrorTypes {
-  NotFound = "NotFound",
-  Conflict = "Conflict",
-  Other = "Other",
-  MissingHeader = "MissingHeader",
-  InvalidAuthentication = "InvalidAuthentication",
-  InvalidSession = "InvalidSession",
-  BadRequest = "BadRequest",
-  ThirdPartyError = "ThirdPartyError",
+  NotFound = 'NotFound',
+  Conflict = 'Conflict',
+  Other = 'Other',
+  MissingHeader = 'MissingHeader',
+  InvalidAuthentication = 'InvalidAuthentication',
+  InvalidSession = 'InvalidSession',
+  BadRequest = 'BadRequest',
+  ThirdPartyError = 'ThirdPartyError',
 }
 
 export type RouteError =
@@ -139,6 +135,6 @@ export const thirdPartyError = (context: string, error?: unknown) => ({
   error,
 });
 
-export const invalidAuthRequest = ResultAsync.fromPromise(Promise.reject(), (_) =>
-  badRequest("Invalid Request on Private Endpoint")
+export const invalidAuthRequest = ResultAsync.fromPromise(Promise.reject(), _ =>
+  badRequest('Invalid Request on Private Endpoint')
 );

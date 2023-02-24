@@ -1,4 +1,4 @@
-import { invalidAuthentication, other, RouteError } from '@lib/routes/rest/error';
+import { invalidAuthentication, other, RouteError } from '@lib/routes/rest/rest-error';
 import { createDecipheriv } from 'crypto';
 import { FastifyRequest } from 'fastify';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';

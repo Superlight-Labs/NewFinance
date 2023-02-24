@@ -1,4 +1,4 @@
-import { isRouteError, RouteError } from '@lib/routes/rest/error';
+import { isRouteError, RouteError } from '@lib/routes/rest/rest-error';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 
 export const getSafeResultAsync = <T>(

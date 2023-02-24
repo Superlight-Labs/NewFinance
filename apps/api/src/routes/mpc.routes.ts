@@ -2,10 +2,10 @@ import { SocketStream } from '@fastify/websocket';
 import logger from '@lib/logger';
 import { authenticate } from '@lib/utils/auth';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { User } from '../repository/user';
+import { generateGenericSecret } from 'src/service/mpc/ecdsa/generic-secret.service';
+import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
 import { deriveBIP32 } from '../service/mpc/ecdsa/derive/deriveBIP32';
 import { generateEcdsaKey } from '../service/mpc/ecdsa/generateEcdsa';
-import { generateGenericSecret } from '../service/mpc/ecdsa/generateSecret';
 import { importGenericSecret } from '../service/mpc/ecdsa/importSecret';
 import { signWithEcdsaShare } from '../service/mpc/ecdsa/sign';
 
@@ -20,7 +20,7 @@ const registerMcpRoutes = (server: FastifyInstance): void => {
 
       if (userResult.isErr()) throw userResult.error;
 
-      req['user'] = userResult.value;
+      req.user = userResult.value;
     });
 
     registerPrivateMpcRoutes(privatePlugin);
@@ -32,10 +32,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
     server.get(
       route + '/generateSecret',
       { websocket: true },
-      (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req['user'];
-        generateGenericSecret(connection, user);
-      }
+      websocketRoute(generateGenericSecret)
     );
   });
 
@@ -44,8 +41,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
       route + '/import',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req['user'];
-        importGenericSecret(connection, user);
+        importGenericSecret(connection, req.user!);
       }
     );
   });
@@ -64,8 +60,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
           },
           'Starting Bip Derive - Monitoring Memory usage'
         );
-        const user: User = req['user'];
-        deriveBIP32(connection, user);
+        deriveBIP32(connection, req.user!);
       }
     );
   });
@@ -75,8 +70,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
       route + '/generateEcdsa',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req['user'];
-        generateEcdsaKey(connection, user);
+        generateEcdsaKey(connection, req.user!);
       }
     );
   });
@@ -86,8 +80,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
       route + '/sign',
       { websocket: true },
       (connection: SocketStream, req: FastifyRequest) => {
-        const user: User = req['user'];
-        signWithEcdsaShare(connection, user);
+        signWithEcdsaShare(connection, req.user!);
       }
     );
   });

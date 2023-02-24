@@ -1,4 +1,4 @@
-import { notFound, other } from '@lib/routes/rest/error';
+import { notFound, other } from '@lib/routes/rest/rest-error';
 import { client } from '@superlight/database';
 import { MpcKeyShare } from './key-share';
 import { User } from './user';
@@ -11,10 +11,10 @@ export const deleteKeyShare = (keyShare: MpcKeyShare) => {
   });
 };
 
-export const saveKeyShare = (user: User, share: string, path: string): Promise<MpcKeyShare> => {
+export const saveKeyShare = (user: User, keyShare: string, path: string): Promise<MpcKeyShare> => {
   return client.mpcKeyShare.create({
     data: {
-      value: share,
+      value: keyShare,
       path,
       user: {
         connect: {

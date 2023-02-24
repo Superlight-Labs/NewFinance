@@ -1,17 +1,26 @@
-import { Context } from "@crypto-mpc";
+import { Context } from '@crypto-mpc';
 
-export const step = (message: string, context: Context): string | boolean => {
-  const inBuff = Buffer.from(message, "base64");
+type StepResult =
+  | {
+      type: 'success' | 'error';
+    }
+  | {
+      message: string;
+      type: 'inProgress';
+    };
+
+export const step = (message: string, context: Context): StepResult => {
+  const inBuff = Buffer.from(message, 'base64');
 
   const outBuff = context.step(inBuff);
 
   if (context.isFinished()) {
-    return true;
+    return { type: 'success' };
   }
 
   if (!outBuff) {
-    return false;
+    return { type: 'error' };
   }
 
-  return outBuff.toString("base64");
+  return { type: 'inProgress', message: outBuff.toString('base64') };
 };

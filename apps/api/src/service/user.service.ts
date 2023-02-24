@@ -1,4 +1,4 @@
-import { other, RouteError } from '@lib/routes/rest/error';
+import { other, RouteError } from '@lib/routes/rest/rest-error';
 import { buildPubKey } from '@lib/utils/auth';
 import { getSafeResultAsync } from '@lib/utils/neverthrow';
 import crypto from 'crypto';

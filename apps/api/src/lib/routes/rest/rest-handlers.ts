@@ -1,14 +1,18 @@
 import logger from '@lib/logger';
-import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/error';
+import { invalidAuthRequest, mapRouteError, RouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
 import crypto from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { AuthenticatedRouteHandler, NonceRouteHandler, RouteHandler } from '../types';
+import { ResultAsync } from 'neverthrow';
+import { User } from 'src/repository/user';
 
-/*
- * Sends appropriate HTTP FastifyReplys for a RouteHandler<T>
- */
-const wrapHandler = <T>(handlerResult: ReturnType<RouteHandler<T>>, res: FastifyReply): void => {
+type RouteResult<T> = ResultAsync<T, RouteError>;
+
+type RouteHandler<T> = (req: FastifyRequest) => RouteResult<T>;
+type AuthenticatedRouteHandler<T> = (req: FastifyRequest, user: User) => RouteResult<T>;
+type NonceRouteHandler<T> = (req: FastifyRequest, nonce: string) => RouteResult<T>;
+
+const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void => {
   handlerResult
     .map(data => {
       logger.debug({ data }, 'Successfully sending data');

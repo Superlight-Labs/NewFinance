@@ -1,4 +1,4 @@
-import { setNonceRoute } from '@lib/routes/rest/handlers';
+import { setNonceRoute } from '@lib/routes/rest/rest-handlers';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { ResultAsync } from 'neverthrow';
 import { CreateNonceResponse } from './auth';
