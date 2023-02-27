@@ -61,32 +61,36 @@ export const importGenericSecret = (
   });
 };
 
-const processGenericSecret = (
+const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
+  const stepOutput = step(message.toString(), context);
+
+  if (stepOutput.type === 'inProgress') {
+    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+    return;
+  }
+
+  if (stepOutput.type === 'success') {
+    const keyShare = context.getNewShare().toString('base64');
+
+    output.next(saveGenericSecret(user, keyShare));
+    context.free();
+    return;
+  }
+
+  if (stepOutput.type === 'error') {
+    output.next(errAsync(mpcInternalError()));
+    context.free();
+    return;
+  }
+
+  throw new Error('Unexpected step output');
+};
+
+const saveGenericSecret = (
   user: User,
   keyShare: string
 ): ResultAsync<MPCWebsocketMessage, WebsocketError> => {
   return ResultAsync.fromPromise(saveKeyShare(user, keyShare, 'secret'), err =>
     databaseError(err, 'Error while saving generic secret key share')
   ).map(keyShare => ({ type: 'success', result: keyShare.id }));
-};
-
-const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  const stepOutput = step(message.toString(), context);
-
-  switch (stepOutput.type) {
-    case 'inProgress':
-      output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
-      return;
-    case 'success':
-      const keyShare = context.getNewShare().toString('base64');
-      output.next(processGenericSecret(user, keyShare));
-      context.free();
-      return;
-    case 'error':
-      output.next(errAsync(mpcInternalError()));
-      context.free();
-      return;
-    default:
-      throw new Error('Unexpected step output');
-  }
 };
