@@ -1,7 +1,7 @@
 import logger from '@lib/logger';
 import { client } from '@superlight/database';
 import { createServer } from 'src/server';
-export { generateEcdsaKey } from './src/service/mpc/ecdsa/generateEcdsa';
+export { generateEcdsaKey } from './src/service/mpc/ecdsa/generate-share.service';
 
 createServer(client)
   .then(server => {

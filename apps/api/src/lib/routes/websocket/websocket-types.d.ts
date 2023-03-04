@@ -1,3 +1,9 @@
+import { ResultAsync } from 'neverthrow';
+import { Observable, Subject } from 'rxjs';
+import { User } from 'src/repository/user';
+import { RawData } from 'ws';
+import { WebsocketError } from './websocket-error';
+
 export type MPCWebsocketMessage<T = string> =
   | {
       type: 'inProgress';
@@ -12,7 +18,7 @@ type MPCWebsocketHandler<T> = (user: User, message: Observable<RawData>) => MPCW
 type MPCWebsocketWithInitParameterHandler<T> = (
   user: User,
   message: Observable<RawData>,
-  initParameter: WSClientMessage
+  initParameter: RawData
 ) => MPCWebsocketResult<T>;
 
 export type WebSocketStatus = 'inProgress' | 'start' | 'success' | 'error';

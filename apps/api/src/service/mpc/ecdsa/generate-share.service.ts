@@ -17,35 +17,9 @@ import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { RawData } from 'ws';
 
-export const generateGenericSecret = (
-  user: User,
-  messages: Observable<RawData>
-): MPCWebsocketResult => {
+export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-  const context = Context.createGenerateGenericSecretContext(2, 256);
-
-  messages.subscribe({
-    next: message => onMessage(message, context, output, user),
-    error: err => {
-      logger.error({ err, user: user.id }, 'Error received from client on websocket');
-      context.free();
-    },
-    complete: () => {
-      logger.info({ user: user.id }, 'Connection on Websocket closed');
-      context.free;
-    },
-  });
-
-  return output;
-};
-
-export const importGenericSecret = (
-  user: User,
-  messages: Observable<RawData>,
-  initParameter: RawData
-): MPCWebsocketResult => {
-  const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-  const context = Context.createImportGenericSecretContext(2, 256, initParameter);
+  const context = Context.createGenerateEcdsaKey(2);
 
   messages.subscribe({
     next: message => onMessage(message, context, output, user),
@@ -73,7 +47,7 @@ const onMessage = (message: RawData, context: Context, output: WebSocketOutput, 
   if (stepOutput.type === 'success') {
     const keyShare = context.getNewShare().toString('base64');
 
-    output.next(saveGenericSecret(user, keyShare));
+    output.next(saveGeneratedShare(user, keyShare));
     context.free();
     return;
   }
@@ -87,11 +61,11 @@ const onMessage = (message: RawData, context: Context, output: WebSocketOutput, 
   throw new Error('Unexpected step output');
 };
 
-const saveGenericSecret = (
+const saveGeneratedShare = (
   user: User,
   keyShare: string
 ): ResultAsync<MPCWebsocketMessage, WebsocketError> => {
-  return ResultAsync.fromPromise(saveKeyShare(user, keyShare, 'secret'), err =>
-    databaseError(err, 'Error while saving generic secret key share')
+  return ResultAsync.fromPromise(saveKeyShare(user, keyShare, 'ecdsa'), err =>
+    databaseError(err, 'Error while saving newly generated ecdsa share')
   ).map(keyShare => ({ type: 'success', result: keyShare.id }));
 };

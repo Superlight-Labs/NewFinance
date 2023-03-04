@@ -1,14 +1,42 @@
 import { Context } from '@crypto-mpc';
 import { SocketStream } from '@fastify/websocket';
 import logger from '@lib/logger';
+import { WebsocketError } from '@lib/routes/websocket/websocket-error';
+import { MPCWebsocketMessage, MPCWebsocketResult } from '@lib/routes/websocket/websocket-types';
+import { errAsync, ResultAsync } from 'neverthrow';
+import { Observable, Subject } from 'rxjs';
 import { MpcKeyShare } from 'src/repository/key-share';
 import { readKeyShare } from 'src/repository/key-share.repository';
-import { User } from '../../../repository/user';
+import { User } from 'src/repository/user';
+import { getKeyShare } from 'src/service/key-share.service';
+import { createEcdsaSignContext } from 'src/service/mpc-context.service';
+import { RawData } from 'ws';
 import { step } from '../step/step';
 
-type SignStatus = 'InitShare' | 'InitMessage' | 'Stepping';
+export const signWithEcdsaKey = (
+  user: User,
+  messages: Observable<RawData>,
+  initParameter: RawData
+): MPCWebsocketResult => {
+  const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-export const signWithEcdsaShare = (connection: SocketStream, user: User) => {
+  initSignProcess(initParameter, user.id)
+    .map(context => {})
+    .mapErr(err => output.next(errAsync(err)));
+};
+
+const initSignProcess = (
+  message: RawData,
+  userId: string
+): ResultAsync<Context, WebsocketError> => {
+  const { messageToSign, encoding, shareId } = JSON.parse(message.toString());
+
+  return getKeyShare(shareId, userId).andThen(keyShare =>
+    createEcdsaSignContext(keyShare.value, messageToSign, encoding)
+  );
+};
+
+export const signWithEcdsaSharea = (connection: SocketStream, user: User) => {
   let context: Context;
   let status: SignStatus = 'InitShare';
 

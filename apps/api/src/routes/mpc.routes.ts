@@ -1,15 +1,17 @@
 import { SocketStream } from '@fastify/websocket';
-import logger from '@lib/logger';
 import { authenticate } from '@lib/utils/auth';
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import {
+  deriveBip32Hardened,
+  deriveBip32NonHardened,
+} from 'src/service/mpc/ecdsa/derive-bip-32.service';
 import {
   generateGenericSecret,
   importGenericSecret,
 } from 'src/service/mpc/ecdsa/generic-secret.service';
 import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
-import { deriveBIP32 } from '../service/mpc/ecdsa/derive/deriveBIP32';
-import { generateEcdsaKey } from '../service/mpc/ecdsa/generateEcdsa';
-import { signWithEcdsaShare } from '../service/mpc/ecdsa/sign';
+import { generateEcdsaKey } from '../service/mpc/ecdsa/generate-share.service';
+import { signWithEcdsaShare } from '../service/mpc/ecdsa/signature.service';
 import { websocketRouteWithInitParameter } from './../lib/routes/websocket/websocket-handlers';
 
 export type ActionStatus = 'Init' | 'Stepping';
@@ -49,31 +51,22 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + '/derive',
+      route + '/derive/hardened',
       { websocket: true },
-      (connection: SocketStream, req: FastifyRequest) => {
-        const usage = server.memoryUsage();
-        logger.info(
-          {
-            ...usage,
-            heapUsed: usage.heapUsed / 1000000 + ' MB',
-            rssBytes: usage.rssBytes / 1000000 + ' MB',
-          },
-          'Starting Bip Derive - Monitoring Memory usage'
-        );
-        deriveBIP32(connection, req.user!);
-      }
+      websocketRouteWithInitParameter(deriveBip32Hardened)
     );
   });
 
   server.register(async function (server) {
     server.get(
-      route + '/generateEcdsa',
+      route + '/derive/non-hardened',
       { websocket: true },
-      (connection: SocketStream, req: FastifyRequest) => {
-        generateEcdsaKey(connection, req.user!);
-      }
+      websocketRouteWithInitParameter(deriveBip32NonHardened)
     );
+  });
+
+  server.register(async function (server) {
+    server.get(route + '/generateEcdsa', { websocket: true }, websocketRoute(generateEcdsaKey));
   });
 
   server.register(async function (server) {

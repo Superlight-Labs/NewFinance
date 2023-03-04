@@ -1,12 +1,14 @@
 import { HttpError } from '../types';
 
 enum ErrorTypes {
+  StepMessageError = 'StepMessageError',
   MpcInternalError = 'MpcInternalError',
   DatabaseError = 'DatabaseError',
 }
 
 export type WebsocketError =
-  | { type: ErrorTypes.MpcInternalError }
+  | { type: ErrorTypes.MpcInternalError; error?: unknown }
+  | { type: ErrorTypes.StepMessageError; context?: string }
   | { type: ErrorTypes.DatabaseError; context?: string; error?: unknown };
 
 export const isMPCWebsocketError = (error: any): error is WebsocketError => {
@@ -20,6 +22,12 @@ export const mapWebsocketError = (err: any): HttpError => {
         return {
           statusCode: 1011,
           errorMsg: 'Error while performing cryptographic operation',
+        };
+      }
+      case 'StepMessageError': {
+        return {
+          statusCode: 1011,
+          errorMsg: err.context || 'Error while performing cryptographic operation',
         };
       }
       case 'DatabaseError': {
@@ -37,12 +45,18 @@ export const mapWebsocketError = (err: any): HttpError => {
   };
 };
 
-export const mpcInternalError = (): WebsocketError => ({
+export const mpcInternalError = (error?: unknown): WebsocketError => ({
   type: ErrorTypes.MpcInternalError,
+  error,
 });
 
 export const databaseError = (error: unknown, context?: string): WebsocketError => ({
   type: ErrorTypes.DatabaseError,
   context,
   error,
+});
+
+export const stepMessageError = (context?: string): WebsocketError => ({
+  type: ErrorTypes.DatabaseError,
+  context,
 });

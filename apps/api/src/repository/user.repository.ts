@@ -50,16 +50,6 @@ export const readUserKeyShareByPath = async (
   return userWithKeyShares.keyShares[0];
 };
 
-export const updateUserKeyShare = async (
-  keyShare: MpcKeyShare
-): Promise<MpcKeyShare | RouteError> => {
-  const updated = await client.mpcKeyShare.update({ where: { id: keyShare.id }, data: keyShare });
-
-  if (!updated) return other('Something went wrong while updating, no success value returned');
-
-  return updated;
-};
-
 type GetUser = {
   userId: string;
   devicePublicKey: string;

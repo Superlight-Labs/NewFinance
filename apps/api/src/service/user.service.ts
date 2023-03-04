@@ -4,12 +4,7 @@ import { getSafeResultAsync } from '@lib/utils/neverthrow';
 import crypto from 'crypto';
 import { okAsync, ResultAsync } from 'neverthrow';
 import { MpcKeyShare } from 'src/repository/key-share';
-import {
-  readUser,
-  readUserKeyShareByPath,
-  saveUser,
-  updateUserKeyShare,
-} from 'src/repository/user.repository';
+import { readUser, readUserKeyShareByPath, saveUser } from 'src/repository/user.repository';
 import {
   CreateUserRequest,
   CreateUserResponse,
@@ -17,6 +12,7 @@ import {
   User,
   VerifyUserRequest,
 } from '../repository/user';
+import { updateKeyShare } from './key-share.service';
 
 export const createUser = (
   request: CreateUserRequest,
@@ -66,13 +62,4 @@ export const updateUserWalletAddress = (
   );
 
   return readKeyShare.andThen(keyShare => updateKeyShare(keyShare, address));
-};
-
-const updateKeyShare = (
-  keyShare: MpcKeyShare,
-  address: string
-): ResultAsync<MpcKeyShare, RouteError> => {
-  return getSafeResultAsync(updateUserKeyShare({ ...keyShare, address }), e =>
-    other('Error while updating Key Share', e)
-  );
 };

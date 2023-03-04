@@ -1,0 +1,162 @@
+import { Context } from '@crypto-mpc';
+import logger from '@lib/logger';
+import {
+  databaseError,
+  mpcInternalError,
+  stepMessageError,
+  WebsocketError,
+} from '@lib/routes/websocket/websocket-error';
+import {
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  WebSocketOutput,
+} from '@lib/routes/websocket/websocket-types';
+import { buildPath, DeriveConfig, step } from '@lib/utils/crypto';
+import { errAsync, okAsync, ResultAsync } from 'neverthrow';
+import { Observable, Subject } from 'rxjs';
+import { MpcKeyShare } from 'src/repository/key-share';
+import { readKeyShareByPath, saveShareBasedOnPath } from 'src/repository/key-share.repository';
+import { User } from 'src/repository/user';
+import { deleteKeyShare, getKeyShare } from 'src/service/key-share.service';
+import { createDeriveBIP32Context } from 'src/service/mpc-context.service';
+import { RawData } from 'ws';
+
+type OnDeriveStep = (
+  deriveContext: DeriveContext,
+  message: RawData,
+  user: User,
+  output: WebSocketOutput
+) => void;
+
+const deriveBIP32 =
+  (stepFn: OnDeriveStep) =>
+  (user: User, messages: Observable<RawData>, initParameter: RawData): MPCWebsocketResult => {
+    const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
+
+    initDeriveProcess(initParameter, user.id)
+      .map(deriveContext => {
+        const { context } = deriveContext;
+
+        messages.subscribe({
+          next: message => stepFn(deriveContext, message, user, output),
+          error: err => {
+            logger.error({ err, user: user.id }, 'Error received from client on websocket');
+            context.free();
+          },
+          complete: () => {
+            logger.info({ user: user.id }, 'Connection on Websocket closed');
+            context.free();
+          },
+        });
+
+        return output;
+      })
+      .mapErr(err => output.next(errAsync(err)));
+
+    return output;
+  };
+
+const initDeriveProcess = (
+  message: RawData,
+  userId: string
+): ResultAsync<DeriveContext, WebsocketError> => {
+  const deriveConfig = JSON.parse(message.toString()) as DeriveConfig;
+  const path = buildPath(deriveConfig);
+
+  return deleteExistingShareByPath(path, userId).andThen(_ => setupContext(deriveConfig, userId));
+};
+
+const deleteExistingShareByPath = (
+  path: string,
+  userId: string
+): ResultAsync<MpcKeyShare | null, WebsocketError> => {
+  return ResultAsync.fromPromise(readKeyShareByPath(path, userId), err =>
+    databaseError({ err, path }, 'Error while checking if keyshare with path exists')
+  ).andThen(deleteKeyShare);
+};
+
+const setupContext = (
+  deriveConfig: DeriveConfig,
+  userId: string
+): ResultAsync<DeriveContext, WebsocketError> => {
+  return getKeyShare(deriveConfig.serverShareId, userId).andThen(parentKeyShare =>
+    createDeriveBIP32Context(
+      parentKeyShare.value,
+      Number(deriveConfig.hardened) === 1,
+      deriveConfig.index
+    ).map(context => ({ deriveConfig, parent: parentKeyShare, context }))
+  );
+};
+
+const deriveNonHardenedStep = (
+  deriveContext: DeriveContext,
+  message: RawData,
+  user: User,
+  output: WebSocketOutput
+) => {
+  const share = deriveContext.context.getResultDeriveBIP32().toBuffer().toString('base64');
+
+  output.next(saveDerivedShare(user, share, deriveContext));
+  deriveContext.context.free();
+};
+
+const deriveHardenedStep = async (
+  deriveContext: DeriveContext,
+  message: RawData,
+  user: User,
+  output: WebSocketOutput
+) => {
+  const { context } = deriveContext;
+  const stepInput = message.toString();
+
+  if (!stepInput || stepInput === '') {
+    output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
+    return;
+  }
+
+  logger.info({ input: stepInput.slice(0, 23), contextPtr: context.contextPtr }, 'DERIVE STEP');
+
+  const stepOutput = step(stepInput, context);
+
+  if (stepOutput.type === 'inProgress') {
+    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+    return;
+  }
+
+  if (stepOutput.type === 'success') {
+    const share = context.getNewShare().toString('base64');
+
+    output.next(saveDerivedShare(user, share, deriveContext));
+    context.free();
+    return;
+  }
+
+  if (stepOutput.type === 'error') {
+    output.next(errAsync(mpcInternalError()));
+    context.free();
+    return;
+  }
+
+  throw new Error('Unexpected step output');
+};
+
+const saveDerivedShare = (
+  user: User,
+  share: string,
+  deriveContext: DeriveContext
+): ResultAsync<MPCWebsocketMessage, WebsocketError> => {
+  const { parent, deriveConfig } = deriveContext;
+
+  return ResultAsync.fromPromise(saveShareBasedOnPath(user, share, parent, deriveConfig), err =>
+    databaseError(err, 'Error while saving derived Keyshare to DB')
+  ).map(keyShare => ({ type: 'success', result: keyShare.id }));
+};
+
+type DeriveContext = {
+  deriveConfig: DeriveConfig;
+  parent: MpcKeyShare;
+  context: Context;
+};
+
+export const deriveBip32Hardened = deriveBIP32(deriveHardenedStep);
+export const deriveBip32NonHardened = deriveBIP32(deriveNonHardenedStep);
