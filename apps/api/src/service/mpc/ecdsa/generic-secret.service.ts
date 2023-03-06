@@ -15,6 +15,10 @@ import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
+import {
+  createGenerateGenericSecretContext,
+  createImportGenericSecretContext,
+} from 'src/service/mpc-context.service';
 import { RawData } from 'ws';
 
 export const generateGenericSecret = (
@@ -22,19 +26,22 @@ export const generateGenericSecret = (
   messages: Observable<RawData>
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-  const context = Context.createGenerateGenericSecretContext(2, 256);
 
-  messages.subscribe({
-    next: message => onMessage(message, context, output, user),
-    error: err => {
-      logger.error({ err, user: user.id }, 'Error received from client on websocket');
-      context.free();
-    },
-    complete: () => {
-      logger.info({ user: user.id }, 'Connection on Websocket closed');
-      context.free;
-    },
-  });
+  createGenerateGenericSecretContext()
+    .map(context =>
+      messages.subscribe({
+        next: message => onMessage(message, context, output, user),
+        error: err => {
+          logger.error({ err, user: user.id }, 'Error received from client on websocket');
+          context.free();
+        },
+        complete: () => {
+          logger.info({ user: user.id }, 'Connection on Websocket closed');
+          context.free;
+        },
+      })
+    )
+    .mapErr(err => output.next(errAsync(err)));
 
   return output;
 };
@@ -45,19 +52,22 @@ export const importGenericSecret = (
   initParameter: RawData
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-  const context = Context.createImportGenericSecretContext(2, 256, initParameter);
 
-  messages.subscribe({
-    next: message => onMessage(message, context, output, user),
-    error: err => {
-      logger.error({ err, user: user.id }, 'Error received from client on websocket');
-      context.free();
-    },
-    complete: () => {
-      logger.info({ user: user.id }, 'Connection on Websocket closed');
-      context.free;
-    },
-  });
+  createImportGenericSecretContext(initParameter)
+    .map(context =>
+      messages.subscribe({
+        next: message => onMessage(message, context, output, user),
+        error: err => {
+          logger.error({ err, user: user.id }, 'Error received from client on websocket');
+          context.free();
+        },
+        complete: () => {
+          logger.info({ user: user.id }, 'Connection on Websocket closed');
+          context.free;
+        },
+      })
+    )
+    .mapErr(err => output.next(errAsync(err)));
 
   return output;
 };

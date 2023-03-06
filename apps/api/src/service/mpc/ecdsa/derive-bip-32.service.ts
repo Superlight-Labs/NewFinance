@@ -18,7 +18,11 @@ import { MpcKeyShare } from 'src/repository/key-share';
 import { readKeyShareByPath, saveShareBasedOnPath } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { deleteKeyShare, getKeyShare } from 'src/service/key-share.service';
-import { createDeriveBIP32Context } from 'src/service/mpc-context.service';
+import {
+  createDeriveBIP32Context,
+  getNewShare,
+  getResultDeriveBIP32,
+} from 'src/service/mpc-context.service';
 import { RawData } from 'ws';
 
 type OnDeriveStep = (
@@ -94,10 +98,15 @@ const deriveNonHardenedStep = (
   user: User,
   output: WebSocketOutput
 ) => {
-  const share = deriveContext.context.getResultDeriveBIP32().toBuffer().toString('base64');
-
-  output.next(saveDerivedShare(user, share, deriveContext));
-  deriveContext.context.free();
+  getResultDeriveBIP32(deriveContext.context)
+    .map(share => {
+      output.next(saveDerivedShare(user, share, deriveContext));
+      deriveContext.context.free();
+    })
+    .mapErr(err => {
+      output.next(errAsync(err));
+      deriveContext.context.free();
+    });
 };
 
 const deriveHardenedStep = async (
@@ -124,10 +133,16 @@ const deriveHardenedStep = async (
   }
 
   if (stepOutput.type === 'success') {
-    const share = context.getNewShare().toString('base64');
+    getNewShare(context)
+      .map(share => {
+        output.next(saveDerivedShare(user, share, deriveContext));
+        context.free();
+      })
+      .mapErr(err => {
+        output.next(errAsync(err));
+        context.free();
+      });
 
-    output.next(saveDerivedShare(user, share, deriveContext));
-    context.free();
     return;
   }
 

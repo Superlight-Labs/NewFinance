@@ -16,22 +16,26 @@ import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { RawData } from 'ws';
+import { createGenerateEcdsaKey } from './../../mpc-context.service';
 
 export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-  const context = Context.createGenerateEcdsaKey(2);
 
-  messages.subscribe({
-    next: message => onMessage(message, context, output, user),
-    error: err => {
-      logger.error({ err, user: user.id }, 'Error received from client on websocket');
-      context.free();
-    },
-    complete: () => {
-      logger.info({ user: user.id }, 'Connection on Websocket closed');
-      context.free;
-    },
-  });
+  createGenerateEcdsaKey()
+    .map(context =>
+      messages.subscribe({
+        next: message => onMessage(message, context, output, user),
+        error: err => {
+          logger.error({ err, user: user.id }, 'Error received from client on websocket');
+          context.free();
+        },
+        complete: () => {
+          logger.info({ user: user.id }, 'Connection on Websocket closed');
+          context.free;
+        },
+      })
+    )
+    .mapErr(err => output.next(errAsync(err)));
 
   return output;
 };

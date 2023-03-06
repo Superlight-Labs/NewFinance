@@ -49,7 +49,7 @@ export const createDeriveBIP32Context = (
   return createContext(2, Buffer.from(parentKeyShare, 'base64'), hardened, Number(index));
 };
 
-export const getResultBIP32 = (context: Context): Result<string, WebsocketError> => {
+export const getResultDeriveBIP32 = (context: Context): Result<string, WebsocketError> => {
   const getResult = fromThrowable(context.getResultDeriveBIP32, err => mpcInternalError(err));
 
   return getResult().map(share => share.toBuffer().toString('base64'));
