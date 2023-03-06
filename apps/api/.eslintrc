@@ -1,6 +1,14 @@
 {
   "extends": ["@superlight/eslint-config"],
   "parser": "@typescript-eslint/parser",
-
-  "plugins": ["@typescript-eslint", "eslint-plugin-neverthrow"],
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "project": ["./tsconfig.json"],
+    "tsconfigRootDir": "."
+  },
+  "plugins": ["@typescript-eslint", "neverthrow"],
+  "rules": {
+    "neverthrow/must-use-result": "warn"
+  }
 }

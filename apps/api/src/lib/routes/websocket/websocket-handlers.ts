@@ -16,19 +16,20 @@ const wrapMPCWebsocketHandler = <T>(
 ): void => {
   handlerResult.subscribe({
     next: val => {
-      val
-        .map(data => {
+      val.match(
+        data => {
           logger.debug({ data }, 'Successfully sending data on websocket');
           socket.send(JSON.stringify(data));
 
           data.type === 'success' &&
             socket.close(1000, 'Successfully finished process with websocket');
-        })
-        .mapErr(error => {
+        },
+        error => {
           logger.error({ error }, 'Failed to work on request');
           const { statusCode, errorMsg } = mapWebsocketError(error);
           socket.close(statusCode, errorMsg);
-        });
+        }
+      );
     },
     error: err => {
       logger.error({ err }, 'Failed to work on websocket request');

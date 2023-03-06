@@ -11,7 +11,6 @@ import {
 } from 'src/service/mpc/ecdsa/generic-secret.service';
 import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
 import { generateEcdsaKey } from '../service/mpc/ecdsa/generate-share.service';
-import { signWithEcdsaShare } from '../service/mpc/ecdsa/signature.service';
 import { websocketRouteWithInitParameter } from './../lib/routes/websocket/websocket-handlers';
 
 export type ActionStatus = 'Init' | 'Stepping';
