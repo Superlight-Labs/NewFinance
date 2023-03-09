@@ -1,6 +1,10 @@
 import { authenticatedRoute, nonceRoute, setNonceRoute } from '@lib/routes/rest/rest-handlers';
 import { FastifyInstance, FastifyRequest, FastifySchema } from 'fastify';
-import { createUser, updateUserWalletAddress, verifyUser } from 'src/service/user.service';
+import {
+  createUser,
+  updateUserWalletAddress,
+  verifyUser,
+} from 'src/service/persistance/user.service';
 import {
   CreateUserRequest,
   CreateUserResponse,

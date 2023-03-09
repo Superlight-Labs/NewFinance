@@ -11,7 +11,7 @@ import {
   UpdateUserWalletByPathRequest,
   User,
   VerifyUserRequest,
-} from '../repository/user';
+} from '../../repository/user';
 import { updateKeyShare } from './key-share.service';
 
 export const createUser = (

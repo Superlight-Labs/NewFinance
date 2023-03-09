@@ -32,8 +32,9 @@ export type DeriveConfig = {
 import { Context } from '@crypto-mpc';
 
 type StepResult =
+  | { type: 'error'; error?: unknown }
   | {
-      type: 'success' | 'error';
+      type: 'success';
     }
   | {
       message: string;
@@ -43,15 +44,19 @@ type StepResult =
 export const step = (message: string, context: Context): StepResult => {
   const inBuff = Buffer.from(message, 'base64');
 
-  const outBuff = context.step(inBuff);
+  try {
+    const outBuff = context.step(inBuff);
 
-  if (context.isFinished()) {
-    return { type: 'success' };
+    if (context.isFinished()) {
+      return { type: 'success' };
+    }
+
+    if (!outBuff) {
+      return { type: 'error' };
+    }
+
+    return { type: 'inProgress', message: outBuff.toString('base64') };
+  } catch (error) {
+    return { type: 'error', error };
   }
-
-  if (!outBuff) {
-    return { type: 'error' };
-  }
-
-  return { type: 'inProgress', message: outBuff.toString('base64') };
 };

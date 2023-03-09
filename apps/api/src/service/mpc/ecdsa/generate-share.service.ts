@@ -16,13 +16,13 @@ import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { RawData } from 'ws';
-import { createGenerateEcdsaKey } from './../../mpc-context.service';
+import { createGenerateEcdsaKey } from '../mpc-context.service';
 
 export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  createGenerateEcdsaKey()
-    .map(context =>
+  createGenerateEcdsaKey().match(
+    context => {
       messages.subscribe({
         next: message => onMessage(message, context, output, user),
         error: err => {
@@ -33,9 +33,10 @@ export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPC
           logger.info({ user: user.id }, 'Connection on Websocket closed');
           context.free;
         },
-      })
-    )
-    .mapErr(err => output.next(errAsync(err)));
+      });
+    },
+    err => output.next(errAsync(err))
+  );
 
   return output;
 };
@@ -57,7 +58,7 @@ const onMessage = (message: RawData, context: Context, output: WebSocketOutput, 
   }
 
   if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError()));
+    output.next(errAsync(mpcInternalError(stepOutput.error)));
     context.free();
     return;
   }

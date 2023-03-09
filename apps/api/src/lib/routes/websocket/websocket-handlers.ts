@@ -43,6 +43,9 @@ const wrapMPCWebsocketHandler = <T>(
   });
 };
 
+// TODO: turns out EVERY mpc route has some sort of setup step that can fail.
+// Therefore it would make sense to abstract it into the higher order handlers.
+// Will do this at a later point cuz its non blocking and can be done at any point in time
 export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
   return (connection: SocketStream, req: FastifyRequest) => {
     const messages = new Subject<RawData>();

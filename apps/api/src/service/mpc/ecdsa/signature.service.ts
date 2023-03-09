@@ -1,17 +1,18 @@
 import { Context } from '@crypto-mpc';
-import { SocketStream } from '@fastify/websocket';
 import logger from '@lib/logger';
-import { WebsocketError } from '@lib/routes/websocket/websocket-error';
-import { MPCWebsocketMessage, MPCWebsocketResult } from '@lib/routes/websocket/websocket-types';
-import { errAsync, ResultAsync } from 'neverthrow';
+import { mpcInternalError, WebsocketError } from '@lib/routes/websocket/websocket-error';
+import {
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  WebSocketOutput,
+} from '@lib/routes/websocket/websocket-types';
+import { step } from '@lib/utils/crypto';
+import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
-import { MpcKeyShare } from 'src/repository/key-share';
-import { readKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
-import { getKeyShare } from 'src/service/key-share.service';
-import { createEcdsaSignContext } from 'src/service/mpc-context.service';
+import { createEcdsaSignContext } from 'src/service/mpc/mpc-context.service';
+import { getKeyShare } from 'src/service/persistance/key-share.service';
 import { RawData } from 'ws';
-import { step } from '../step/step';
 
 export const signWithEcdsaKey = (
   user: User,
@@ -20,15 +21,31 @@ export const signWithEcdsaKey = (
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  initSignProcess(initParameter, user.id)
-    .map(context => {})
-    .mapErr(err => output.next(errAsync(err)));
+  initSignProcess(initParameter, user.id).match(
+    context => {
+      messages.subscribe({
+        next: message => signStep(context, message, output),
+        error: err => {
+          logger.error({ err, user: user.id }, 'Error received from client on websocket');
+          context.free();
+        },
+        complete: () => {
+          logger.info({ user: user.id }, 'Connection on Websocket closed');
+          context.free();
+        },
+      });
+    },
+    err => output.next(errAsync(err))
+  );
+
+  return output;
 };
 
 const initSignProcess = (
   message: RawData,
   userId: string
 ): ResultAsync<Context, WebsocketError> => {
+  // TODO come up with some message validation
   const { messageToSign, encoding, shareId } = JSON.parse(message.toString());
 
   return getKeyShare(shareId, userId).andThen(keyShare =>
@@ -36,85 +53,29 @@ const initSignProcess = (
   );
 };
 
-export const signWithEcdsaSharea = (connection: SocketStream, user: User) => {
-  let context: Context;
-  let status: SignStatus = 'InitShare';
+export const signStep = (context: Context, message: RawData, output: WebSocketOutput) => {
+  const stepInput = message.toString();
+  logger.info({ input: stepInput.slice(0, 23), contextPtr: context.contextPtr }, 'SIGN STEP');
 
-  let share: MpcKeyShare;
+  const stepOutput = step(message.toString(), context);
 
-  connection.socket.on('message', async message => {
-    switch (status) {
-      case 'InitShare':
-        try {
-          share = await readKeyShare(message.toString(), user.id);
-          status = 'InitMessage';
-          connection.socket.send(JSON.stringify({ value: 'ShareSet' }));
-        } catch (err) {
-          logger.error({ err }, 'Error while initiating signing');
-          connection.socket.close(undefined, 'Error while initiating signing');
-          context?.free();
-          return;
-        }
-        break;
+  if (stepOutput.type === 'inProgress') {
+    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+    return;
+  }
 
-      case 'InitMessage':
-        try {
-          const { messageToSign, encoding } = JSON.parse(message.toString());
-          logger.info(
-            {
-              parent: { id: share.id, path: share.path },
-              messageToSign,
-              encoding,
-            },
-            'INIT SIGN'
-          );
+  if (stepOutput.type === 'success') {
+    logger.info('Completed Signature, closing connection');
+    context.free();
 
-          context =
-            context ||
-            Context.createEcdsaSignContext(
-              2,
-              Buffer.from(share.value, 'base64'),
-              Buffer.from(messageToSign, encoding),
-              true
-            );
+    return;
+  }
 
-          connection.socket.send(JSON.stringify({ value: 'Start' }));
+  if (stepOutput.type === 'error') {
+    output.next(errAsync(mpcInternalError(stepOutput.error)));
+    context.free();
+    return;
+  }
 
-          status = 'Stepping';
-        } catch (err) {
-          logger.error({ err }, 'Error while starting signature');
-          connection.socket.close(undefined, 'Error while starting signature');
-          context.free();
-        }
-        break;
-      case 'Stepping':
-        try {
-          const stepInput = message.toString();
-          logger.info(
-            { input: stepInput.slice(0, 23), contextPtr: context.contextPtr },
-            'SIGN STEP'
-          );
-
-          const stepOutput = step(message.toString(), context);
-
-          if (stepOutput === true) {
-            logger.info('Completed Signature, closing connection');
-            context.free();
-            connection.socket.close(undefined, 'Completed Signature, closing connection');
-            return;
-          }
-
-          connection.socket.send(stepOutput as string);
-        } catch (err) {
-          logger.error({ err }, 'Error while stepping in sign');
-          context?.free();
-        }
-        break;
-    }
-  });
-
-  connection.socket.on('error', err => {
-    logger.error({ err }, 'error');
-    context?.free();
-  });
+  throw new Error('Unexpected step output');
 };

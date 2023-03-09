@@ -17,12 +17,12 @@ import { Observable, Subject } from 'rxjs';
 import { MpcKeyShare } from 'src/repository/key-share';
 import { readKeyShareByPath, saveShareBasedOnPath } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
-import { deleteKeyShare, getKeyShare } from 'src/service/key-share.service';
 import {
   createDeriveBIP32Context,
   getNewShare,
   getResultDeriveBIP32,
-} from 'src/service/mpc-context.service';
+} from 'src/service/mpc/mpc-context.service';
+import { deleteKeyShare, getKeyShare } from 'src/service/persistance/key-share.service';
 import { RawData } from 'ws';
 
 type OnDeriveStep = (
@@ -37,8 +37,8 @@ const deriveBIP32 =
   (user: User, messages: Observable<RawData>, initParameter: RawData): MPCWebsocketResult => {
     const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-    initDeriveProcess(initParameter, user.id)
-      .map(deriveContext => {
+    initDeriveProcess(initParameter, user.id).match(
+      deriveContext => {
         const { context } = deriveContext;
 
         messages.subscribe({
@@ -52,10 +52,9 @@ const deriveBIP32 =
             context.free();
           },
         });
-
-        return output;
-      })
-      .mapErr(err => output.next(errAsync(err)));
+      },
+      err => output.next(errAsync(err))
+    );
 
     return output;
   };
@@ -147,7 +146,7 @@ const deriveHardenedStep = async (
   }
 
   if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError()));
+    output.next(errAsync(mpcInternalError(stepOutput.error)));
     context.free();
     return;
   }

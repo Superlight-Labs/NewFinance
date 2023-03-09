@@ -18,7 +18,7 @@ import { User } from 'src/repository/user';
 import {
   createGenerateGenericSecretContext,
   createImportGenericSecretContext,
-} from 'src/service/mpc-context.service';
+} from 'src/service/mpc/mpc-context.service';
 import { RawData } from 'ws';
 
 export const generateGenericSecret = (
@@ -89,7 +89,7 @@ const onMessage = (message: RawData, context: Context, output: WebSocketOutput, 
   }
 
   if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError()));
+    output.next(errAsync(mpcInternalError(stepOutput.error)));
     context.free();
     return;
   }

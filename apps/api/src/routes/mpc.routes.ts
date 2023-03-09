@@ -1,6 +1,5 @@
-import { SocketStream } from '@fastify/websocket';
 import { authenticate } from '@lib/utils/auth';
-import { FastifyInstance, FastifyRequest } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import {
   deriveBip32Hardened,
   deriveBip32NonHardened,
@@ -9,6 +8,7 @@ import {
   generateGenericSecret,
   importGenericSecret,
 } from 'src/service/mpc/ecdsa/generic-secret.service';
+import { signWithEcdsaKey } from 'src/service/mpc/ecdsa/signature.service';
 import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
 import { generateEcdsaKey } from '../service/mpc/ecdsa/generate-share.service';
 import { websocketRouteWithInitParameter } from './../lib/routes/websocket/websocket-handlers';
@@ -72,9 +72,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
     server.get(
       route + '/sign',
       { websocket: true },
-      (connection: SocketStream, req: FastifyRequest) => {
-        signWithEcdsaShare(connection, req.user!);
-      }
+      websocketRouteWithInitParameter(signWithEcdsaKey)
     );
   });
 };
