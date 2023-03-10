@@ -10,7 +10,7 @@ module.exports = {
         alias: {
           components: './src/components',
           screens: './src/screens',
-          custom: './src/wrappers',
+          util: './src/util',
         },
       },
     ],

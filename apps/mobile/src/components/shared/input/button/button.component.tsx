@@ -1,6 +1,6 @@
-import { Pressable, Text } from 'custom/styled-react-native';
 import { styled } from 'nativewind';
 import { ReactNode } from 'react';
+import { Pressable, Text } from 'util/wrappers/styled-react-native';
 
 type Props = {
   onPress: () => void;

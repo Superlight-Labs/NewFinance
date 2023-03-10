@@ -1,4 +1,4 @@
-package com.app;
+package me.superlight.app;
 
 import android.app.Application;
 import android.content.res.Configuration;

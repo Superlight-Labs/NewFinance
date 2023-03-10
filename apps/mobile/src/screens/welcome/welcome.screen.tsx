@@ -3,7 +3,7 @@ import Button from 'components/shared/input/button/button.component';
 import WelcomeCarousel from 'components/welcome-screen/welcome-carousel.component';
 import { styled } from 'nativewind';
 import { View } from 'react-native';
-import { RootStackParamList } from 'src/navigation/main-navigation';
+import { RootStackParamList } from 'src/util/navigation/main-navigation';
 
 const StyledView = styled(View);
 

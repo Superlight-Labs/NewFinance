@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* appTests.m */; };
+		00E356F31AD99517003FC87E /* SuperlightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SuperlightTests.m */; };
 		02492A695E964F1F9134E8E2 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 962C415FF9FB42408BD8AE95 /* Nunito-Light.ttf */; };
-		0C80B921A6F3F58F76C31292 /* libPods-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-app.a */; };
 		0D6FED552E2D44905DB2D7F8 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -19,14 +18,17 @@
 		1DE147EDA76547029A054692 /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84240A67A0164CE7A7B45684 /* Nunito-Italic.ttf */; };
 		2658A5FF84AB4DF7A5601A35 /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59DEDA395DD94B03B62B9B7B /* Nunito-ExtraLightItalic.ttf */; };
 		2CE86F860C31482EAE9D64CA /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A77777965124A43B062483A /* Nunito-ExtraBoldItalic.ttf */; };
+		32FEB25F587F7C10AB1697D1 /* libPods-Superlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */; };
 		5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */; };
+		70C8491A07B872155AD22176 /* libPods-Superlight-SuperlightTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */; };
 		71660A568B3D4F8FB308FBE3 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D11824E9C499A8E835152 /* Nunito-BoldItalic.ttf */; };
-		7699B88040F8A987B510C191 /* libPods-app-appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-app-appTests.a */; };
 		771D65E6D88D4AD3987D2333 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2A60D9587604CCEAF6FA267 /* Nunito-Regular.ttf */; };
 		7A7F3CBDECDC45E4B1BFAA36 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01625A46BE1C4414B7D5C2F8 /* Nunito-ExtraBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8268AA1977E14A78B823FE32 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 889B2D7FCCB7434BAB36D569 /* Nunito-BlackItalic.ttf */; };
+		843CE66A5ED90109A9D5DE55 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */; };
 		8D919A69C9734B229092264B /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A5B085426624BD2A7C66C10 /* Nunito-ExtraLight.ttf */; };
+		9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */; };
 		9C7BA0F133264D0FA1729DB8 /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE3D783E7C554012B55958AE /* Nunito-SemiBoldItalic.ttf */; };
 		ACA715CA9D8E4ACF8ABA17DE /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9A7D0DA85434889B20C1017 /* Nunito-Bold.ttf */; };
 		B43701425ACB4C11A05D019C /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E50E53F930149C9895C6816 /* Nunito-LightItalic.ttf */; };
@@ -40,45 +42,51 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = app;
+			remoteInfo = Superlight;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		00E356EE1AD99517003FC87E /* SuperlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperlightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = appTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* SuperlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuperlightTests.m; sourceTree = "<group>"; };
 		01625A46BE1C4414B7D5C2F8 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = app/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = app/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = app/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = app/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = app/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-app-appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-app-appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-app/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app.debug.xcconfig"; path = "Target Support Files/Pods-app/Pods-app.debug.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Superlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Superlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Superlight/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Superlight/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Superlight/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Superlight/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Superlight/main.m; sourceTree = "<group>"; };
+		1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight-SuperlightTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
 		4C7D11824E9C499A8E835152 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app.release.xcconfig"; path = "Target Support Files/Pods-app/Pods-app.release.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
 		59DEDA395DD94B03B62B9B7B /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		5A77777965124A43B062483A /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-app-appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-appTests.debug.xcconfig"; path = "Target Support Files/Pods-app-appTests/Pods-app-appTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B7EB9410499542E8C5724F5 /* Pods-Superlight-appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-appTests.debug.xcconfig"; path = "Target Support Files/Pods-Superlight-appTests/Pods-Superlight-appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E50E53F930149C9895C6816 /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
 		6180141E8B754C9F8FE90E57 /* Nunito-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.ttf"; path = "../assets/fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = app/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		738C9690B7EA85AA87177E87 /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Superlight/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84240A67A0164CE7A7B45684 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.ttf"; path = "../assets/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
 		889B2D7FCCB7434BAB36D569 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-app-appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-appTests.release.xcconfig"; path = "Target Support Files/Pods-app-appTests/Pods-app-appTests.release.xcconfig"; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-Superlight-appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-appTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-appTests/Pods-Superlight-appTests.release.xcconfig"; sourceTree = "<group>"; };
 		8A5B085426624BD2A7C66C10 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
 		8D1B1EF630D3499594B31075 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
+		8E443CD86058416CC171C21D /* Pods-Superlight-SuperlightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.debug.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9171F8B77B2EBF4AAD38B811 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
 		962C415FF9FB42408BD8AE95 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
-		98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-app-appTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight-appTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		B9A7D0DA85434889B20C1017 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		BE0A9DFFF02540A19ED2CCA1 /* Nunito-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-MediumItalic.ttf"; path = "../assets/fonts/Nunito-MediumItalic.ttf"; sourceTree = "<group>"; };
 		CD83F21A76684E40BF7ECFE9 /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
+		E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.release.xcconfig"; sourceTree = "<group>"; };
 		E2A60D9587604CCEAF6FA267 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
+		E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Superlight-SuperlightTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Superlight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE3D783E7C554012B55958AE /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../assets/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-app-appTests.a in Frameworks */,
+				70C8491A07B872155AD22176 /* libPods-Superlight-SuperlightTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,20 +103,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-app.a in Frameworks */,
+				32FEB25F587F7C10AB1697D1 /* libPods-Superlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* appTests */ = {
+		00E356EF1AD99517003FC87E /* SuperlightTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* appTests.m */,
+				00E356F21AD99517003FC87E /* SuperlightTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = appTests;
+			path = SuperlightTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -119,7 +127,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* app */ = {
+		13B07FAE1A68108700A75B9A /* Superlight */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -129,33 +137,35 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = app;
+			name = Superlight;
 			sourceTree = "<group>";
 		};
-		1E676F6CF712C188B0B3F7E0 /* appTests */ = {
+		1E676F6CF712C188B0B3F7E0 /* SuperlightTests */ = {
 			isa = PBXGroup;
 			children = (
 				98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */,
+				1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */,
 			);
-			name = appTests;
+			name = SuperlightTests;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-app.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-app-appTests.a */,
+				FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */,
+				E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6AB1F3E8C9F2523595D5CB0D /* app */ = {
+		6AB1F3E8C9F2523595D5CB0D /* Superlight */ = {
 			isa = PBXGroup;
 			children = (
 				1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */,
+				002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */,
 			);
-			name = app;
+			name = Superlight;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -168,9 +178,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* app */,
+				13B07FAE1A68108700A75B9A /* Superlight */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* appTests */,
+				00E356EF1AD99517003FC87E /* SuperlightTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -185,8 +195,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* app.app */,
-				00E356EE1AD99517003FC87E /* appTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Superlight.app */,
+				00E356EE1AD99517003FC87E /* SuperlightTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,10 +227,14 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-app.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-app.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-app-appTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-app-appTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-Superlight.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-Superlight.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-Superlight-appTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-Superlight-appTests.release.xcconfig */,
+				738C9690B7EA85AA87177E87 /* Pods-Superlight.debug.xcconfig */,
+				9171F8B77B2EBF4AAD38B811 /* Pods-Superlight.release.xcconfig */,
+				8E443CD86058416CC171C21D /* Pods-Superlight-SuperlightTests.debug.xcconfig */,
+				E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -228,8 +242,8 @@
 		E92DC9AA5CFC10DB407E5E15 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				6AB1F3E8C9F2523595D5CB0D /* app */,
-				1E676F6CF712C188B0B3F7E0 /* appTests */,
+				6AB1F3E8C9F2523595D5CB0D /* Superlight */,
+				1E676F6CF712C188B0B3F7E0 /* SuperlightTests */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -237,9 +251,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* appTests */ = {
+		00E356ED1AD99517003FC87E /* SuperlightTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "appTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SuperlightTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -253,14 +267,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = appTests;
-			productName = appTests;
-			productReference = 00E356EE1AD99517003FC87E /* appTests.xctest */;
+			name = SuperlightTests;
+			productName = SuperlightTests;
+			productReference = 00E356EE1AD99517003FC87E /* SuperlightTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* app */ = {
+		13B07F861A680F5B00A75B9A /* Superlight */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "app" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Superlight" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -275,9 +289,9 @@
 			);
 			dependencies = (
 			);
-			name = app;
-			productName = app;
-			productReference = 13B07F961A680F5B00A75B9A /* app.app */;
+			name = Superlight;
+			productName = Superlight;
+			productReference = 13B07F961A680F5B00A75B9A /* Superlight.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -297,7 +311,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "app" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Superlight" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -310,8 +324,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* app */,
-				00E356ED1AD99517003FC87E /* appTests */,
+				13B07F861A680F5B00A75B9A /* Superlight */,
+				00E356ED1AD99517003FC87E /* SuperlightTests */,
 			);
 		};
 /* End PBXProject section */
@@ -374,15 +388,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app/Pods-app-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight/Pods-Superlight-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app/Pods-app-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight/Pods-Superlight-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-app/Pods-app-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Superlight/Pods-Superlight-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
@@ -400,7 +414,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-app-appTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Superlight-SuperlightTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -422,7 +436,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-app-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Superlight-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -435,15 +449,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app-appTests/Pods-app-appTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app-appTests/Pods-app-appTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-app-appTests/Pods-app-appTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -452,15 +466,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app/Pods-app-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight/Pods-Superlight-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app/Pods-app-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight/Pods-Superlight-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-app/Pods-app-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Superlight/Pods-Superlight-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -469,15 +483,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app-appTests/Pods-app-appTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-app-appTests/Pods-app-appTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-app-appTests/Pods-app-appTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -506,8 +520,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* appTests.m in Sources */,
+				00E356F31AD99517003FC87E /* SuperlightTests.m in Sources */,
 				5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */,
+				843CE66A5ED90109A9D5DE55 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +533,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				0D6FED552E2D44905DB2D7F8 /* ExpoModulesProvider.swift in Sources */,
+				9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +542,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* app */;
+			target = 13B07F861A680F5B00A75B9A /* Superlight */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -534,14 +550,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-app-appTests.debug.xcconfig */;
+			baseConfigurationReference = 8E443CD86058416CC171C21D /* Pods-Superlight-SuperlightTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = appTests/Info.plist;
+				INFOPLIST_FILE = SuperlightTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -554,19 +570,19 @@
 					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/app.app/app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Superlight.app/Superlight";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-app-appTests.release.xcconfig */;
+			baseConfigurationReference = E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = appTests/Info.plist;
+				INFOPLIST_FILE = SuperlightTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -579,21 +595,23 @@
 					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/app.app/app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Superlight.app/Superlight";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-app.debug.xcconfig */;
+			baseConfigurationReference = 738C9690B7EA85AA87177E87 /* Pods-Superlight.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BXB7RBS9FX;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = app/Info.plist;
+				INFOPLIST_FILE = Superlight/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -605,8 +623,8 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = app;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Superlight;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -615,12 +633,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-app.release.xcconfig */;
+			baseConfigurationReference = 9171F8B77B2EBF4AAD38B811 /* Pods-Superlight.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = app/Info.plist;
+				DEVELOPMENT_TEAM = BXB7RBS9FX;
+				INFOPLIST_FILE = Superlight/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -632,8 +652,8 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = app;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Superlight;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -779,7 +799,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "appTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SuperlightTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -788,7 +808,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "app" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Superlight" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -797,7 +817,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "app" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Superlight" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

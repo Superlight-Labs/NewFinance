@@ -19,8 +19,8 @@ import Overview from 'screens/wallets/tabs/overview.screen';
 import Receive from 'screens/wallets/tabs/receive.screen';
 import Send from 'screens/wallets/tabs/send.screen';
 import Welcome from 'screens/welcome/welcome.screen';
-import { RootStackParamList } from './navigation/main-navigation';
-import { WalletScreenList } from './navigation/wallet-navigation';
+import { RootStackParamList } from 'util/navigation/main-navigation';
+import { WalletScreenList } from 'util/navigation/wallet-navigation';
 
 const Stack = createStackNavigator<RootStackParamList>();
 

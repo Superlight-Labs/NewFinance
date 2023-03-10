@@ -1,8 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import Title from 'components/shared/title/title.component';
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
-import { View } from 'custom/styled-react-native';
-import { RootStackParamList } from 'src/navigation/main-navigation';
+import { RootStackParamList } from 'src/util/navigation/main-navigation';
+import { View } from 'util/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Wallet'>;
 

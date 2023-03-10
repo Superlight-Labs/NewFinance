@@ -1,5 +1,5 @@
-import { Text } from 'custom/styled-react-native';
 import { ReactNode } from 'react';
+import { Text } from 'util/wrappers/styled-react-native';
 
 type Props = {
   children: ReactNode;
