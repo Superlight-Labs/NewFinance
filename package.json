@@ -15,7 +15,8 @@
     "dev": "yarn db:start && dotenv -- turbo dev --parallel",
     "reset": "rm -f yarn.lock && git clean -xdf && yarn install",
     "prep": "husky install",
-    "db:start": "cd ./packages/database && docker compose up -d"
+    "db:start": "cd ./packages/database && docker compose up -d",
+    "postinstall": "yarn workspace @superlight/mobile run postinstall"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",
@@ -36,5 +37,6 @@
     "lint-staged": "^13.1.2",
     "prettier": "^2.4.1",
     "turbo": "^1.8.3"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
