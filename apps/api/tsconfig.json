@@ -2,16 +2,18 @@
   "extends": "./../../tsconfig.json",
 
   "compilerOptions": {
-    "incremental": true,
     "baseUrl": ".",
+    "module": "CommonJS",
     "paths": {
       "@lib/*": ["./src/lib/*"],
       "@crypto-mpc": ["./src/crypto-mpc-js"]
     },
-    "composite": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "noImplicitAny": false
   },
 
-  "include": ["index.ts", "src/**/*.ts"]
+  "include": ["index.ts", "src/**/*.ts"],
+  "ts-node": {
+    "swc": true
+  }
 }

@@ -12,10 +12,10 @@
     "test": "turbo test",
     "build": "turbo build",
     "lint": "turbo lint",
-    "dev": "turbo dev --parallel",
+    "dev": "yarn db:start && dotenv -- turbo dev --parallel",
     "reset": "rm -f yarn.lock && git clean -xdf && yarn install",
-    "prep": "husky install && yarn db:start",
-    "db:start": "cd ./packages/database && docker compose up"
+    "prep": "husky install",
+    "db:start": "cd ./packages/database && docker compose up -d"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",
@@ -30,6 +30,7 @@
     "@commitlint/config-conventional": "^17.4.4",
     "@rnx-kit/metro-config": "^1.3.5",
     "@rnx-kit/metro-resolver-symlinks": "^0.1.26",
+    "dotenv-cli": "^7.0.0",
     "eslint": "^8.19.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
