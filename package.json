@@ -9,6 +9,7 @@
     ]
   },
   "scripts": {
+    "ci": "turbo lint build test",
     "test": "turbo test",
     "build": "turbo build",
     "lint": "turbo lint",
