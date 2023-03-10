@@ -3,13 +3,17 @@
 
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "CommonJS",
     "paths": {
       "@lib/*": ["./src/lib/*"],
-      "@crypto-mpc": ["./src/crypto-mpc-js"],
-      "@server": ["./src/server.ts"]
+      "@crypto-mpc": ["./src/crypto-mpc-js"]
     },
-    "composite": true,
-    "outDir": "./build",
+    "outDir": "dist",
     "noImplicitAny": false
+  },
+
+  "include": ["index.ts", "src/**/*.ts"],
+  "ts-node": {
+    "swc": true
   }
 }

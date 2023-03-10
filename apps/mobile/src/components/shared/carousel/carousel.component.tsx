@@ -1,20 +1,15 @@
-import { styled } from 'nativewind';
-import React, { ReactNode, useRef } from 'react';
 import {
-  Animated,
+  AnimatedView,
   SafeAreaView,
   ScrollView,
-  useWindowDimensions,
   View,
-} from 'react-native';
+} from 'custom/styled-react-native';
+import React, { ReactNode, useRef } from 'react';
+import { Animated, useWindowDimensions } from 'react-native';
 
 type Props = {
   children: ReactNode[];
 };
-
-const StyledAreaView = styled(SafeAreaView);
-const StyledView = styled(View);
-const StyledScrollView = styled(ScrollView);
 
 const Carousel = ({ children }: Props) => {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -22,9 +17,9 @@ const Carousel = ({ children }: Props) => {
   const { width: windowWidth } = useWindowDimensions();
 
   return (
-    <StyledAreaView className="flex w-full flex-1 flex-col items-center justify-center">
-      <StyledView className="flex-1 items-center justify-center">
-        <StyledScrollView
+    <SafeAreaView className="flex w-full flex-1 flex-col items-center justify-center">
+      <View className="flex-1 items-center justify-center">
+        <ScrollView
           horizontal={true}
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -43,13 +38,13 @@ const Carousel = ({ children }: Props) => {
           scrollEventThrottle={1}>
           {children.map((child, childIndex) => {
             return (
-              <StyledView className="bg-red w-[100vw]" key={childIndex}>
+              <View className="bg-red w-[100vw]" key={childIndex}>
                 {child}
-              </StyledView>
+              </View>
             );
           })}
-        </StyledScrollView>
-        <StyledView className="flex-row items-center justify-center">
+        </ScrollView>
+        <View className="flex-row items-center justify-center">
           {children.map((child, childIndex) => {
             const width = scrollX.interpolate({
               inputRange: [
@@ -62,16 +57,16 @@ const Carousel = ({ children }: Props) => {
             });
 
             return (
-              <Animated.View
+              <AnimatedView
                 key={childIndex}
                 style={{ width }}
                 className="my-4 mx-1 h-4 w-4 rounded-full bg-slate-600"
               />
             );
           })}
-        </StyledView>
-      </StyledView>
-    </StyledAreaView>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

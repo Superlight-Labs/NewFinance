@@ -1,0 +1,29 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DB_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id              String        @default(uuid())
+    devicePublicKey String
+    keyShares       MpcKeyShare[] @relation("KeySharesForUser")
+
+    @@unique([id, devicePublicKey])
+}
+
+model MpcKeyShare {
+    id       String  @id @default(uuid())
+    path     String
+    value    String
+    address  String?
+
+    user                User   @relation("KeySharesForUser", fields: [userId, userDevicePublicKey], references: [id, devicePublicKey])
+    userId              String
+    userDevicePublicKey String
+
+    @@unique([userId, path])
+}

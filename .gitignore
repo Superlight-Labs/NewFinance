@@ -5,3 +5,7 @@
 .turbo
 
 .yarn/*
+
+
+**/build/**
+**/dist/**
