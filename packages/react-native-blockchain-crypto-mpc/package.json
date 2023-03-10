@@ -18,8 +18,6 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "build": "echo 'Nothing to build'",
-    "test": "echo 'Nothing to test'",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
@@ -51,7 +49,6 @@
     "react-native": "0.71.1",
     "typescript": "^4.9.5",
     "prettier-plugin-tailwindcss": "^0.2.2"
-
   },
   "peerDependencies": {
     "react": "*",

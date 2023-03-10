@@ -9,7 +9,7 @@
       "@crypto-mpc": ["./src/crypto-mpc-js"]
     },
     "composite": true,
-    "outDir": "./build",
+    "outDir": "./dist",
     "noImplicitAny": false
   },
 

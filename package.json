@@ -9,12 +9,13 @@
     ]
   },
   "scripts": {
-    "db:start": "cd ./packages/database && docker compose up",
-    "test": "yarn workspaces run test",
-    "build": "yarn workspaces run build",
-    "lint": "yarn workspaces run lint",
+    "test": "turbo test",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "dev": "turbo dev --parallel",
     "reset": "rm -f yarn.lock && git clean -xdf && yarn install",
-    "prepare": "husky install"
+    "prep": "husky install && yarn db:start",
+    "db:start": "cd ./packages/database && docker compose up"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",
@@ -32,6 +33,7 @@
     "eslint": "^8.19.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "turbo": "^1.8.3"
   }
 }

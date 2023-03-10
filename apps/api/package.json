@@ -9,8 +9,8 @@
     "build": "yarn copy-mpc && tsc -p tsconfig.json && tsc-alias",
     "start": "node ./build/index.js",
     "lint": "eslint \"./src/**/*.ts\"",
-    "dev": "yarn build && concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon build/index.js | pino-pretty\"",
-    "copy-mpc": "mkdir -p build/crypto-mpc-js/deps/ && cp -a src/crypto-mpc-js/deps/. build/crypto-mpc-js/deps/"
+    "dev": "yarn build && concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/index.js | pino-pretty\"",
+    "copy-mpc": "mkdir -p dist/crypto-mpc-js/deps/ && cp -a src/crypto-mpc-js/deps/. dist/crypto-mpc-js/deps/"
   },
   "keywords": [],
   "author": "",
