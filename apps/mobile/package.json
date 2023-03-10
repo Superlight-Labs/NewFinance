@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "pod-install",
-    "dev": "yarn ios",
+    "dev": "yarn ios && yarn start",
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator='iPhone 11'",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
