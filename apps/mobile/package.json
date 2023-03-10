@@ -5,7 +5,6 @@
   "scripts": {
     "postinstall": "pod-install",
     "dev": "yarn ios",
-    "build": "echo 'Nothing to build'",
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator='iPhone 11'",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
