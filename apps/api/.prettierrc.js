@@ -1,3 +1,3 @@
 module.exports = {
-  ...require("@superlight/prettier"),
+  ...require("@superlight/prettier-config"),
 };
