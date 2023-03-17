@@ -6,8 +6,8 @@ import { AppRegistry } from 'react-native';
 import App from './src/App';
 
 const appName = {
-  name: 'app',
-  displayName: 'app',
+  name: 'Superlight',
+  displayName: 'Superlight',
 };
 
 AppRegistry.registerComponent(appName.name, () => App);

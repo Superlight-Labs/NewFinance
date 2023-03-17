@@ -4,8 +4,10 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "./apps/*",
-      "./packages/*"
+      "apps/*",
+      "packages/*",
+      "packages/react-native/*",
+      "packages/config/*"
     ]
   },
   "scripts": {
@@ -13,10 +15,9 @@
     "test": "turbo test",
     "build": "turbo build",
     "lint": "turbo lint",
-    "dev": "yarn db:start && dotenv -- turbo dev --parallel",
-    "reset": "rm -f yarn.lock && git clean -xdf && yarn install",
-    "prep": "husky install",
-    "db:start": "cd ./packages/database && docker compose up -d",
+    "dev": "dotenv -- turbo dev --parallel",
+    "reset": "rm -f yarn.lock && git clean -xdf && yarn prep",
+    "prep": "yarn install && husky install",
     "postinstall": "yarn workspace @superlight/mobile run postinstall"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
@@ -25,7 +26,7 @@
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">=18.0"
+    "node": ">=16.0 <18"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",

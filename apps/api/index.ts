@@ -1,7 +1,8 @@
 import logger from '@lib/logger';
 import { client } from '@superlight/database';
 import { createServer } from 'src/server';
-export { generateEcdsaKey } from './src/service/mpc/ecdsa/generate-share.service';
+export type { User } from './src/repository/user.d';
+
 
 createServer(client)
   .then(server => {
@@ -37,3 +38,4 @@ process.on('unhandledRejection', (reason, promise) => {
 
   process.exit(1);
 });
+

@@ -2,6 +2,8 @@
 
 **/node_modules/
 
+**/.env
+
 .turbo
 
 .yarn/*
@@ -9,3 +11,5 @@
 
 **/build/**
 **/dist/**
+
+**/prisma/db.sqlite

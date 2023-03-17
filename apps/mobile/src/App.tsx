@@ -19,8 +19,9 @@ import Overview from 'screens/wallets/tabs/overview.screen';
 import Receive from 'screens/wallets/tabs/receive.screen';
 import Send from 'screens/wallets/tabs/send.screen';
 import Welcome from 'screens/welcome/welcome.screen';
-import { RootStackParamList } from './navigation/main-navigation';
-import { WalletScreenList } from './navigation/wallet-navigation';
+import { RootStackParamList } from 'util/navigation/main-navigation';
+import { WalletScreenList } from 'util/navigation/wallet-navigation';
+import { useAuthState } from './state/auth.state';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -31,9 +32,14 @@ const screenOptions: StackNavigationOptions = {
 const Tab = createMaterialTopTabNavigator<WalletScreenList>();
 
 function App(): JSX.Element {
+  const { isAuthenticated } = useAuthState();
+
+  const defaultScreen = isAuthenticated ? 'Home' : 'Welcome';
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+      <Stack.Navigator
+        initialRouteName={defaultScreen}
+        screenOptions={screenOptions}>
         <Stack.Group screenOptions={{ headerShown: false }}>
           {/* Weird workaround to "fix" react navigation type issues */}
           <Stack.Screen name={'Home' as 'Wallet'} component={Home} />
