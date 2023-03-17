@@ -1,5 +1,5 @@
 {
-  "name": "@superlight/react-native-blockchain-crypto-mpc",
+  "name": "@superlight/rn-crypto-mpc",
   "version": "0.2.0",
   "description": "React Native wrapper for (blockchain-crypto-mpc)[https://github.com/unboundsecurity/blockchain-crypto-mpc]",
   "main": "src/index.tsx",
@@ -9,7 +9,7 @@
     "android",
     "ios",
     "cpp",
-    "react-native-blockchain-crypto-mpc.podspec",
+    "rn-crypto-mpc.podspec",
     "!android/build",
     "!ios/build",
     "!ios/openssl",
@@ -37,8 +37,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@superlight/eslint-config": "*",
-    "@superlight/prettier-config": "*",
+    "@superlight/eslint": "*",
+    "@superlight/prettier": "*",
     "@types/jest": "^29.2.1",
     "@types/react": "18.0.28",
     "@types/react-native": "0.71.1",

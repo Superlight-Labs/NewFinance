@@ -1,5 +1,5 @@
 {
-  "name": "@superlight/prettier-config",
+  "name": "@superlight/prettier",
   "version": "1.0.0",
   "main": ".prettierrc.js",
   "author": "Laurenz Honauer",
