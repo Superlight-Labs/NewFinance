@@ -10,6 +10,8 @@ PODS:
     - ExpoModulesCore
   - EXFont (11.0.1):
     - ExpoModulesCore
+  - EXLocalAuthentication (13.0.2):
+    - ExpoModulesCore
   - Expo (47.0.13):
     - ExpoModulesCore
   - ExpoCrypto (12.0.0):
@@ -409,6 +411,8 @@ PODS:
   - rn-crypto-mpc (0.2.0):
     - OpenSSL-Universal
     - React-Core
+  - RNCAsyncStorage (1.17.12):
+    - React-Core
   - RNGestureHandler (2.8.0):
     - React-Core
   - RNScreens (3.18.2):
@@ -430,6 +434,7 @@ DEPENDENCIES:
   - EXConstants (from `../../../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../../../node_modules/expo-file-system/ios`)
   - EXFont (from `../../../node_modules/expo-font/ios`)
+  - EXLocalAuthentication (from `../../../node_modules/expo-local-authentication/ios`)
   - Expo (from `../../../node_modules/expo`)
   - ExpoCrypto (from `../../../node_modules/expo-crypto/ios`)
   - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
@@ -494,6 +499,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../../../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - "rn-crypto-mpc (from `../../../node_modules/@superlight/rn-crypto-mpc`)"
+  - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
@@ -531,6 +537,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../../../node_modules/expo-font/ios"
+  EXLocalAuthentication:
+    :path: "../../../node_modules/expo-local-authentication/ios"
   Expo:
     :path: "../../../node_modules/expo"
   ExpoCrypto:
@@ -609,6 +617,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon"
   rn-crypto-mpc:
     :path: "../../../node_modules/@superlight/rn-crypto-mpc"
+  RNCAsyncStorage:
+    :path: "../../../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../../../node_modules/react-native-gesture-handler"
   RNScreens:
@@ -628,6 +638,7 @@ SPEC CHECKSUMS:
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
+  EXLocalAuthentication: 78cc5a00b13745b41d16d189ab332b61a01299f9
   Expo: b9fa98bf260992312ee3c424400819fb9beadafe
   ExpoCrypto: 51e7662c7f5bfeab25b7909b8a5d545ec15d4877
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
@@ -679,6 +690,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 311feb67600774723fe10eb8801d3138cae9ad67
   ReactCommon: 03be76588338a27a88d103b35c3c44a3fd43d136
   rn-crypto-mpc: a3f61290b6eb9a18dec4e2e6e6e97f0bc46d7a07
+  RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902

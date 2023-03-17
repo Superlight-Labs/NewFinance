@@ -4,10 +4,10 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "./apps/*",
-      "./packages/*",
-      "./packages/react-native/*",
-      "./packages/config/*"
+      "apps/*",
+      "packages/*",
+      "packages/react-native/*",
+      "packages/config/*"
     ]
   },
   "scripts": {
