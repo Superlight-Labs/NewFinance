@@ -1,5 +1,5 @@
 {
-  "extends": ["@superlight/eslint-config"],
+  "extends": ["@superlight/eslint"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2021,

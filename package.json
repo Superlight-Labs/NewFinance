@@ -2,6 +2,7 @@
   "name": "Superlight",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@7.29.3",
   "workspaces": {
     "packages": [
       "./apps/*",
@@ -14,18 +15,15 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "dev": "dotenv -- turbo dev --parallel",
-    "reset": "rm -f yarn.lock && git clean -xdf && yarn prep",
-    "prep": "yarn install && husky install",
-    "postinstall": "yarn workspace @superlight/mobile run postinstall"
+    "reset": "rm -f pnpm-lock.yaml && git clean -xdf && pnpm prep",
+    "prep": "pnpm install && husky install",
+    "postinstall": "pnpm --filter @superlight/mobile postinstall"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",
   "repository": "https://github.com/lauhon/superlight-app.git",
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
-  "engines": {
-    "node": ">=18.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
@@ -37,6 +35,5 @@
     "lint-staged": "^13.1.2",
     "prettier": "^2.4.1",
     "turbo": "^1.8.3"
-  },
-  "packageManager": "yarn@1.22.19"
+  }
 }

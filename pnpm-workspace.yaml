@@ -1,0 +1,6 @@
+packages:
+  - apps/mobile
+  - apps/api
+  - packages/database
+  - packages/react-native-blockchain-crypto-mpc
+  - packages/config/*
