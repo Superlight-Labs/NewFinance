@@ -10,7 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationOptions,
-  TransitionPresets
+  TransitionPresets,
 } from '@react-navigation/stack';
 import React from 'react';
 import 'react-native-gesture-handler';
@@ -32,13 +32,14 @@ const screenOptions: StackNavigationOptions = {
 const Tab = createMaterialTopTabNavigator<WalletScreenList>();
 
 function App(): JSX.Element {
-  const {isAuthenticated} = useAuthState()
+  const { isAuthenticated } = useAuthState();
 
-
-  const defaultScreen = isAuthenticated ? "Home" : "Welcome"
+  const defaultScreen = isAuthenticated ? 'Home' : 'Welcome';
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={defaultScreen} screenOptions={screenOptions}>
+      <Stack.Navigator
+        initialRouteName={defaultScreen}
+        screenOptions={screenOptions}>
         <Stack.Group screenOptions={{ headerShown: false }}>
           {/* Weird workaround to "fix" react navigation type issues */}
           <Stack.Screen name={'Home' as 'Wallet'} component={Home} />

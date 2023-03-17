@@ -1,14 +1,13 @@
-import { generateKeyPair, sign } from "@superlight/rn-secure-encryption-module";
-import * as LocalAuthentication from "expo-local-authentication";
-import { constants } from "util/constants";
-
+import { generateKeyPair, sign } from '@superlight/rn-secure-encryption-module';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { constants } from 'util/constants';
 
 // TODO: use neverthrow for failable stuff
 
 export const createDeviceKey = async (): Promise<string> => {
   const result = await LocalAuthentication.authenticateAsync({
-    promptMessage: "Authenticate in WalletPOC",
-    cancelLabel: "cancel",
+    promptMessage: 'Authenticate in WalletPOC',
+    cancelLabel: 'cancel',
   });
 
   if (!result.success) {
@@ -21,8 +20,8 @@ export const createDeviceKey = async (): Promise<string> => {
 
 export const signWithDeviceKey = async (message: string): Promise<string> => {
   const result = await LocalAuthentication.authenticateAsync({
-    promptMessage: "Authenticate to verify your Device WalletPOC",
-    cancelLabel: "cancel",
+    promptMessage: 'Authenticate to verify your Device WalletPOC',
+    cancelLabel: 'cancel',
   });
 
   if (!result.success) {
