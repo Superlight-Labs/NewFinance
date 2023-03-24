@@ -20,7 +20,7 @@ export interface CreateUserResponse {
 export interface VerifyUserRequest {
   userId: string;
   message: string;
-  deviceSignature: string;
+  signature: string;
   devicePublicKey: string;
 }
 

@@ -4,7 +4,7 @@ import { getSafeResultAsync } from '@lib/utils/neverthrow';
 import crypto from 'crypto';
 import { okAsync, ResultAsync } from 'neverthrow';
 import { MpcKeyShare } from 'src/repository/key-share';
-import { readUser, readUserKeyShareByPath, saveUser } from 'src/repository/user.repository';
+import { createUser, readUser, readUserKeyShareByPath } from 'src/repository/user.repository';
 import {
   CreateUserRequest,
   CreateUserResponse,
@@ -14,11 +14,11 @@ import {
 } from '../../repository/user';
 import { updateKeyShare } from './key-share.service';
 
-export const createUser = (
+export const createNewUser = (
   request: CreateUserRequest,
   nonce: string
 ): ResultAsync<CreateUserResponse, RouteError> => {
-  return ResultAsync.fromPromise(saveUser(request), e =>
+  return ResultAsync.fromPromise(createUser(request), e =>
     other('Err while creating user', e as Error)
   ).map(user => {
     return {
@@ -32,7 +32,7 @@ export const verifyUser = (
   request: VerifyUserRequest,
   message: string
 ): ResultAsync<boolean, RouteError> => {
-  const { deviceSignature } = request;
+  const { signature } = request;
 
   const readUserResult = getSafeResultAsync(readUser(request), e =>
     other('Error while reading User from DB', e)
@@ -46,7 +46,7 @@ export const verifyUser = (
         format: 'pem',
         type: 'pkcs1',
       },
-      Buffer.from(deviceSignature, 'base64')
+      Buffer.from(signature, 'base64')
     );
     return okAsync(result);
   });

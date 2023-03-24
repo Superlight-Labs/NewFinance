@@ -1,5 +1,4 @@
 module.exports = {
-  ...require("@superlight/prettier-config"),
-  plugins: [require("prettier-plugin-tailwindcss")],
-  printWidth: 80,
+  ...require('@superlight/prettier-config'),
+  plugins: [require('prettier-plugin-tailwindcss')],
 };

@@ -14,16 +14,13 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "state/*": ["src/state/*"],
+      "hooks/*": ["src/hooks/*"],
       "components/*": ["src/components/*"],
       "screens/*": ["src/screens/*"],
       "util/*": ["src/util/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js"
-  ]
+  "include": ["src/**/*", "ReactotronConfig.ts"],
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }

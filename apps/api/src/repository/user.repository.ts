@@ -3,7 +3,7 @@ import { client } from '@superlight/database';
 import { MpcKeyShare } from './key-share';
 import { CreateUserRequest, User } from './user';
 
-export const saveUser = async (request: CreateUserRequest): Promise<User> => {
+export const createUser = async (request: CreateUserRequest): Promise<User> => {
   const user = await client.user.create({
     data: { ...request },
     include: { keyShares: true },

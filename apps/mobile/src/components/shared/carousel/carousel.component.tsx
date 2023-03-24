@@ -1,11 +1,6 @@
 import React, { ReactNode, useRef } from 'react';
 import { Animated, useWindowDimensions } from 'react-native';
-import {
-  AnimatedView,
-  SafeAreaView,
-  ScrollView,
-  View,
-} from 'util/wrappers/styled-react-native';
+import { AnimatedView, SafeAreaView, ScrollView, View } from 'util/wrappers/styled-react-native';
 
 type Props = {
   children: ReactNode[];

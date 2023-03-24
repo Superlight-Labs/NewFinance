@@ -7,8 +7,12 @@
     "build": "yarn copy-mpc && tsc -p tsconfig.json && tsc-alias",
     "start": "node ./dist/index.js",
     "lint": "eslint \"./src/**/*.ts\"",
-    "dev": "ts-node-dev --respawn -r tsconfig-paths/register --transpile-only ./index.ts | pino-pretty",
+    "dev": "ts-node-dev --respawn -r tsconfig-paths/register --watch --exit-child --transpile-only ./index.ts | pino-pretty",
     "copy-mpc": "mkdir -p dist/crypto-mpc-js/deps/ && cp -a src/crypto-mpc-js/deps/. dist/crypto-mpc-js/deps/"
+  },
+  "volta": {
+    "node": "16.16.0",
+    "yarn": "1.22.19"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +29,7 @@
     "ethers": "^5.7.0",
     "fastify": "^4.0.3",
     "ffi-napi": "^4.0.3",
-    "neverthrow": "^4.3.1",
+    "neverthrow": "^6.0.0",
     "openpgp": "^5.5.0",
     "pino": "^7.11.0",
     "ref-napi": "^3.0.3",

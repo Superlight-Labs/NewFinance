@@ -33,7 +33,6 @@ export const nonceRoute = <T>(handler: NonceRouteHandler<T>) => {
 
     logger.info({ cookies: req.cookies }, 'where are my cookies');
 
-    // Crypto.randomBytes(16)  encoded as base64 string results in 24 characters
     if (!isNonceValid(nonce)) {
       wrapHandler(invalidAuthRequest, res);
       return;

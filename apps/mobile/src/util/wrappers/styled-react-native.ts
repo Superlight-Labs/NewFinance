@@ -17,12 +17,4 @@ const SafeAreaView = styled(RNSafeAreaView);
 const View = styled(RNView);
 const AnimatedView = styled(Animated.View);
 
-export {
-  SafeAreaView,
-  View,
-  Pressable,
-  Button,
-  Text,
-  ScrollView,
-  AnimatedView,
-};
+export { SafeAreaView, View, Pressable, Button, Text, ScrollView, AnimatedView };

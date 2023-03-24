@@ -9,9 +9,7 @@ type Props = {
 };
 
 const Button = ({ onPress, children, style }: Props) => (
-  <Pressable
-    onPress={onPress}
-    className={`${style} rounded-full bg-slate-800 p-4`}>
+  <Pressable onPress={onPress} className={`${style} rounded-full bg-slate-800 p-4`}>
     <Text className="text-white">{children}</Text>
   </Pressable>
 );
