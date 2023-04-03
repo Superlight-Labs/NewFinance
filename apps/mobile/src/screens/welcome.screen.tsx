@@ -7,9 +7,9 @@ import { useFailableAction } from 'hooks/useFailable';
 import { styled } from 'nativewind';
 import { useCallback } from 'react';
 import { View } from 'react-native';
+import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { constants } from 'util/constants';
-import { RootStackParamList } from 'util/navigation/main-navigation';
 
 const StyledView = styled(View);
 
@@ -23,7 +23,7 @@ const Welcome = ({ navigation }: Props) => {
   const getStarted = useCallback(async () => {
     const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
 
-    perform(createProfile(newDevicePublicKey)).andThen(user => {
+    perform(createProfile(newDevicePublicKey)).onSuccess(user => {
       authenticate(user);
       navigation.navigate('Home');
     });

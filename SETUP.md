@@ -15,6 +15,13 @@
 7. Copy `.env.example` and rename to `.env`
 8. Start development with `yarn dev`
 
+## Mobile Debugging
+
+The Debugging experience in React native per default is not optimal. For example the network tab does not show the actual requests
+that are happening. To fix that we have setup [Reactotron](https://github.com/infinitered/reactotron)
+
+Follow the instructions there to get a full Debugging experience
+
 ## Clean Up
 
 Sometimes its necessary to wipe the local setup to get rid of unwanted cache behaviour, or just after switching a branch.

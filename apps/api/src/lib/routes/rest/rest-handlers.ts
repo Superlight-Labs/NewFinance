@@ -31,8 +31,6 @@ export const nonceRoute = <T>(handler: NonceRouteHandler<T>) => {
 
     const nonce = req.unsignCookie(signedNonce || '').value || '';
 
-    logger.info({ cookies: req.cookies }, 'where are my cookies');
-
     if (!isNonceValid(nonce)) {
       wrapHandler(invalidAuthRequest, res);
       return;

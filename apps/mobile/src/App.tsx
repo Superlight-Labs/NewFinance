@@ -5,71 +5,62 @@
  * @format
  */
 
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-  TransitionPresets,
-} from '@react-navigation/stack';
+import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import React from 'react';
 import 'react-native-gesture-handler';
-import Home from 'screens/home/home.screen';
-import Overview from 'screens/wallets/tabs/overview.screen';
-import Receive from 'screens/wallets/tabs/receive.screen';
-import Send from 'screens/wallets/tabs/send.screen';
-import Welcome from 'screens/welcome/welcome.screen';
-import { RootStackParamList } from 'util/navigation/main-navigation';
-import { WalletScreenList } from 'util/navigation/wallet-navigation';
+import reactotron from 'reactotron-react-native';
+import Home from 'screens/home.screen';
+import { RootStackParamList } from 'screens/main-navigation';
+import OnboardingStack from 'screens/onboarding/onboarding.stack';
+import WalletsStack from 'screens/wallets/wallets.stack';
+import Welcome from 'screens/welcome.screen';
+import { useBip32State } from 'state/bip32.state';
 import { useAuthState } from './state/auth.state';
 import { useSnackbarState } from './state/snackbar.state';
 
 if (__DEV__) {
+  const nativeLog = console.log;
+  const log = (...args: any) => {
+    nativeLog(...args);
+    reactotron.display({
+      name: `console.log`,
+      value: args,
+      preview: args.length > 1 ? JSON.stringify(args) : args[0],
+    });
+  };
+
+  console.log = log;
   import('./../ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
-
-const screenOptions: StackNavigationOptions = {
-  headerLeft: () => null,
-};
-
-const Tab = createMaterialTopTabNavigator<WalletScreenList>();
+export type RootStack = typeof Stack;
 
 function App(): JSX.Element {
   const { isAuthenticated } = useAuthState();
   const { message } = useSnackbarState();
+  const { hasBip32State } = useBip32State();
 
-  const defaultScreen = isAuthenticated ? 'Home' : 'Welcome';
+  const screenOptions: StackNavigationOptions = {
+    headerLeft: () => null,
+  };
 
-  console.log(defaultScreen, isAuthenticated);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Group screenOptions={{ headerShown: false }}>
           {isAuthenticated ? (
             <>
-              <Stack.Screen name={'Home' as 'Wallet'} component={Home} />
-              <Stack.Group
-                screenOptions={{
-                  presentation: 'modal',
-                  gestureEnabled: true,
-                  ...TransitionPresets.ModalPresentationIOS,
-                }}>
-                <Stack.Screen name="Wallet">
-                  {() => (
-                    <Tab.Navigator
-                      tabBarPosition="bottom"
-                      screenOptions={screenOptions}
-                      initialRouteName="Overview">
-                      <Tab.Screen name="Recieve" component={Receive} />
-                      <Tab.Screen name="Overview" component={Overview} />
-                      <Tab.Screen name="Send" component={Send} />
-                    </Tab.Navigator>
-                  )}
-                </Stack.Screen>
-              </Stack.Group>
+              {hasBip32State ? (
+                <>
+                  <Stack.Screen name="Home" component={Home} />
+                  {WalletsStack({ Stack })}
+                </>
+              ) : (
+                OnboardingStack({ Stack })
+              )}
             </>
           ) : (
             <Stack.Screen name="Welcome" component={Welcome} />

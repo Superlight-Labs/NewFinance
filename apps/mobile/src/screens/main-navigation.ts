@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Welcome: undefined;
   Home: undefined;
-  Wallet: undefined;
+  Wallets: undefined;
+  Onboarding: undefined;
 };
