@@ -17,8 +17,7 @@
     "lint": "turbo lint",
     "dev": "dotenv -- turbo dev --parallel --no-cache",
     "reset": "rm -f yarn.lock && git clean -xdf && yarn prep",
-    "prep": "yarn install && husky install",
-    "db:generate": "dotenv -- yarn workspace @superlight/database run db:generate",
+    "prep": "yarn install && husky install && yarn db:push",
     "db:push": "dotenv -- yarn workspace @superlight/database run db:push db:generate",
     "postinstall": "yarn workspace @superlight/mobile run postinstall"
   },
