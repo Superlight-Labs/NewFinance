@@ -11,19 +11,22 @@ type Props = {
 
 const SubStack = createStackNavigator<OnboardingParamList>();
 const screenOptions: StackNavigationOptions = {
-  headerLeft: () => null,
+  headerShown: true,
 };
 const OnboardingStack = ({ Stack }: Props) => {
   return (
     <Stack.Group
       screenOptions={{
         gestureEnabled: true,
-        headerLeft: () => null,
       }}>
       <Stack.Screen name="Onboarding">
         {() => (
           <SubStack.Navigator initialRouteName="OnboardingOverview" screenOptions={screenOptions}>
-            <SubStack.Screen name="OnboardingOverview" component={Onboarding} />
+            <SubStack.Screen
+              options={{ headerShown: false }}
+              name="OnboardingOverview"
+              component={Onboarding}
+            />
             <SubStack.Screen name="Import" component={ImportWallet} />
             <SubStack.Screen name="Create" component={CreateWallet} />
           </SubStack.Navigator>

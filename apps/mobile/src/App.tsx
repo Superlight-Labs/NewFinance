@@ -13,6 +13,7 @@ import 'react-native-gesture-handler';
 import reactotron from 'reactotron-react-native';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
+import MenuStack from 'screens/menu/menu.stack';
 import OnboardingStack from 'screens/onboarding/onboarding.stack';
 import WalletsStack from 'screens/wallets/wallets.stack';
 import Welcome from 'screens/welcome.screen';
@@ -56,6 +57,7 @@ function App(): JSX.Element {
               {hasBip32State ? (
                 <>
                   <Stack.Screen name="Home" component={Home} />
+                  {MenuStack({ Stack })}
                   {WalletsStack({ Stack })}
                 </>
               ) : (
