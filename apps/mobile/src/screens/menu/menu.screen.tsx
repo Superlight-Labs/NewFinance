@@ -13,7 +13,7 @@ const Menu = ({ navigation }: Props) => {
     <ScrollView className="flex h-full w-full flex-col ">
       {menuItems.map(item => (
         <Pressable
-          className="mb-4 flex w-full flex-row items-center justify-start border-y-2 border-gray-200 p-4"
+          className="flex w-full flex-row items-center justify-start border-b-2 border-gray-300 p-4"
           key={item.name}
           onPress={() => {
             item.type === 'link' ? navigation.navigate(item.screen) : item.onPress();

@@ -6,7 +6,7 @@
  */
 
 import { NavigationContainer } from '@react-navigation/native';
-import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import React from 'react';
 import 'react-native-gesture-handler';
@@ -44,28 +44,25 @@ function App(): JSX.Element {
   const { message } = useSnackbarState();
   const { hasBip32State } = useBip32State();
 
-  const screenOptions: StackNavigationOptions = {
-    headerLeft: () => null,
-  };
-
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={screenOptions}>
-        <Stack.Group screenOptions={{ headerShown: false }}>
+      <Stack.Navigator>
+        <Stack.Group>
           {isAuthenticated ? (
             <>
               {hasBip32State ? (
                 <>
-                  <Stack.Screen name="Home" component={Home} />
-                  {MenuStack({ Stack })}
+                  <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                   {WalletsStack({ Stack })}
                 </>
               ) : (
                 OnboardingStack({ Stack })
               )}
+
+              {MenuStack({ Stack })}
             </>
           ) : (
-            <Stack.Screen name="Welcome" component={Welcome} />
+            <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
           )}
         </Stack.Group>
       </Stack.Navigator>

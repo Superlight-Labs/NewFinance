@@ -2,6 +2,7 @@ import { StackNavigationOptions, createStackNavigator } from '@react-navigation/
 import { RootStack } from 'src/App';
 import { MenuStackParamList } from './menu-navigation';
 import Menu from './menu.screen';
+import BitcoinSettings from './pages/bitcoin-settings.screen';
 
 type Props = {
   Stack: RootStack;
@@ -9,17 +10,15 @@ type Props = {
 
 const SubStack = createStackNavigator<MenuStackParamList>();
 
-const screenOptions: StackNavigationOptions = {};
+const screenOptions: StackNavigationOptions = { headerShown: false };
 const MenuStack = ({ Stack }: Props) => {
   return (
-    <Stack.Group
-      screenOptions={{
-        gestureEnabled: true,
-      }}>
+    <Stack.Group>
       <Stack.Screen name="Menu">
         {() => (
           <SubStack.Navigator initialRouteName="MenuList" screenOptions={screenOptions}>
             <SubStack.Screen name="MenuList" component={Menu} />
+            <SubStack.Screen name="BitcoinSettings" component={BitcoinSettings} />
           </SubStack.Navigator>
         )}
       </Stack.Screen>

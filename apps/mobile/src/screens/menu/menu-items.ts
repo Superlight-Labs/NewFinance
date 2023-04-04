@@ -20,7 +20,10 @@ type LinkItem = {
 export const useMenuItems = () => {
   const { logout } = useAuthState();
 
-  const items: MenuItem[] = [{ name: 'Logout', type: 'action', icon: 'LogOut', onPress: logout }];
+  const items: MenuItem[] = [
+    { name: 'Logout', type: 'action', icon: 'LogOut', onPress: logout },
+    { name: 'Bitcoin Settings', type: 'link', icon: 'ChevronRight', screen: 'BitcoinSettings' },
+  ];
 
   return items;
 };

@@ -23,4 +23,10 @@ const MonoIcon = ({ iconName, style, color = 'black' }: Props) => {
 
 export default MonoIcon;
 
-export type FeatherIconName = 'ArrowUpCircle' | 'Send' | 'LogOut' | 'Settings' | 'ChevronLeft';
+export type FeatherIconName =
+  | 'ArrowUpCircle'
+  | 'Send'
+  | 'LogOut'
+  | 'Settings'
+  | 'ChevronLeft'
+  | 'ChevronRight';
