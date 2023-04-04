@@ -33,6 +33,7 @@ if (__DEV__) {
   };
 
   console.log = log;
+  console.error = log;
   import('./../ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }
 
@@ -46,13 +47,13 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Group>
           {isAuthenticated ? (
             <>
               {hasBip32State ? (
                 <>
-                  <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+                  <Stack.Screen name="Home" component={Home} />
                   {WalletsStack({ Stack })}
                 </>
               ) : (
@@ -62,7 +63,7 @@ function App(): JSX.Element {
               {MenuStack({ Stack })}
             </>
           ) : (
-            <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
+            <Stack.Screen name="Welcome" component={Welcome} />
           )}
         </Stack.Group>
       </Stack.Navigator>

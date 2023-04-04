@@ -29,4 +29,5 @@ export type FeatherIconName =
   | 'LogOut'
   | 'Settings'
   | 'ChevronLeft'
-  | 'ChevronRight';
+  | 'ChevronRight'
+  | 'ArrowLeft';

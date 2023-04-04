@@ -1,20 +1,15 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
-import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { RootStackParamList } from 'screens/main-navigation';
-import { Pressable, Text, View } from 'util/wrappers/styled-react-native';
+import { Text } from 'util/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const Onboarding = ({ navigation }: Props) => {
   return (
-    <View className="flex h-full w-full flex-col p-8 pt-24">
-      <Pressable
-        className="ml-auto flex w-12 items-center justify-center"
-        onPress={() => navigation.navigate('Menu')}>
-        <MonoIcon iconName="Settings" />
-      </Pressable>
+    <Layout rootScreen settingsNavigate={() => navigation.navigate('Menu')}>
       <Title>Onboarding</Title>
 
       <Text>Hello, welcome to Superlight. Next step is to create your wallet.</Text>
@@ -35,7 +30,7 @@ const Onboarding = ({ navigation }: Props) => {
         }}>
         Import Existing Wallet
       </Button>
-    </View>
+    </Layout>
   );
 };
 
