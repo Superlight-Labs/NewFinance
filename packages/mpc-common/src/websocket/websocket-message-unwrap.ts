@@ -1,11 +1,7 @@
 import { ResultAsync } from 'neverthrow';
 import { WebSocket } from 'ws';
-import { WebsocketError, mapWebsocketToApiError } from '../../error';
-import {
-  MPCWebsocketMessage,
-  MPCWebsocketResult,
-  MpcWebsocketHandlerWrapper,
-} from './websocket-types';
+import { WebsocketError, mapWebsocketToApiError } from '../error';
+import { MPCWebsocketMessage, MPCWebsocketResult, MpcWebsocketHandlerWrapper } from './types';
 
 export const createMPCWebsocketHandlerWrapper =
   (logger: Logger): MpcWebsocketHandlerWrapper =>

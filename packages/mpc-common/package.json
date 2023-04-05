@@ -4,7 +4,8 @@
   "description": "Common types and utils used for MPC Communication between API and client",
   "main": "index.ts",
   "files": [
-    "./index.ts"
+    "./index.ts",
+    "./src"
   ],
   "scripts": {
     "build": "tsc --noEmit",

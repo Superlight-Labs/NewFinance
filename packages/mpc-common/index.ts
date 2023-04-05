@@ -1,16 +1,18 @@
-import { createMPCWebsocketHandlerWrapper } from './src/lib/websocket/websocket-message-unwrap';
+import { createMPCWebsocketHandlerWrapper } from './src/websocket/websocket-message-unwrap';
 export {
   databaseError,
   mapWebsocketToApiError as mapWebsocketError,
+  mapWebsocketToAppError,
   mpcInternalError,
   stepMessageError,
 } from './src/error';
 export type { WebsocketError } from './src/error';
 export type {
+  MPCWebsocketHandler,
   MPCWebsocketMessage,
   MPCWebsocketResult,
   MpcWebsocketHandlerWrapper,
   WebSocketOutput,
   WebSocketStatus,
-} from './src/lib/websocket/websocket-types';
+} from './src/websocket/types';
 export { createMPCWebsocketHandlerWrapper };
