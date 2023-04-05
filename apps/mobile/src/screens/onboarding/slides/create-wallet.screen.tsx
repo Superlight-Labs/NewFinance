@@ -1,20 +1,41 @@
 import { StackScreenProps } from '@react-navigation/stack';
+import { useGenerateGenericSecret } from '@superlight/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
+import { useFailableAction } from 'hooks/useFailable';
 import { useState } from 'react';
 import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
+import { useAuthState } from 'state/auth.state';
+import { signWithDeviceKey } from 'util/auth';
+import { apiUrl } from 'util/superlight-api';
 import { Text, TextInput } from 'util/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {
+  const { user } = useAuthState();
   const [showSeed, setShowSeed] = useState(false);
   const [walletName, setWalletName] = useState('');
+  const { perform } = useFailableAction();
+  const { generateGenericSecret } = useGenerateGenericSecret();
 
   const startGenerateWallet = () => {
-    navigation.navigate('ReviewCreate', { showSeed, walletName });
+    if (user == undefined) {
+      navigation.navigate('Welcome');
+      return;
+    }
+
+    perform(
+      generateGenericSecret(
+        apiUrl,
+        signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey })
+      )
+    ).onSuccess(share => {
+      console.log('This is the share', share);
+      navigation.navigate('ReviewCreate', { showSeed, walletName });
+    });
   };
 
   return (

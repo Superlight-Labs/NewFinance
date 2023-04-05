@@ -25,7 +25,7 @@ export type ApiConfig = { baseUrl: string; socketEndpoint: string };
 export type SignResult = {
   userId: string;
   devicePublicKey: string;
-  deviceSignature: string;
+  signature: string;
 };
 
 export type MPCWebsocketHandler<T> = (

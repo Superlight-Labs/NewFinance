@@ -1,8 +1,9 @@
 import { CreateUserResponse } from '@superlight/api/src/repository/user';
+import { SignResult } from '@superlight/mpc-common/src/websocket/types';
 import { ResultAsync } from 'neverthrow';
 import { AppUser } from 'state/auth.state';
 import { AppError } from 'state/snackbar.state';
-import { signWithDeviceKey } from 'util/auth';
+import { SignUser, signWithDeviceKey } from 'util/auth';
 import { backend } from 'util/superlight-api';
 import { appError } from './../util/error/error';
 
@@ -15,9 +16,7 @@ export const useCreateAuth =
       .map(userId => ({ id: userId, devicePublicKey }));
   };
 
-const createUser = (
-  devicePublicKey: string
-): ResultAsync<CreateUserResponse & { devicePublicKey: string }, AppError> =>
+const createUser = (devicePublicKey: string): ResultAsync<SignUser & { nonce: string }, AppError> =>
   ResultAsync.fromPromise(
     backend.post<CreateUserResponse>('/user/create', {
       devicePublicKey,
@@ -25,31 +24,15 @@ const createUser = (
     error => appError(error, 'Error while creating user')
   ).map(axiosResponse => ({ ...axiosResponse.data, devicePublicKey }));
 
-const createSignature = ({
-  nonce,
-  userId,
-  devicePublicKey,
-}: CreateUserResponse & { devicePublicKey: string }): ResultAsync<SignatureResult, AppError> => {
-  return ResultAsync.fromPromise(signWithDeviceKey(nonce), error =>
-    appError(error, 'Error while signing nonce with device key')
-  ).map(signature => ({
-    signature,
-    userId,
-    devicePublicKey,
-  }));
-};
-
-type SignatureResult = {
-  signature: string;
-  userId: string;
-  devicePublicKey: string;
+const createSignature = (user: SignUser & { nonce: string }): ResultAsync<SignResult, AppError> => {
+  return signWithDeviceKey(user)(user.nonce);
 };
 
 const verifyUser = ({
   signature,
   userId,
   devicePublicKey,
-}: SignatureResult): ResultAsync<string, AppError> => {
+}: SignResult): ResultAsync<string, AppError> => {
   return ResultAsync.fromPromise(
     backend.post(
       '/user/verify',
