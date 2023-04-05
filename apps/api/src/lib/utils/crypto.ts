@@ -30,6 +30,7 @@ export type DeriveConfig = {
 };
 
 import { Context } from '@crypto-mpc';
+import logger from '@lib/logger';
 
 type StepResult =
   | { type: 'error'; error?: unknown }
@@ -42,6 +43,8 @@ type StepResult =
     };
 
 export const step = (message: string, context: Context): StepResult => {
+  logger.debug({ message: message }, 'Received message from client and stepping in context');
+
   const inBuff = Buffer.from(message, 'base64');
 
   try {

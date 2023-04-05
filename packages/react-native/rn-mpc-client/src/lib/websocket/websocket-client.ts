@@ -18,8 +18,14 @@ import { Observable, Subject } from 'rxjs';
 
 export type RawData = string | ArrayBufferLike | Blob | ArrayBufferView;
 
+const myCons = console;
+
+myCons.debug = console.log;
+myCons.error = console.log;
+myCons.info = console.log;
+
 const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
-  createMPCWebsocketHandlerWrapper(console);
+  createMPCWebsocketHandlerWrapper(myCons);
 
 export type Signer = (nonce: string) => ResultAsync<SignResult, AppError>;
 

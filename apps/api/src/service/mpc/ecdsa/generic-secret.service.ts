@@ -71,7 +71,10 @@ export const importGenericSecret = (
 };
 
 const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  const stepOutput = step(message.toString(), context);
+  // TODO: parse this message and check if it's a valid message
+  const msg = JSON.parse(message.toString());
+
+  const stepOutput = step(msg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
@@ -87,7 +90,7 @@ const onMessage = (message: RawData, context: Context, output: WebSocketOutput, 
   }
 
   if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError(stepOutput.error)));
+    output.next(errAsync(mpcInternalError(stepOutput.error, 'Error while stepping in context')));
     context.free();
     return;
   }

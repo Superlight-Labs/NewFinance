@@ -18,7 +18,7 @@ export interface AppError {
 }
 
 export type WebsocketError =
-  | { type: ErrorTypes.MpcInternalError; error?: unknown }
+  | { type: ErrorTypes.MpcInternalError; context?: string; error?: unknown }
   | { type: ErrorTypes.StepMessageError; context?: string }
   | { type: ErrorTypes.WebsocketError; context?: string; error?: unknown }
   | { type: ErrorTypes.DatabaseError; context?: string; error?: unknown }
@@ -105,8 +105,9 @@ export const mapWebsocketToAppError = (err: unknown): AppError => {
   };
 };
 
-export const mpcInternalError = (error?: unknown): WebsocketError => ({
+export const mpcInternalError = (error?: unknown, context?: string): WebsocketError => ({
   type: ErrorTypes.MpcInternalError,
+  context,
   error,
 });
 

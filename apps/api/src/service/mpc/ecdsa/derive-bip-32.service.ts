@@ -122,7 +122,9 @@ const deriveHardenedStep = async (
 
   logger.info({ input: stepInput.slice(0, 23), contextPtr: context.contextPtr }, 'DERIVE STEP');
 
-  const stepOutput = step(stepInput, context);
+  const msg = JSON.parse(message.toString());
+
+  const stepOutput = step(msg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

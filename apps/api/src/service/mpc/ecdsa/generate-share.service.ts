@@ -40,7 +40,9 @@ export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPC
 };
 
 const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  const stepOutput = step(message.toString(), context);
+  const msg = JSON.parse(message.toString());
+
+  const stepOutput = step(msg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

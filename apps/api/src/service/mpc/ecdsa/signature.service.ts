@@ -58,7 +58,9 @@ export const signStep = (context: Context, message: RawData, output: WebSocketOu
   const stepInput = message.toString();
   logger.info({ input: stepInput.slice(0, 23), contextPtr: context.contextPtr }, 'SIGN STEP');
 
-  const stepOutput = step(message.toString(), context);
+  const msg = JSON.parse(message.toString());
+
+  const stepOutput = step(msg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

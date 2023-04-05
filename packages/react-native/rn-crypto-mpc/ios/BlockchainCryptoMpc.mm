@@ -171,6 +171,7 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
         
          resolve(@{
             @"type": @("success"),
+            @"message": outString,
             @"share": shareString,
             @"context": contextString,
         });
