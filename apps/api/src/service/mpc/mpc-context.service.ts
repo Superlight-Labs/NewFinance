@@ -1,6 +1,6 @@
 import { Context } from '@crypto-mpc';
-import { mpcInternalError, WebsocketError } from '@lib/routes/websocket/websocket-error';
-import { fromThrowable, Result } from 'neverthrow';
+import { WebsocketError, mpcInternalError } from '@superlight/mpc-common';
+import { Result, fromThrowable } from 'neverthrow';
 import { RawData } from 'ws';
 
 export const createEcdsaSignContext = (

@@ -22,6 +22,7 @@
     "@fastify/under-pressure": "^7.0.0",
     "@fastify/websocket": "^6.0.1",
     "@superlight/database": "*",
+    "@superlight/mpc-common": "*",
     "@types/node": "^18.7.15",
     "@types/ref-napi": "^3.0.4",
     "ajv": "^6.12.6",

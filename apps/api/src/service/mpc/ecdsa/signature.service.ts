@@ -1,13 +1,14 @@
 import { Context } from '@crypto-mpc';
 import logger from '@lib/logger';
-import { mpcInternalError, WebsocketError } from '@lib/routes/websocket/websocket-error';
+import { step } from '@lib/utils/crypto';
 import {
   MPCWebsocketMessage,
   MPCWebsocketResult,
   WebSocketOutput,
-} from '@lib/routes/websocket/websocket-types';
-import { step } from '@lib/utils/crypto';
-import { errAsync, okAsync, ResultAsync } from 'neverthrow';
+  WebsocketError,
+  mpcInternalError,
+} from '@superlight/mpc-common';
+import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { User } from 'src/repository/user';
 import { createEcdsaSignContext } from 'src/service/mpc/mpc-context.service';
