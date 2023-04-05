@@ -2,8 +2,9 @@ const scopes = [
   "app",
   "api",
   "workspace",
-  "rn-mpc",
   "mpc-common",
+  "rn-mpc",
+  "rn-encrypt",
   "rn-client",
   "ci",
 ];

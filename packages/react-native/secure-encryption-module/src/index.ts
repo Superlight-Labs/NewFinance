@@ -21,15 +21,18 @@ export function generateKeyPair(alias: String): Promise<string> {
   return SecureEncryptionModule.generateKeyPair(alias);
 }
 
-export function encrypt(clearText: String, keyName: String): Promise<any> {
+export function encrypt(clearText: String, keyName: String): Promise<string> {
   return SecureEncryptionModule.encrypt(clearText, keyName);
 }
 
-export function decrypt(encryptedText: String, keyName: String): Promise<any> {
+export function decrypt(
+  encryptedText: String,
+  keyName: String
+): Promise<string> {
   return SecureEncryptionModule.decrypt(encryptedText, keyName);
 }
 
-export function sign(message: String, keyName: String): Promise<any> {
+export function sign(message: String, keyName: String): Promise<string> {
   return SecureEncryptionModule.signMessage(message, keyName);
 }
 
