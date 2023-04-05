@@ -5,7 +5,6 @@
     "rootDir": "./src",
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "importsNotUsedAsValues": "error",
     "jsx": "react",
     "lib": ["esnext"],
     "module": "esnext",

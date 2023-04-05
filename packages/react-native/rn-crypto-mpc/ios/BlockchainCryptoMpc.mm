@@ -19,14 +19,22 @@ RCT_EXPORT_METHOD(initGenerateGenericSecret:(RCTPromiseResolveBlock)resolve
     int rv = 0;
     
     if ((rv = MPCCrypto_initGenerateGenericSecret(1, 256, &context))){
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     }
     
     if(rv == 0)
-        resolve(@true);
+        resolve(@{
+            @"type": "sucess",
+        });
+        
     else
-        resolve(@false);
-}
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
 
 
 
@@ -35,14 +43,20 @@ RCT_EXPORT_METHOD(initDeriveBIP32:(nonnull NSNumber*)index withHardened:(nonnull
 {
     int hardenedInt = [hardened intValue];
     int indexInt = [index intValue];
+    int rv = 0;
     
-    if (MPCCrypto_initDeriveBIP32(1, share, hardenedInt, indexInt, &context)){
-        resolve(@false);
-        return;
+    if ((rv = MPCCrypto_initDeriveBIP32(1, share, hardenedInt, indexInt, &context))){
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
+        return
     }
     
     
-    resolve(@true);
+    resolve(@{
+            @"type": "sucess",
+        });
 }
 
 
@@ -52,14 +66,22 @@ RCT_EXPORT_METHOD(initGenerateEcdsaKey:(RCTPromiseResolveBlock)resolve
     int rv = 0;
     
     if((rv = MPCCrypto_initGenerateEcdsaKey(1, &context))) {
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     }
     
     
     if(rv == 0)
-        resolve(@true);
+        resolve(@{
+            @"type": "sucess",
+        });
     else
-        resolve(@false);
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
 }
 
 RCT_EXPORT_METHOD(initSignEcdsa:(NSArray*)message withResolver:(RCTPromiseResolveBlock)resolve
@@ -70,11 +92,16 @@ RCT_EXPORT_METHOD(initSignEcdsa:(NSArray*)message withResolver:(RCTPromiseResolv
     react_array_to_char_array(message, size, messageChars);
     
     if(MPCCrypto_initEcdsaSign(1, share, (const uint8_t *)messageChars, (int)size, 1, &context)) {
-        resolve(@false);
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
         return;
     }
         
-    resolve(@true);
+    resolve(@{
+            @"type": "sucess",
+        });
 }
 
 RCT_EXPORT_METHOD(importGenericSecret:(NSArray*)secret
@@ -87,12 +114,17 @@ RCT_EXPORT_METHOD(importGenericSecret:(NSArray*)secret
     react_array_to_char_array(secret, size, secretChars);
     
     if (MPCCrypto_initImportGenericSecret(1, (const uint8_t *)secretChars, (int)size, &context)){
-        resolve(@false);
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
         return;
     }
     
     
-    resolve(@true);
+    resolve(@{
+            @"type": "sucess",
+        });
 }
 
 
@@ -112,20 +144,31 @@ RCT_EXPORT_METHOD(verifySignature:(nonnull NSArray*)message withSignature:(nonnu
     
     int pub_key_size = 0;
     if ((rv = MPCCrypto_getEcdsaPublic(share, nullptr, &pub_key_size)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     std::vector<uint8_t> pub_ec_key(pub_key_size);
     if ((rv = MPCCrypto_getEcdsaPublic(share, pub_ec_key.data(), &pub_key_size)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     if ((rv = MPCCrypto_verifyEcdsa(pub_ec_key.data(), (int)pub_ec_key.size(), (const uint8_t *)messageChars, (int)size, (const uint8_t *)signatureChars, (int)sig_size))){
-        resolve(@false);
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
         return;
     }
     
     pub_ec_key.clear();
     
-    resolve(@true);
+    resolve(@{
+            @"type": "sucess",
+        });
 }
 
 RCT_EXPORT_METHOD(step:(NSString*)messageIn
@@ -140,7 +183,11 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
         react_string_to_char_vector(messageIn, message_buf);
         
     if((rv = nativeStep(message_buf, finished))){
-        resolve(@(&"Failure " [ rv ]));
+         reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
+        
         return;
     }
     
@@ -162,9 +209,8 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
         share_to_buf(share, share_buf);
         char_vector_to_react_string(share_buf, &shareString);
         
-        resolve(@{
-            @"finished": @(finished),
-            @"message": outString,
+         resolve(@{
+            @"type": "success",
             @"share": shareString,
             @"context": contextString,
         });
@@ -181,7 +227,7 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
     message_buf.clear();
     
     resolve(@{
-        @"finished": @(finished),
+        @"type": "inProgress",
         @"message": outString
     });
 }
@@ -195,17 +241,26 @@ RCT_EXPORT_METHOD(getDerSignature:(RCTPromiseResolveBlock)resolve
 
     int sig_size = 0;
     if ((rv = MPCCrypto_getDerResultEcdsaSign(context, nullptr, &sig_size)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     std::vector<uint8_t> sig(sig_size);
     if ((rv = MPCCrypto_getDerResultEcdsaSign(context, sig.data(), &sig_size)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     
     NSString *signatureString;
     
     char_vector_to_react_string(sig, &signatureString);
     
-    resolve(signatureString);
+    resolve(@{
+            @"type": "sucess",
+            @"signature": signatureString,
+        });
     
     sig.clear();
 }
@@ -218,10 +273,16 @@ RCT_EXPORT_METHOD(getBinSignature:(RCTPromiseResolveBlock)resolve
     int recovery_code = 0;
     
     if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, nullptr, &sig_size, &recovery_code)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     std::vector<uint8_t> sig(sig_size);
     if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, sig.data(), &sig_size, &recovery_code)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     
     NSString *signatureString;
@@ -229,6 +290,7 @@ RCT_EXPORT_METHOD(getBinSignature:(RCTPromiseResolveBlock)resolve
     char_vector_to_react_string(sig, &signatureString);
     
     resolve(@{
+        @"type": "sucess",
         @"signature": signatureString,
         @"recoveryCode": @(recovery_code)
     });
@@ -252,13 +314,19 @@ RCT_EXPORT_METHOD(getResultDeriveBIP32:(RCTPromiseResolveBlock)resolve
     
     std::vector<uint8_t> share_buf;
     if ((rv = share_to_buf(share, share_buf)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     NSString * shareBufString;
     
     char_vector_to_react_string(share_buf, &shareBufString);
     
-    resolve(shareBufString);
+    resolve(@{
+        @"type": "sucess",
+        @"keyShare": shareBufString,
+    });
     
     share_buf.clear();
     
@@ -273,14 +341,20 @@ RCT_EXPORT_METHOD(getShare:(RCTPromiseResolveBlock)resolve
     
     std::vector<uint8_t> share_buf;
     if ((rv = share_to_buf(share, share_buf)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     NSString * shareBufString;
     
     char_vector_to_react_string(share_buf, &shareBufString);
     
-    resolve(shareBufString);
-    
+    resolve(@{
+        @"type": "sucess",
+        @"keyShare": shareBufString,
+    });    
+
     share_buf.clear();
 }
 
@@ -292,17 +366,26 @@ RCT_EXPORT_METHOD(getPublicKey:(RCTPromiseResolveBlock)resolve
     int pub_key_size = 0;
     
     if ((rv = MPCCrypto_getEcdsaPublic(share, nullptr, &pub_key_size)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     std::vector<uint8_t> pub_ec_key(pub_key_size);
     
     if ((rv = MPCCrypto_getEcdsaPublic(share, pub_ec_key.data(), &pub_key_size)))
-        resolve(@(&"Failure " [ rv ]));
+        reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     
     NSString * pubKey;
     
     char_vector_to_react_string(pub_ec_key, &pubKey);
     
-    resolve(pubKey);
+    resolve(@{
+        @"type": "sucess",
+        @"publicKey": pubKey,
+    });
     
     pub_ec_key.clear();
 }
@@ -318,10 +401,16 @@ RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
     bool isMain = (bool) [main intValue];
 
     if ((rv = MPCCrypto_serializePubBIP32(share, nullptr, &ser_size, isMain)))
-         resolve(@(&"Failure " [ rv ]));
+         reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
     char *s = new char[ser_size + 1];
     if ((rv = MPCCrypto_serializePubBIP32(share, s, &ser_size, isMain)))
-         resolve(@(&"Failure " [ rv ]));
+         reject(@{
+            @"type": "error",
+            @"error": @(rv),
+        });
 
     NSString * xPub;
 
@@ -329,7 +418,10 @@ RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
  
     delete[] s;
     
-    resolve(xPub);
+    resolve(@{
+        @"type": "sucess",
+        @"xPubKey": xPub,
+    });
 }
 
 RCT_EXPORT_METHOD(useShare:(nonnull NSString*)shareBuf
@@ -344,7 +436,9 @@ RCT_EXPORT_METHOD(useShare:(nonnull NSString*)shareBuf
     react_string_to_char_vector(shareBuf, share_buf);
     share_from_buf(share_buf, share);
     
-    resolve(@true);
+    resolve(@{
+        @"type": "sucess",
+    });
     
     share_buf.clear();
 }
@@ -361,7 +455,9 @@ RCT_EXPORT_METHOD(useContext:(nonnull NSString*)contextBuf
     react_string_to_char_vector(contextBuf, context_buf);
     context_from_buf(context_buf, context);
             
-    resolve(@true);
+    resolve(@{
+        @"type": "sucess",
+    });
     
     context_buf.clear();
 }
@@ -373,7 +469,9 @@ RCT_EXPORT_METHOD(reset:(RCTPromiseResolveBlock)resolve
 {
     reset();
     
-    resolve(@true);
+    resolve(@{
+        @"type": "sucess",
+    });
 }
 
 static void char_vector_to_react_string(std::vector<uint8_t> vector, NSString ** reactString){
