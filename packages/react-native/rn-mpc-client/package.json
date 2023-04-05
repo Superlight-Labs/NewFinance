@@ -1,0 +1,45 @@
+{
+  "name": "@superlight/rn-mpc-client",
+  "version": "1.0.0",
+  "description": "Wraps native Multi Party Utils and returns Typesafe Results via neverthrow",
+  "main": "index.ts",
+  "files": [
+    "./index.ts"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lauhon/Superlight.git"
+  },
+  "keywords": [
+    "neverthrow",
+    "fp",
+    "crypto",
+    "mpc"
+  ],
+  "author": "Laurenz Honauer",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/lauhon/Superlight/issues"
+  },
+  "homepage": "https://github.com/lauhon/Superlight#readme",
+  "peerDependencies": {
+    "@superlight/rn-crypto-mpc": "*",
+    "@superlight/mpc-common": "*",
+    "axios": "^1.3.4",
+    "neverthrow": "^6.0.0",
+    "rxjs": "^7.8.0",
+    "ws": "^8.0.0"
+  },
+  "devDependencies": {
+    "@superlight/eslint-config": "*",
+    "@superlight/prettier-config": "*",
+    "eslint": "8.19",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "typescript": "4.9.5"
+  }
+}
