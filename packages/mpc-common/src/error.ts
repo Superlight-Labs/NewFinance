@@ -3,6 +3,7 @@ enum ErrorTypes {
   MpcInternalError = 'MpcInternalError',
   DatabaseError = 'DatabaseError',
   ApiError = 'ApiError',
+  WebsocketError = 'WebsocketError',
 }
 
 interface HttpError {
@@ -19,6 +20,7 @@ export interface AppError {
 export type WebsocketError =
   | { type: ErrorTypes.MpcInternalError; error?: unknown }
   | { type: ErrorTypes.StepMessageError; context?: string }
+  | { type: ErrorTypes.WebsocketError; context?: string; error?: unknown }
   | { type: ErrorTypes.DatabaseError; context?: string; error?: unknown }
   | { type: ErrorTypes.ApiError; context?: string; error?: unknown };
 
@@ -36,6 +38,12 @@ export const mapWebsocketToApiError = (err: any): HttpError => {
         };
       }
       case 'StepMessageError': {
+        return {
+          statusCode: 1011,
+          errorMsg: err.context || 'Error while performing cryptographic operation',
+        };
+      }
+      case 'WebsocketError': {
         return {
           statusCode: 1011,
           errorMsg: err.context || 'Error while performing cryptographic operation',
@@ -73,11 +81,18 @@ export const mapWebsocketToAppError = (err: unknown): AppError => {
           error: err,
         };
       }
+      case 'WebsocketError': {
+        return {
+          level: 'error',
+          message: err.context || 'Error while performing action with Websocket',
+          error: err,
+        };
+      }
       case 'ApiError': {
         return {
           level: 'error',
           message: err.context || 'Error while communicating with API',
-          error: err,
+          error: err.error,
         };
       }
     }
@@ -102,12 +117,19 @@ export const databaseError = (error: unknown, context?: string): WebsocketError 
 });
 
 export const stepMessageError = (context?: string): WebsocketError => ({
-  type: ErrorTypes.DatabaseError,
+  type: ErrorTypes.StepMessageError,
   context,
 });
 
-export const apiError = (context?: string): WebsocketError => ({
-  type: ErrorTypes.DatabaseError,
+export const websocketError = (error: unknown, context?: string): WebsocketError => ({
+  type: ErrorTypes.WebsocketError,
+  error,
+  context,
+});
+
+export const apiError = (error: unknown, context?: string): WebsocketError => ({
+  type: ErrorTypes.ApiError,
+  error,
   context,
 });
 

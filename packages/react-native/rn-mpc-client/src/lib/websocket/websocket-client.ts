@@ -1,17 +1,22 @@
 import {
   MPCWebsocketHandler,
-  MPCWebsocketMessage,
   MpcWebsocketHandlerWrapper,
   WebsocketError,
   createMPCWebsocketHandlerWrapper,
   mapWebsocketToAppError,
 } from '@superlight/mpc-common';
-import { AppError, apiError } from '@superlight/mpc-common/src/error';
-import { ApiConfig, SignResult } from '@superlight/mpc-common/src/websocket/types';
+import { AppError, apiError, websocketError } from '@superlight/mpc-common/src/error';
+import {
+  ApiConfig,
+  MPCWebsocketMessage,
+  MPCWebsocketStarter,
+  SignResult,
+} from '@superlight/mpc-common/src/websocket/types';
 import axios from 'axios';
-import { ResultAsync } from 'neverthrow';
-import { Subject } from 'rxjs';
-import WebSocket, { RawData } from 'ws';
+import { Result, ResultAsync } from 'neverthrow';
+import { Observable, Subject } from 'rxjs';
+
+export type RawData = string | ArrayBufferLike | Blob | ArrayBufferView;
 
 const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
   createMPCWebsocketHandlerWrapper(console);
@@ -20,40 +25,69 @@ export type Signer = (nonce: string) => ResultAsync<SignResult, AppError>;
 
 export const authWebsocket =
   (apiConfig: ApiConfig, sign: Signer) =>
-  <T>(handler: MPCWebsocketHandler<T>): ResultAsync<T, AppError> => {
+  <T>(starter: MPCWebsocketStarter, handler: MPCWebsocketHandler<T>): ResultAsync<T, AppError> => {
     return createNonce(apiConfig.baseUrl)
       .andThen(sign)
-      .andThen(signature => startWebsocket<T>(signature, apiConfig, handler));
+      .andThen(signature => createWebsocket(starter, signature, apiConfig))
+      .andThen(({ share$, ws }) => listenToWebsocket(handler, share$, ws));
   };
 
-const startWebsocket = <T>(
-  { userId, devicePublicKey, deviceSignature }: SignResult,
-  { baseUrl, socketEndpoint }: ApiConfig,
-  handler: MPCWebsocketHandler<T>
-): ResultAsync<T, AppError> => {
-  // TODO check if JWT makes sense here, this is a bit custom
-  const ws = new WebSocket(`ws://${baseUrl}/mpc/ecdsa/${socketEndpoint}`, {
-    headers: {
-      userId,
-      devicePublicKey,
-      deviceSignature,
-    },
-  });
+const createWebsocket = (
+  starter: MPCWebsocketStarter,
+  { userId, devicePublicKey, signature }: SignResult,
+  { baseUrl, socketEndpoint }: ApiConfig
+): Result<CreateWebsocketResult, AppError> => {
+  const share$ = new Subject<ResultAsync<string, WebsocketError>>();
 
+  // TODO check if JWT makes sense here, this is a bit custom
+  const create = Result.fromThrowable(
+    () =>
+      new WebSocket(`ws://${baseUrl}/mpc/ecdsa/${socketEndpoint}`, undefined, {
+        headers: {
+          userid: userId,
+          devicepublickey: devicePublicKey,
+          signature,
+        },
+      }),
+    err => mapWebsocketToAppError(websocketError(err, "Couldn't create websocket"))
+  );
+
+  return create().map(ws => {
+    ws.onopen = () => share$.next(starter(ws));
+
+    return { share$, ws };
+  });
+};
+
+type CreateWebsocketResult = {
+  share$: Observable<ResultAsync<string, WebsocketError>>;
+  ws: WebSocket;
+};
+
+const listenToWebsocket = <T>(
+  handler: MPCWebsocketHandler<T>,
+  share$: Observable<ResultAsync<string, WebsocketError>>,
+  ws: WebSocket
+): ResultAsync<T, AppError> => {
   const input = new Subject<RawData>();
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  ws.on('message', input.next);
-  ws.on('error', input.error);
-  ws.on('close', input.complete);
+  ws.onmessage = ({ data }) => input.next(data);
+  ws.onerror = err => input.error(err);
+  ws.onclose = _ => input.complete();
 
   wrapMPCWebsocketHandler(output, ws);
 
-  return handler(input, output);
+  return handler(input, share$, output);
 };
 
 const createNonce = (apiUrl: string): ResultAsync<string, AppError> => {
-  return ResultAsync.fromPromise(axios.get<string>(`http://${apiUrl}/auth/get-nonce`), err =>
-    mapWebsocketToAppError(apiError('Error while creating nonce'))
-  ).map(res => res.data);
+  return ResultAsync.fromPromise(
+    axios.get<CreateNonceResponse>(`http://${apiUrl}/auth/get-nonce`),
+    err => mapWebsocketToAppError(apiError(err, 'Error while creating nonce'))
+  ).map(res => res.data.nonce);
+};
+
+type CreateNonceResponse = {
+  nonce: string;
 };

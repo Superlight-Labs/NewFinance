@@ -13,6 +13,7 @@ export type StepResult =
       type: 'success';
       share: string;
       context: string;
+      message: string;
     }
   | {
       message: string;

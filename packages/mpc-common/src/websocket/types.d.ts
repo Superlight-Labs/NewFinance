@@ -1,4 +1,3 @@
-import { WebSocket } from 'ws';
 import { AppError, WebsocketError } from '../../error';
 
 export type MPCWebsocketMessage<T = string> =
@@ -17,7 +16,7 @@ export type WebSocketOutput = Subject<ResultAsync<MPCWebsocketMessage, Websocket
 
 export type MpcWebsocketHandlerWrapper = <T>(
   handlerResult: Observable<ResultAsync<MPCWebsocketMessage<T>, WebsocketError>>,
-  socket: WebSocket
+  socket: any
 ) => void;
 
 export type ApiConfig = { baseUrl: string; socketEndpoint: string };
@@ -28,7 +27,12 @@ export type SignResult = {
   signature: string;
 };
 
+export type MPCWebsocketStarter<T = string> = (
+  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>
+) => ResultAsync<string, WebsocketError>;
+
 export type MPCWebsocketHandler<T> = (
   input: Observable<RawData>,
+  share$: Observable<ResultAsync<string, WebsocketError>>,
   output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>
 ) => ResultAsync<T, AppError>;
