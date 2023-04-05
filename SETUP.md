@@ -8,12 +8,13 @@
 3. XCode is installed
 4. [React Native Local Setup](https://reactnative.dev/docs/environment-setup?guide=native) is completed
 5. Install `turborepo` globally with `npm i turbo -g`
-6. Run `yarn prep` to install node module in setup database
+6. Install yarn globally with `volta install yarn@1.22`
+7. Run `yarn prep` to install node module in setup database
 
    On error `xcrun: error: SDK "iphoneos" cannot be located` it may be necessray to run `npx pod-install` in the `mobile` app folder
 
-7. Copy `.env.example` and rename to `.env`
-8. Start development with `yarn dev`
+8. Copy `.env.example` and rename to `.env`
+9. Start development with `yarn dev`
 
 ## Mobile Debugging
 
