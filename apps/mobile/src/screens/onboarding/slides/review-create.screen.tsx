@@ -8,7 +8,7 @@ import { Text } from 'util/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'ReviewCreate'>;
 
 const ReviewCreate = ({ navigation, route }: Props) => {
-  const { walletName, showSeed } = route.params;
+  const { walletName, showSeed, seed } = route.params;
   const finishGenerate = () => {
     navigation.navigate('Home');
   };
@@ -23,7 +23,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
       <Title>Review Settings and finish</Title>
 
       <Text>Name: {walletName}</Text>
-      <Text>Show Seed: {showSeed ? 'Yes' : 'No'}</Text>
+      {showSeed && <Text>Seed: {seed}</Text>}
     </Layout>
   );
 };
