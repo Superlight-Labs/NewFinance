@@ -1,5 +1,5 @@
 import { CreateUserResponse } from '@superlight/api/src/repository/user';
-import { SignResult } from '@superlight/mpc-common/src/websocket/types';
+import { SignResult } from '@superlight/mpc-common';
 import { ResultAsync } from 'neverthrow';
 import { AppUser } from 'state/auth.state';
 import { AppError } from 'state/snackbar.state';

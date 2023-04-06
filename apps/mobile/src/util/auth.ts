@@ -1,4 +1,4 @@
-import { SignResult } from '@superlight/mpc-common/src/websocket/types';
+import { SignResult } from '@superlight/mpc-common';
 import { Signer } from '@superlight/rn-mpc-client';
 import { generateKeyPair, sign } from '@superlight/rn-secure-encryption-module';
 import * as LocalAuthentication from 'expo-local-authentication';

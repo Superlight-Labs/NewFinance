@@ -14,6 +14,7 @@ export const useFailableAction = () => {
 
         return { andThen: perform };
       },
+      andThen: perform,
     };
   };
 

@@ -1,1 +1,3 @@
-global.crypto = require('expo-crypto');
+const crypto = require('expo-crypto');
+
+global.crypto = crypto;

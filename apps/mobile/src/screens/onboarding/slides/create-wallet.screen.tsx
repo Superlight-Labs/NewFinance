@@ -1,5 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useGenerateGenericSecret } from '@superlight/rn-mpc-client';
+import * as bip39 from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english';
+import { useGenericSecret } from '@superlight/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
@@ -8,21 +10,23 @@ import { useState } from 'react';
 import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
+import { useBip32State } from 'state/bip32.state';
 import { signWithDeviceKey } from 'util/auth';
 import { apiUrl } from 'util/superlight-api';
+import { mnemonicToSeed } from 'util/wrappers/bip32-neverthrow';
 import { Text, TextInput } from 'util/wrappers/styled-react-native';
-
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {
-  const { user } = useAuthState();
   const [showSeed, setShowSeed] = useState(false);
   const [walletName, setWalletName] = useState('');
+  const { user } = useAuthState();
   const { perform } = useFailableAction();
-  const { generateGenericSecret } = useGenerateGenericSecret();
+  const { generateGenericSecret, importGenericSecret } = useGenericSecret();
+  const { create } = useBip32State();
 
   const startGenerateWallet = () => {
-    if (user == undefined) {
+    if (user === undefined) {
       navigation.navigate('Welcome');
       return;
     }
@@ -32,17 +36,39 @@ const CreateWallet = ({ navigation }: Props) => {
         apiUrl,
         signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey })
       )
-    ).onSuccess(share => {
-      console.log('This is the share', share);
+    ).onSuccess(result => {
+      create({ peerShareId: result.serverId, share: result.share, path: 'secret' });
       navigation.navigate('ReviewCreate', { showSeed, walletName });
     });
+  };
+
+  const startGenerateWalletWithSeed = () => {
+    if (user == undefined) {
+      navigation.navigate('Welcome');
+      return;
+    }
+
+    const seed = bip39.generateMnemonic(wordlist);
+
+    perform(mnemonicToSeed(seed))
+      .andThen(
+        importGenericSecret(
+          apiUrl,
+          signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+          Buffer.from(bip39.mnemonicToSeedSync(seed)).toString('hex')
+        )
+      )
+      .onSuccess(result => {
+        create({ peerShareId: result.serverId, share: result.share, path: 'secret' });
+        navigation.navigate('ReviewCreate', { showSeed, walletName, seed });
+      });
   };
 
   return (
     <Layout>
       <ButtonComponent
         style="px-6 py-3 absolute right-8 -top-12 rounded-xl"
-        onPress={startGenerateWallet}>
+        onPress={showSeed ? startGenerateWalletWithSeed : startGenerateWallet}>
         Next
       </ButtonComponent>
       <Title>Configure your new Wallet</Title>
