@@ -6,6 +6,7 @@ import {
   mpcInternalError,
   MPCWebsocketMessage,
   MPCWebsocketResult,
+  stepMessageError,
   WebsocketError,
   WebSocketOutput,
 } from '@superlight/mpc-common';
@@ -13,10 +14,12 @@ import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
-import { RawData } from 'ws';
 import { createGenerateEcdsaKey } from '../mpc-context.service';
 
-export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPCWebsocketResult => {
+export const generateEcdsaKey = (
+  user: User,
+  messages: Observable<MPCWebsocketMessage>
+): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
   createGenerateEcdsaKey().match(
@@ -39,10 +42,18 @@ export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPC
   return output;
 };
 
-const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  const msg = JSON.parse(message.toString());
+const onMessage = (
+  wsMsg: MPCWebsocketMessage,
+  context: Context,
+  output: WebSocketOutput,
+  user: User
+) => {
+  if (!wsMsg || wsMsg.type !== 'inProgress') {
+    output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
+    return;
+  }
 
-  const stepOutput = step(msg.message, context);
+  const stepOutput = step(wsMsg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

@@ -4,6 +4,7 @@ import { buildPath, DeriveConfig, step } from '@lib/utils/crypto';
 import {
   databaseError,
   mpcInternalError,
+  MPCWebscocketInit,
   MPCWebsocketMessage,
   MPCWebsocketResult,
   stepMessageError,
@@ -21,21 +22,24 @@ import {
   getResultDeriveBIP32,
 } from 'src/service/mpc/mpc-context.service';
 import { deleteKeyShare, getKeyShare } from 'src/service/persistance/key-share.service';
-import { RawData } from 'ws';
 
 type OnDeriveStep = (
   deriveContext: DeriveContext,
-  message: RawData,
+  message: MPCWebsocketMessage,
   user: User,
   output: WebSocketOutput
 ) => void;
 
 const deriveBIP32 =
   (stepFn: OnDeriveStep) =>
-  (user: User, messages: Observable<RawData>, initParameter: RawData): MPCWebsocketResult => {
+  (
+    user: User,
+    messages: Observable<MPCWebsocketMessage>,
+    initParameter: MPCWebscocketInit<DeriveConfig>
+  ): MPCWebsocketResult => {
     const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-    initDeriveProcess(initParameter, user.id).match(
+    initDeriveProcess(initParameter.parameter, user.id).match(
       deriveContext => {
         const { context } = deriveContext;
 
@@ -58,10 +62,9 @@ const deriveBIP32 =
   };
 
 const initDeriveProcess = (
-  message: RawData,
+  deriveConfig: DeriveConfig,
   userId: string
 ): ResultAsync<DeriveContext, WebsocketError> => {
-  const deriveConfig = JSON.parse(message.toString()) as DeriveConfig;
   const path = buildPath(deriveConfig);
 
   return deleteExistingShareByPath(path, userId).andThen(_ => setupContext(deriveConfig, userId));
@@ -91,7 +94,7 @@ const setupContext = (
 
 const deriveNonHardenedStep = (
   deriveContext: DeriveContext,
-  message: RawData,
+  message: MPCWebsocketMessage,
   user: User,
   output: WebSocketOutput
 ) => {
@@ -108,23 +111,20 @@ const deriveNonHardenedStep = (
 
 const deriveHardenedStep = async (
   deriveContext: DeriveContext,
-  message: RawData,
+  wsMsg: MPCWebsocketMessage,
   user: User,
   output: WebSocketOutput
 ) => {
   const { context } = deriveContext;
-  const stepInput = message.toString();
 
-  if (!stepInput || stepInput === '') {
+  if (!wsMsg || wsMsg.type !== 'inProgress') {
     output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
     return;
   }
 
-  logger.info({ input: stepInput.slice(0, 23), contextPtr: context.contextPtr }, 'DERIVE STEP');
+  logger.info({ input: wsMsg.message.slice(0, 23), contextPtr: context.contextPtr }, 'DERIVE STEP');
 
-  const msg = JSON.parse(message.toString());
-
-  const stepOutput = step(msg.message, context);
+  const stepOutput = step(wsMsg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

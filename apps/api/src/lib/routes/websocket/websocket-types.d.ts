@@ -1,11 +1,14 @@
-import { MPCWebsocketResult } from '@superlight/mpc-common';
+import { MPCWebscocketInit, MPCWebsocketMessage, MPCWebsocketResult } from '@superlight/mpc-common';
 import { Observable } from 'rxjs';
 import { User } from 'src/repository/user';
-import { RawData } from 'ws';
 
-type MPCWebsocketHandler<T> = (user: User, message: Observable<RawData>) => MPCWebsocketResult<T>;
-type MPCWebsocketWithInitParameterHandler<T> = (
+type MPCWebsocketHandler<T> = (
   user: User,
-  message: Observable<RawData>,
-  initParameter: RawData
+  message: Observable<MPCWebsocketMessage>
+) => MPCWebsocketResult<T>;
+
+type MPCWebsocketWithInitParameterHandler<T, U> = (
+  user: User,
+  message: Observable<MPCWebsocketMessage>,
+  initParameter: MPCWebscocketInit<U>
 ) => MPCWebsocketResult<T>;

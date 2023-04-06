@@ -1,4 +1,5 @@
 import { authenticate } from '@lib/utils/auth';
+import { DeriveConfig, SignConfig } from '@lib/utils/crypto';
 import { FastifyInstance } from 'fastify';
 import {
   deriveBip32Hardened,
@@ -52,7 +53,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
     server.get(
       route + '/derive/hardened',
       { websocket: true },
-      websocketRouteWithInitParameter(deriveBip32Hardened)
+      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32Hardened)
     );
   });
 
@@ -60,7 +61,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
     server.get(
       route + '/derive/non-hardened',
       { websocket: true },
-      websocketRouteWithInitParameter(deriveBip32NonHardened)
+      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32NonHardened)
     );
   });
 
@@ -72,7 +73,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
     server.get(
       route + '/sign',
       { websocket: true },
-      websocketRouteWithInitParameter(signWithEcdsaKey)
+      websocketRouteWithInitParameter<void, SignConfig>(signWithEcdsaKey)
     );
   });
 };

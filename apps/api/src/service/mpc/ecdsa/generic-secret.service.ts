@@ -2,12 +2,14 @@ import { Context } from '@crypto-mpc';
 import logger from '@lib/logger';
 import { step } from '@lib/utils/crypto';
 import {
+  MPCWebscocketInit,
   MPCWebsocketMessage,
   MPCWebsocketResult,
   WebSocketOutput,
   WebsocketError,
   databaseError,
   mpcInternalError,
+  stepMessageError,
 } from '@superlight/mpc-common';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
@@ -17,11 +19,10 @@ import {
   createGenerateGenericSecretContext,
   createImportGenericSecretContext,
 } from 'src/service/mpc/mpc-context.service';
-import { RawData } from 'ws';
 
 export const generateGenericSecret = (
   user: User,
-  messages: Observable<RawData>
+  messages: Observable<MPCWebsocketMessage>
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
@@ -46,12 +47,12 @@ export const generateGenericSecret = (
 
 export const importGenericSecret = (
   user: User,
-  messages: Observable<RawData>,
-  initParameter: RawData
+  messages: Observable<MPCWebsocketMessage>,
+  initParameter: MPCWebscocketInit
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  createImportGenericSecretContext(initParameter)
+  createImportGenericSecretContext(Buffer.from(initParameter.parameter, 'hex'))
     .map(context =>
       messages.subscribe({
         next: message => onMessage(message, context, output, user),
@@ -70,11 +71,18 @@ export const importGenericSecret = (
   return output;
 };
 
-const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  // TODO: parse this message and check if it's a valid message
-  const msg = JSON.parse(message.toString());
+const onMessage = (
+  message: MPCWebsocketMessage,
+  context: Context,
+  output: WebSocketOutput,
+  user: User
+) => {
+  if (message.type !== 'inProgress') {
+    output.next(errAsync(stepMessageError('Invalid message recieved from client')));
+    return;
+  }
 
-  const stepOutput = step(msg.message, context);
+  const stepOutput = step(message.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
