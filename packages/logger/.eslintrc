@@ -1,0 +1,3 @@
+{
+  "extends": ["@superlight/eslint-config"]
+}
