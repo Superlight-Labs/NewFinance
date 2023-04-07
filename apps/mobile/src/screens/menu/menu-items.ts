@@ -1,5 +1,5 @@
 import { FeatherIconName } from 'components/shared/mono-icon/mono-icon.component';
-import { useAuthState } from 'state/auth.state';
+import { useLogout } from 'hooks/useLogout';
 import { MenuStackParamList } from './menu-navigation';
 
 type MenuItem = {
@@ -18,7 +18,7 @@ type LinkItem = {
 };
 
 export const useMenuItems = () => {
-  const { logout } = useAuthState();
+  const { logout } = useLogout();
 
   const items: MenuItem[] = [
     { name: 'Logout', type: 'action', icon: 'LogOut', onPress: logout },

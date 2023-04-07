@@ -7,10 +7,10 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import logger from '@superlight/logger';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import React from 'react';
 import 'react-native-gesture-handler';
-import reactotron from 'reactotron-react-native';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
 import MenuStack from 'screens/menu/menu.stack';
@@ -22,19 +22,7 @@ import { useAuthState } from './state/auth.state';
 import { useSnackbarState } from './state/snackbar.state';
 
 if (__DEV__) {
-  const nativeLog = console.log;
-  const log = (...args: any) => {
-    nativeLog(...args);
-    reactotron.display({
-      name: `console.log`,
-      value: args,
-      preview: args.length > 1 ? JSON.stringify(args) : args[0],
-    });
-  };
-
-  console.log = log;
-  console.error = log;
-  import('./../ReactotronConfig').then(() => console.log('Reactotron Configured'));
+  import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -51,15 +39,13 @@ function App(): JSX.Element {
         <Stack.Group>
           {isAuthenticated ? (
             <>
-              {hasBip32State ? (
+              {hasBip32State && (
                 <>
                   <Stack.Screen name="Home" component={Home} />
                   {WalletsStack({ Stack })}
                 </>
-              ) : (
-                OnboardingStack({ Stack })
               )}
-
+              {OnboardingStack({ Stack })}
               {MenuStack({ Stack })}
             </>
           ) : (

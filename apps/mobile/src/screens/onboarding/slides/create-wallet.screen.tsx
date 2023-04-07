@@ -14,6 +14,7 @@ import { useBip32State } from 'state/bip32.state';
 import { signWithDeviceKey } from 'util/auth';
 import { apiUrl } from 'util/superlight-api';
 import { mnemonicToSeed } from 'util/wrappers/bip32-neverthrow';
+
 import { Text, TextInput } from 'util/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
@@ -55,7 +56,7 @@ const CreateWallet = ({ navigation }: Props) => {
         importGenericSecret(
           apiUrl,
           signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
-          Buffer.from(bip39.mnemonicToSeedSync(seed)).toString('hex')
+          Buffer.from(seed).toString('hex')
         )
       )
       .onSuccess(result => {

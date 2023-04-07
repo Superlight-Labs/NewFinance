@@ -25,7 +25,7 @@ const Welcome = ({ navigation }: Props) => {
 
     perform(createProfile(newDevicePublicKey)).onSuccess(user => {
       authenticate(user);
-      navigation.navigate('Home');
+      navigation.navigate('Onboarding');
     });
   }, [navigation, authenticate, createProfile, perform]);
 

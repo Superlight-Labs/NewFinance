@@ -1,6 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { deleteKeyPair } from '@superlight/rn-secure-encryption-module';
-import { constants } from 'util/constants';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -13,7 +11,7 @@ export type AuthState = {
   user: AppUser | undefined;
   isAuthenticated: boolean;
   authenticate: (user: AppUser) => void;
-  logout: () => void;
+  delete: () => void;
 };
 
 export const useAuthState = create<AuthState>()(
@@ -22,7 +20,7 @@ export const useAuthState = create<AuthState>()(
       user: undefined,
       isAuthenticated: false,
       authenticate: user => set(_ => ({ user, isAuthenticated: true })),
-      logout: () => set(logout),
+      delete: () => set({ user: undefined, isAuthenticated: false }),
     }),
 
     {
@@ -31,9 +29,3 @@ export const useAuthState = create<AuthState>()(
     }
   )
 );
-
-const logout = (_: AuthState) => {
-  deleteKeyPair(constants.deviceKeyName);
-
-  return { user: undefined, isAuthenticated: false };
-};

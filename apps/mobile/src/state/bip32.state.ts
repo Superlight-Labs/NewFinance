@@ -12,6 +12,7 @@ export type Bip32State = {
   data: Bip32Data | undefined;
   hasBip32State: boolean;
   create: (data: Bip32Data) => void;
+  delete: () => void;
 };
 
 export const useBip32State = create<Bip32State>()(

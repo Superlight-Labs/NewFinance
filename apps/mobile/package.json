@@ -18,6 +18,7 @@
     "@react-navigation/stack": "^6.3.12",
     "@scure/bip39": "^1.2.0",
     "@superlight/api": "*",
+    "@superlight/logger": "*",
     "@superlight/mpc-common": "*",
     "@superlight/rn-crypto-mpc": "*",
     "@superlight/rn-mpc-client": "*",
@@ -40,6 +41,7 @@
     "react-native-svg": "^13.7.0",
     "react-native-tab-view": "^3.3.4",
     "react-native-vector-icons": "^9.2.0",
+    "text-encoder-lite": "^2.0.0",
     "zustand": "^4.3.6"
   },
   "devDependencies": {
