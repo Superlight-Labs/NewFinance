@@ -1,4 +1,4 @@
-import { generateGenericSecret, startGenerateGenericSecret } from './src/handlers/generic-secret';
+import { generateGenericSecret, startGenerateGenericSecret } from './src/handlers/create-secret';
 import { importGenericSecret, startImportGenericSecret } from './src/handlers/import-secret';
 import { ShareResult } from './src/lib/mpc/mpc-types';
 import { authWebsocket } from './src/lib/websocket/ws-client';
