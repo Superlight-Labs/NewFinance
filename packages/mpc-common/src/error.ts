@@ -3,6 +3,7 @@ enum ErrorTypes {
   MpcInternalError = 'MpcInternalError',
   DatabaseError = 'DatabaseError',
   ApiError = 'ApiError',
+  Other = 'Other',
   WebsocketError = 'WebsocketError',
 }
 
@@ -22,7 +23,8 @@ export type WebsocketError =
   | { type: ErrorTypes.StepMessageError; context?: string }
   | { type: ErrorTypes.WebsocketError; context?: string; error?: unknown }
   | { type: ErrorTypes.DatabaseError; context?: string; error?: unknown }
-  | { type: ErrorTypes.ApiError; context?: string; error?: unknown };
+  | { type: ErrorTypes.ApiError; context?: string; error?: unknown }
+  | { type: ErrorTypes.Other; context?: string; error?: unknown };
 
 export const isMPCWebsocketError = (error: any): error is WebsocketError => {
   return error.type && Object.values(ErrorTypes).includes(error.type);
@@ -35,6 +37,12 @@ export const mapWebsocketToApiError = (err: any): HttpError => {
         return {
           statusCode: 1011,
           errorMsg: 'Error while performing cryptographic operation',
+        };
+      }
+      case 'Other': {
+        return {
+          statusCode: 1011,
+          errorMsg: 'Ups, something went wrong. Please try again later',
         };
       }
       case 'StepMessageError': {
@@ -60,11 +68,12 @@ export const mapWebsocketToApiError = (err: any): HttpError => {
 
   return {
     statusCode: 1011,
-    errorMsg: 'Unexpected error, closing connection',
+    errorMsg: 'Ups, something went wrong. Please try again later',
   };
 };
 
 export const mapWebsocketToAppError = (err: unknown): AppError => {
+  console.error({ err }, 'Error is being mapped');
   if (isMPCWebsocketError(err)) {
     switch (err.type) {
       case 'MpcInternalError': {
@@ -95,12 +104,19 @@ export const mapWebsocketToAppError = (err: unknown): AppError => {
           error: err.error,
         };
       }
+      case 'Other': {
+        return {
+          level: 'error',
+          message: err.context || 'Unexpected error',
+          error: err.error,
+        };
+      }
     }
   }
 
   return {
     level: 'error',
-    message: 'Unexpected error, closing connection',
+    message: 'Ups, something went wrong.',
     error: err,
   };
 };
@@ -128,8 +144,19 @@ export const websocketError = (error: unknown, context?: string): WebsocketError
   context,
 });
 
+export const startWebsocketError = (): WebsocketError => ({
+  type: ErrorTypes.WebsocketError,
+  context: "Didn't receive start message",
+});
+
 export const apiError = (error: unknown, context?: string): WebsocketError => ({
   type: ErrorTypes.ApiError,
+  error,
+  context,
+});
+
+export const other = (error: unknown, context?: string): WebsocketError => ({
+  type: ErrorTypes.Other,
   error,
   context,
 });
