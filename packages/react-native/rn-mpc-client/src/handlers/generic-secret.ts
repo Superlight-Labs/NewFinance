@@ -1,17 +1,18 @@
+import logger from '@superlight/logger';
 import {
   MPCWebsocketHandler,
   MPCWebsocketMessage,
   WebsocketError,
   mapWebsocketToAppError,
   mpcInternalError,
+  websocketError,
 } from '@superlight/mpc-common';
 import { reset } from '@superlight/rn-crypto-mpc';
 import { StepResult } from '@superlight/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { Observable, Subject, combineLatest, firstValueFrom, map } from 'rxjs';
+import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 import { ShareResult } from '../lib/mpc/mpc-types';
-import { RawData } from '../lib/websocket/websocket-client';
 
 export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, WebsocketError> => {
   return initGenerateGenericSecret()
@@ -26,46 +27,53 @@ export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, W
         return errAsync(mpcInternalError('No share received'));
       }
 
-      ws.send(JSON.stringify({ type: 'inProgress', message: stepMsg.message }));
+      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
+
+      ws.send(JSON.stringify(wsMessage));
 
       return okAsync(stepMsg.share);
     });
 };
 
-export const generateGenericSecret: MPCWebsocketHandler<ShareResult> = (
-  input: Observable<RawData>,
-  share$: Observable<ResultAsync<string, WebsocketError>>,
-  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>
-) => {
+export const generateGenericSecret: MPCWebsocketHandler<ShareResult, string> = ({
+  input,
+  startResult,
+  output,
+}) => {
   const serverId$ = new Subject<string>();
 
   listenToWebSocket(input, serverId$);
 
-  return ResultAsync.fromPromise(
-    firstValueFrom(
-      combineLatest([share$, serverId$]).pipe(map(([share, serverId]) => ({ share, serverId })))
-    ),
-    err => mapWebsocketToAppError(err)
+  const serverIdResult = ResultAsync.fromPromise(firstValueFrom(serverId$), err =>
+    mapWebsocketToAppError(err)
   );
+
+  return ResultAsync.combine([startResult, serverIdResult]).map(([share, serverId]) => ({
+    share,
+    serverId,
+  }));
 };
 
-const listenToWebSocket = (input: Observable<RawData>, serverId$: Subject<string>) => {
+const listenToWebSocket = (input: Observable<MPCWebsocketMessage>, serverId$: Subject<string>) => {
   input.subscribe({
     next: message => onMessage(message, serverId$),
     error: err => {
-      console.error({ err }, 'Error received from server on websocket');
+      logger.error({ err }, 'Error received from server on websocket');
+      serverId$.error(err);
       reset();
     },
     complete: () => {
-      console.log('Connection on Websocket closed');
+      logger.debug('Connection on Websocket closed');
     },
   });
 };
 
-const onMessage = (message: RawData, serverId$: Subject<string>) => {
-  const msg = JSON.parse(message.toString());
-
+const onMessage = (message: MPCWebsocketMessage, serverId$: Subject<string>) => {
   // TODO validate structure of message
+  if (message && message.type === 'success') {
+    serverId$.next(message.result);
+    return;
+  }
 
-  serverId$.next(msg.result);
+  serverId$.error(websocketError('No serverId received'));
 };

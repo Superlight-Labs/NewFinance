@@ -29,6 +29,7 @@
   "peerDependencies": {
     "@superlight/rn-crypto-mpc": "*",
     "@superlight/mpc-common": "*",
+    "@superlight/logger": "*",
     "axios": "^1.3.4",
     "neverthrow": "^6.0.0",
     "rxjs": "^7.8.0"
