@@ -1,5 +1,5 @@
 import { SocketStream } from '@fastify/websocket';
-import logger from '@lib/logger';
+import logger from '@superlight/logger';
 import {
   createMPCWebsocketHandlerWrapper,
   MPCWebscocketInit,
@@ -7,7 +7,7 @@ import {
   MPCWebsocketMessage,
 } from '@superlight/mpc-common';
 import { FastifyRequest } from 'fastify';
-import { firstValueFrom, skip, Subject } from 'rxjs';
+import { firstValueFrom, ReplaySubject, Subject, tap } from 'rxjs';
 import { MPCWebsocketHandler, MPCWebsocketWithInitParameterHandler } from './websocket-types';
 
 const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
@@ -18,7 +18,9 @@ const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
 // Will do this at a later point cuz its non blocking and can be done at any point in time
 export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
   return (connection: SocketStream, req: FastifyRequest) => {
-    const messages = new Subject<MPCWebsocketMessage>();
+    logger.info('Websocket connection opened');
+
+    const messages = new ReplaySubject<MPCWebsocketMessage>();
 
     // TODO Parse and verify
     connection.socket.on('message', message => messages.next(JSON.parse(message.toString())));
@@ -26,7 +28,15 @@ export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
     connection.socket.on('close', _ => messages.complete());
     connection.on('close', _ => messages.complete());
 
-    wrapMPCWebsocketHandler(handler(req.user!, messages), connection.socket);
+    const piped = messages.pipe(
+      tap({
+        next: message => logger.debug({ message }, 'Received message on websocket'),
+        error: err => logger.error({ err }, 'Error recieved on websocket'),
+        complete: () => logger.debug('Websocket closed'),
+      })
+    );
+
+    wrapMPCWebsocketHandler(handler(req.user!, piped), connection.socket);
   };
 };
 
@@ -34,6 +44,7 @@ export const websocketRouteWithInitParameter = <Result, Init = string>(
   handler: MPCWebsocketWithInitParameterHandler<Result, Init>
 ) => {
   return async (connection: SocketStream, req: FastifyRequest) => {
+    logger.info('Websocket connection opened');
     const messages = new Subject<MPCWebsocketMessage>();
 
     // TODO Parse and verify
@@ -42,13 +53,18 @@ export const websocketRouteWithInitParameter = <Result, Init = string>(
     connection.socket.on('close', _ => messages.complete());
     connection.on('close', _ => messages.complete());
 
-    const initParameter = (await firstValueFrom(messages)) as MPCWebscocketInit<Init>;
+    const piped = messages.pipe(
+      tap({
+        next: message => logger.debug({ message }, 'Received message on websocket'),
+        error: err => logger.error({ err }, 'Error recieved on websocket'),
+        complete: () => logger.debug('Websocket closed'),
+      })
+    );
+
+    const initParameter = (await firstValueFrom(piped)) as MPCWebscocketInit<Init>;
 
     connection.socket.send(JSON.stringify({ type: 'start' } as MPCWebsocketMessage));
 
-    wrapMPCWebsocketHandler(
-      handler(req.user!, messages.pipe(skip(1)), initParameter),
-      connection.socket
-    );
+    wrapMPCWebsocketHandler(handler(req.user!, piped, initParameter), connection.socket);
   };
 };

@@ -23,6 +23,7 @@ const registerMcpRoutes = (server: FastifyInstance): void => {
     privatePlugin.addHook('onRequest', async req => {
       const userResult = await authenticate(req);
 
+      // TODO this error is actually not picked up by client
       if (userResult.isErr()) throw userResult.error;
 
       req.user = userResult.value;

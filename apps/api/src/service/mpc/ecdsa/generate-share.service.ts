@@ -1,6 +1,6 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
 import { step } from '@lib/utils/crypto';
+import logger from '@superlight/logger';
 import {
   databaseError,
   mpcInternalError,
@@ -31,7 +31,7 @@ export const generateEcdsaKey = (
           context.free();
         },
         complete: () => {
-          logger.info({ user: user.id }, 'Connection on Websocket closed');
+          logger.debug({ user: user.id }, 'Connection on Websocket closed');
           context.free;
         },
       });

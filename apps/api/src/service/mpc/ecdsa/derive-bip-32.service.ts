@@ -1,6 +1,6 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
 import { buildPath, DeriveConfig, step } from '@lib/utils/crypto';
+import logger from '@superlight/logger';
 import {
   databaseError,
   mpcInternalError,

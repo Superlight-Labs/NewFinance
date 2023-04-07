@@ -1,6 +1,6 @@
-import logger from '@lib/logger';
 import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
+import logger from '@superlight/logger';
 import crypto from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {

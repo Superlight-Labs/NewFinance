@@ -1,5 +1,5 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
+import logger from '@superlight/logger';
 import crypto from 'crypto';
 import { buildPubKey } from './auth';
 

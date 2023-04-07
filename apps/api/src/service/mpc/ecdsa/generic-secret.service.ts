@@ -1,6 +1,6 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
 import { step } from '@lib/utils/crypto';
+import logger from '@superlight/logger';
 import {
   MPCWebscocketInit,
   MPCWebsocketMessage,
@@ -51,6 +51,8 @@ export const importGenericSecret = (
   initParameter: MPCWebscocketInit
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
+
+  logger.debug({ initParameter }, 'Received init parameter and sent starting stuff');
 
   createImportGenericSecretContext(Buffer.from(initParameter.parameter, 'hex'))
     .map(context =>
