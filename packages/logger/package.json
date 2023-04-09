@@ -4,7 +4,8 @@
   "description": "Logging for all superlight apps",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "author": "Laurenz Honauer",
   "license": "MIT",
