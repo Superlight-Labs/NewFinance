@@ -20,8 +20,8 @@ export const signWithEcdsaKey = (
   user: User,
   messages: Observable<MPCWebsocketMessage>,
   initParameter: MPCWebscocketInit<SignConfig>
-): MPCWebsocketResult<void> => {
-  const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
+): MPCWebsocketResult<undefined> => {
+  const output = new Subject<ResultAsync<MPCWebsocketMessage<undefined>, WebsocketError>>();
 
   initSignProcess(initParameter, user.id).match(
     context => {
@@ -55,7 +55,11 @@ const initSignProcess = (
   );
 };
 
-export const signStep = (context: Context, wsMsg: MPCWebsocketMessage, output: WebSocketOutput) => {
+export const signStep = (
+  context: Context,
+  wsMsg: MPCWebsocketMessage,
+  output: WebSocketOutput<undefined>
+) => {
   if (!wsMsg || wsMsg.type !== 'inProgress') {
     output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
     return;

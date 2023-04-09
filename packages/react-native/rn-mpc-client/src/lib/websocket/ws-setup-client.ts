@@ -53,7 +53,7 @@ export const waitForStart = <T>({
   initParam,
 }: StarterWithSetupParams<T>): ResultAsync<StarterWithSetupParams<T>, WebsocketError> => {
   const initParameter = ResultAsync.fromPromise(firstValueFrom(input), err =>
-    websocketError('Error while waiting for start signal')
+    websocketError(err, 'Error while waiting for start signal')
   );
 
   const evaluateStart = (message: MPCWebsocketMessage) => {

@@ -20,4 +20,6 @@ export type MPCWebsocketResult<T = string> = Observable<
   ResultAsync<MPCWebsocketMessage<T>, WebsocketError>
 >;
 
-export type WebSocketOutput = Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>;
+export type WebSocketOutput<T = string> = Subject<
+  ResultAsync<MPCWebsocketMessage<T>, WebsocketError>
+>;

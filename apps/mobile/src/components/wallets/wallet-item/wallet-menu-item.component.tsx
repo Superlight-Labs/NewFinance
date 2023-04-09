@@ -16,7 +16,7 @@ const WalletMenuItem = ({
   return (
     <Pressable className="w-[45rvw]" onPress={navigate}>
       <View className="h-[40vw] w-[40vw] rounded-lg bg-rose-500">
-        <View className="mt-auto mb-4 ml-4 flex h-8 flex-row">
+        <View className="mb-4 ml-4 mt-auto flex h-8 flex-row">
           <Text className="text-lg text-white">{truncate(address)}</Text>
         </View>
       </View>

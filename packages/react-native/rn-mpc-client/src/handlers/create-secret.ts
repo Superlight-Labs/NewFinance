@@ -38,7 +38,7 @@ export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, W
 export const generateGenericSecret: MPCWebsocketHandler<ShareResult, string> = ({
   input,
   startResult,
-  output,
+  output: _,
 }) => {
   const serverId$ = new Subject<string>();
 

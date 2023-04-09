@@ -40,7 +40,7 @@ export const startImportGenericSecret: MPCWebsocketStarterWithSetup<string, stri
 
 export const importGenericSecret: MPCWebsocketHandlerWithSetup<ShareResult, string> = ({
   input,
-  output,
+  output: _,
   startResult,
 }) => {
   const serverId$ = new Subject<string>();
