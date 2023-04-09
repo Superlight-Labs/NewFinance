@@ -1,20 +1,27 @@
-import logger from '@lib/logger';
 import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
+import logger from '@superlight/logger';
 import crypto from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import {
+  AuthenticatedRouteHandler,
+  NonceRouteHandler,
+  RouteHandler,
+  RouteResult,
+} from './rest-types';
 
 const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void => {
-  handlerResult
-    .map(data => {
+  handlerResult.match(
+    data => {
       logger.debug({ data }, 'Successfully sending data');
       res.status(200).send(data);
-    })
-    .mapErr(error => {
+    },
+    error => {
       logger.error({ error }, 'Failed to work on request');
       const { statusCode, errorMsg } = mapRouteError(error);
       res.status(statusCode).send({ error: errorMsg });
-    });
+    }
+  );
 };
 
 export const route = <T>(handler: RouteHandler<T>) => {
@@ -31,9 +38,6 @@ export const nonceRoute = <T>(handler: NonceRouteHandler<T>) => {
 
     const nonce = req.unsignCookie(signedNonce || '').value || '';
 
-    logger.info({ cookies: req.cookies }, 'where are my cookies');
-
-    // Crypto.randomBytes(16)  encoded as base64 string results in 24 characters
     if (!isNonceValid(nonce)) {
       wrapHandler(invalidAuthRequest, res);
       return;

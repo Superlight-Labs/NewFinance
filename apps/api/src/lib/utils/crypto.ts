@@ -1,5 +1,30 @@
+import { Context } from '@crypto-mpc';
+import logger from '@superlight/logger';
 import crypto from 'crypto';
 import { buildPubKey } from './auth';
+
+export type DeriveConfig = {
+  serverShareId: string;
+  index: string;
+  hardened: string;
+  parentPath: string;
+};
+
+export type SignConfig = {
+  messageToSign: string;
+  encoding: BufferEncoding;
+  shareId: string;
+};
+
+type StepResult =
+  | { type: 'error'; error?: unknown }
+  | {
+      type: 'success';
+    }
+  | {
+      message: string;
+      type: 'inProgress';
+    };
 
 export const verifySignature = (publicKey: string, message: string, signature: string): boolean => {
   const verifier = crypto.createVerify('SHA256').update(message, 'utf-8');
@@ -22,26 +47,9 @@ export const buildPath = (deriveConfig: DeriveConfig) => {
   return `${parentPath}/${index}${hardened === '1' ? "'" : ''}`;
 };
 
-export type DeriveConfig = {
-  serverShareId: string;
-  index: string;
-  hardened: string;
-  parentPath: string;
-};
-
-import { Context } from '@crypto-mpc';
-
-type StepResult =
-  | { type: 'error'; error?: unknown }
-  | {
-      type: 'success';
-    }
-  | {
-      message: string;
-      type: 'inProgress';
-    };
-
 export const step = (message: string, context: Context): StepResult => {
+  logger.debug({ message: message }, 'Received message from client and stepping in context');
+
   const inBuff = Buffer.from(message, 'base64');
 
   try {

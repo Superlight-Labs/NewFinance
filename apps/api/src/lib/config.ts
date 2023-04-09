@@ -12,7 +12,7 @@ const initConfig = (): Config => {
   return {
     cookieSecret: process.env.COOKIE_SECRET || '',
     ethereumAddressPath: process.env.ETHEREUM_ADDRESS_PATH || '',
-    logLevel: process.env.LOG_LEVEL || 'info',
+    logLevel: process.env.LOG_LEVEL || 'debug',
   };
 };
 

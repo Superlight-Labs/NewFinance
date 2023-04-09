@@ -4,10 +4,11 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
+    "dev": "prisma studio --port 5556",
     "start": "docker compose up -d",
     "build": "tsc -p tsconfig.json",
-    "db:generate": "yarn with-env prisma generate",
-    "db:push": "yarn with-env prisma db push --skip-generate",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
     "studio": "yarn with-env prisma studio --port 5556",
     "with-env": "dotenv -e .env --"
   },

@@ -31,7 +31,6 @@ Open Source Crypto-Wallet with focus on Stable Coins, Ethereum Layer 2, efficien
 <details>
  <summary>Table of Contents</summary>
  <ol>
-
    <li>
      <a href="#-unique-features">Unique Features</a>
    </li>
@@ -41,6 +40,7 @@ Open Source Crypto-Wallet with focus on Stable Coins, Ethereum Layer 2, efficien
    <li>
      <a href="#%EF%B8%8F-goals-for-the-future">Goals for the Future</a>
    </li>
+   <li><a href="https://github.com/lauhon/Superlight/blob/main/SETUP.md">Local Setup</a></li>
    <li><a href="#-license">License</a></li>
    <li><a href="#-contact">Contact</a></li>
  </ol>

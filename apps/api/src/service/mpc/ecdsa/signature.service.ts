@@ -1,25 +1,27 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
-import { mpcInternalError, WebsocketError } from '@lib/routes/websocket/websocket-error';
+import { SignConfig, step } from '@lib/utils/crypto';
+import logger from '@superlight/logger';
 import {
+  MPCWebscocketInit,
   MPCWebsocketMessage,
   MPCWebsocketResult,
   WebSocketOutput,
-} from '@lib/routes/websocket/websocket-types';
-import { step } from '@lib/utils/crypto';
-import { errAsync, okAsync, ResultAsync } from 'neverthrow';
+  WebsocketError,
+  mpcInternalError,
+  stepMessageError,
+} from '@superlight/mpc-common';
+import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { User } from 'src/repository/user';
 import { createEcdsaSignContext } from 'src/service/mpc/mpc-context.service';
 import { getKeyShare } from 'src/service/persistance/key-share.service';
-import { RawData } from 'ws';
 
 export const signWithEcdsaKey = (
   user: User,
-  messages: Observable<RawData>,
-  initParameter: RawData
-): MPCWebsocketResult => {
-  const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
+  messages: Observable<MPCWebsocketMessage>,
+  initParameter: MPCWebscocketInit<SignConfig>
+): MPCWebsocketResult<undefined> => {
+  const output = new Subject<ResultAsync<MPCWebsocketMessage<undefined>, WebsocketError>>();
 
   initSignProcess(initParameter, user.id).match(
     context => {
@@ -42,22 +44,32 @@ export const signWithEcdsaKey = (
 };
 
 const initSignProcess = (
-  message: RawData,
+  message: MPCWebscocketInit<SignConfig>,
   userId: string
 ): ResultAsync<Context, WebsocketError> => {
   // TODO come up with some message validation
-  const { messageToSign, encoding, shareId } = JSON.parse(message.toString());
+  const { messageToSign, encoding, shareId } = message.parameter;
 
   return getKeyShare(shareId, userId).andThen(keyShare =>
     createEcdsaSignContext(keyShare.value, messageToSign, encoding)
   );
 };
 
-export const signStep = (context: Context, message: RawData, output: WebSocketOutput) => {
-  const stepInput = message.toString();
-  logger.info({ input: stepInput.slice(0, 23), contextPtr: context.contextPtr }, 'SIGN STEP');
+export const signStep = (
+  context: Context,
+  wsMsg: MPCWebsocketMessage,
+  output: WebSocketOutput<undefined>
+) => {
+  if (!wsMsg || wsMsg.type !== 'inProgress') {
+    output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
+    return;
+  }
 
-  const stepOutput = step(message.toString(), context);
+  logger.info({ input: wsMsg.message.slice(0, 23), contextPtr: context.contextPtr }, 'SIGN STEP');
+
+  const msg = JSON.parse(wsMsg.toString());
+
+  const stepOutput = step(msg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

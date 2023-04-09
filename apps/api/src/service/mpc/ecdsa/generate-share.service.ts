@@ -1,24 +1,25 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
+import { step } from '@lib/utils/crypto';
+import logger from '@superlight/logger';
 import {
   databaseError,
   mpcInternalError,
-  WebsocketError,
-} from '@lib/routes/websocket/websocket-error';
-import {
   MPCWebsocketMessage,
   MPCWebsocketResult,
+  stepMessageError,
+  WebsocketError,
   WebSocketOutput,
-} from '@lib/routes/websocket/websocket-types';
-import { step } from '@lib/utils/crypto';
+} from '@superlight/mpc-common';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
-import { RawData } from 'ws';
 import { createGenerateEcdsaKey } from '../mpc-context.service';
 
-export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPCWebsocketResult => {
+export const generateEcdsaKey = (
+  user: User,
+  messages: Observable<MPCWebsocketMessage>
+): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
   createGenerateEcdsaKey().match(
@@ -30,7 +31,7 @@ export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPC
           context.free();
         },
         complete: () => {
-          logger.info({ user: user.id }, 'Connection on Websocket closed');
+          logger.debug({ user: user.id }, 'Connection on Websocket closed');
           context.free;
         },
       });
@@ -41,8 +42,18 @@ export const generateEcdsaKey = (user: User, messages: Observable<RawData>): MPC
   return output;
 };
 
-const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  const stepOutput = step(message.toString(), context);
+const onMessage = (
+  wsMsg: MPCWebsocketMessage,
+  context: Context,
+  output: WebSocketOutput,
+  user: User
+) => {
+  if (!wsMsg || wsMsg.type !== 'inProgress') {
+    output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
+    return;
+  }
+
+  const stepOutput = step(wsMsg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));

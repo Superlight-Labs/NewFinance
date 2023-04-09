@@ -18,21 +18,17 @@ export const buildPubKey = (encoded: string) => {
   return l1 + encoded + l3;
 };
 
+// Crypto.randomBytes(16)  encoded as base64 string results in 24 characters
 export const isNonceValid = (nonce: string | null) => nonce && nonce.length === 24;
 
 export const authenticate = (req: FastifyRequest): ResultAsync<User, RouteError> => {
-  const { devicesignature, devicepublickey, userid } = req.headers;
+  const { signature, devicepublickey, userid } = req.headers;
 
   const signedNonce = req.cookies['authnonce'];
   const nonce = req.unsignCookie(signedNonce || '').value || '';
 
   if (
-    !isAuthRequestValid(
-      devicesignature as string,
-      devicepublickey as string,
-      userid as string,
-      nonce
-    )
+    !isAuthRequestValid(signature as string, devicepublickey as string, userid as string, nonce)
   ) {
     return errAsync(invalidAuthentication('Invalid Request to Secured Endpoint'));
   }
@@ -45,17 +41,15 @@ export const authenticate = (req: FastifyRequest): ResultAsync<User, RouteError>
     e => other('Error while reading User from Database', e)
   );
 
-  return readUserResult.andThen(user =>
-    verifyUserSignature(user, nonce, devicesignature as string)
-  );
+  return readUserResult.andThen(user => verifyUserSignature(user, nonce, signature as string));
 };
 
 const verifyUserSignature = (
   user: User,
   nonce: string,
-  deviceSignature: string
+  signature: string
 ): ResultAsync<User, RouteError> => {
-  const valid = verifySignature(user.devicePublicKey, nonce, deviceSignature);
+  const valid = verifySignature(user.devicePublicKey, nonce, signature);
 
   if (valid) return okAsync(user);
 
@@ -63,21 +57,20 @@ const verifyUserSignature = (
 };
 
 const isAuthRequestValid = (
-  deviceSignature: string,
+  signature: string,
   devicePublicKey: string,
   userid: string,
   nonce: string | null
 ) => {
   return (
     isNonceValid(nonce) &&
-    isDeviceSignatureValid(deviceSignature) &&
+    issignatureValid(signature) &&
     isDevicePublicKeyValid(devicePublicKey) &&
     isUserIdValid(userid)
   );
 };
 
-const isDeviceSignatureValid = (deviceSignature: string | null) =>
-  deviceSignature && deviceSignature.length === 96;
+const issignatureValid = (signature: string | null) => signature && signature.length === 96;
 
 const isDevicePublicKeyValid = (devicePublicKey: string | null) =>
   devicePublicKey && devicePublicKey.length === 124;

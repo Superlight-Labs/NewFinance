@@ -5,20 +5,29 @@ import * as Icon from 'react-native-feather';
 
 type Props = {
   iconName: FeatherIconName;
+  color?: string;
+  style?: string;
 };
 
 const StyledView = styled(View);
 
-const MonoIcon = ({ iconName }: Props) => {
+const MonoIcon = ({ iconName, style, color = 'black' }: Props) => {
   const FeatherIcon = Icon[iconName];
 
   return (
-    <StyledView>
-      <FeatherIcon stroke="white" fill="black" />
+    <StyledView className={`${style}`}>
+      <FeatherIcon color={color} />
     </StyledView>
   );
 };
 
 export default MonoIcon;
 
-type FeatherIconName = 'ArrowUpCircle' | 'Send';
+export type FeatherIconName =
+  | 'ArrowUpCircle'
+  | 'Send'
+  | 'LogOut'
+  | 'Settings'
+  | 'ChevronLeft'
+  | 'ChevronRight'
+  | 'ArrowLeft';

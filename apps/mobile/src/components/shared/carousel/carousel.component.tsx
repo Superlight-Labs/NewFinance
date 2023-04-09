@@ -1,11 +1,6 @@
 import React, { ReactNode, useRef } from 'react';
 import { Animated, useWindowDimensions } from 'react-native';
-import {
-  AnimatedView,
-  SafeAreaView,
-  ScrollView,
-  View,
-} from 'util/wrappers/styled-react-native';
+import { AnimatedView, SafeAreaView, ScrollView, View } from 'util/wrappers/styled-react-native';
 
 type Props = {
   children: ReactNode[];
@@ -60,7 +55,7 @@ const Carousel = ({ children }: Props) => {
               <AnimatedView
                 key={childIndex}
                 style={{ width }}
-                className="my-4 mx-1 h-4 w-4 rounded-full bg-slate-600"
+                className="mx-1 my-4 h-4 w-4 rounded-full bg-slate-600"
               />
             );
           })}

@@ -1,7 +1,7 @@
 import { authenticatedRoute, nonceRoute, setNonceRoute } from '@lib/routes/rest/rest-handlers';
 import { FastifyInstance, FastifyRequest, FastifySchema } from 'fastify';
 import {
-  createUser,
+  createNewUser,
   updateUserWalletAddress,
   verifyUser,
 } from 'src/service/persistance/user.service';
@@ -20,7 +20,7 @@ export const registerUserRoutes = (server: FastifyInstance) => {
 };
 
 const postCreateUser = setNonceRoute<CreateUserResponse>((req: FastifyRequest, nonce: string) => {
-  return createUser(req.body as CreateUserRequest, nonce);
+  return createNewUser(req.body as CreateUserRequest, nonce);
 });
 
 const postVerifyUser = nonceRoute<boolean>((req: FastifyRequest, nonce: string) => {
@@ -44,11 +44,11 @@ const createUserSchema: FastifySchema = {
 const verifyUserSchema: FastifySchema = {
   body: {
     type: 'object',
-    required: ['devicePublicKey', 'userId', 'deviceSignature'],
+    required: ['devicePublicKey', 'userId', 'signature'],
     properties: {
       devicePublicKey: { type: 'string', maxLength: 130, minLength: 88 },
       userId: { type: 'string', maxLength: 36, minLength: 36 },
-      deviceSignature: { type: 'string', maxLength: 96, minLength: 96 },
+      signature: { type: 'string', maxLength: 96, minLength: 96 },
     },
   },
 };

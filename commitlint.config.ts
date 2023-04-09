@@ -1,4 +1,13 @@
-const scopes = ["app", "api", "workspace", "rn-mpc", "ci"];
+const scopes = [
+  "app",
+  "api",
+  "workspace",
+  "mpc-common",
+  "rn-mpc",
+  "rn-encrypt",
+  "rn-client",
+  "ci",
+];
 
 export default {
   extends: ["@commitlint/config-conventional"],

@@ -6,14 +6,19 @@ type Props = {
   onPress: () => void;
   children: ReactNode;
   style?: string;
+  disabled?: boolean;
 };
 
-const Button = ({ onPress, children, style }: Props) => (
-  <Pressable
-    onPress={onPress}
-    className={`${style} rounded-full bg-slate-800 p-4`}>
-    <Text className="text-white">{children}</Text>
-  </Pressable>
-);
+const Button = ({ onPress, children, style, disabled = false }: Props) => {
+  const bg = disabled ? 'bg-slate-400' : 'bg-slate-800';
+  return (
+    <Pressable
+      disabled={disabled}
+      onPress={onPress}
+      className={`rounded-fullp-4 flex flex-row items-center justify-center rounded-full p-4 shadow-lg ${bg} ${style}`}>
+      <Text className="font-bold text-white">{children}</Text>
+    </Pressable>
+  );
+};
 
 export default styled(Button);

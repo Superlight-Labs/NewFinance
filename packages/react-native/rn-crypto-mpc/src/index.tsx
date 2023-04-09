@@ -1,5 +1,14 @@
 import { Buffer } from 'buffer';
 import { NativeModules, Platform } from 'react-native';
+import {
+  BinSignatureResult,
+  KeyShareResult,
+  MPCSuccess,
+  PublicKeyResult,
+  SignatureResult,
+  StepResult,
+  XPubKeyResult,
+} from './types';
 
 const LINKING_ERROR =
   "The package 'rn-crypto-mpc' doesn't seem to be linked. Make sure: \n\n" +
@@ -18,12 +27,12 @@ const BlockchainCryptoMpc = NativeModules.BlockchainCryptoMpc
       }
     );
 
-export function initGenerateGenericSecret(): Promise<boolean> {
+export function initGenerateGenericSecret(): Promise<MPCSuccess> {
   reset();
   return BlockchainCryptoMpc.initGenerateGenericSecret();
 }
 
-export function initImportGenericSecret(secret: string): Promise<boolean> {
+export function initImportGenericSecret(secret: string): Promise<MPCSuccess> {
   reset();
   return BlockchainCryptoMpc.importGenericSecret([
     ...Buffer.from(secret, 'hex'),
@@ -34,7 +43,7 @@ export function initDeriveBIP32(
   share: string,
   index: number,
   hardened: boolean
-): Promise<boolean> {
+): Promise<MPCSuccess> {
   reset();
   return new Promise(async res => {
     await useShare(share);
@@ -46,7 +55,7 @@ export function initDeriveBIP32(
   });
 }
 
-export function initGenerateEcdsaKey(): Promise<boolean> {
+export function initGenerateEcdsaKey(): Promise<MPCSuccess> {
   reset();
 
   return BlockchainCryptoMpc.initGenerateEcdsaKey();
@@ -55,7 +64,7 @@ export function initGenerateEcdsaKey(): Promise<boolean> {
 export function initSignEcdsa(
   message: Uint8Array,
   share: string
-): Promise<boolean> {
+): Promise<MPCSuccess> {
   reset();
 
   return new Promise(async res => {
@@ -71,7 +80,7 @@ export function step(messageIn: string | null): Promise<StepResult> {
   return BlockchainCryptoMpc.step(messageIn);
 }
 
-export function getPublicKey(share: string): Promise<string> {
+export function getPublicKey(share: string): Promise<PublicKeyResult> {
   return new Promise(async res => {
     await useShare(share);
     const key = await BlockchainCryptoMpc.getPublicKey();
@@ -84,7 +93,7 @@ export function getPublicKey(share: string): Promise<string> {
 export function getXPubKey(
   share: string,
   network: 'main' | 'test'
-): Promise<string> {
+): Promise<XPubKeyResult> {
   return new Promise(async res => {
     await useShare(share);
     const key = await BlockchainCryptoMpc.getXPubKey(network === 'main');
@@ -94,7 +103,7 @@ export function getXPubKey(
   });
 }
 
-export function getDerSignature(context: string): Promise<string> {
+export function getDerSignature(context: string): Promise<SignatureResult> {
   return new Promise(async res => {
     await useContext(context);
     const signature = await BlockchainCryptoMpc.getDerSignature();
@@ -104,15 +113,10 @@ export function getDerSignature(context: string): Promise<string> {
   });
 }
 
-type BinSignature = {
-  signature: string;
-  recoveryCode: number;
-};
-
 export function getBinSignature(
   context: string,
   share: string
-): Promise<BinSignature> {
+): Promise<BinSignatureResult> {
   return new Promise(async res => {
     await useContext(context);
     await useShare(share);
@@ -128,7 +132,7 @@ export function verifySignature(
   message: Uint8Array,
   signature: Uint8Array,
   share: string
-): Promise<boolean> {
+): Promise<MPCSuccess> {
   return new Promise(async res => {
     await useShare(share);
     const ok = await BlockchainCryptoMpc.verifySignature(
@@ -141,7 +145,7 @@ export function verifySignature(
   });
 }
 
-export function getShare(context: string): Promise<string> {
+export function getShare(context: string): Promise<KeyShareResult> {
   return new Promise(async res => {
     await useContext(context);
     const share = await BlockchainCryptoMpc.getShare();
@@ -151,7 +155,7 @@ export function getShare(context: string): Promise<string> {
   });
 }
 
-export function getResultDeriveBIP32(context: string): Promise<string> {
+export function getResultDeriveBIP32(context: string): Promise<KeyShareResult> {
   return new Promise(async res => {
     await useContext(context);
     const share = await BlockchainCryptoMpc.getResultDeriveBIP32();
@@ -161,21 +165,14 @@ export function getResultDeriveBIP32(context: string): Promise<string> {
   });
 }
 
-export function useShare(shareBuf: string): Promise<true> {
+export function useShare(shareBuf: string): Promise<MPCSuccess> {
   return BlockchainCryptoMpc.useShare(shareBuf);
 }
 
-export function useContext(contextBuf: string): Promise<true> {
+export function useContext(contextBuf: string): Promise<MPCSuccess> {
   return BlockchainCryptoMpc.useContext(contextBuf);
 }
 
-export function reset(): Promise<true> {
+export function reset(): Promise<MPCSuccess> {
   return BlockchainCryptoMpc.reset();
 }
-
-export type StepResult = {
-  finished: boolean;
-  message: string;
-  share?: string;
-  context?: string;
-};

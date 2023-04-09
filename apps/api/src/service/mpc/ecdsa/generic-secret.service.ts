@@ -1,17 +1,17 @@
 import { Context } from '@crypto-mpc';
-import logger from '@lib/logger';
+import { step } from '@lib/utils/crypto';
+import logger from '@superlight/logger';
 import {
-  databaseError,
-  mpcInternalError,
-  WebsocketError,
-} from '@lib/routes/websocket/websocket-error';
-import {
+  MPCWebscocketInit,
   MPCWebsocketMessage,
   MPCWebsocketResult,
   WebSocketOutput,
-} from '@lib/routes/websocket/websocket-types';
-import { step } from '@lib/utils/crypto';
-import { errAsync, okAsync, ResultAsync } from 'neverthrow';
+  WebsocketError,
+  databaseError,
+  mpcInternalError,
+  stepMessageError,
+} from '@superlight/mpc-common';
+import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
@@ -19,11 +19,10 @@ import {
   createGenerateGenericSecretContext,
   createImportGenericSecretContext,
 } from 'src/service/mpc/mpc-context.service';
-import { RawData } from 'ws';
 
 export const generateGenericSecret = (
   user: User,
-  messages: Observable<RawData>
+  messages: Observable<MPCWebsocketMessage>
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
@@ -48,12 +47,14 @@ export const generateGenericSecret = (
 
 export const importGenericSecret = (
   user: User,
-  messages: Observable<RawData>,
-  initParameter: RawData
+  messages: Observable<MPCWebsocketMessage>,
+  initParameter: MPCWebscocketInit
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  createImportGenericSecretContext(initParameter)
+  logger.debug({ initParameter }, 'Received init parameter and sent starting stuff');
+
+  createImportGenericSecretContext(Buffer.from(initParameter.parameter, 'hex'))
     .map(context =>
       messages.subscribe({
         next: message => onMessage(message, context, output, user),
@@ -72,8 +73,18 @@ export const importGenericSecret = (
   return output;
 };
 
-const onMessage = (message: RawData, context: Context, output: WebSocketOutput, user: User) => {
-  const stepOutput = step(message.toString(), context);
+const onMessage = (
+  message: MPCWebsocketMessage,
+  context: Context,
+  output: WebSocketOutput,
+  user: User
+) => {
+  if (message.type !== 'inProgress') {
+    output.next(errAsync(stepMessageError('Invalid message recieved from client')));
+    return;
+  }
+
+  const stepOutput = step(message.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
@@ -89,7 +100,7 @@ const onMessage = (message: RawData, context: Context, output: WebSocketOutput, 
   }
 
   if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError(stepOutput.error)));
+    output.next(errAsync(mpcInternalError(stepOutput.error, 'Error while stepping in context')));
     context.free();
     return;
   }

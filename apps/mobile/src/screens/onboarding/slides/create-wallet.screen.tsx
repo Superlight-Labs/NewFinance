@@ -1,0 +1,81 @@
+import { StackScreenProps } from '@react-navigation/stack';
+import * as bip39 from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english';
+import { useGenericSecret } from '@superlight/rn-mpc-client';
+import ButtonComponent from 'components/shared/input/button/button.component';
+import Layout from 'components/shared/layout/layout.component';
+import Title from 'components/shared/title/title.component';
+import { useFailableAction } from 'hooks/useFailable';
+import { useState } from 'react';
+import { Switch } from 'react-native-gesture-handler';
+import { RootStackParamList } from 'screens/main-navigation';
+import { useAuthState } from 'state/auth.state';
+import { useBip32State } from 'state/bip32.state';
+import { signWithDeviceKey } from 'util/auth';
+import { apiUrl } from 'util/superlight-api';
+
+import { Text, TextInput } from 'util/wrappers/styled-react-native';
+type Props = StackScreenProps<RootStackParamList, 'Create'>;
+
+const CreateWallet = ({ navigation }: Props) => {
+  const [withPhrase, setWithPhrase] = useState(false);
+  const [walletName, setWalletName] = useState('');
+  const { user } = useAuthState();
+  const { perform } = useFailableAction();
+  const { generateGenericSecret } = useGenericSecret();
+  const { create } = useBip32State();
+
+  const startGenerateWallet = () => {
+    if (!user) {
+      navigation.navigate('Welcome');
+      return;
+    }
+
+    if (withPhrase) {
+      const phrase = bip39.generateMnemonic(wordlist);
+
+      navigation.navigate('ReviewCreate', {
+        withPhrase: true,
+        walletName,
+        phrase,
+      });
+      return;
+    }
+
+    perform(
+      generateGenericSecret(
+        apiUrl,
+        signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey })
+      )
+    ).onSuccess(result => {
+      create({
+        peerShareId: result.serverId,
+        share: result.share,
+        path: 'secret',
+        name: walletName,
+      });
+      navigation.navigate('ReviewCreate', { withPhrase: false, walletName });
+    });
+  };
+
+  return (
+    <Layout>
+      <ButtonComponent
+        style="px-6 py-3 absolute right-8 -top-12 rounded-xl"
+        onPress={startGenerateWallet}>
+        Next
+      </ButtonComponent>
+      <Title>Configure your new Wallet</Title>
+      <Text className="mb-2 mr-4">Show the used Seed Phrase</Text>
+      <Switch value={withPhrase} onValueChange={setWithPhrase} />
+      <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
+      <TextInput
+        className="border-800 h-8 w-64 border-b"
+        value={walletName}
+        onChangeText={setWalletName}
+      />
+    </Layout>
+  );
+};
+
+export default CreateWallet;

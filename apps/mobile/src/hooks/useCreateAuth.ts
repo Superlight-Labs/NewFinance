@@ -1,27 +1,44 @@
-// import { signWithDeviceKey } from "util/auth";
+import { CreateUserResponse } from '@superlight/api/src/repository/user';
+import { SignResult } from '@superlight/mpc-common';
+import { ResultAsync } from 'neverthrow';
+import { AppUser } from 'state/auth.state';
+import { AppError } from 'state/snackbar.state';
+import { SignUser, signWithDeviceKey } from 'util/auth';
+import { backend } from 'util/superlight-api';
+import { appError } from './../util/error/error';
 
-export const useCreateAuth = () => (devicePublicKey: string) => {
-  return devicePublicKey;
+export const useCreateAuth =
+  () =>
+  (devicePublicKey: string): ResultAsync<AppUser, AppError> => {
+    return createUser(devicePublicKey)
+      .andThen(createSignature)
+      .andThen(verifyUser)
+      .map(userId => ({ id: userId, devicePublicKey }));
+  };
+
+const createUser = (devicePublicKey: string): ResultAsync<SignUser & { nonce: string }, AppError> =>
+  ResultAsync.fromPromise(
+    backend.post<CreateUserResponse>('/user/create', {
+      devicePublicKey,
+    }),
+    error => appError(error, 'Error while creating user')
+  ).map(axiosResponse => ({ ...axiosResponse.data, devicePublicKey }));
+
+const createSignature = (user: SignUser & { nonce: string }): ResultAsync<SignResult, AppError> => {
+  return signWithDeviceKey(user)(user.nonce);
 };
 
-// const { nonce, userId } = await fetchFromApi<CreateUserResponse>("/user/create", {
-//     body: {
-//       devicePublicKey,
-//     },
-//   });
-//   const deviceSignature = await signWithDeviceKey(nonce);
-//   const success = await fetchFromApi<boolean>("/user/verify", {
-//     body: {
-//       deviceSignature,
-//       userId,
-//       devicePublicKey,
-//     },
-//     method: HttpMethod.POST,
-//     args: { credentials: "include", headers: { deviceSignature } },
-//   });
-//   return {
-//     id: userId,
-//     devicePublicKey,
-//     keyShares: [],
-//     bip44MasterKeyShare: { ...emptyKeyPair, type: KeyShareType.MASTER },
-//   };
+const verifyUser = ({
+  signature,
+  userId,
+  devicePublicKey,
+}: SignResult): ResultAsync<string, AppError> => {
+  return ResultAsync.fromPromise(
+    backend.post(
+      '/user/verify',
+      { signature, userId, devicePublicKey },
+      { withCredentials: true, headers: { signature } }
+    ),
+    error => appError(error, 'Error verifying new user with device key')
+  ).map(_ => userId);
+};
