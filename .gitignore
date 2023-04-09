@@ -13,3 +13,6 @@
 **/dist/**
 
 **/prisma/db.sqlite
+
+
+**/tsconfig.tsbuildinfo
