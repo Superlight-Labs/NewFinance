@@ -9,7 +9,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import logger from '@superlight/logger';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
-import React from 'react';
 import 'react-native-gesture-handler';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
@@ -24,6 +23,8 @@ import { useSnackbarState } from './state/snackbar.state';
 if (__DEV__) {
   import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
 }
+
+console.log('hi');
 
 const Stack = createStackNavigator<RootStackParamList>();
 export type RootStack = typeof Stack;
