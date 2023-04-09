@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { useGenericSecret } from '@superlight/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
+import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { useFailableAction } from 'hooks/useFailable';
@@ -64,7 +65,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
       <Title>Review Settings and finish</Title>
 
       <Text>Name: {walletName}</Text>
-      {withPhrase && <Text>Seed: {phrase}</Text>}
+      {withPhrase && phrase && <MultilineText value={phrase} disabled />}
 
       {loading && <Text>Loading...</Text>}
     </Layout>
