@@ -8,7 +8,7 @@ type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
 const Home = ({ navigation }: Props) => {
   return (
-    <LayoutComponent rootScreen settingsNavigate={() => navigation.navigate('Menu')}>
+    <LayoutComponent hideBack settingsNavigate={() => navigation.navigate('Menu')}>
       <Title>Wallets</Title>
 
       <WalletMenuItem navigate={() => navigation.navigate('Wallets')} />

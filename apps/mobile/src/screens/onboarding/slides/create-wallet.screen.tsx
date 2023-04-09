@@ -13,22 +13,32 @@ import { useAuthState } from 'state/auth.state';
 import { useBip32State } from 'state/bip32.state';
 import { signWithDeviceKey } from 'util/auth';
 import { apiUrl } from 'util/superlight-api';
-import { mnemonicToSeed } from 'util/wrappers/bip32-neverthrow';
 
 import { Text, TextInput } from 'util/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {
-  const [showSeed, setShowSeed] = useState(false);
+  const [withPhrase, setWithPhrase] = useState(false);
   const [walletName, setWalletName] = useState('');
   const { user } = useAuthState();
   const { perform } = useFailableAction();
-  const { generateGenericSecret, importGenericSecret } = useGenericSecret();
+  const { generateGenericSecret } = useGenericSecret();
   const { create } = useBip32State();
 
   const startGenerateWallet = () => {
-    if (user === undefined) {
+    if (!user) {
       navigation.navigate('Welcome');
+      return;
+    }
+
+    if (withPhrase) {
+      const phrase = bip39.generateMnemonic(wordlist);
+
+      navigation.navigate('ReviewCreate', {
+        withPhrase: true,
+        walletName,
+        phrase,
+      });
       return;
     }
 
@@ -38,43 +48,26 @@ const CreateWallet = ({ navigation }: Props) => {
         signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey })
       )
     ).onSuccess(result => {
-      create({ peerShareId: result.serverId, share: result.share, path: 'secret' });
-      navigation.navigate('ReviewCreate', { showSeed, walletName });
-    });
-  };
-
-  const startGenerateWalletWithSeed = () => {
-    if (user == undefined) {
-      navigation.navigate('Welcome');
-      return;
-    }
-
-    const seed = bip39.generateMnemonic(wordlist);
-
-    perform(mnemonicToSeed(seed))
-      .andThen(
-        importGenericSecret(
-          apiUrl,
-          signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
-          Buffer.from(seed).toString('hex')
-        )
-      )
-      .onSuccess(result => {
-        create({ peerShareId: result.serverId, share: result.share, path: 'secret' });
-        navigation.navigate('ReviewCreate', { showSeed, walletName, seed });
+      create({
+        peerShareId: result.serverId,
+        share: result.share,
+        path: 'secret',
+        name: walletName,
       });
+      navigation.navigate('ReviewCreate', { withPhrase: false, walletName });
+    });
   };
 
   return (
     <Layout>
       <ButtonComponent
         style="px-6 py-3 absolute right-8 -top-12 rounded-xl"
-        onPress={showSeed ? startGenerateWalletWithSeed : startGenerateWallet}>
+        onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
       <Title>Configure your new Wallet</Title>
       <Text className="mb-2 mr-4">Show the used Seed Phrase</Text>
-      <Switch value={showSeed} onValueChange={setShowSeed} />
+      <Switch value={withPhrase} onValueChange={setWithPhrase} />
       <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
       <TextInput
         className="border-800 h-8 w-64 border-b"

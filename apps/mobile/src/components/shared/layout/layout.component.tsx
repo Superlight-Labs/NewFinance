@@ -6,7 +6,7 @@ import MonoIcon from '../mono-icon/mono-icon.component';
 
 type Props = {
   children: ReactNode;
-  rootScreen?: boolean;
+  hideBack?: boolean;
   noPadding?: boolean;
   style?: string;
   settingsNavigate?: () => void;
@@ -14,7 +14,7 @@ type Props = {
 
 const Layout = ({
   children,
-  rootScreen = false,
+  hideBack = false,
   noPadding = false,
   style,
   settingsNavigate,
@@ -23,7 +23,7 @@ const Layout = ({
   return (
     <View className={`${style} flex flex-col pt-12`}>
       <View className="my-4 flex flex-row px-8">
-        {!rootScreen && (
+        {!hideBack && (
           <Pressable
             className="flex w-12 items-start justify-start"
             onPress={() => navigator.goBack()}>

@@ -6,11 +6,14 @@ export type Bip32Data = {
   share: string;
   path: string;
   peerShareId: string;
+  name: string;
 };
 
 export type Bip32State = {
   data: Bip32Data | undefined;
   hasBip32State: boolean;
+  hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   create: (data: Bip32Data) => void;
   delete: () => void;
 };
@@ -18,14 +21,23 @@ export type Bip32State = {
 export const useBip32State = create<Bip32State>()(
   persist(
     set => ({
+      hasHydrated: false,
       data: undefined,
       hasBip32State: false,
       create: data => set(_ => ({ data, hasBip32State: true })),
       delete: () => set(deleteBip32State),
+      setHasHydrated: (state: boolean) => {
+        set({
+          hasHydrated: state,
+        });
+      },
     }),
     {
-      name: 'auth-storage',
+      name: 'bip-32-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => state => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
