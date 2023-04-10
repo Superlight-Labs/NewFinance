@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "React Native wrapper for (blockchain-crypto-mpc)[https://github.com/unboundsecurity/blockchain-crypto-mpc]",
   "main": "src/index.tsx",
+  "types": "src/index.tsx",
   "files": [
     "src",
     "lib",
