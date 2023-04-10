@@ -1,6 +1,7 @@
 import { generateGenericSecret, startGenerateGenericSecret } from './src/handlers/create-secret';
+import { deriveBip32, startDerive } from './src/handlers/derive';
 import { importGenericSecret, startImportGenericSecret } from './src/handlers/import-secret';
-import { ShareResult } from './src/lib/mpc/mpc-types';
+import { DeriveFrom, ShareResult } from './src/lib/mpc/mpc-types';
 import { authWebsocket } from './src/lib/websocket/ws-client';
 import { Signer } from './src/lib/websocket/ws-common';
 import { authWebsocketWithSetup } from './src/lib/websocket/ws-setup-client';
@@ -12,6 +13,18 @@ export const useGenericSecret = () => ({
       startGenerateGenericSecret,
       generateGenericSecret
     ),
+  deriveBip32: (baseUrl: string, sign: Signer, deriveConfig: DeriveFrom) =>
+    authWebsocketWithSetup<DeriveFrom>(
+      { baseUrl, socketEndpoint: 'derive/non-hardened' },
+      sign,
+      deriveConfig
+    )<ShareResult>(startDerive, deriveBip32),
+  // deriveBip32Hardened: (baseUrl: string, sign: Signer, deriveConfig: DeriveFrom) =>
+  //   authWebsocketWithSetup<DeriveFrom, null>(
+  //     { baseUrl, socketEndpoint: 'derive/hardened' },
+  //     sign,
+  //     deriveConfig
+  //   )<ShareResult>(startDeriveHardened, deriveBip32Hardened),
   importGenericSecret: (baseUrl: string, sign: Signer, hexSeed: string) =>
     authWebsocketWithSetup(
       { baseUrl, socketEndpoint: 'importGenericSecret' },

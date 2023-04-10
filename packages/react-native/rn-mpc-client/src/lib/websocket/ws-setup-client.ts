@@ -22,9 +22,13 @@ import {
 } from './ws-common';
 
 export const authWebsocketWithSetup =
-  <Init = string, StartRes = string>(apiConfig: ApiConfig, sign: Signer, initParam: Init) =>
+  <InitParam = string, StartRes = string>(
+    apiConfig: ApiConfig,
+    sign: Signer,
+    initParam: InitParam
+  ) =>
   <T>(
-    starter: MPCWebsocketStarterWithSetup<Init, StartRes>,
+    starter: MPCWebsocketStarterWithSetup<InitParam, StartRes>,
     handleMessages: (params: HandlerWithSetupParams<StartRes>) => ResultAsync<T, AppError>
   ): ResultAsync<T, AppError> => {
     const input = new Subject<MPCWebsocketMessage>();
