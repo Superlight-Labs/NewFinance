@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Wraps native Multi Party Utils and returns Typesafe Results via neverthrow",
   "main": "index.ts",
-  "files": [
-    "./index.ts"
-  ],
+  "types": "index.ts",
   "scripts": {
     "build": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""

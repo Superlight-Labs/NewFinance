@@ -3,6 +3,7 @@
   "version": "0.0.7",
   "description": "Uses Secure Enclave for iOs and KeyStore System for Android to Encypt Data Securely and keeping Secrets Safe on Hardware Level",
   "main": "src/index.ts",
+  "types": "src/index.ts",
   "files": [
     "src",
     "lib",

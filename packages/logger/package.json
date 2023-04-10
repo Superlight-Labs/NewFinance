@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Logging for all superlight apps",
   "main": "index.ts",
+  "types": "index.ts",
   "scripts": {
     "build": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
