@@ -18,9 +18,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/cookie": "^7.0.0",
-    "@fastify/under-pressure": "^7.0.0",
-    "@fastify/websocket": "^6.0.1",
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/under-pressure": "^8.2.0",
+    "@fastify/websocket": "^7.2.0",
     "@superlight/database": "*",
     "@superlight/logger": "*",
     "@superlight/mpc-common": "*",
