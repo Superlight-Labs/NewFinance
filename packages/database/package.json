@@ -7,8 +7,8 @@
     "dev": "prisma studio --port 5556",
     "start": "docker compose up -d",
     "build": "tsc -p tsconfig.json",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
+    "db:reset": "prisma db push --force-reset",
+    "db:push": "prisma db push",
     "studio": "yarn with-env prisma studio --port 5556",
     "with-env": "dotenv -e .env --"
   },

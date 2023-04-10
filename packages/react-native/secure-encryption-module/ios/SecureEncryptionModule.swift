@@ -1,6 +1,7 @@
 import Security
 import Foundation
 
+@available(iOS 11.0, *)
 @objc(SecureEncryptionModule)
 class SecureEncryptionModule: NSObject {
     

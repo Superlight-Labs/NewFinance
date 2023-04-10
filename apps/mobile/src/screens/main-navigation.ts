@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  Loading: undefined;
   Welcome: undefined;
   Home: undefined;
   Wallets: undefined;

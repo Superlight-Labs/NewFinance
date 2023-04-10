@@ -10,6 +10,8 @@ export type AppUser = {
 export type AuthState = {
   user: AppUser | undefined;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   authenticate: (user: AppUser) => void;
   delete: () => void;
 };
@@ -17,15 +19,24 @@ export type AuthState = {
 export const useAuthState = create<AuthState>()(
   persist(
     set => ({
+      hasHydrated: false,
       user: undefined,
       isAuthenticated: false,
       authenticate: user => set(_ => ({ user, isAuthenticated: true })),
       delete: () => set({ user: undefined, isAuthenticated: false }),
+      setHasHydrated: (state: boolean) => {
+        set({
+          hasHydrated: state,
+        });
+      },
     }),
 
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => state => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
