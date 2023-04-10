@@ -40,8 +40,8 @@ export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
   };
 };
 
-export const websocketRouteWithInitParameter = <Result, Init = string>(
-  handler: MPCWebsocketWithInitParameterHandler<Result, Init>
+export const websocketRouteWithInitParameter = <Result, InitParam = string>(
+  handler: MPCWebsocketWithInitParameterHandler<Result, InitParam>
 ) => {
   return async (connection: SocketStream, req: FastifyRequest) => {
     logger.info('Websocket connection opened');
@@ -61,7 +61,7 @@ export const websocketRouteWithInitParameter = <Result, Init = string>(
       })
     );
 
-    const initParameter = (await firstValueFrom(piped)) as MPCWebscocketInit<Init>;
+    const initParameter = (await firstValueFrom(piped)) as MPCWebscocketInit<InitParam>;
 
     connection.socket.send(JSON.stringify({ type: 'start' } as MPCWebsocketMessage));
 

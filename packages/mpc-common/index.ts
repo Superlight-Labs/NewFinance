@@ -1,4 +1,6 @@
 import { createMPCWebsocketHandlerWrapper } from './src/websocket/websocket-message-unwrap';
+export { buildPath } from './src/derive';
+export type { DeriveConfig } from './src/derive';
 export {
   apiError,
   databaseError,
@@ -10,6 +12,7 @@ export {
   websocketError,
 } from './src/error';
 export type { AppError, WebsocketError } from './src/error';
+export type { SignConfig } from './src/sign';
 export type {
   ApiConfig,
   MpcWebsocketHandlerWrapper,

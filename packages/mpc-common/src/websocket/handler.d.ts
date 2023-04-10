@@ -5,18 +5,18 @@ import { MPCWebsocketMessage } from './websocket-messages';
 
 export type MPCWebsocketStarter<T> = (ws: WebSocket) => ResultAsync<T, WebsocketError>;
 
-export type MPCWebsocketStarterWithSetup<Init, StartRes> = (
-  params: StarterWithSetupParams<Init>
+export type MPCWebsocketStarterWithSetup<InitParam, StartRes> = (
+  params: StarterWithSetupParams<InitParam>
 ) => ResultAsync<HandlerWithSetupParams<StartRes>, WebsocketError>;
 
-export type MPCWebsocketHandlerWithSetup<T, U> = (
-  params: HandlerWithSetupParams<U>
-) => ResultAsync<T, WebsocketError>;
+export type MPCWebsocketHandlerWithSetup<Result, StartRes> = (
+  params: HandlerWithSetupParams<StartRes>
+) => ResultAsync<Result, WebsocketError>;
 
-export type StarterWithSetupParams<T> = {
+export type StarterWithSetupParams<InitParam> = {
   input: Observable<MPCWebsocketMessage>;
   output: Subject<ResultAsync<MPCWebsocketMessage<U>, WebsocketError>>;
-  initParam: T;
+  initParam: InitParam;
 };
 
 export type HandlerWithSetupParams<T> = {

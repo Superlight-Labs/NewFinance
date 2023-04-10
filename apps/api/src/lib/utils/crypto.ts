@@ -3,19 +3,6 @@ import logger from '@superlight/logger';
 import crypto from 'crypto';
 import { buildPubKey } from './auth';
 
-export type DeriveConfig = {
-  serverShareId: string;
-  index: string;
-  hardened: string;
-  parentPath: string;
-};
-
-export type SignConfig = {
-  messageToSign: string;
-  encoding: BufferEncoding;
-  shareId: string;
-};
-
 type StepResult =
   | { type: 'error'; error?: unknown }
   | {
@@ -37,14 +24,6 @@ export const verifySignature = (publicKey: string, message: string, signature: s
     },
     Buffer.from(signature, 'base64')
   );
-};
-
-export const buildPath = (deriveConfig: DeriveConfig) => {
-  const { parentPath, index, hardened } = deriveConfig;
-
-  if (!parentPath && index === 'm') return 'm';
-
-  return `${parentPath}/${index}${hardened === '1' ? "'" : ''}`;
 };
 
 export const step = (message: string, context: Context): StepResult => {

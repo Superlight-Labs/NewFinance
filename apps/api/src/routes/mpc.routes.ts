@@ -1,5 +1,5 @@
 import { authenticate } from '@lib/utils/auth';
-import { DeriveConfig, SignConfig } from '@lib/utils/crypto';
+import { DeriveConfig, SignConfig } from '@superlight/mpc-common';
 import { FastifyInstance } from 'fastify';
 import {
   deriveBip32Hardened,

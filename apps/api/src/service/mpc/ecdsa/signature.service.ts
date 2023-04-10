@@ -1,10 +1,11 @@
 import { Context } from '@crypto-mpc';
-import { SignConfig, step } from '@lib/utils/crypto';
+import { step } from '@lib/utils/crypto';
 import logger from '@superlight/logger';
 import {
   MPCWebscocketInit,
   MPCWebsocketMessage,
   MPCWebsocketResult,
+  SignConfig,
   WebSocketOutput,
   WebsocketError,
   mpcInternalError,

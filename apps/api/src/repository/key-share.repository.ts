@@ -1,7 +1,7 @@
 import constants from '@lib/constants';
 import { notFound, other, RouteError } from '@lib/routes/rest/rest-error';
-import { buildPath, DeriveConfig } from '@lib/utils/crypto';
 import { client } from '@superlight/database';
+import { buildPath, DeriveConfig } from '@superlight/mpc-common';
 import { MpcKeyShare } from './key-share';
 import { User } from './user';
 

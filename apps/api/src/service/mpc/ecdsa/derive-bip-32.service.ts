@@ -1,8 +1,10 @@
 import { Context } from '@crypto-mpc';
-import { buildPath, DeriveConfig, step } from '@lib/utils/crypto';
+import { step } from '@lib/utils/crypto';
 import logger from '@superlight/logger';
 import {
+  buildPath,
   databaseError,
+  DeriveConfig,
   mpcInternalError,
   MPCWebscocketInit,
   MPCWebsocketMessage,
