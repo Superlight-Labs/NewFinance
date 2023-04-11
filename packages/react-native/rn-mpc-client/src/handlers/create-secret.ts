@@ -65,9 +65,6 @@ const listenToWebSocket = (
       peerShareId$.error(err);
       reset();
     },
-    complete: () => {
-      logger.debug('Connection on Websocket closed');
-    },
   });
 };
 

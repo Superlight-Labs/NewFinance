@@ -3,4 +3,10 @@ export type ShareResult = {
   peerShareId: string;
 };
 
-export type DeriveFrom = { share: string; peerShareId: string; parentPath?: string; index: string };
+export type DeriveFrom = {
+  share: string;
+  peerShareId: string;
+  parentPath?: string;
+  index: string;
+  hardened: boolean;
+};

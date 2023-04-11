@@ -67,9 +67,6 @@ const listenToWebSocket = (
       logger.error({ err }, 'Error received from server on websocket');
       reset();
     },
-    complete: () => {
-      logger.debug('Connection on Websocket closed');
-    },
   });
 };
 

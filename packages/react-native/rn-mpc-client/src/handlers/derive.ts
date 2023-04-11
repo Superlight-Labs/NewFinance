@@ -14,6 +14,8 @@ import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
 
+// Without steps -> means, that the key can be fetched from the mpc context immediately on the server.
+// Client side it is necessary to step once with `step(null)`
 export const startDerive: MPCWebsocketStarterWithSetup<DeriveFrom, string> = ({
   output,
   input,
@@ -67,9 +69,6 @@ const listenToWebSocket = (
     error: err => {
       logger.error({ err }, 'Error received from server on websocket');
       reset();
-    },
-    complete: () => {
-      logger.debug('Connection on Websocket closed');
     },
   });
 };

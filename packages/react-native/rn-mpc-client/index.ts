@@ -1,7 +1,6 @@
-import { DeriveConfig } from '@superlight/mpc-common';
 import { generateGenericSecret, startGenerateGenericSecret } from './src/handlers/create-secret';
 import { deriveBip32, startDerive } from './src/handlers/derive';
-import { deriveBip32Hardened, startDeriveHardened } from './src/handlers/derive-hardened';
+import { deriveBip32WithSteps, startDeriveWithSteps } from './src/handlers/derive-hardened';
 import { importGenericSecret, startImportGenericSecret } from './src/handlers/import-secret';
 import { DeriveFrom, ShareResult } from './src/lib/mpc/mpc-types';
 import { authWebsocket } from './src/lib/websocket/ws-client';
@@ -24,9 +23,15 @@ export const useGenericSecret = () => ({
 });
 
 export const useDerive = () => ({
+  deriveMasterPair: (baseUrl: string, sign: Signer, deriveConfig: DeriveMaster) =>
+    authWebsocketWithSetup<DeriveFrom, null>({ baseUrl, socketEndpoint: 'derive/stepping' }, sign, {
+      ...deriveConfig,
+      hardened: false,
+      index: 'm',
+    })<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
   deriveBip32: (baseUrl: string, sign: Signer, deriveConfig: DeriveFrom) =>
-    authWebsocketWithSetup<DeriveFrom & DeriveConfig, null>(
-      { baseUrl, socketEndpoint: 'derive/non-hardened' },
+    authWebsocketWithSetup<DeriveFrom, string>(
+      { baseUrl, socketEndpoint: 'derive/no-steps' },
       sign,
       {
         ...deriveConfig,
@@ -34,12 +39,13 @@ export const useDerive = () => ({
       }
     )<ShareResult>(startDerive, deriveBip32),
   deriveBip32Hardened: (baseUrl: string, sign: Signer, deriveConfig: DeriveFrom) =>
-    authWebsocketWithSetup<DeriveFrom & DeriveConfig, null>(
-      { baseUrl, socketEndpoint: 'derive/hardened' },
-      sign,
-      {
-        ...deriveConfig,
-        hardened: true,
-      }
-    )<ShareResult>(startDeriveHardened, deriveBip32Hardened),
+    authWebsocketWithSetup<DeriveFrom, null>({ baseUrl, socketEndpoint: 'derive/stepping' }, sign, {
+      ...deriveConfig,
+      hardened: true,
+    })<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
 });
+
+type DeriveMaster = {
+  peerShareId: string;
+  share: string;
+};

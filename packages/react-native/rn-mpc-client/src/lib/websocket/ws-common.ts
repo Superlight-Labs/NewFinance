@@ -10,6 +10,7 @@ import {
   createMPCWebsocketHandlerWrapper,
   mapWebsocketToAppError,
   other,
+  shortenMessage,
   websocketError,
 } from '@superlight/mpc-common';
 import axios from 'axios';
@@ -86,7 +87,7 @@ export const unwrapStartResult = <T>(
 
 export const logIncommingMessages = {
   next: (message: MPCWebsocketMessage) =>
-    logger.debug({ message }, 'Received message on websocket'),
+    logger.debug({ data: shortenMessage(message) }, 'Received message on websocket'),
   error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
-  complete: () => logger.debug('Websocket closed'),
+  complete: () => logger.debug('Connection on Websocket closed'),
 };

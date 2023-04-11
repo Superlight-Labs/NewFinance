@@ -11,16 +11,19 @@ import {
 import { reset } from '@superlight/rn-crypto-mpc';
 import { StepResult } from '@superlight/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { Observable, Subject, combineLatest, firstValueFrom, map } from 'rxjs';
+import { Observable, Subject, combineLatest, firstValueFrom } from 'rxjs';
 import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
 
-export const startDeriveHardened: MPCWebsocketStarterWithSetup<DeriveFrom, null> = ({
+// With Steps means that there are multiple steps necessary on client and server to create a keypair
+// Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
+// which is non-hardened, but via multiple steps
+export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<DeriveFrom, null> = ({
   output,
   input,
   initParam,
 }) => {
-  return initDeriveBip32(initParam, false)
+  return initDeriveBip32(initParam, initParam.hardened)
     .andThen(_ => step(null))
     .andThen((stepMsg: StepResult) => {
       if (stepMsg.type === 'error') {
@@ -35,34 +38,35 @@ export const startDeriveHardened: MPCWebsocketStarterWithSetup<DeriveFrom, null>
     });
 };
 
-export const deriveBip32Hardened: MPCWebsocketHandlerWithSetup<ShareResult, null> = ({
+export const deriveBip32WithSteps: MPCWebsocketHandlerWithSetup<ShareResult, null> = ({
   input,
   output,
   startResult: _,
 }) => {
-  const result$ = new Subject<ShareResult>();
+  const { peerShareId$, share$ } = {
+    peerShareId$: new Subject<string>(),
+    share$: new Subject<string>(),
+  };
 
-  listenToWebSocket(input, output, result$);
+  listenToWebSocket(input, output, { peerShareId$, share$ });
 
-  return ResultAsync.fromPromise(firstValueFrom(result$), err =>
-    other(err, 'Failed to derive Keys')
+  return ResultAsync.fromPromise(
+    firstValueFrom(combineLatest({ peerShareId: peerShareId$, share: share$ })),
+    err => other(err, 'Failed to derive Keys')
   );
 };
 
 const listenToWebSocket = (
   input: Observable<MPCWebsocketMessage>,
   output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  result$: Subject<ShareResult>
+  result: DeriveResult
 ) => {
   input.subscribe({
-    next: message => onMessage(message, output, result$),
+    next: message => onMessage(message, output, result),
     error: err => {
       logger.error({ err }, 'Error received from server on websocket');
-      result$.error(err);
+      result.share$.error(err);
       reset();
-    },
-    complete: () => {
-      logger.debug('Connection on Websocket closed');
     },
   });
 };
@@ -70,24 +74,17 @@ const listenToWebSocket = (
 const onMessage = (
   message: MPCWebsocketMessage<string>,
   output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  result$: Subject<ShareResult>
-): Observable<ShareResult> => {
-  const peerShareId$ = new Subject<string>();
-  const share$ = new Subject<string>();
-
-  combineLatest([peerShareId$, share$])
-    .pipe(map(([peerShareId, share]) => ({ peerShareId, share })))
-    .subscribe(val => result$.next(val));
-
+  { peerShareId$, share$ }: DeriveResult
+) => {
   // TODO validate structure of message
   if (message && message.type === 'success') {
     peerShareId$.next(message.result);
-    return result$;
+    return;
   }
 
   if (message.type !== 'inProgress') {
     output.next(errAsync(websocketError('Unexpected message received from server')));
-    return result$;
+    return;
   }
 
   step(message.message).match(
@@ -106,5 +103,10 @@ const onMessage = (
     err => output.next(errAsync(websocketError(err)))
   );
 
-  return result$;
+  return;
+};
+
+type DeriveResult = {
+  peerShareId$: Subject<string>;
+  share$: Subject<string>;
 };
