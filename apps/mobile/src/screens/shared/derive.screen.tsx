@@ -7,7 +7,7 @@ import { useFailableAction } from 'hooks/useFailable';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
-import { signWithDeviceKey } from 'util/auth';
+import { signWithDeviceKeyNoAuth } from 'util/auth';
 import { apiUrl } from 'util/superlight-api';
 
 type Props = StackScreenProps<RootStackParamList, 'Derive'>;
@@ -15,17 +15,17 @@ type Props = StackScreenProps<RootStackParamList, 'Derive'>;
 const DeriveScreen = ({ route, navigation }: Props) => {
   const { user } = useAuthState();
   const { path: _, fromShare, peerShareId } = route.params;
-  const { deriveBip32 } = useDerive();
+  const { deriveMasterPair } = useDerive();
   const { perform } = useFailableAction();
 
   useEffect(() => {
     if (!user) return;
 
     perform(
-      deriveBip32(
+      deriveMasterPair(
         apiUrl,
-        signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
-        { share: fromShare, peerShareId, index: 'm' }
+        signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+        { share: fromShare, peerShareId }
       ),
       () => navigation.navigate('Onboarding')
     ).onSuccess(result => logger.info({ result }, 'Derive success'));

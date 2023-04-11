@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useBip32State } from 'state/bip32.state';
-import { signWithDeviceKey } from 'util/auth';
+import { signWithDeviceKeyNoAuth } from 'util/auth';
 import { apiUrl } from 'util/superlight-api';
 import { mnemonicToSeed } from 'util/wrappers/bip32-neverthrow';
 import { Text } from 'util/wrappers/styled-react-native';
@@ -43,7 +43,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
     const importSecret = mnemonicToSeed(phrase).andThen(secret =>
       importGenericSecret(
         apiUrl,
-        signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+        signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
         Buffer.from(secret).toString('hex')
       )
     );
