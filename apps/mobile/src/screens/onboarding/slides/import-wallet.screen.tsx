@@ -24,7 +24,6 @@ const ImportWallet = ({ navigation }: Props) => {
 
     navigation.navigate('ReviewCreate', {
       withPhrase: true,
-      walletName,
       phrase: seedPhrase,
     });
   };

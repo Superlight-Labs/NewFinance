@@ -13,10 +13,7 @@ export const useFailableAction = () => {
           logger.error({ err }, 'Error performing action');
           setMessage(err);
         });
-
-        return { andThen: perform };
       },
-      andThen: perform,
     };
   };
 

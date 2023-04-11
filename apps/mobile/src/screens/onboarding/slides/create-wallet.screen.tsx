@@ -23,11 +23,11 @@ const CreateWallet = ({ navigation }: Props) => {
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
-  const { create, data } = useBip32State();
+  const { setSecret, setName, createdUntil } = useBip32State();
 
   useEffect(() => {
-    if (data) {
-      navigation.navigate('ReviewCreate', { walletName: data.name, withPhrase: false });
+    if (createdUntil !== 'none') {
+      navigation.navigate('ReviewCreate', { withPhrase: false });
     }
   }, []);
 
@@ -42,25 +42,24 @@ const CreateWallet = ({ navigation }: Props) => {
 
       navigation.navigate('ReviewCreate', {
         withPhrase: true,
-        walletName,
         phrase,
       });
       return;
     }
 
     perform(
-      generateGenericSecret(
-        apiUrl,
-        signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey })
-      )
+      generateGenericSecret({
+        baseUrl: apiUrl,
+        sign: signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+      })
     ).onSuccess(result => {
-      create({
+      setName(walletName);
+      setSecret({
         peerShareId: result.peerShareId,
         share: result.share,
         path: 'secret',
-        name: walletName,
       });
-      navigation.navigate('ReviewCreate', { withPhrase: false, walletName });
+      navigation.navigate('ReviewCreate', { withPhrase: false });
     });
   };
 

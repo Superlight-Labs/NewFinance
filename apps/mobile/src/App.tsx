@@ -35,8 +35,7 @@ export type RootStack = typeof Stack;
 function App(): JSX.Element {
   const { hasHydrated: authHydrated, isAuthenticated } = useAuthState();
   const { message } = useSnackbarState();
-  const { hasBip32State, hasHydrated: bipHydrated } = useBip32State();
-
+  const { createdUntil, hasHydrated: bipHydrated } = useBip32State();
   const { logout } = useLogout();
 
   if (__DEV__) {
@@ -52,7 +51,7 @@ function App(): JSX.Element {
               <>
                 {isAuthenticated ? (
                   <>
-                    {hasBip32State && (
+                    {createdUntil === 'complete' && (
                       <>
                         <Stack.Screen name="Home" component={Home} />
                         {WalletsStack({ Stack })}

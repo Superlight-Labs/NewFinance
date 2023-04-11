@@ -16,7 +16,7 @@ export const initImportGenericSecret = (hexSecret: string) => {
 export const initDeriveBip32 = (deriveFrom: DeriveFrom, hardened: boolean) => {
   return ResultAsync.fromPromise(
     RnMpc.initDeriveBIP32(deriveFrom.share, indexToNumber(deriveFrom.index), hardened),
-    err => mpcInternalError(err)
+    err => mpcInternalError(err, 'Error while creating derive context')
   );
 };
 

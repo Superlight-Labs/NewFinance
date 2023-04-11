@@ -17,24 +17,19 @@ import { Text } from 'util/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'ReviewCreate'>;
 
 const ReviewCreate = ({ navigation, route }: Props) => {
-  const { walletName, withPhrase, phrase } = route.params;
-  const { create, hasBip32State, data } = useBip32State();
+  const { withPhrase, phrase } = route.params;
+  const { setSecret, name, createdUntil } = useBip32State();
   const [loading, setLoading] = useState(false);
   const { importGenericSecret } = useGenericSecret();
   const { user } = useAuthState();
   const { perform } = useFailableAction();
 
   const finishGenerate = () => {
-    if (!data) return;
-    navigation.navigate('Derive', {
-      path: 'm',
-      fromShare: data.share,
-      peerShareId: data.peerShareId,
-    });
+    navigation.navigate('Derive');
   };
 
   useEffect(() => {
-    if (!withPhrase || !phrase || !user || hasBip32State) return;
+    if (!withPhrase || !phrase || !user || createdUntil !== 'none') return;
 
     // Only executed if use decides to use a seed phrase
     // We do this because the `mnemonicToSeed` function is very slow and blocks the UI thread
@@ -42,17 +37,18 @@ const ReviewCreate = ({ navigation, route }: Props) => {
 
     const importSecret = mnemonicToSeed(phrase).andThen(secret =>
       importGenericSecret(
-        apiUrl,
-        signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+        {
+          baseUrl: apiUrl,
+          sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+        },
         Buffer.from(secret).toString('hex')
       )
     );
     perform(importSecret).onSuccess(result => {
-      create({
+      setSecret({
         peerShareId: result.peerShareId,
         share: result.share,
         path: 'secret',
-        name: walletName,
       });
 
       setLoading(false);
@@ -69,7 +65,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
       </ButtonComponent>
       <Title>Review Settings and finish</Title>
 
-      <Text>Name: {walletName}</Text>
+      <Text>Name: {name}</Text>
       {withPhrase && phrase && <MultilineText value={phrase} disabled />}
 
       {loading && <Text>Loading...</Text>}

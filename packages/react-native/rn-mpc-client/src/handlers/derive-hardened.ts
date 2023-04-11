@@ -8,10 +8,10 @@ import {
   other,
   websocketError,
 } from '@superlight/mpc-common';
-import { reset } from '@superlight/rn-crypto-mpc';
+import { getResultDeriveBIP32, reset } from '@superlight/rn-crypto-mpc';
 import { StepResult } from '@superlight/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { Observable, Subject, combineLatest, firstValueFrom } from 'rxjs';
+import { Observable, Subject, combineLatest, firstValueFrom, from, map, mergeMap } from 'rxjs';
 import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
 
@@ -43,15 +43,23 @@ export const deriveBip32WithSteps: MPCWebsocketHandlerWithSetup<ShareResult, nul
   output,
   startResult: _,
 }) => {
-  const { peerShareId$, share$ } = {
+  const { peerShareId$, context$ } = {
     peerShareId$: new Subject<string>(),
-    share$: new Subject<string>(),
+    context$: new Subject<string>(),
   };
 
-  listenToWebSocket(input, output, { peerShareId$, share$ });
+  listenToWebSocket(input, output, { peerShareId$, context$ });
 
   return ResultAsync.fromPromise(
-    firstValueFrom(combineLatest({ peerShareId: peerShareId$, share: share$ })),
+    firstValueFrom(
+      combineLatest({
+        peerShareId: peerShareId$,
+        share: context$.pipe(
+          mergeMap(context => from(getResultDeriveBIP32(context))),
+          map(shareResult => shareResult.keyShare)
+        ),
+      })
+    ),
     err => other(err, 'Failed to derive Keys')
   );
 };
@@ -65,7 +73,7 @@ const listenToWebSocket = (
     next: message => onMessage(message, output, result),
     error: err => {
       logger.error({ err }, 'Error received from server on websocket');
-      result.share$.error(err);
+      result.context$.error(err);
       reset();
     },
   });
@@ -74,7 +82,7 @@ const listenToWebSocket = (
 const onMessage = (
   message: MPCWebsocketMessage<string>,
   output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  { peerShareId$, share$ }: DeriveResult
+  { peerShareId$, context$ }: DeriveResult
 ) => {
   // TODO validate structure of message
   if (message && message.type === 'success') {
@@ -95,7 +103,7 @@ const onMessage = (
       }
 
       if (result.type === 'success') {
-        share$.next(result.share);
+        context$.next(result.context);
       }
 
       output.next(okAsync({ type: 'inProgress', message: result.message }));
@@ -108,5 +116,5 @@ const onMessage = (
 
 type DeriveResult = {
   peerShareId$: Subject<string>;
-  share$: Subject<string>;
+  context$: Subject<string>;
 };

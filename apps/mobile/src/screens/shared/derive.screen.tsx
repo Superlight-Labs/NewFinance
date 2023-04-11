@@ -1,41 +1,63 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import logger from '@superlight/logger';
-import { useDerive } from '@superlight/rn-mpc-client';
 import LayoutComponent from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
-import { useFailableAction } from 'hooks/useFailable';
+import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
-import { useAuthState } from 'state/auth.state';
-import { signWithDeviceKeyNoAuth } from 'util/auth';
-import { apiUrl } from 'util/superlight-api';
+import { CreatedUntil, useBip32State } from 'state/bip32.state';
+import { AnimatedView, View } from 'util/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Derive'>;
 
-const DeriveScreen = ({ route, navigation }: Props) => {
-  const { user } = useAuthState();
-  const { path: _, fromShare, peerShareId } = route.params;
-  const { deriveMasterPair } = useDerive();
-  const { perform } = useFailableAction();
+const DeriveScreen = ({ navigation }: Props) => {
+  const createBitcoinWallet = useCreateBitcoinWallet();
+  const { secret, createdUntil } = useBip32State();
 
   useEffect(() => {
-    if (!user) return;
+    if (!secret) {
+      navigation.navigate('Onboarding');
+      return;
+    }
 
-    perform(
-      deriveMasterPair(
-        apiUrl,
-        signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
-        { share: fromShare, peerShareId }
-      ),
-      () => navigation.navigate('Onboarding')
-    ).onSuccess(result => logger.info({ result }, 'Derive success'));
+    createBitcoinWallet(secret.share, secret.peerShareId).onSuccess(_ =>
+      navigation.navigate('Home')
+    );
   }, []);
 
   return (
-    <LayoutComponent hideBack style=" justify-center items-center h-full bg-teal-300">
-      <Title style="text-white font-extrabold">Loading...</Title>
+    <LayoutComponent hideBack style="justify-center flex flex-col items-center h-full bg-slate-300">
+      <Title style="text-white flex text-center items-center justify-center font-extrabold">
+        Loading...
+      </Title>
+
+      <View className=" h-6 w-64 rounded-full bg-gray-200 dark:bg-gray-700">
+        <AnimatedView
+          className="h-6 rounded-full bg-blue-600 dark:bg-blue-500"
+          style={{ width: `${loadingCreateUntil(createdUntil)}%` }}></AnimatedView>
+      </View>
     </LayoutComponent>
   );
+};
+
+const loadingCreateUntil = (createdUntil: CreatedUntil): number => {
+  switch (createdUntil) {
+    case 'none':
+      return 0;
+    case 'secret':
+      return 10;
+    case 'master':
+      return 30;
+    case 'purpose':
+      return 50;
+    case 'coinType':
+      return 70;
+    case 'account':
+      return 90;
+    case 'change':
+      return 95;
+    case 'complete':
+      return 100;
+  }
 };
 
 export default DeriveScreen;
