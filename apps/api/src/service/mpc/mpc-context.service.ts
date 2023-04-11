@@ -70,8 +70,9 @@ export const getResultSign = (context: Context): Result<string, WebsocketError> 
 };
 
 export const getNewShare = (context: Context): Result<string, WebsocketError> => {
-  const getResult = fromThrowable(context.getNewShare, err =>
-    mpcInternalError(err, 'Error while getting new share')
+  const getResult = fromThrowable(
+    () => context.getNewShare(),
+    err => mpcInternalError(err, 'Error while getting new share')
   );
 
   return getResult().map(res => res.toString('base64'));

@@ -92,7 +92,7 @@ const setupContext = (
   );
 };
 
-const deriveNonHardenedStep = (
+const deriveWithoutStepping = (
   deriveContext: DeriveContext,
   message: MPCWebsocketMessage | undefined,
   user: User,
@@ -109,7 +109,7 @@ const deriveNonHardenedStep = (
     });
 };
 
-const deriveHardenedStep = async (
+const deriveWithSteps = async (
   deriveContext: DeriveContext,
   wsMsg: MPCWebsocketMessage | undefined,
   user: User,
@@ -121,8 +121,6 @@ const deriveHardenedStep = async (
     output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
     return;
   }
-
-  logger.info({ input: wsMsg.message.slice(0, 23), contextPtr: context.contextPtr }, 'DERIVE STEP');
 
   const stepOutput = step(wsMsg.message, context);
 
@@ -172,5 +170,5 @@ type DeriveContext = {
   context: Context;
 };
 
-export const deriveBip32Hardened = deriveBIP32(deriveHardenedStep);
-export const deriveBip32NonHardened = deriveBIP32(deriveNonHardenedStep);
+export const deriveBip32WithSteps = deriveBIP32(deriveWithSteps);
+export const deriveBip32WithoutStepping = deriveBIP32(deriveWithoutStepping);

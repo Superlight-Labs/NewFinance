@@ -67,5 +67,4 @@ const logmessages = {
     );
   },
   error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
-  complete: () => logger.debug('Websocket closed'),
 };

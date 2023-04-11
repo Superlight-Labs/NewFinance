@@ -2,8 +2,8 @@ import { authenticate } from '@lib/utils/auth';
 import { DeriveConfig, SignConfig } from '@superlight/mpc-common';
 import { FastifyInstance } from 'fastify';
 import {
-  deriveBip32Hardened,
-  deriveBip32NonHardened,
+  deriveBip32WithSteps,
+  deriveBip32WithoutStepping,
 } from 'src/service/mpc/ecdsa/derive-bip-32.service';
 import {
   generateGenericSecret,
@@ -50,19 +50,24 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
     );
   });
 
+  // With Steps means that there are multiple steps necessary on client and server to create a keypair
+  // Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
+  // which is non-hardened, but via multiple steps
   server.register(async function (server) {
     server.get(
-      route + '/derive/hardened',
+      route + '/derive/stepping',
       { websocket: true },
-      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32Hardened)
+      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32WithSteps)
     );
   });
 
+  // Without steps means, that the key can be fetched from the mpc context immediately on the server.
+  // Client side it is necessary to step once with `step(null)`
   server.register(async function (server) {
     server.get(
-      route + '/derive/non-hardened',
+      route + '/derive/no-steps',
       { websocket: true },
-      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32NonHardened)
+      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32WithoutStepping)
     );
   });
 

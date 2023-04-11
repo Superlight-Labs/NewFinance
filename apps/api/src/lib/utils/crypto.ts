@@ -1,5 +1,6 @@
 import { Context } from '@crypto-mpc';
 import logger from '@superlight/logger';
+import { shortenMessage } from '@superlight/mpc-common';
 import crypto from 'crypto';
 import { buildPubKey } from './auth';
 
@@ -27,7 +28,10 @@ export const verifySignature = (publicKey: string, message: string, signature: s
 };
 
 export const step = (message: string, context: Context): StepResult => {
-  logger.debug({ message: message }, 'Received message from client and stepping in context');
+  logger.debug(
+    { message: shortenMessage(message) },
+    'Received message from client and stepping in context'
+  );
 
   const inBuff = Buffer.from(message, 'base64');
 
