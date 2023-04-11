@@ -1,5 +1,8 @@
-import { createMPCWebsocketHandlerWrapper } from './src/websocket/websocket-message-unwrap';
-export { buildPath } from './src/derive';
+import {
+  createMPCWebsocketHandlerWrapper,
+  shortenMessage,
+} from './src/websocket/websocket-message-unwrap';
+export { buildPath, indexToNumber } from './src/derive';
 export type { DeriveConfig } from './src/derive';
 export {
   apiError,
@@ -34,4 +37,4 @@ export type {
   MPCWebsocketResult,
   WebSocketOutput,
 } from './src/websocket/websocket-messages';
-export { createMPCWebsocketHandlerWrapper };
+export { createMPCWebsocketHandlerWrapper, shortenMessage };

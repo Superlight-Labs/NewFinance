@@ -1,4 +1,3 @@
 module.exports = {
-  ...require("@superlight/prettier-config"),
-  printWidth: 80,
+  ...require('@superlight/prettier-config'),
 };

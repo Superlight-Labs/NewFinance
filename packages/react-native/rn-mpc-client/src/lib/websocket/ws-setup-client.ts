@@ -38,7 +38,8 @@ export const authWebsocketWithSetup =
       .andThen(sign)
       .andThen(signResult => createWebsocket({ signResult, apiConfig }))
       .map(ws => {
-        ws.onopen = () => ws.send(JSON.stringify({ type: 'init', parameter: initParam }));
+        ws.onopen = () =>
+          ws.send(JSON.stringify({ type: 'init', parameter: cleanInitParam(initParam) }));
         return ws;
       })
       .map(ws => {
@@ -71,4 +72,21 @@ export const waitForStart = <T>({
   };
 
   return initParameter.andThen(evaluateStart);
+};
+
+// For convenience we allow the init parameter to contain sensitive data like the share value
+// we have to remove all sensitive data before sending it
+const cleanInitParam = <T>(initParam: T) => {
+  if (typeof initParam === 'string') {
+    return initParam;
+  }
+
+  const parameter = { ...initParam };
+  if (typeof parameter === 'object' && parameter && 'share' in parameter) {
+    delete parameter.share;
+  }
+
+  logger.info({ new: parameter, old: initParam }, 'cleaned');
+
+  return parameter;
 };

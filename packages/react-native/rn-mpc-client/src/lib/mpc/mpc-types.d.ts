@@ -1,6 +1,6 @@
 export type ShareResult = {
   share: string;
-  serverId: string;
+  peerShareId: string;
 };
 
-export type DeriveFrom = { share: string; index: number; hardened: boolean };
+export type DeriveFrom = { share: string; peerShareId: string; parentPath?: string; index: string };

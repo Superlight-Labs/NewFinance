@@ -1,4 +1,4 @@
-import { mpcInternalError } from '@superlight/mpc-common';
+import { indexToNumber, mpcInternalError } from '@superlight/mpc-common';
 import * as RnMpc from '@superlight/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
 import { DeriveFrom } from './mpc-types';
@@ -13,9 +13,9 @@ export const initImportGenericSecret = (hexSecret: string) => {
   );
 };
 
-export const initDeriveBip32 = (deriveFrom: DeriveFrom) => {
+export const initDeriveBip32 = (deriveFrom: DeriveFrom, hardened: boolean) => {
   return ResultAsync.fromPromise(
-    RnMpc.initDeriveBIP32(deriveFrom.share, deriveFrom.index, deriveFrom.hardened),
+    RnMpc.initDeriveBIP32(deriveFrom.share, indexToNumber(deriveFrom.index), hardened),
     err => mpcInternalError(err)
   );
 };

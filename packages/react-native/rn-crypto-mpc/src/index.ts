@@ -34,25 +34,17 @@ export function initGenerateGenericSecret(): Promise<MPCSuccess> {
 
 export function initImportGenericSecret(secret: string): Promise<MPCSuccess> {
   reset();
-  return BlockchainCryptoMpc.importGenericSecret([
-    ...Buffer.from(secret, 'hex'),
-  ]);
+  return BlockchainCryptoMpc.importGenericSecret([...Buffer.from(secret, 'hex')]);
 }
 
-export function initDeriveBIP32(
+export async function initDeriveBIP32(
   share: string,
   index: number,
   hardened: boolean
 ): Promise<MPCSuccess> {
   reset();
-  return new Promise(async res => {
-    await useShare(share);
-    const success = await BlockchainCryptoMpc.initDeriveBIP32(
-      index,
-      hardened ? 1 : 0
-    );
-    res(success);
-  });
+  await useShare(share);
+  return BlockchainCryptoMpc.initDeriveBIP32(index, hardened ? 1 : 0);
 }
 
 export function initGenerateEcdsaKey(): Promise<MPCSuccess> {
@@ -61,17 +53,12 @@ export function initGenerateEcdsaKey(): Promise<MPCSuccess> {
   return BlockchainCryptoMpc.initGenerateEcdsaKey();
 }
 
-export function initSignEcdsa(
-  message: Uint8Array,
-  share: string
-): Promise<MPCSuccess> {
+export function initSignEcdsa(message: Uint8Array, share: string): Promise<MPCSuccess> {
   reset();
 
   return new Promise(async res => {
     await useShare(share);
-    const success = await BlockchainCryptoMpc.initSignEcdsa(
-      Array.from(message)
-    );
+    const success = await BlockchainCryptoMpc.initSignEcdsa(Array.from(message));
     res(success);
   });
 }
@@ -90,10 +77,7 @@ export function getPublicKey(share: string): Promise<PublicKeyResult> {
   });
 }
 
-export function getXPubKey(
-  share: string,
-  network: 'main' | 'test'
-): Promise<XPubKeyResult> {
+export function getXPubKey(share: string, network: 'main' | 'test'): Promise<XPubKeyResult> {
   return new Promise(async res => {
     await useShare(share);
     const key = await BlockchainCryptoMpc.getXPubKey(network === 'main');
@@ -113,10 +97,7 @@ export function getDerSignature(context: string): Promise<SignatureResult> {
   });
 }
 
-export function getBinSignature(
-  context: string,
-  share: string
-): Promise<BinSignatureResult> {
+export function getBinSignature(context: string, share: string): Promise<BinSignatureResult> {
   return new Promise(async res => {
     await useContext(context);
     await useShare(share);
