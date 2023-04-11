@@ -58,4 +58,6 @@ export const shortenMessage = (message: any) => {
     }
     return copy;
   }
+
+  return message;
 };
