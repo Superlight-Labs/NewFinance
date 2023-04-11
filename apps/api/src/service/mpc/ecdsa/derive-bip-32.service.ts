@@ -27,7 +27,7 @@ import { deleteKeyShare, getKeyShare } from 'src/service/persistance/key-share.s
 
 type OnDeriveStep = (
   deriveContext: DeriveContext,
-  message: MPCWebsocketMessage,
+  message: MPCWebsocketMessage | undefined,
   user: User,
   output: WebSocketOutput
 ) => void;
@@ -85,18 +85,16 @@ const setupContext = (
   deriveConfig: DeriveConfig,
   userId: string
 ): ResultAsync<DeriveContext, WebsocketError> => {
-  return getKeyShare(deriveConfig.serverShareId, userId).andThen(parentKeyShare =>
-    createDeriveBIP32Context(
-      parentKeyShare.value,
-      Number(deriveConfig.hardened) === 1,
-      deriveConfig.index
-    ).map(context => ({ deriveConfig, parent: parentKeyShare, context }))
+  return getKeyShare(deriveConfig.peerShareId, userId).andThen(parentKeyShare =>
+    createDeriveBIP32Context(parentKeyShare.value, deriveConfig.hardened, deriveConfig.index).map(
+      context => ({ deriveConfig, parent: parentKeyShare, context })
+    )
   );
 };
 
 const deriveNonHardenedStep = (
   deriveContext: DeriveContext,
-  message: MPCWebsocketMessage,
+  message: MPCWebsocketMessage | undefined,
   user: User,
   output: WebSocketOutput
 ) => {
@@ -113,7 +111,7 @@ const deriveNonHardenedStep = (
 
 const deriveHardenedStep = async (
   deriveContext: DeriveContext,
-  wsMsg: MPCWebsocketMessage,
+  wsMsg: MPCWebsocketMessage | undefined,
   user: User,
   output: WebSocketOutput
 ) => {

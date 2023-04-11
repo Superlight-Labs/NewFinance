@@ -1,5 +1,5 @@
 import { Context } from '@crypto-mpc';
-import { WebsocketError, mpcInternalError } from '@superlight/mpc-common';
+import { WebsocketError, indexToNumber, mpcInternalError } from '@superlight/mpc-common';
 import { Result, fromThrowable } from 'neverthrow';
 import { RawData } from 'ws';
 
@@ -50,7 +50,7 @@ export const createDeriveBIP32Context = (
     mpcInternalError(err, 'Error while creating derive BIP32 context')
   );
 
-  return createContext(2, Buffer.from(parentKeyShare, 'base64'), hardened, Number(index));
+  return createContext(2, Buffer.from(parentKeyShare, 'base64'), hardened, indexToNumber(index));
 };
 
 export const getResultDeriveBIP32 = (context: Context): Result<string, WebsocketError> => {

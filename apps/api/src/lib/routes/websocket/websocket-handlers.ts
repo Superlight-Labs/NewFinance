@@ -5,6 +5,7 @@ import {
   MPCWebscocketInit,
   MpcWebsocketHandlerWrapper,
   MPCWebsocketMessage,
+  shortenMessage,
 } from '@superlight/mpc-common';
 import { FastifyRequest } from 'fastify';
 import { firstValueFrom, ReplaySubject, Subject, tap } from 'rxjs';
@@ -28,13 +29,7 @@ export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
     connection.socket.on('close', _ => messages.complete());
     connection.on('close', _ => messages.complete());
 
-    const piped = messages.pipe(
-      tap({
-        next: message => logger.debug({ message }, 'Received message on websocket'),
-        error: err => logger.error({ err }, 'Error recieved on websocket'),
-        complete: () => logger.debug('Websocket closed'),
-      })
-    );
+    const piped = messages.pipe(tap(logmessages));
 
     wrapMPCWebsocketHandler(handler(req.user!, piped), connection.socket);
   };
@@ -53,13 +48,7 @@ export const websocketRouteWithInitParameter = <Result, InitParam = string>(
     connection.socket.on('close', _ => messages.complete());
     connection.on('close', _ => messages.complete());
 
-    const piped = messages.pipe(
-      tap({
-        next: message => logger.debug({ message }, 'Received message on websocket'),
-        error: err => logger.error({ err }, 'Error recieved on websocket'),
-        complete: () => logger.debug('Websocket closed'),
-      })
-    );
+    const piped = messages.pipe(tap(logmessages));
 
     const initParameter = (await firstValueFrom(piped)) as MPCWebscocketInit<InitParam>;
 
@@ -67,4 +56,16 @@ export const websocketRouteWithInitParameter = <Result, InitParam = string>(
 
     wrapMPCWebsocketHandler(handler(req.user!, piped, initParameter), connection.socket);
   };
+};
+
+const logmessages = {
+  next: (message: MPCWebsocketMessage) => {
+    const copy = { ...message };
+    logger.debug(
+      { recieved: shortenMessage(Object.assign(copy)) },
+      'Received message on websocket'
+    );
+  },
+  error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
+  complete: () => logger.debug('Websocket closed'),
 };

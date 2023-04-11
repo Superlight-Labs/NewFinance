@@ -52,8 +52,6 @@ export const importGenericSecret = (
 ): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  logger.debug({ initParameter }, 'Received init parameter and sent starting stuff');
-
   createImportGenericSecretContext(Buffer.from(initParameter.parameter, 'hex'))
     .map(context =>
       messages.subscribe({
