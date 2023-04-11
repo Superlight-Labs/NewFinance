@@ -5,10 +5,11 @@ import { AppError, useSnackbarState } from 'state/snackbar.state';
 export const useFailableAction = () => {
   const { setMessage } = useSnackbarState();
 
-  const perform = <T>(result: ResultAsync<T, AppError>) => {
+  const perform = <T>(result: ResultAsync<T, AppError>, errFn?: ErrorFn) => {
     return {
       onSuccess: (action: (value: T) => void) => {
         result.match(action, err => {
+          errFn && errFn();
           logger.error({ err }, 'Error performing action');
           setMessage(err);
         });
@@ -23,3 +24,5 @@ export const useFailableAction = () => {
     perform,
   };
 };
+
+type ErrorFn = () => void;

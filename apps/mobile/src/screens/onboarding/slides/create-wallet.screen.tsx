@@ -6,7 +6,7 @@ import ButtonComponent from 'components/shared/input/button/button.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { useFailableAction } from 'hooks/useFailable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
@@ -23,7 +23,13 @@ const CreateWallet = ({ navigation }: Props) => {
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
-  const { create } = useBip32State();
+  const { create, data } = useBip32State();
+
+  useEffect(() => {
+    if (data) {
+      navigation.navigate('ReviewCreate', { walletName: data.name, withPhrase: false });
+    }
+  }, []);
 
   const startGenerateWallet = () => {
     if (!user) {
@@ -49,7 +55,7 @@ const CreateWallet = ({ navigation }: Props) => {
       )
     ).onSuccess(result => {
       create({
-        peerShareId: result.serverId,
+        peerShareId: result.peerShareId,
         share: result.share,
         path: 'secret',
         name: walletName,

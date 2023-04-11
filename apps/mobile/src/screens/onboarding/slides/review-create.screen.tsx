@@ -18,14 +18,19 @@ type Props = StackScreenProps<RootStackParamList, 'ReviewCreate'>;
 
 const ReviewCreate = ({ navigation, route }: Props) => {
   const { walletName, withPhrase, phrase } = route.params;
-  const { create, hasBip32State } = useBip32State();
+  const { create, hasBip32State, data } = useBip32State();
   const [loading, setLoading] = useState(false);
   const { importGenericSecret } = useGenericSecret();
   const { user } = useAuthState();
   const { perform } = useFailableAction();
 
   const finishGenerate = () => {
-    navigation.navigate('Home');
+    if (!data) return;
+    navigation.navigate('Derive', {
+      path: 'm',
+      fromShare: data.share,
+      peerShareId: data.peerShareId,
+    });
   };
 
   useEffect(() => {
@@ -44,7 +49,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
     );
     perform(importSecret).onSuccess(result => {
       create({
-        peerShareId: result.serverId,
+        peerShareId: result.peerShareId,
         share: result.share,
         path: 'secret',
         name: walletName,
