@@ -8,37 +8,47 @@ export const createEcdsaSignContext = (
   message: string,
   encoding: BufferEncoding
 ): Result<Context, WebsocketError> => {
-  const createContext = fromThrowable(Context.createEcdsaSignContext, err =>
-    mpcInternalError(err, 'Error while creating sign context')
+  const createContext = fromThrowable(
+    () =>
+      Context.createEcdsaSignContext(
+        2,
+        Buffer.from(keyShare, 'base64'),
+        Buffer.from(message, encoding),
+        true
+      ),
+    err => mpcInternalError(err, 'Error while creating sign context')
   );
 
-  return createContext(2, Buffer.from(keyShare, 'base64'), Buffer.from(message, encoding), true);
+  return createContext();
 };
 
 export const createGenerateGenericSecretContext = (): Result<Context, WebsocketError> => {
-  const createContext = fromThrowable(Context.createGenerateGenericSecretContext, err =>
-    mpcInternalError(err, 'Error while creating generic secret context')
+  const createContext = fromThrowable(
+    () => Context.createGenerateGenericSecretContext(2, 256),
+    err => mpcInternalError(err, 'Error while creating generic secret context')
   );
 
-  return createContext(2, 256);
+  return createContext();
 };
 
 export const createGenerateEcdsaKey = (): Result<Context, WebsocketError> => {
-  const createContext = fromThrowable(Context.createGenerateEcdsaKey, err =>
-    mpcInternalError(err, 'Error while creating keygen context')
+  const createContext = fromThrowable(
+    () => Context.createGenerateEcdsaKey(2),
+    err => mpcInternalError(err, 'Error while creating keygen context')
   );
 
-  return createContext(2);
+  return createContext();
 };
 
 export const createImportGenericSecretContext = (
   secret: RawData
 ): Result<Context, WebsocketError> => {
-  const createContext = fromThrowable(Context.createImportGenericSecretContext, err =>
-    mpcInternalError(err, 'Error while creating import generic secret context')
+  const createContext = fromThrowable(
+    () => Context.createImportGenericSecretContext(2, 256, secret),
+    err => mpcInternalError(err, 'Error while creating import generic secret context')
   );
 
-  return createContext(2, 256, secret);
+  return createContext();
 };
 
 export const createDeriveBIP32Context = (
@@ -46,27 +56,36 @@ export const createDeriveBIP32Context = (
   hardened: boolean,
   index: string
 ): Result<Context, WebsocketError> => {
-  const createContext = fromThrowable(Context.createDeriveBIP32Context, err =>
-    mpcInternalError(err, 'Error while creating derive BIP32 context')
+  const createContext = fromThrowable(
+    () =>
+      Context.createDeriveBIP32Context(
+        2,
+        Buffer.from(parentKeyShare, 'base64'),
+        hardened,
+        indexToNumber(index)
+      ),
+    err => mpcInternalError(err, 'Error while creating derive BIP32 context')
   );
 
-  return createContext(2, Buffer.from(parentKeyShare, 'base64'), hardened, indexToNumber(index));
+  return createContext();
 };
 
 export const getResultDeriveBIP32 = (context: Context): Result<string, WebsocketError> => {
-  const getResult = fromThrowable(context.getResultDeriveBIP32, err =>
-    mpcInternalError(err, 'Error while getting result bip 32')
+  const getResult = fromThrowable(
+    () => context.getResultDeriveBIP32(),
+    err => mpcInternalError(err, 'Error while getting result bip 32')
   );
 
   return getResult().map(share => share.toBuffer().toString('base64'));
 };
 
 export const getResultSign = (context: Context): Result<string, WebsocketError> => {
-  const getResult = fromThrowable(context.getResultDeriveBIP32, err =>
-    mpcInternalError(err, 'Error while getting result sign')
+  const getResult = fromThrowable(
+    () => context.getResultEcdsaSign(),
+    err => mpcInternalError(err, 'Error while getting result sign')
   );
 
-  return getResult().map(share => share.toBuffer().toString('base64'));
+  return getResult().map(share => share.toString('base64'));
 };
 
 export const getNewShare = (context: Context): Result<string, WebsocketError> => {
