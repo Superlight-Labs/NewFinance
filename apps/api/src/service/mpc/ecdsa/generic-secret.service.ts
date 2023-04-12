@@ -1,23 +1,23 @@
 import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
-  MPCWebscocketInit,
-  MPCWebsocketMessage,
-  MPCWebsocketResult,
-  WebSocketOutput,
-  WebsocketError,
-  databaseError,
-  mpcInternalError,
-  stepMessageError,
-} from '@superlight/mpc-common';
+    MPCWebscocketInit,
+    MPCWebsocketMessage,
+    MPCWebsocketResult,
+    WebSocketOutput,
+    WebsocketError,
+    databaseError,
+    mpcInternalError,
+    stepMessageError,
+} from '@superlight-labs/mpc-common';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import {
-  createGenerateGenericSecretContext,
-  createImportGenericSecretContext,
+    createGenerateGenericSecretContext,
+    createImportGenericSecretContext,
 } from 'src/service/mpc/mpc-context.service';
 
 export const generateGenericSecret = (

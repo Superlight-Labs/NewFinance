@@ -1,6 +1,6 @@
 import { Context } from '@crypto-mpc';
-import logger from '@superlight/logger';
-import { shortenMessage } from '@superlight/mpc-common';
+import logger from '@superlight-labs/logger';
+import { shortenMessage } from '@superlight-labs/mpc-common';
 import crypto from 'crypto';
 import { buildPubKey } from './auth';
 

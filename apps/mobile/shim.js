@@ -1,4 +1,4 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import { Buffer } from 'buffer';
 import * as crypto from 'expo-crypto';
 

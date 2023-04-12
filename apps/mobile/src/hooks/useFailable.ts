@@ -1,4 +1,4 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import { ResultAsync } from 'neverthrow';
 import { AppError, useSnackbarState } from 'state/snackbar.state';
 

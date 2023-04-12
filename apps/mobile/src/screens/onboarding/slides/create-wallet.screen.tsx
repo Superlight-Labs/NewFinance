@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-import { useGenericSecret } from '@superlight/rn-mpc-client';
+import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';

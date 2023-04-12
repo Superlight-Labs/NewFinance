@@ -1,4 +1,4 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
   ApiConfig,
   AppError,
@@ -9,8 +9,8 @@ import {
   WebsocketError,
   mapWebsocketToAppError,
   websocketError,
-} from '@superlight/mpc-common';
-import { startWebsocketError } from '@superlight/mpc-common/src/error';
+} from '@superlight-labs/mpc-common';
+import { startWebsocketError } from '@superlight-labs/mpc-common/src/error';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Subject, firstValueFrom, tap } from 'rxjs';
 import {

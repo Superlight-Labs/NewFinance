@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useGenericSecret } from '@superlight/rn-mpc-client';
+import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
 import Layout from 'components/shared/layout/layout.component';

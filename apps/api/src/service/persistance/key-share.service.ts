@@ -1,6 +1,6 @@
 import { other, RouteError } from '@lib/routes/rest/rest-error';
 import { getSafeResultAsync } from '@lib/utils/neverthrow';
-import { databaseError } from '@superlight/mpc-common';
+import { databaseError } from '@superlight-labs/mpc-common';
 import { ResultAsync } from 'neverthrow';
 import { MpcKeyShare } from 'src/repository/key-share';
 import { dropKeyShare, patchUserKeyShare, readKeyShare } from 'src/repository/key-share.repository';

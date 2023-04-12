@@ -1,14 +1,14 @@
 import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
-import logger from '@superlight/logger';
-import { shortenMessage } from '@superlight/mpc-common';
+import logger from '@superlight-labs/logger';
+import { shortenMessage } from '@superlight-labs/mpc-common';
 import crypto from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
-  AuthenticatedRouteHandler,
-  NonceRouteHandler,
-  RouteHandler,
-  RouteResult,
+    AuthenticatedRouteHandler,
+    NonceRouteHandler,
+    RouteHandler,
+    RouteResult,
 } from './rest-types';
 
 const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void => {

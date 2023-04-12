@@ -1,5 +1,5 @@
 {
-  "extends": ["@superlight/eslint-config"],
+  "extends": ["@superlight-labs/eslint-config"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"]
 }

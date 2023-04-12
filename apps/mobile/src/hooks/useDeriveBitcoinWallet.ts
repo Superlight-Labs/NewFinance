@@ -1,6 +1,6 @@
-import logger from '@superlight/logger';
-import { useDerive } from '@superlight/rn-mpc-client';
-import { ShareResult } from '@superlight/rn-mpc-client/src/lib/mpc/mpc-types';
+import logger from '@superlight-labs/logger';
+import { useDerive } from '@superlight-labs/rn-mpc-client';
+import { ShareResult } from '@superlight-labs/rn-mpc-client/src/lib/mpc/mpc-types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { AppUser, useAuthState } from 'state/auth.state';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';

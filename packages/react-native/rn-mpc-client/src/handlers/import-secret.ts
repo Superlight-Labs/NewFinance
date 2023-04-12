@@ -1,4 +1,4 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
   MPCWebsocketHandlerWithSetup,
   MPCWebsocketMessage,
@@ -6,9 +6,9 @@ import {
   mpcInternalError,
   other,
   websocketError,
-} from '@superlight/mpc-common';
-import { reset } from '@superlight/rn-crypto-mpc';
-import { StepResult } from '@superlight/rn-crypto-mpc/src/types';
+} from '@superlight-labs/mpc-common';
+import { reset } from '@superlight-labs/rn-crypto-mpc';
+import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { initImportGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';

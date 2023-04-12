@@ -1,27 +1,27 @@
 import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
-  buildPath,
-  databaseError,
-  DeriveConfig,
-  mpcInternalError,
-  MPCWebscocketInit,
-  MPCWebsocketMessage,
-  MPCWebsocketResult,
-  stepMessageError,
-  WebsocketError,
-  WebSocketOutput,
-} from '@superlight/mpc-common';
+    buildPath,
+    databaseError,
+    DeriveConfig,
+    mpcInternalError,
+    MPCWebscocketInit,
+    MPCWebsocketMessage,
+    MPCWebsocketResult,
+    stepMessageError,
+    WebsocketError,
+    WebSocketOutput,
+} from '@superlight-labs/mpc-common';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { MpcKeyShare } from 'src/repository/key-share';
 import { readKeyShareByPath, saveShareBasedOnPath } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import {
-  createDeriveBIP32Context,
-  getNewShare,
-  getResultDeriveBIP32,
+    createDeriveBIP32Context,
+    getNewShare,
+    getResultDeriveBIP32,
 } from 'src/service/mpc/mpc-context.service';
 import { deleteKeyShare, getKeyShare } from 'src/service/persistance/key-share.service';
 

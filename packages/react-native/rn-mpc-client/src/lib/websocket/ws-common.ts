@@ -1,18 +1,18 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
-  AppError,
-  MPCWebsocketMessage,
-  MpcWebsocketHandlerWrapper,
-  SignResult,
-  WebsocketConfig,
-  WebsocketError,
-  apiError,
-  createMPCWebsocketHandlerWrapper,
-  mapWebsocketToAppError,
-  other,
-  shortenMessage,
-  websocketError,
-} from '@superlight/mpc-common';
+    AppError,
+    MPCWebsocketMessage,
+    MpcWebsocketHandlerWrapper,
+    SignResult,
+    WebsocketConfig,
+    WebsocketError,
+    apiError,
+    createMPCWebsocketHandlerWrapper,
+    mapWebsocketToAppError,
+    other,
+    shortenMessage,
+    websocketError,
+} from '@superlight-labs/mpc-common';
 import axios from 'axios';
 import { Result, ResultAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';

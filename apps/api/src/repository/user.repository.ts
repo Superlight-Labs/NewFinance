@@ -1,5 +1,5 @@
 import { notFound, other, RouteError } from '@lib/routes/rest/rest-error';
-import { client } from '@superlight/database';
+import { client } from '@superlight-labs/database';
 import { MpcKeyShare } from './key-share';
 import { CreateUserRequest, User } from './user';
 

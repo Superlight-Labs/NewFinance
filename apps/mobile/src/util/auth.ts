@@ -1,6 +1,6 @@
-import { SignResult } from '@superlight/mpc-common';
-import { Signer } from '@superlight/rn-mpc-client';
-import { generateKeyPair, sign } from '@superlight/rn-secure-encryption-module';
+import { SignResult } from '@superlight-labs/mpc-common';
+import { Signer } from '@superlight-labs/rn-mpc-client';
+import { generateKeyPair, sign } from '@superlight-labs/rn-secure-encryption-module';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { AppError } from 'state/snackbar.state';

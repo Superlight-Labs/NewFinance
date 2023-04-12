@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { generateKeyPair } from '@superlight/rn-secure-encryption-module';
+import { generateKeyPair } from '@superlight-labs/rn-secure-encryption-module';
 import Button from 'components/shared/input/button/button.component';
 import WelcomeCarousel from 'components/welcome-screen/welcome-carousel.component';
 import { useCreateAuth } from 'hooks/useCreateAuth';

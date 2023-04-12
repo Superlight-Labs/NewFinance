@@ -1,5 +1,5 @@
 {
-  "extends": ["@superlight/eslint-config"],
+  "extends": ["@superlight-labs/eslint-config"],
   "rules": {
     "react/react-in-jsx-scope": "off"
   }

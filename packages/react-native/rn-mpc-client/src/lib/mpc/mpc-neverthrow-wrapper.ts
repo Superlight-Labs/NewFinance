@@ -1,5 +1,5 @@
-import { indexToNumber, mpcInternalError } from '@superlight/mpc-common';
-import * as RnMpc from '@superlight/rn-crypto-mpc';
+import { indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
+import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
 import { DeriveFrom } from './mpc-types';
 

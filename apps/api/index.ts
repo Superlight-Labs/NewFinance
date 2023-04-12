@@ -1,5 +1,5 @@
-import { client } from '@superlight/database';
-import logger from '@superlight/logger';
+import { client } from '@superlight-labs/database';
+import logger from '@superlight-labs/logger';
 import { createServer } from 'src/server';
 
 createServer(client)

@@ -7,7 +7,7 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import React from 'react';
 import 'react-native-gesture-handler';

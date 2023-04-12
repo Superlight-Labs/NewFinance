@@ -1,5 +1,5 @@
 import { Context } from '@crypto-mpc';
-import { WebsocketError, indexToNumber, mpcInternalError } from '@superlight/mpc-common';
+import { WebsocketError, indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
 import { Result, fromThrowable } from 'neverthrow';
 import { RawData } from 'ws';
 

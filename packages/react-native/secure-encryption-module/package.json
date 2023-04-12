@@ -1,5 +1,5 @@
 {
-  "name": "@superlight/rn-secure-encryption-module",
+  "name": "@superlight-labs/rn-secure-encryption-module",
   "version": "0.0.7",
   "description": "Uses Secure Enclave for iOs and KeyStore System for Android to Encypt Data Securely and keeping Secrets Safe on Hardware Level",
   "main": "src/index.ts",
@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^2.0.0",
-    "@superlight/eslint-config": "*",
-    "@superlight/prettier-config": "*",
+    "@superlight-labs/eslint-config": "*",
+    "@superlight-labs/prettier-config": "*",
     "@types/react": "^16.9.19",
     "@types/react-native": "0.71.1",
     "commitlint": "^11.0.0",
