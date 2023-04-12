@@ -136,14 +136,12 @@ export function getShare(context: string): Promise<KeyShareResult> {
   });
 }
 
-export function getResultDeriveBIP32(context: string): Promise<KeyShareResult> {
-  return new Promise(async res => {
-    await useContext(context);
-    const share = await BlockchainCryptoMpc.getResultDeriveBIP32();
-    res(share);
+export async function getResultDeriveBIP32(context: string): Promise<KeyShareResult> {
+  await useContext(context);
+  const share = await BlockchainCryptoMpc.getResultDeriveBIP32();
+  reset();
 
-    reset();
-  });
+  return share;
 }
 
 export function useShare(shareBuf: string): Promise<MPCSuccess> {
