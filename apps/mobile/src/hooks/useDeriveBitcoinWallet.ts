@@ -1,4 +1,3 @@
-import logger from '@superlight/logger';
 import { useDerive } from '@superlight/rn-mpc-client';
 import { errAsync } from 'neverthrow';
 import { useAuthState } from 'state/auth.state';
@@ -31,8 +30,6 @@ export const useCreateBitcoinWallet = () => {
         .andThen(({ share, peerShareId }) => {
           const path = 'm';
           setMaster({ share, peerShareId, path });
-
-          logger.warn({ share, secretShare }, 'what in the schmeckles');
 
           return deriveBip32Hardened(config, {
             index: '44',
@@ -73,12 +70,12 @@ export const useCreateBitcoinWallet = () => {
           const path = `m/44'/0'/0'`;
           setAccount({ share, peerShareId, path });
 
-          return deriveBip32Hardened(config, {
+          return deriveBip32(config, {
             index: '0',
             peerShareId,
             share,
             parentPath: path,
-            hardened: true,
+            hardened: false,
           });
         })
         // Derive index-level keyshares

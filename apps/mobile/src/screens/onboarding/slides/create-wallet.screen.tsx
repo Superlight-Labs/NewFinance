@@ -11,7 +11,7 @@ import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useBip32State } from 'state/bip32.state';
-import { signWithDeviceKey } from 'util/auth';
+import { signWithDeviceKeyNoAuth } from 'util/auth';
 import { apiUrl } from 'util/superlight-api';
 
 import { Text, TextInput } from 'util/wrappers/styled-react-native';
@@ -50,7 +50,7 @@ const CreateWallet = ({ navigation }: Props) => {
     perform(
       generateGenericSecret({
         baseUrl: apiUrl,
-        sign: signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+        sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
       })
     ).onSuccess(result => {
       setName(walletName);

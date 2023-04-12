@@ -7,7 +7,7 @@ import {
   other,
   websocketError,
 } from '@superlight/mpc-common';
-import { reset } from '@superlight/rn-crypto-mpc';
+import { getResultDeriveBIP32, reset } from '@superlight/rn-crypto-mpc';
 import { StepResult } from '@superlight/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
@@ -34,7 +34,7 @@ export const startDerive: MPCWebsocketStarterWithSetup<DeriveFrom, string> = ({
         return errAsync(mpcInternalError('No context received'));
       }
 
-      const wsMessage: MPCWebsocketMessage<null> = { type: 'success', result: null };
+      const wsMessage: MPCWebsocketMessage<null> = { type: 'inProgress', message: '' };
       output.next(okAsync(wsMessage));
 
       return okAsync({ startResult: okAsync(stepMsg.context), input, output });
@@ -44,18 +44,24 @@ export const startDerive: MPCWebsocketStarterWithSetup<DeriveFrom, string> = ({
 export const deriveBip32: MPCWebsocketHandlerWithSetup<ShareResult, string> = ({
   input,
   output: _,
-  startResult,
+  startResult: context,
 }) => {
   const peerShareId$ = new Subject<string>();
 
   listenToWebSocket(input, peerShareId$);
 
+  const share = context.andThen(context =>
+    ResultAsync.fromPromise(getResultDeriveBIP32(context), err =>
+      mpcInternalError(err, "Couldn't get share from context")
+    )
+  );
+
   const peerShareIdResult = ResultAsync.fromPromise(firstValueFrom(peerShareId$), err =>
     other(err, 'Error while waiting for peerShareId on websocket')
   );
 
-  return ResultAsync.combine([startResult, peerShareIdResult]).map(([share, peerShareId]) => ({
-    share,
+  return ResultAsync.combine([share, peerShareIdResult]).map(([share, peerShareId]) => ({
+    share: share.keyShare,
     peerShareId,
   }));
 };

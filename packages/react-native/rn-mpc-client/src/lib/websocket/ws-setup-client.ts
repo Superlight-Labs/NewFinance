@@ -86,7 +86,5 @@ const cleanInitParam = <T>(initParam: T) => {
     delete parameter.share;
   }
 
-  logger.info({ new: parameter, old: initParam }, 'cleaned');
-
   return parameter;
 };
