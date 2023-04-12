@@ -18,7 +18,7 @@ type Props = StackScreenProps<RootStackParamList, 'ReviewCreate'>;
 
 const ReviewCreate = ({ navigation, route }: Props) => {
   const { withPhrase, phrase } = route.params;
-  const { setSecret, name, createdUntil } = useBip32State();
+  const { setSecret, name, derivedUntilLevel } = useBip32State();
   const [loading, setLoading] = useState(false);
   const { importGenericSecret } = useGenericSecret();
   const { user } = useAuthState();
@@ -29,7 +29,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
   };
 
   useEffect(() => {
-    if (!withPhrase || !phrase || !user || createdUntil !== 'none') return;
+    if (!withPhrase || !phrase || !user || derivedUntilLevel !== 0) return;
 
     // Only executed if use decides to use a seed phrase
     // We do this because the `mnemonicToSeed` function is very slow and blocks the UI thread

@@ -23,10 +23,10 @@ const CreateWallet = ({ navigation }: Props) => {
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
-  const { setSecret, setName, createdUntil } = useBip32State();
+  const { setSecret, setName, derivedUntilLevel } = useBip32State();
 
   useEffect(() => {
-    if (createdUntil !== 'none') {
+    if (derivedUntilLevel !== 0) {
       navigation.navigate('ReviewCreate', { withPhrase: false });
     }
   }, []);

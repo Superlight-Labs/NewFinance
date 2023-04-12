@@ -18,7 +18,7 @@ export type Bip32State = {
   index: SharePair | undefined;
   name: string;
   hasHydrated: boolean;
-  createdUntil: CreatedUntil;
+  derivedUntilLevel: DerivedUntilLevel;
   setHasHydrated: (state: boolean) => void;
   delete: () => void;
   setName: (name: string) => void;
@@ -43,22 +43,22 @@ export const useBip32State = create<Bip32State>()(
       change: undefined,
       index: undefined,
       name: '',
-      createdUntil: 'none',
+      derivedUntilLevel: 0,
       setName: (name: string) => set(current => ({ ...current, name })),
       setSecret: (data: SharePair) =>
-        set(current => ({ ...current, secret: data, createdUntil: 'secret' })),
+        set(current => ({ ...current, secret: data, derivedUntilLevel: 1 })),
       setMaster: (data: SharePair) =>
-        set(current => ({ ...current, master: data, createdUntil: 'master' })),
+        set(current => ({ ...current, master: data, derivedUntilLevel: 2 })),
       setPurpose: (data: SharePair) =>
-        set(current => ({ ...current, purpose: data, createdUntil: 'purpose' })),
+        set(current => ({ ...current, purpose: data, derivedUntilLevel: 3 })),
       setCoinType: (data: SharePair) =>
-        set(current => ({ ...current, coinType: data, createdUntil: 'coinType' })),
+        set(current => ({ ...current, coinType: data, derivedUntilLevel: 4 })),
       setAccount: (data: SharePair) =>
-        set(current => ({ ...current, account: data, createdUntil: 'account' })),
+        set(current => ({ ...current, account: data, derivedUntilLevel: 5 })),
       setChange: (data: SharePair) =>
-        set(current => ({ ...current, change: data, createdUntil: 'change' })),
+        set(current => ({ ...current, change: data, derivedUntilLevel: 6 })),
       setIndex: (data: SharePair) =>
-        set(current => ({ ...current, index: data, createdUntil: 'complete' })),
+        set(current => ({ ...current, index: data, derivedUntilLevel: 7 })),
       delete: () => set(deleteBip32State),
       setHasHydrated: (state: boolean) => {
         set({
@@ -86,16 +86,17 @@ const deleteBip32State = (_: Bip32State) => {
     change: undefined,
     index: undefined,
     name: '',
-    createdUntil: 'none',
+    derivedUntilLevel: DerivedUntilLevel.NONE,
   } as Bip32State;
 };
 
-export type CreatedUntil =
-  | 'none'
-  | 'secret'
-  | 'master'
-  | 'purpose'
-  | 'coinType'
-  | 'account'
-  | 'change'
-  | 'complete';
+export enum DerivedUntilLevel {
+  NONE = 0,
+  SECRET = 1,
+  MASTER = 2,
+  PURPOSE = 3,
+  COINTYPE = 4,
+  ACCOUNT = 5,
+  CHANGE = 6,
+  COMPLETE = 7,
+}

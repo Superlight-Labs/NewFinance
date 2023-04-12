@@ -4,14 +4,14 @@ import Title from 'components/shared/title/title.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
-import { CreatedUntil, useBip32State } from 'state/bip32.state';
+import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
 import { AnimatedView, View } from 'util/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Derive'>;
 
 const DeriveScreen = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet();
-  const { secret, createdUntil } = useBip32State();
+  const { secret, derivedUntilLevel } = useBip32State();
 
   useEffect(() => {
     if (!secret) {
@@ -33,31 +33,33 @@ const DeriveScreen = ({ navigation }: Props) => {
       <View className=" h-6 w-64 rounded-full bg-gray-200 dark:bg-gray-700">
         <AnimatedView
           className="h-6 rounded-full bg-blue-600 dark:bg-blue-500"
-          style={{ width: `${loadingCreateUntil(createdUntil)}%` }}></AnimatedView>
+          style={{ width: `${loadingCreateUntil(derivedUntilLevel)}%` }}></AnimatedView>
       </View>
     </LayoutComponent>
   );
 };
 
-const loadingCreateUntil = (createdUntil: CreatedUntil): number => {
-  switch (createdUntil) {
-    case 'none':
+const loadingCreateUntil = (derivedUntilLevel: DerivedUntilLevel): number => {
+  switch (derivedUntilLevel) {
+    case 0:
       return 0;
-    case 'secret':
+    case 1:
       return 10;
-    case 'master':
+    case 2:
       return 30;
-    case 'purpose':
+    case 3:
       return 50;
-    case 'coinType':
+    case 4:
       return 70;
-    case 'account':
+    case 5:
       return 90;
-    case 'change':
+    case 6:
       return 95;
-    case 'complete':
+    case 7:
       return 100;
   }
+
+  return 0;
 };
 
 export default DeriveScreen;

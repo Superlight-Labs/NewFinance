@@ -10,10 +10,10 @@ import { Text } from 'util/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const Onboarding = ({ navigation }: Props) => {
-  const { createdUntil, hasHydrated } = useBip32State();
+  const { derivedUntilLevel, hasHydrated } = useBip32State();
 
   useEffect(() => {
-    if (hasHydrated && createdUntil !== 'none') {
+    if (hasHydrated && derivedUntilLevel !== 0) {
       navigation.navigate('ReviewCreate', { withPhrase: false });
     }
   }, [hasHydrated]);

@@ -17,6 +17,7 @@ import LoadingScreen from 'screens/shared/loading.screen';
 import { useAuthState } from './state/auth.state';
 import { useSnackbarState } from './state/snackbar.state';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLogout } from 'hooks/useLogout';
 import reactotron from 'reactotron-react-native';
 import Home from 'screens/home.screen';
@@ -24,7 +25,7 @@ import OnboardingStack from 'screens/onboarding/onboarding.stack';
 import DeriveScreen from 'screens/shared/derive.screen';
 import WalletsStack from 'screens/wallets/wallets.stack';
 import Welcome from 'screens/welcome.screen';
-import { useBip32State } from 'state/bip32.state';
+import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
 if (__DEV__) {
   import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
 }
@@ -35,11 +36,14 @@ export type RootStack = typeof Stack;
 function App(): JSX.Element {
   const { hasHydrated: authHydrated, isAuthenticated } = useAuthState();
   const { message } = useSnackbarState();
-  const { createdUntil, hasHydrated: bipHydrated } = useBip32State();
+  const { derivedUntilLevel, hasHydrated: bipHydrated } = useBip32State();
   const { logout } = useLogout();
 
   if (__DEV__) {
     reactotron.onCustomCommand('logout', logout);
+    reactotron.onCustomCommand('deleteState', () =>
+      AsyncStorage.getAllKeys().then(AsyncStorage.multiRemove)
+    );
   }
 
   return (
@@ -51,7 +55,7 @@ function App(): JSX.Element {
               <>
                 {isAuthenticated ? (
                   <>
-                    {createdUntil === 'complete' && (
+                    {derivedUntilLevel === DerivedUntilLevel.COMPLETE && (
                       <>
                         <Stack.Screen name="Home" component={Home} />
                         {WalletsStack({ Stack })}
