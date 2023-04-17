@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lauhon/Superlight.git"
+    "url": "git+https://github.com/Superlight-Labs/Superlight.git"
   },
   "keywords": [
     "neverthrow",
@@ -21,9 +21,9 @@
   "author": "Laurenz Honauer",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/lauhon/Superlight/issues"
+    "url": "https://github.com/Superlight-Labs/Superlight/issues"
   },
-  "homepage": "https://github.com/lauhon/Superlight#readme",
+  "homepage": "https://github.com/Superlight-Labs/Superlight#readme",
   "peerDependencies": {
     "@superlight-labs/rn-crypto-mpc": "*",
     "@superlight-labs/mpc-common": "*",
