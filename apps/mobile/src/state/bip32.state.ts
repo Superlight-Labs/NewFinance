@@ -20,7 +20,7 @@ export type Bip32State = {
   hasHydrated: boolean;
   derivedUntilLevel: DerivedUntilLevel;
   setHasHydrated: (state: boolean) => void;
-  delete: () => void;
+  deleteBip32: () => void;
   setName: (name: string) => void;
   setSecret: (data: SharePair) => void;
   setMaster: (data: SharePair) => void;
@@ -59,7 +59,7 @@ export const useBip32State = create<Bip32State>()(
         set(current => ({ ...current, change: data, derivedUntilLevel: 6 })),
       setIndex: (data: SharePair) =>
         set(current => ({ ...current, index: data, derivedUntilLevel: 7 })),
-      delete: () => set(deleteBip32State),
+      deleteBip32: () => set(deleteBip32State),
       setHasHydrated: (state: boolean) => {
         set({
           hasHydrated: state,

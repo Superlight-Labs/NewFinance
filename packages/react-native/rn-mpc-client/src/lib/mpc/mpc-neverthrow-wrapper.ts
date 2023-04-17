@@ -26,7 +26,7 @@ export const getXPubKey = (share: string, network: 'main' | 'test' = 'main') => 
   );
 };
 
-export const getPublicKey = (share: string, network: 'main' | 'test' = 'main') => {
+export const getPublicKey = (share: string) => {
   return ResultAsync.fromPromise(RnMpc.getPublicKey(share), err =>
     appError(err, 'Error while getting public key')
   );

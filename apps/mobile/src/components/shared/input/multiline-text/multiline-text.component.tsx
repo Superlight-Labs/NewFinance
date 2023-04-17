@@ -15,6 +15,7 @@ const MultilineText = ({ value, setValue, placeholder, style, disabled = false }
     <TextInput
       editable={!disabled}
       selectTextOnFocus={!disabled}
+      autoCapitalize="none"
       scrollEnabled
       multiline
       autoCorrect={false}

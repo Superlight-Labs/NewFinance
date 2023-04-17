@@ -56,7 +56,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
   }, []);
 
   return (
-    <Layout hideBack>
+    <Layout>
       <ButtonComponent
         style="px-6 py-3 absolute right-8 -top-8 rounded-xl"
         onPress={finishGenerate}

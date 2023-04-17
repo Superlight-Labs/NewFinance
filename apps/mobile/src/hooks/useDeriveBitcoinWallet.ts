@@ -81,13 +81,13 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
       }
 
       return deriveBip32Hardened(config, {
-        index: '44',
+        index: '84',
         peerShareId,
         share,
         parentPath: 'm',
         hardened: true,
       }).map(({ share: s, peerShareId: pId }) => {
-        setPurpose({ share: s, peerShareId: pId, path: `m/44'` });
+        setPurpose({ share: s, peerShareId: pId, path: `m/84'` });
         return { share: s, peerShareId: pId };
       });
     },
@@ -101,10 +101,10 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         index: '0',
         peerShareId,
         share,
-        parentPath: `m/44'`,
+        parentPath: `m/84'`,
         hardened: true,
       }).map(({ share: s, peerShareId: pId }) => {
-        setCoinType({ share: s, peerShareId: pId, path: `m/44'/0'` });
+        setCoinType({ share: s, peerShareId: pId, path: `m/84'/0'` });
         return { share: s, peerShareId: pId };
       });
     },
@@ -114,13 +114,13 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         return okAsync(rest.account!);
       }
 
-      const path = `m/44'/0'/0'`;
+      const path = `m/84'/0'/0'`;
 
       return deriveBip32Hardened(config, {
         index: '0',
         peerShareId: ctShareId,
         share: cTShare,
-        parentPath: `m/44'/0'`,
+        parentPath: `m/84'/0'`,
         hardened: true,
       })
         .andThen(({ share, peerShareId }) => {
@@ -129,9 +129,9 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
             return { share, peerShareId };
           });
         })
-        .map(({ share: s, peerShareId: pId }) => {
-          setAccount({ share: s, peerShareId: pId, path });
-          return { share: s, peerShareId: pId };
+        .map(({ share, peerShareId }) => {
+          setAccount({ share, peerShareId, path });
+          return { share, peerShareId };
         });
     },
     deriveAndSaveChange: ({ share, peerShareId }) => {
@@ -144,10 +144,10 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         index: '0',
         peerShareId,
         share,
-        parentPath: `m/44'/0'/0'`,
+        parentPath: `m/84'/0'/0'`,
         hardened: false,
       }).map(({ share: s, peerShareId: pId }) => {
-        setChange({ share: s, peerShareId: pId, path: `m/44'/0'/0'/0` });
+        setChange({ share: s, peerShareId: pId, path: `m/84'/0'/0'/0` });
         return { share: s, peerShareId: pId };
       });
     },
@@ -161,7 +161,7 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         index: '0',
         peerShareId: cShareId,
         share: cShare,
-        parentPath: `m/44'/0'/0'/0`,
+        parentPath: `m/84'/0'/0'/0`,
         hardened: false,
       })
         .andThen(({ share, peerShareId }) => {
@@ -174,7 +174,7 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
             });
         })
         .map(({ share, peerShareId }) => {
-          setIndex({ share, peerShareId, path: `m/44'/0'/0'/0/0` });
+          setIndex({ share, peerShareId, path: `m/84'/0'/0'/0/0` });
           return { share, peerShareId };
         });
     },

@@ -18,8 +18,8 @@ export const dropKeyShare = async (keyShare: MpcKeyShare | null): Promise<MpcKey
 };
 
 export const saveKeyShare = (user: User, keyShare: string, path: string): Promise<MpcKeyShare> => {
-  return client.mpcKeyShare.create({
-    data: {
+  return client.mpcKeyShare.upsert({
+    create: {
       value: keyShare,
       path,
       user: {
@@ -29,6 +29,15 @@ export const saveKeyShare = (user: User, keyShare: string, path: string): Promis
             devicePublicKey: user.devicePublicKey,
           },
         },
+      },
+    },
+    update: {
+      value: keyShare,
+    },
+    where: {
+      userId_path: {
+        userId: user.id,
+        path,
       },
     },
   });
