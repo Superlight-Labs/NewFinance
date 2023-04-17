@@ -1,3 +1,4 @@
+import { AppError } from '@superlight-labs/mpc-common';
 import { create } from 'zustand';
 
 type AppSnackbarState = {
@@ -13,12 +14,6 @@ export type AppMessage =
     }
   | AppError
   | Empty;
-
-export type AppError = {
-  message: string;
-  error: unknown;
-  level: 'error';
-};
 
 type Empty = {
   message: '';

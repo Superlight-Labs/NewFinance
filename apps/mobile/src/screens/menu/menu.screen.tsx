@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import LayoutComponent from 'components/shared/layout/layout.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Title from 'components/shared/title/title.component';
-import { Pressable, ScrollView, Text } from 'util/wrappers/styled-react-native';
+import { Pressable, ScrollView, Text } from 'utils/wrappers/styled-react-native';
 import { useMenuItems } from './menu-items';
 import { MenuStackParamList } from './menu-navigation';
 

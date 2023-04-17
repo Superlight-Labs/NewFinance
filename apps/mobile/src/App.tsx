@@ -40,10 +40,16 @@ function App(): JSX.Element {
   const { logout } = useLogout();
 
   if (__DEV__) {
-    reactotron.onCustomCommand('logout', logout);
-    reactotron.onCustomCommand('deleteState', () =>
-      AsyncStorage.getAllKeys().then(AsyncStorage.multiRemove)
-    );
+    reactotron.onCustomCommand({
+      command: 'Logout',
+      description: 'Deleting local states and device keypair',
+      handler: logout,
+    });
+    reactotron.onCustomCommand({
+      command: 'Delete State',
+      description: 'Deleting everthing in AsyncStorage',
+      handler: () => AsyncStorage.getAllKeys().then(AsyncStorage.multiRemove),
+    });
   }
 
   return (

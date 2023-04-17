@@ -6,6 +6,8 @@ export { buildPath, indexToNumber } from './src/derive';
 export type { DeriveConfig } from './src/derive';
 export {
   apiError,
+  appError,
+  bitcoinJsError,
   databaseError,
   mapWebsocketToApiError as mapWebsocketError,
   mapWebsocketToAppError,

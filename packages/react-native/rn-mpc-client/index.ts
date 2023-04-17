@@ -6,6 +6,7 @@ import { DeriveFrom, ShareResult } from './src/lib/mpc/mpc-types';
 import { authWebsocket } from './src/lib/websocket/ws-client';
 import { Signer } from './src/lib/websocket/ws-common';
 import { authWebsocketWithSetup } from './src/lib/websocket/ws-setup-client';
+export { getPublicKey, getXPubKey } from './src/lib/mpc/mpc-neverthrow-wrapper';
 export type { Signer };
 
 export const useGenericSecret = () => ({

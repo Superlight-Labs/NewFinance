@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 import { View } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
-import { constants } from 'util/constants';
+import { constants } from 'utils/constants';
 
 const StyledView = styled(View);
 

@@ -1,11 +1,9 @@
-import { SignResult } from '@superlight-labs/mpc-common';
+import { AppError, SignResult, appError } from '@superlight-labs/mpc-common';
 import { Signer } from '@superlight-labs/rn-mpc-client';
 import { generateKeyPair, sign } from '@superlight-labs/rn-secure-encryption-module';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { AppError } from 'state/snackbar.state';
-import { constants } from 'util/constants';
-import { appError } from './error/error';
+import { constants } from 'utils/constants';
 
 export const createDeviceKey = (): ResultAsync<string, AppError> => {
   return authenticate().andThen(_ =>

@@ -1,5 +1,5 @@
 import { styled } from 'nativewind';
-import { TextInput } from 'util/wrappers/styled-react-native';
+import { TextInput } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   value: string;

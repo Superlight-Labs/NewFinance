@@ -6,7 +6,7 @@ import Title from 'components/shared/title/title.component';
 import { useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
-import { Text, TextInput } from 'util/wrappers/styled-react-native';
+import { Text, TextInput } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Import'>;
 

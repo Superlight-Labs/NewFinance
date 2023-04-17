@@ -1,4 +1,4 @@
-import { Text, View } from 'util/wrappers/styled-react-native';
+import { Text, View } from 'utils/wrappers/styled-react-native';
 
 const Receive = () => {
   return (

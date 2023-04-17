@@ -5,7 +5,7 @@ import Title from 'components/shared/title/title.component';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useBip32State } from 'state/bip32.state';
-import { Text } from 'util/wrappers/styled-react-native';
+import { Text } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
 import { ReactNode } from 'react';
-import { Pressable, View } from 'util/wrappers/styled-react-native';
+import { Pressable, View } from 'utils/wrappers/styled-react-native';
 import MonoIcon from '../mono-icon/mono-icon.component';
 
 type Props = {

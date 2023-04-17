@@ -11,10 +11,10 @@ import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useBip32State } from 'state/bip32.state';
-import { signWithDeviceKeyNoAuth } from 'util/auth';
-import { apiUrl } from 'util/superlight-api';
+import { signWithDeviceKeyNoAuth } from 'utils/auth';
+import { apiUrl } from 'utils/superlight-api';
 
-import { Text, TextInput } from 'util/wrappers/styled-react-native';
+import { Text, TextInput } from 'utils/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {

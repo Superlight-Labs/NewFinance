@@ -1,5 +1,5 @@
 import { AppMessage, useSnackbarState } from 'state/snackbar.state';
-import { Pressable, Text, View } from 'util/wrappers/styled-react-native';
+import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   appMessage: AppMessage;

@@ -1,6 +1,6 @@
 import * as bip39 from '@scure/bip39';
+import { AppError } from '@superlight-labs/mpc-common';
 import { ResultAsync } from 'neverthrow';
-import { AppError } from 'state/snackbar.state';
 
 export const mnemonicToSeed = (mnemonic: string): ResultAsync<Uint8Array, AppError> => {
   // Wrapping this in a promise with empty to avoid blocking the UI

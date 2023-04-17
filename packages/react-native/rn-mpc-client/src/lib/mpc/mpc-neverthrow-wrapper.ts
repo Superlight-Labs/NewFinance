@@ -1,4 +1,4 @@
-import { indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
+import { appError, indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
 import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
 import { DeriveFrom } from './mpc-types';
@@ -17,6 +17,18 @@ export const initDeriveBip32 = (deriveFrom: DeriveFrom, hardened: boolean) => {
   return ResultAsync.fromPromise(
     RnMpc.initDeriveBIP32(deriveFrom.share, indexToNumber(deriveFrom.index), hardened),
     err => mpcInternalError(err, 'Error while creating derive context')
+  );
+};
+
+export const getXPubKey = (share: string, network: 'main' | 'test' = 'main') => {
+  return ResultAsync.fromPromise(RnMpc.getXPubKey(share, network), err =>
+    appError(err, 'Error while getting xPub key')
+  );
+};
+
+export const getPublicKey = (share: string, network: 'main' | 'test' = 'main') => {
+  return ResultAsync.fromPromise(RnMpc.getPublicKey(share), err =>
+    appError(err, 'Error while getting public key')
   );
 };
 

@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from 'util/wrappers/styled-react-native';
+import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   address?: string;

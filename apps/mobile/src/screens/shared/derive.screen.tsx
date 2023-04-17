@@ -5,7 +5,7 @@ import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
-import { AnimatedView, View } from 'util/wrappers/styled-react-native';
+import { AnimatedView, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Derive'>;
 
