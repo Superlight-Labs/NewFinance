@@ -1,7 +1,7 @@
 import LayoutComponent from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { Switch } from 'react-native';
-import { useBitcoinState } from 'state/bitcion.state';
+import { useBitcoinState } from 'state/bitcoin.state.';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
 const BitcoinSettings = () => {

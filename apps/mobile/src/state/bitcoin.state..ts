@@ -15,7 +15,13 @@ export type BitcoinState = {
     xPub: string;
     share: SharePair;
   };
+  indexAddress: {
+    xPub: string;
+    address: string;
+    share: SharePair;
+  };
   saveAccount: (account: BitcoinState['account']) => void;
+  saveAddress: (address: BitcoinState['indexAddress']) => void;
   setNetwork: (network: BitcoinNetwork) => void;
 };
 
@@ -32,7 +38,17 @@ export const useBitcoinState = create<BitcoinState>()(
           peerShareId: '',
         },
       },
+      indexAddress: {
+        xPub: '',
+        address: '',
+        share: {
+          share: '',
+          path: '',
+          peerShareId: '',
+        },
+      },
       saveAccount: (account: BitcoinState['account']) => set({ account }),
+      saveAddress: (indexAddress: BitcoinState['indexAddress']) => set({ indexAddress }),
       setNetwork: (network: BitcoinNetwork) => set({ network, index: network === 'main' ? 0 : 1 }),
     }),
     {

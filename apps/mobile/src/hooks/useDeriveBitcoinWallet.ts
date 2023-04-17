@@ -5,7 +5,7 @@ import { ShareResult } from '@superlight-labs/rn-mpc-client/src/lib/mpc/mpc-type
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { AppUser, useAuthState } from 'state/auth.state';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
-import { useBitcoinState } from 'state/bitcion.state';
+import { useBitcoinState } from 'state/bitcoin.state.';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin';
 import { apiUrl } from 'utils/superlight-api';
@@ -38,7 +38,7 @@ type Derivations = {
 };
 
 const useDeriveSteps = (user: AppUser | undefined): Derivations => {
-  const { network, saveAccount } = useBitcoinState();
+  const { network, saveAccount, saveAddress } = useBitcoinState();
   const { deriveBip32, deriveBip32Hardened, deriveMasterPair } = useDerive();
   const {
     setAccount,
@@ -157,6 +157,8 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         return okAsync(rest.index!);
       }
 
+      const path = `m/84'/0'/0'/0/0`;
+
       return deriveBip32(config, {
         index: '0',
         peerShareId: cShareId,
@@ -166,15 +168,14 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
       })
         .andThen(({ share, peerShareId }) => {
           return getXPubKey(share)
-            .andThen(key => publicKeyToBitcoinAddressP2WPKH(key.xPubKey, network))
-            .map(key => {
-              logger.info('this is your address', key);
-
+            .andThen(result => publicKeyToBitcoinAddressP2WPKH(result.xPubKey, network))
+            .map(({ xPub, address }) => {
+              saveAddress({ share: { share, peerShareId, path }, xPub, address });
               return { share, peerShareId };
             });
         })
         .map(({ share, peerShareId }) => {
-          setIndex({ share, peerShareId, path: `m/84'/0'/0'/0/0` });
+          setIndex({ share, peerShareId, path });
           return { share, peerShareId };
         });
     },
