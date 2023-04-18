@@ -34,6 +34,18 @@ On error `xcrun: error: SDK "iphoneos" cannot be located` it may be necessray to
 
 8. Start development with `yarn dev`
 
+CONGRATS - now you have setup the project for Development.
+Since the App is hooked up with external API's etc. it is necessary to do a few more steps to actually interact with the blockchain. See [here](#secrets)
+
+## Secrets
+
+The App relies on some Secrets for talking with external API's. You have to setup your local `.env` file with following secrets:
+
+| Secret Name      | Website                     |
+| ---------------- | --------------------------- |
+| TATUM_TEST_TOKEN | https://dashboard.tatum.io/ |
+| TATUM_MAIN_TOKEN | https://dashboard.tatum.io/ |
+
 ## Mobile Debugging
 
 The Debugging experience in React native per default is not optimal. For example the network tab does not show the actual requests

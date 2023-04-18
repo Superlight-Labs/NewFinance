@@ -21,6 +21,7 @@
     "@superlight-labs/api": "*",
     "@superlight-labs/logger": "*",
     "@superlight-labs/mpc-common": "*",
+    "@superlight-labs/blockchain-api-client": "*",
     "@superlight-labs/rn-crypto-mpc": "*",
     "@superlight-labs/rn-mpc-client": "*",
     "@superlight-labs/rn-secure-encryption-module": "*",

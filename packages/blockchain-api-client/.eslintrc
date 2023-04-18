@@ -1,0 +1,8 @@
+{
+  "extends": ["@superlight-labs/eslint-config"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "neverthrow"],
+  "rules": {
+    "neverthrow/must-use-result": "warn"
+  }
+}
