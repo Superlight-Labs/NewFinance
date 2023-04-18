@@ -10,12 +10,7 @@ type Props = {
   navigate: () => void;
 };
 
-const WalletMenuItem = ({
-  loading,
-  name = 'Hauptkonto',
-  balance = '1.234,45€',
-  navigate,
-}: Props) => {
+const WalletMenuItem = ({ loading, name = 'Hauptkonto', balance, navigate }: Props) => {
   return (
     <Pressable disabled={loading} className="w-[45rvw]" onPress={navigate}>
       <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-superblue-100">
@@ -28,7 +23,7 @@ const WalletMenuItem = ({
         </View>
       </View>
       <Text className="mt-3">{name}</Text>
-      {loading ? (
+      {loading || !balance ? (
         <SkeletonBar style="h-4" />
       ) : (
         <Text className="text-gray-500">{balance.incoming - balance.outgoing} BTC</Text>

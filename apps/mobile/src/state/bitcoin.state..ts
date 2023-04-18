@@ -22,6 +22,7 @@ export type BitcoinState = {
   saveAccount: (account: BitcoinState['account']) => void;
   saveAddress: (address: BitcoinState['indexAddress']) => void;
   setNetwork: (network: Network) => void;
+  deleteBitcoin: () => void;
 };
 
 export const useBitcoinState = create<BitcoinState>()(
@@ -38,6 +39,7 @@ export const useBitcoinState = create<BitcoinState>()(
         },
       },
       indexAddress: {
+        balance: undefined,
         xPub: '',
         address: '',
         share: {
@@ -51,6 +53,19 @@ export const useBitcoinState = create<BitcoinState>()(
       saveAccount: (account: BitcoinState['account']) => set({ account }),
       saveAddress: (indexAddress: BitcoinState['indexAddress']) => set({ indexAddress }),
       setNetwork: (network: Network) => set({ network, index: network === 'main' ? 0 : 1 }),
+      deleteBitcoin: () =>
+        set({
+          account: {
+            xPub: '',
+            share: { share: '', path: '', peerShareId: '' },
+          },
+          indexAddress: {
+            xPub: '',
+            address: '',
+            share: { share: '', path: '', peerShareId: '' },
+            balance: undefined,
+          },
+        }),
     }),
     {
       name: 'bitcoin-storage',

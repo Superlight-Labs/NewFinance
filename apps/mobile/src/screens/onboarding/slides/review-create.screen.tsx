@@ -3,6 +3,7 @@ import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
 import Layout from 'components/shared/layout/layout.component';
+import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Title from 'components/shared/title/title.component';
 import { useFailableAction } from 'hooks/useFailable';
 import { useEffect, useState } from 'react';
@@ -12,7 +13,7 @@ import { useBip32State } from 'state/bip32.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { apiUrl } from 'utils/superlight-api';
 import { mnemonicToSeed } from 'utils/wrappers/bip32-neverthrow';
-import { Text } from 'utils/wrappers/styled-react-native';
+import { Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'ReviewCreate'>;
 
@@ -68,7 +69,11 @@ const ReviewCreate = ({ navigation, route }: Props) => {
       <Text>Name: {name}</Text>
       {withPhrase && phrase && <MultilineText value={phrase} disabled />}
 
-      {loading && <Text>Loading...</Text>}
+      {loading && (
+        <View className="mt-6 flex items-center justify-center">
+          <MonoIcon iconName="Loading" />
+        </View>
+      )}
     </Layout>
   );
 };

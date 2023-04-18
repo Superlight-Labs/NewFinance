@@ -4,10 +4,12 @@ import LayoutComponent from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { RefreshControl } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
 import { useBitcoinState } from 'state/bitcoin.state.';
+import { ScrollView } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
@@ -19,8 +21,8 @@ const Home = ({ navigation }: Props) => {
     updateBalance,
     indexAddress: { balance, address },
   } = useBitcoinState();
-
-  const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (!secret) {
@@ -28,37 +30,51 @@ const Home = ({ navigation }: Props) => {
       return;
     }
 
-    if (loading) {
-      createBitcoinWallet(secret.share, secret.peerShareId);
+    if (derivedUntilLevel < DerivedUntilLevel.COMPLETE) {
+      setLoading(true);
+      createBitcoinWallet(secret.share, secret.peerShareId).onSuccess(_ => setLoading(false));
     }
   }, []);
 
   useEffect(() => {
     if (address) {
-      new BitcoinService(network)
-        .getBalance(address, BitcoinProviderEnum.TATUM)
-        .then(fetchedBalance => {
-          updateBalance(fetchedBalance);
-        });
+      loadBalance();
     }
   }, [address]);
+
+  const loadBalance = () => {
+    setRefreshing(true);
+
+    new BitcoinService(network)
+      .getBalance(address, BitcoinProviderEnum.TATUM)
+      .then(fetchedBalance => {
+        updateBalance(fetchedBalance);
+        setRefreshing(false);
+      });
+  };
+
+  const refreshControl = loading ? undefined : (
+    <RefreshControl refreshing={refreshing} onRefresh={loadBalance} />
+  );
 
   return (
     <LayoutComponent
       hideBack
       noPadding
-      style="bg-white pl-8"
+      style="pl-8"
       settingsNavigate={() => navigation.navigate('Menu')}>
-      <Title>Wallets</Title>
+      <ScrollView className="h-full" refreshControl={refreshControl}>
+        <Title>Wallets</Title>
 
-      <Title style="mb-4">{balance ? balance.incoming - balance.outgoing : 0} BTC</Title>
+        <Title style="mb-4">{balance ? balance.incoming - balance.outgoing : 0} BTC</Title>
 
-      <WalletMenuItem
-        name={name}
-        loading={loading}
-        balance={balance}
-        navigate={() => navigation.navigate('Wallets')}
-      />
+        <WalletMenuItem
+          name={name}
+          loading={loading || refreshing || !balance}
+          balance={balance}
+          navigate={() => navigation.navigate('Wallets')}
+        />
+      </ScrollView>
     </LayoutComponent>
   );
 };

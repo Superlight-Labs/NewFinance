@@ -34,6 +34,10 @@ const Snackbar = ({ appMessage }: Props) => {
   return (
     <AnimatedView
       style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         transform: [
           { translateY: introAnim.interpolate({ inputRange: [0, 1], outputRange: [500, 0] }) },
         ],
