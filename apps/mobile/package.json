@@ -9,7 +9,7 @@
     "ios": "react-native run-ios --simulator='iPhone 11'",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
     "start": "react-native start",
-    "reset": "react-native start --reset-cache",
+    "dump-cache": "react-native start --reset-cache",
     "test": "jest"
   },
   "dependencies": {
