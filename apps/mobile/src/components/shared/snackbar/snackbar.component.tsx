@@ -34,6 +34,7 @@ const Snackbar = ({ appMessage }: Props) => {
   return (
     <AnimatedView
       style={{
+        backgroundColor: 'white',
         position: 'absolute',
         bottom: 0,
         left: 0,

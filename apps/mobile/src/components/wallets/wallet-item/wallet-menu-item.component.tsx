@@ -12,7 +12,7 @@ type Props = {
 
 const WalletMenuItem = ({ loading, name = 'Hauptkonto', balance, navigate }: Props) => {
   return (
-    <Pressable disabled={loading} className="w-[45rvw]" onPress={navigate}>
+    <Pressable className="w-[45rvw]" onPress={navigate}>
       <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-superblue-100">
         <View className="flex h-16 w-16 items-center justify-center rounded-md bg-superblue-400">
           {loading ? (

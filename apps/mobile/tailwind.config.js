@@ -13,6 +13,7 @@ module.exports = {
         50: '#F8FAFC',
         100: '#F8F8F8',
         400: '#8D93A0',
+        900: '#2A2434',
       },
       superred: {
         100: '#F1DFDF',
@@ -25,7 +26,7 @@ module.exports = {
         900: '#343E99',
       },
       supergreen: {
-        100: '#E8F2EE',
+        100: '#5BB5A2',
         400: '#72B3A3',
         900: '#0B8869',
       },

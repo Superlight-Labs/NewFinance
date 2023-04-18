@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Network } from '@superlight-labs/blockchain-api-client';
-import { BitcoinBalance } from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
+import {
+  BitcoinBalance,
+  BitcoinTransaction,
+} from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { SharePair } from './bip32.state';
@@ -16,9 +19,12 @@ export type BitcoinState = {
     xPub: string;
     address: string;
     share: SharePair;
+    transactions: BitcoinTransaction[];
     balance?: BitcoinBalance;
   };
   updateBalance: (balance: BitcoinBalance) => void;
+  setTransactions: (transactions: BitcoinTransaction[]) => void;
+  addTransactions: (transactions: BitcoinTransaction[]) => void;
   saveAccount: (account: BitcoinState['account']) => void;
   saveAddress: (address: BitcoinState['indexAddress']) => void;
   setNetwork: (network: Network) => void;
@@ -39,6 +45,7 @@ export const useBitcoinState = create<BitcoinState>()(
         },
       },
       indexAddress: {
+        transactions: [],
         balance: undefined,
         xPub: '',
         address: '',
@@ -48,6 +55,15 @@ export const useBitcoinState = create<BitcoinState>()(
           peerShareId: '',
         },
       },
+      addTransactions: (transactions: BitcoinTransaction[]) =>
+        set(state => ({
+          indexAddress: {
+            ...state.indexAddress,
+            transactions: [...(state.indexAddress.transactions || []), ...transactions],
+          },
+        })),
+      setTransactions: (transactions: BitcoinTransaction[]) =>
+        set(state => ({ indexAddress: { ...state.indexAddress, transactions } })),
       updateBalance: (balance: BitcoinBalance) =>
         set(state => ({ indexAddress: { ...state.indexAddress, balance } })),
       saveAccount: (account: BitcoinState['account']) => set({ account }),
@@ -64,6 +80,7 @@ export const useBitcoinState = create<BitcoinState>()(
             address: '',
             share: { share: '', path: '', peerShareId: '' },
             balance: undefined,
+            transactions: [],
           },
         }),
     }),

@@ -8,7 +8,7 @@ import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
 import { useBitcoinState } from 'state/bitcoin.state.';
 import { useSnackbarState } from 'state/snackbar.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
-import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin';
+import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin-address';
 import { apiUrl } from 'utils/superlight-api';
 import { useFailableAction } from './useFailable';
 
@@ -183,7 +183,7 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
           return getXPubKey(share)
             .andThen(result => publicKeyToBitcoinAddressP2WPKH(result.xPubKey, network))
             .map(({ xPub, address }) => {
-              saveAddress({ share: { share, peerShareId, path }, xPub, address });
+              saveAddress({ share: { share, peerShareId, path }, xPub, address, transactions: [] });
               return { share, peerShareId };
             });
         })

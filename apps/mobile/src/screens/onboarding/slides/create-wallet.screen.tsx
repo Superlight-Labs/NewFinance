@@ -53,7 +53,7 @@ const CreateWallet = ({ navigation }: Props) => {
         sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
       })
     ).onSuccess(result => {
-      setName(walletName);
+      setName(walletName || 'Main Wallet');
       setSecret({
         peerShareId: result.peerShareId,
         share: result.share,

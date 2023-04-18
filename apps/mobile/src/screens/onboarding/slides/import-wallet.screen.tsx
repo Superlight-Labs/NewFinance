@@ -14,7 +14,7 @@ type Props = StackScreenProps<RootStackParamList, 'Import'>;
 const ImportWallet = ({ navigation }: Props) => {
   const [walletName, setWalletName] = useState('');
   const [seedPhrase, setSeedPhrase] = useState('');
-  const { deleteBip32, derivedUntilLevel } = useBip32State();
+  const { deleteBip32, derivedUntilLevel, setName } = useBip32State();
 
   useEffect(() => {
     if (derivedUntilLevel !== DerivedUntilLevel.NONE) {
@@ -29,6 +29,8 @@ const ImportWallet = ({ navigation }: Props) => {
       navigation.navigate('Welcome');
       return;
     }
+
+    setName(walletName || 'Main Wallet');
 
     navigation.navigate('ReviewCreate', {
       withPhrase: true,

@@ -2,7 +2,7 @@ export type RootStackParamList = {
   Loading: undefined;
   Welcome: undefined;
   Home: undefined;
-  Wallets: undefined;
+  Wallet: undefined;
   Onboarding: undefined;
   Menu: undefined;
   Import: undefined;

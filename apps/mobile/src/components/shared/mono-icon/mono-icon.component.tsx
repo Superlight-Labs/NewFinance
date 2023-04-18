@@ -54,6 +54,8 @@ export type FeatherIconName =
   | 'AlertCircle'
   | 'ArrowDownCircle'
   | 'Heart'
+  | 'Search'
   | 'Send'
+  | 'Minimize2'
   | 'CheckCircle'
   | 'Loading';

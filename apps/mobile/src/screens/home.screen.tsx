@@ -19,6 +19,7 @@ const Home = ({ navigation }: Props) => {
   const {
     network,
     updateBalance,
+    setTransactions,
     indexAddress: { balance, address },
   } = useBitcoinState();
   const [loading, setLoading] = useState(false);
@@ -38,23 +39,37 @@ const Home = ({ navigation }: Props) => {
 
   useEffect(() => {
     if (address) {
-      loadBalance();
+      loadWalletData();
     }
   }, [address]);
 
-  const loadBalance = () => {
+  const loadWalletData = () => {
     setRefreshing(true);
+    let loadBalance = true;
+    let loadTransactions = true;
 
-    new BitcoinService(network)
-      .getBalance(address, BitcoinProviderEnum.TATUM)
-      .then(fetchedBalance => {
-        updateBalance(fetchedBalance);
-        setRefreshing(false);
-      });
+    const bs = new BitcoinService(network);
+
+    bs.getBalance(address, BitcoinProviderEnum.TATUM).then(fetchedBalance => {
+      loadBalance = false;
+      updateBalance(fetchedBalance);
+      setRefreshing(loadBalance || loadTransactions);
+    });
+
+    const query = new URLSearchParams({
+      pageSize: '5',
+      offset: '0',
+    });
+
+    bs.getTransactions(address, query, BitcoinProviderEnum.TATUM).then(fetchedTransactions => {
+      loadTransactions = false;
+      setTransactions(fetchedTransactions);
+      setRefreshing(loadBalance || loadTransactions);
+    });
   };
 
   const refreshControl = loading ? undefined : (
-    <RefreshControl refreshing={refreshing} onRefresh={loadBalance} />
+    <RefreshControl refreshing={refreshing} onRefresh={loadWalletData} />
   );
 
   return (
@@ -72,7 +87,7 @@ const Home = ({ navigation }: Props) => {
           name={name}
           loading={loading || refreshing || !balance}
           balance={balance}
-          navigate={() => navigation.navigate('Wallets')}
+          navigate={() => navigation.navigate('Wallet')}
         />
       </ScrollView>
     </LayoutComponent>
