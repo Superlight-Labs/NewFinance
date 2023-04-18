@@ -1,4 +1,4 @@
-import { BitcoinProvider } from "../blockchains/bitcoin/types";
+import { BitcoinProvider } from '../blockchains/bitcoin/types';
 import {
   AlchemyBalance,
   AlchemyBroadCastTransactionResult,
@@ -6,33 +6,28 @@ import {
   AlchemyTokenBalances,
   AlchemyTransaction,
   AlchemyTransactionCount,
-} from "../provider/alchemy/ethereum/alchemy-ethereum-types";
+} from '../provider/alchemy/ethereum/alchemy-ethereum-types';
 import {
   BlockCyperFees,
   BlockCypherBalance,
   BlockCypherBalanceFull,
   BlockCypherTransaction,
-} from "../provider/blockcypher/bitcoin/blockcypher-bitcoin-types";
+} from '../provider/blockcypher/bitcoin/blockcypher-bitcoin-types';
 import {
   TatumBalance,
   TatumBroadcastTransaction,
   TatumFees,
   TatumTransaction,
-} from "../provider/tatum/bitcoin/tatum-bitcoin-types";
+} from '../provider/tatum/bitcoin/tatum-bitcoin-types';
 
 export type Provider = BitcoinProvider;
 
-export type ApiBalance<T = BlockCypherBalance | TatumBalance | AlchemyBalance> =
+export type ApiBalance<T = BlockCypherBalance | TatumBalance | AlchemyBalance> = T;
+export type ApiTransaction<T = BlockCypherBalanceFull | TatumTransaction[] | AlchemyTransaction[]> =
   T;
-export type ApiTransaction<
-  T = BlockCypherBalanceFull | TatumTransaction[] | AlchemyTransaction[]
-> = T;
 export type ApiFees<T = BlockCyperFees | TatumFees | AlchemyFees> = T;
 export type ApiBroadcastTransaction<
-  T =
-    | BlockCypherTransaction
-    | TatumBroadcastTransaction
-    | AlchemyBroadCastTransactionResult
+  T = BlockCypherTransaction | TatumBroadcastTransaction | AlchemyBroadCastTransactionResult
 > = T;
 export type ApiTransactionCount<T = AlchemyTransactionCount> = T;
 export type ApiTokenBalances<T = AlchemyTokenBalances> = T;
@@ -40,8 +35,8 @@ export type ApiSwapQuote<T = ZEroExSwapQuote> = T;
 
 export interface TransactionRequest {}
 
-export type Network = "TEST" | "MAIN";
-export type Chain = "Ethereum" | "Polygon";
+export type Network = 'main' | 'test';
+export type Chain = 'Ethereum' | 'Polygon';
 
 export interface Input {
   prevout: Prevout;

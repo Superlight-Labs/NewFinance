@@ -7,16 +7,16 @@ export const zeroExEndpoints = (network: Network) => {
   const networkPath = getNetworkPath(network);
 
   return {
-    swapQuote: function(params: string): string {
+    swapQuote: function (params: string): string {
       return `${networkPath}/swap/v1/quote?${params}`;
     },
   };
 };
 
 const getNetworkPath = (network: Network) => {
-  if (network === 'MAIN') return mainUrl;
+  if (network === 'main') return mainUrl;
 
-  if (network === 'TEST') return testUrl;
+  if (network === 'test') return testUrl;
 
   return testUrl;
 };

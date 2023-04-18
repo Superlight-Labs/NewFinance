@@ -39,12 +39,20 @@ Since the App is hooked up with external API's etc. it is necessary to do a few 
 
 ## Secrets
 
-The App relies on some Secrets for talking with external API's. You have to setup your local `.env` file with following secrets:
+The App relies on some Secrets for talking with external API's. You have to setup the `.env` file INSIDE THE `apps/mobile` directory with following secrets:
 
 | Secret Name      | Website                     |
 | ---------------- | --------------------------- |
 | TATUM_TEST_TOKEN | https://dashboard.tatum.io/ |
 | TATUM_MAIN_TOKEN | https://dashboard.tatum.io/ |
+
+To have an relatively easy time setting this up you can copy the file `.env.example` and rename it to `.env`
+
+## Testing Address
+
+To have funds for testing purposes, import this seed and make sure that main net is disabled in the settings
+
+`tide thrive exotic acquire gloom upon soon east warm blossom wheat brave`
 
 ## Mobile Debugging
 
@@ -59,3 +67,5 @@ Sometimes its necessary to wipe the local setup to get rid of unwanted cache beh
 To completely wipe local data and get a fresh setup run
 
 `yarn reset`
+
+CAREFUL - This will delete your database and `.env` Files in the root and mobile directory

@@ -1,15 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Network } from '@superlight-labs/blockchain-api-client';
+import { BitcoinBalance } from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { SharePair } from './bip32.state';
 
-export type BitcoinNetwork = 'main' | 'test';
-
-// TODO add account xpub and shar pair for convenient access
-// same for address
-// use bip32 fromxPub and bitcoin-adapter from walletPOC - you deleted smth on accident you fool
 export type BitcoinState = {
-  network: BitcoinNetwork;
+  network: Network;
   index: 0 | 1;
   account: {
     xPub: string;
@@ -19,10 +16,12 @@ export type BitcoinState = {
     xPub: string;
     address: string;
     share: SharePair;
+    balance?: BitcoinBalance;
   };
+  updateBalance: (balance: BitcoinBalance) => void;
   saveAccount: (account: BitcoinState['account']) => void;
   saveAddress: (address: BitcoinState['indexAddress']) => void;
-  setNetwork: (network: BitcoinNetwork) => void;
+  setNetwork: (network: Network) => void;
 };
 
 export const useBitcoinState = create<BitcoinState>()(
@@ -47,9 +46,11 @@ export const useBitcoinState = create<BitcoinState>()(
           peerShareId: '',
         },
       },
+      updateBalance: (balance: BitcoinBalance) =>
+        set(state => ({ indexAddress: { ...state.indexAddress, balance } })),
       saveAccount: (account: BitcoinState['account']) => set({ account }),
       saveAddress: (indexAddress: BitcoinState['indexAddress']) => set({ indexAddress }),
-      setNetwork: (network: BitcoinNetwork) => set({ network, index: network === 'main' ? 0 : 1 }),
+      setNetwork: (network: Network) => set({ network, index: network === 'main' ? 0 : 1 }),
     }),
     {
       name: 'bitcoin-storage',

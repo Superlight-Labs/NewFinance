@@ -1,3 +1,4 @@
+import { BitcoinBalance } from '@superlight-labs/blockchain-api-client';
 import SkeletonBar from 'components/shared/loading/skeleton-bar.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
@@ -5,7 +6,7 @@ import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 type Props = {
   loading: boolean;
   name?: string;
-  balance?: string;
+  balance?: BitcoinBalance;
   navigate: () => void;
 };
 
@@ -30,14 +31,10 @@ const WalletMenuItem = ({
       {loading ? (
         <SkeletonBar style="h-4" />
       ) : (
-        <Text className="text-gray-500">{truncate(balance)}</Text>
+        <Text className="text-gray-500">{balance.incoming - balance.outgoing} BTC</Text>
       )}
     </Pressable>
   );
-};
-
-const truncate = (text: string): string => {
-  return text.substring(0, 8) + '...';
 };
 
 export default WalletMenuItem;

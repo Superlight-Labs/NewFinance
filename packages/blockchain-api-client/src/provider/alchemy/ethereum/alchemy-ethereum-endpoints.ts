@@ -5,11 +5,11 @@ export const alchemyEndpoints = (network: Network, chain: Chain): string => {
 };
 
 const urls = {
-  TEST: {
+  test: {
     Ethereum: 'eth-goerli',
     Polygon: 'polygon-mumbai.g',
   },
-  MAIN: {
+  main: {
     Ethereum: 'eth-mainnet',
     Polygon: 'polygon-mainnet.g',
   },

@@ -1,5 +1,5 @@
-import { fetchFrom, HttpParams } from "../../base/http";
-import { Network } from "../../base/types";
+import { fetchFrom, HttpParams } from '../../base/http';
+import { Network } from '../../base/types';
 
 export const fetchFromTatum = async <T>(
   url: string,
@@ -12,13 +12,13 @@ export const fetchFromTatum = async <T>(
       ...params?.args,
       headers: {
         ...params?.args?.headers,
-        "x-api-key": network === "MAIN" ? apiKeys.main : apiKeys.test,
+        'x-api-key': network === 'main' ? apiKeys.main : apiKeys.test,
       },
     },
   });
 };
 
 const apiKeys = {
-  test: "",
-  main: "",
+  test: process.env.TATUM_TEST_TOKEN || '',
+  main: process.env.TATUM_MAIN_TOKEN || '',
 };

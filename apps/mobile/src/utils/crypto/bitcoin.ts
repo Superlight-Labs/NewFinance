@@ -1,8 +1,8 @@
+import { Network } from '@superlight-labs/blockchain-api-client';
 import { AppError, bitcoinJsError } from '@superlight-labs/mpc-common';
 import BIP32Factory from 'bip32';
 import * as bitcoin from 'der-bitcoinjs-lib';
 import { Result, err, ok } from 'neverthrow';
-import { BitcoinNetwork } from 'state/bitcoin.state.';
 import * as ecc from 'tiny-secp256k1';
 const bip32 = BIP32Factory(ecc);
 
@@ -14,7 +14,7 @@ const bip32 = BIP32Factory(ecc);
 
 export const publicKeyToBitcoinAddressP2WPKH = (
   xPub: string,
-  configuredNetwork: BitcoinNetwork
+  configuredNetwork: Network
 ): Result<AddressResult, AppError> => {
   const network =
     configuredNetwork === 'main' ? bitcoin.networks.bitcoin : bitcoin.networks.testnet;

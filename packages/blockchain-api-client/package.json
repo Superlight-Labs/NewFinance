@@ -4,6 +4,10 @@
   "main": "index.ts",
   "types": "index.ts",
   "repository": "https://github.com/Superlight-Labs/Superlight",
+  "files": [
+    "src",
+    "index.ts"
+  ],
   "keywords": [
     "blockchain",
     "bitcoin",
@@ -14,22 +18,14 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "tsdx build",
+    "build": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "name": "@superlight-labs/blockchain-api-client",
   "author": "Laurenz Honauer",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.0.0",
-    "@types/jest": "^28.1.6",
     "@types/node-fetch": "^2.6.2",
-    "msw": "^0.44.2",
     "node-fetch": "^2.6.7",
     "typescript": "^4.9.5"
-  },
-  "peerDependencies": {
-    "@superlight-labs/mpc-common": "*",
-    "axios": "^1.3.4",
-    "neverthrow": "^6.0.0"
   }
 }

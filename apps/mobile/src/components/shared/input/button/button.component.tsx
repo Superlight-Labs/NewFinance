@@ -18,7 +18,7 @@ const dropStyle = {
 };
 
 const Button = ({ onPress, children, style, shadow, disabled = false }: Props) => {
-  const bg = disabled ? 'bg-black-600' : 'bg-black';
+  const bg = disabled ? 'bg-[#606060]' : 'bg-black';
   return (
     <Pressable
       disabled={disabled}
