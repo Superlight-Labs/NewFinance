@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 
 const ScrollView = styled(RNScrollView);
-const Text = styled(RNText, 'font-nunito text-base');
-const TextInput = styled(RNTextInput, 'font-nunito');
+const Text = styled(RNText, 'font-manrope text-base');
+const TextInput = styled(RNTextInput, 'font-manrope');
 const Button = styled(RNButton);
 const Pressable = styled(RNPressable);
 const SafeAreaView = styled(RNSafeAreaView);

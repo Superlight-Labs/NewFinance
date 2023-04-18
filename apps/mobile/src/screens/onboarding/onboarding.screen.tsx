@@ -27,12 +27,14 @@ const Onboarding = ({ navigation }: Props) => {
       </Text>
 
       <Button
+        shadow
         onPress={function (): void {
           navigation.navigate('Create');
         }}>
         Create new Wallet
       </Button>
       <Button
+        shadow
         style="my-4"
         onPress={function (): void {
           navigation.navigate('Import');

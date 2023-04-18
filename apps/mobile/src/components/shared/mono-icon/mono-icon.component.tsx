@@ -49,4 +49,8 @@ export type FeatherIconName =
   | 'ChevronRight'
   | 'DollarSign'
   | 'ArrowLeft'
+  | 'XCircle'
+  | 'Info'
+  | 'AlertCircle'
+  | 'CheckCircle'
   | 'Loading';

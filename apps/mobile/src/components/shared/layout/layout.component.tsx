@@ -21,7 +21,7 @@ const Layout = ({
 }: Props) => {
   const navigator = useNavigation();
   return (
-    <View className={`${style} flex h-full flex-col pt-12`}>
+    <View className={`${style} flex h-full flex-col bg-white pt-12`}>
       <View className="my-4 flex flex-row px-8">
         {!hideBack && (
           <Pressable

@@ -17,8 +17,8 @@ const WalletMenuItem = ({
 }: Props) => {
   return (
     <Pressable disabled={loading} className="w-[45rvw]" onPress={navigate}>
-      <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-lg bg-indigo-100">
-        <View className="flex h-16 w-16 items-center justify-center rounded-md bg-indigo-500">
+      <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-superblue-100">
+        <View className="flex h-16 w-16 items-center justify-center rounded-md bg-superblue-400">
           {loading ? (
             <MonoIcon height={32} width={32} strokeWitdth={4} iconName="Loading" color="white" />
           ) : (
@@ -27,9 +27,17 @@ const WalletMenuItem = ({
         </View>
       </View>
       <Text className="mt-3">{name}</Text>
-      {loading ? <SkeletonBar /> : <Text className="text-gray-500">{balance}</Text>}
+      {loading ? (
+        <SkeletonBar style="h-2" />
+      ) : (
+        <Text className="text-gray-500">{truncate(balance)}</Text>
+      )}
     </Pressable>
   );
+};
+
+const truncate = (text: string): string => {
+  return text.substring(0, 8) + '...';
 };
 
 export default WalletMenuItem;

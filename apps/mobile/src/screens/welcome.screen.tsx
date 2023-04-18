@@ -33,7 +33,7 @@ const Welcome = ({ navigation }: Props) => {
     <StyledView className="flex h-full w-full flex-col items-center justify-center pb-8">
       <WelcomeCarousel />
       <StyledView className="w-full px-4">
-        <Button style="flex flex-row justify-center w-full" onPress={getStarted}>
+        <Button shadow style="flex flex-row justify-center w-full" onPress={getStarted}>
           Get started
         </Button>
       </StyledView>

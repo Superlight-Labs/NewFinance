@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import logger from '@superlight-labs/logger';
 import LayoutComponent from 'components/shared/layout/layout.component';
-import SkeletonBar from 'components/shared/loading/skeleton-bar.component';
 import Title from 'components/shared/title/title.component';
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
@@ -40,7 +39,7 @@ const Home = ({ navigation }: Props) => {
       settingsNavigate={() => navigation.navigate('Menu')}>
       <Title>Wallets</Title>
 
-      {loading ? <SkeletonBar style="mb-4 h-8 w-32" /> : <Title>{indexAddress.address}</Title>}
+      <Title style="mb-4">0 BTC</Title>
 
       <WalletMenuItem
         name={name}

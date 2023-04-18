@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Title = ({ children, style }: Props) => {
-  return <Text className={`mb-4 text-2xl text-black ${style}`}>{children}</Text>;
+  return <Text className={`text-black text-2xl font-bold ${style}`}>{children}</Text>;
 };
 
 export default Title;

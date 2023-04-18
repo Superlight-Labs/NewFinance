@@ -57,12 +57,13 @@ function App(): JSX.Element {
   return (
     <View className=" h-screen w-screen bg-white">
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false, cardStyle: { backgroundColor: 'white' } }}>
           <Stack.Group>
             <>
               {bipHydrated && authHydrated ? (
                 <>
-                  {isAuthenticated ? (
+                  {isAuthenticated && (
                     <>
                       <Stack.Screen name="Home" component={Home} />
 
@@ -70,9 +71,8 @@ function App(): JSX.Element {
                       {MenuStack({ Stack })}
                       {WalletsStack({ Stack })}
                     </>
-                  ) : (
-                    <Stack.Screen name="Welcome" component={Welcome} />
                   )}
+                  <Stack.Screen name="Welcome" component={Welcome} />
                 </>
               ) : (
                 <Stack.Screen name="Loading" component={LoadingScreen} />
