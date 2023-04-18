@@ -1,5 +1,6 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StackNavigationOptions, TransitionPresets } from '@react-navigation/stack';
+import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Receive from 'screens/wallets/tabs/receive.screen';
 import Send from 'screens/wallets/tabs/send.screen';
 import { WalletScreenList } from 'screens/wallets/wallet-navigation';
@@ -30,9 +31,32 @@ const WalletsStack = ({ Stack }: Props) => {
             tabBarPosition="bottom"
             screenOptions={screenOptions}
             initialRouteName="Overview">
-            <Tab.Screen name="Recieve" component={Receive} />
-            <Tab.Screen name="Overview" component={Wallets} />
-            <Tab.Screen name="Send" component={Send} />
+            <Tab.Screen
+              name="Recieve"
+              options={{
+                tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
+                tabBarIcon: ({ color }) => <MonoIcon color={color} iconName="ArrowDownCircle" />,
+              }}
+              component={Receive}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
+
+                tabBarIcon: ({ color }) => <MonoIcon color={color} iconName="Heart" />,
+              }}
+              name="Overview"
+              component={Wallets}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
+
+                tabBarIcon: ({ color }) => <MonoIcon color={color} iconName="Send" />,
+              }}
+              name="Send"
+              component={Send}
+            />
           </Tab.Navigator>
         )}
       </Stack.Screen>

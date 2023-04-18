@@ -52,5 +52,8 @@ export type FeatherIconName =
   | 'XCircle'
   | 'Info'
   | 'AlertCircle'
+  | 'ArrowDownCircle'
+  | 'Heart'
+  | 'Send'
   | 'CheckCircle'
   | 'Loading';
