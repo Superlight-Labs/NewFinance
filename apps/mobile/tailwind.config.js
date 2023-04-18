@@ -10,9 +10,9 @@ module.exports = {
       white: '#ffffff',
       black: '#000000',
       slate: {
-        50: '#f8fafc',
+        50: '#F8FAFC',
         100: '#F8F8F8',
-        400: '2A2434',
+        400: '#8D93A0',
       },
       superred: {
         100: '#F1DFDF',
@@ -30,10 +30,8 @@ module.exports = {
         900: '#0B8869',
       },
     },
-    extend: {
-      fontFamily: {
-        manrope: ['Manrope'],
-      },
+    fontFamily: {
+      manrope: ['Manrope'],
     },
   },
   plugins: [],

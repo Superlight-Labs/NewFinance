@@ -70,7 +70,7 @@ const CreateWallet = ({ navigation }: Props) => {
         onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
-      <Title>Configure your new Wallet</Title>
+      <Title style="mb-4">Configure your new Wallet</Title>
       <Text className="mb-2 mr-4">Show the used Seed Phrase</Text>
       <Switch value={withPhrase} onValueChange={setWithPhrase} />
       <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>

@@ -13,8 +13,8 @@ const BitcoinSettings = () => {
 
   return (
     <LayoutComponent noPadding>
-      <Title style="ml-8">Bitcoin Settings</Title>
-      <View className="mb-4 flex w-full flex-row items-center justify-between border-y-2 border-gray-200 p-4">
+      <Title style="ml-8 mb-8">Bitcoin Settings</Title>
+      <View className="mb-4 flex w-full flex-row items-center justify-between border-y-2 border-slate-100 p-4 pl-8">
         <Text className="text-lg">Use Main-Network</Text>
         <Switch value={network === 'main'} onValueChange={onNetworkChange} />
       </View>

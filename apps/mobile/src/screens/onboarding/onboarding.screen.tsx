@@ -19,7 +19,7 @@ const Onboarding = ({ navigation }: Props) => {
   }, [hasHydrated]);
   return (
     <Layout hideBack settingsNavigate={() => navigation.navigate('Menu')}>
-      <Title>Onboarding</Title>
+      <Title style="mb-4">Onboarding</Title>
 
       <Text>Hello, welcome to Superlight. Next step is to create your wallet.</Text>
       <Text className="mb-24">

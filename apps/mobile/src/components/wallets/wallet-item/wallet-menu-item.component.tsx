@@ -28,7 +28,7 @@ const WalletMenuItem = ({
       </View>
       <Text className="mt-3">{name}</Text>
       {loading ? (
-        <SkeletonBar style="h-2" />
+        <SkeletonBar style="h-4" />
       ) : (
         <Text className="text-gray-500">{truncate(balance)}</Text>
       )}

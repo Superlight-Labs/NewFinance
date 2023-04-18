@@ -63,7 +63,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
         disabled={loading}>
         Finish
       </ButtonComponent>
-      <Title>Review Settings and finish</Title>
+      <Title style="mb-4">Review Settings and finish</Title>
 
       <Text>Name: {name}</Text>
       {withPhrase && phrase && <MultilineText value={phrase} disabled />}
