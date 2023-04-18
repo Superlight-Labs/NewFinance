@@ -1,15 +1,15 @@
 import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
-  databaseError,
-  mpcInternalError,
-  MPCWebsocketMessage,
-  MPCWebsocketResult,
-  stepMessageError,
-  WebsocketError,
-  WebSocketOutput,
-} from '@superlight/mpc-common';
+    databaseError,
+    mpcInternalError,
+    MPCWebsocketMessage,
+    MPCWebsocketResult,
+    stepMessageError,
+    WebsocketError,
+    WebSocketOutput,
+} from '@superlight-labs/mpc-common';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';

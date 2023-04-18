@@ -4,7 +4,6 @@
  *
  * @format
  */
-
 const MetroSymlinksResolver = require('@rnx-kit/metro-resolver-symlinks');
 const { makeMetroConfig } = require('@rnx-kit/metro-config');
 
@@ -19,5 +18,9 @@ module.exports = makeMetroConfig({
   },
   resolver: {
     resolveRequest: MetroSymlinksResolver(),
+    extraNodeModules: {
+      stream: require.resolve('readable-stream'),
+      crypto: require.resolve('expo-crypto'),
+    },
   },
 });

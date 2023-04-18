@@ -1,3 +1,4 @@
+import { AppError } from '@superlight-labs/mpc-common';
 import { create } from 'zustand';
 
 type AppSnackbarState = {
@@ -12,12 +13,14 @@ export type AppMessage =
       level: 'warning' | 'info' | 'success';
     }
   | AppError
+  | Progress
   | Empty;
 
-export type AppError = {
+type Progress = {
+  level: 'progress';
+  step: number;
+  total: number;
   message: string;
-  error: unknown;
-  level: 'error';
 };
 
 type Empty = {

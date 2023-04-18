@@ -1,6 +1,6 @@
 {
   "extends": [
-    "@superlight/eslint-config",
+    "@superlight-labs/eslint-config",
     "@react-native-community",
     "plugin:react-hooks/recommended"
   ],

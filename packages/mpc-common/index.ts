@@ -1,6 +1,13 @@
-import { createMPCWebsocketHandlerWrapper } from './src/websocket/websocket-message-unwrap';
+import {
+  createMPCWebsocketHandlerWrapper,
+  shortenMessage,
+} from './src/websocket/websocket-message-unwrap';
+export { buildPath, indexToNumber } from './src/derive';
+export type { DeriveConfig } from './src/derive';
 export {
   apiError,
+  appError,
+  bitcoinJsError,
   databaseError,
   mapWebsocketToApiError as mapWebsocketError,
   mapWebsocketToAppError,
@@ -10,6 +17,7 @@ export {
   websocketError,
 } from './src/error';
 export type { AppError, WebsocketError } from './src/error';
+export type { SignConfig } from './src/sign';
 export type {
   ApiConfig,
   MpcWebsocketHandlerWrapper,
@@ -31,4 +39,4 @@ export type {
   MPCWebsocketResult,
   WebSocketOutput,
 } from './src/websocket/websocket-messages';
-export { createMPCWebsocketHandlerWrapper };
+export { createMPCWebsocketHandlerWrapper, shortenMessage };

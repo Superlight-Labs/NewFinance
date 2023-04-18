@@ -1,4 +1,4 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
   ApiConfig,
   AppError,
@@ -9,8 +9,8 @@ import {
   WebsocketError,
   mapWebsocketToAppError,
   websocketError,
-} from '@superlight/mpc-common';
-import { startWebsocketError } from '@superlight/mpc-common/src/error';
+} from '@superlight-labs/mpc-common';
+import { startWebsocketError } from '@superlight-labs/mpc-common/src/error';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Subject, firstValueFrom, tap } from 'rxjs';
 import {
@@ -22,9 +22,13 @@ import {
 } from './ws-common';
 
 export const authWebsocketWithSetup =
-  <Init = string, StartRes = string>(apiConfig: ApiConfig, sign: Signer, initParam: Init) =>
+  <InitParam = string, StartRes = string>(
+    apiConfig: ApiConfig,
+    sign: Signer,
+    initParam: InitParam
+  ) =>
   <T>(
-    starter: MPCWebsocketStarterWithSetup<Init, StartRes>,
+    starter: MPCWebsocketStarterWithSetup<InitParam, StartRes>,
     handleMessages: (params: HandlerWithSetupParams<StartRes>) => ResultAsync<T, AppError>
   ): ResultAsync<T, AppError> => {
     const input = new Subject<MPCWebsocketMessage>();
@@ -34,7 +38,8 @@ export const authWebsocketWithSetup =
       .andThen(sign)
       .andThen(signResult => createWebsocket({ signResult, apiConfig }))
       .map(ws => {
-        ws.onopen = () => ws.send(JSON.stringify({ type: 'init', parameter: initParam }));
+        ws.onopen = () =>
+          ws.send(JSON.stringify({ type: 'init', parameter: cleanInitParam(initParam) }));
         return ws;
       })
       .map(ws => {
@@ -67,4 +72,19 @@ export const waitForStart = <T>({
   };
 
   return initParameter.andThen(evaluateStart);
+};
+
+// For convenience we allow the init parameter to contain sensitive data like the share value
+// we have to remove all sensitive data before sending it
+const cleanInitParam = <T>(initParam: T) => {
+  if (typeof initParam === 'string') {
+    return initParam;
+  }
+
+  const parameter = { ...initParam };
+  if (typeof parameter === 'object' && parameter && 'share' in parameter) {
+    delete parameter.share;
+  }
+
+  return parameter;
 };

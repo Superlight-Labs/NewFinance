@@ -10,7 +10,10 @@ export const createMPCWebsocketHandlerWrapper =
       next: (val: ResultAsync<MPCWebsocketMessage<T>, WebsocketError>) => {
         val.match(
           data => {
-            logger.debug({ data }, 'Successfully sending data on websocket');
+            logger.debug(
+              { data: shortenMessage({ ...data }) },
+              'Successfully sending data on websocket'
+            );
             socket.send(JSON.stringify(data));
 
             data.type === 'success' &&
@@ -40,4 +43,21 @@ type Logger = {
   error: (...args: any) => void;
   warn: (...args: any) => void;
   debug: (...args: any) => void;
+};
+
+export const shortenMessage = (message: any) => {
+  if (typeof message === 'string' && message.length > 23) {
+    return message.slice(0, 24) + '...';
+  }
+
+  if (typeof message === 'object' && message !== null) {
+    const copy = { ...message };
+
+    for (const key of Object.keys(message)) {
+      copy[key] = shortenMessage(message[key]);
+    }
+    return copy;
+  }
+
+  return message;
 };

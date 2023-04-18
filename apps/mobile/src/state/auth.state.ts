@@ -13,7 +13,7 @@ export type AuthState = {
   hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
   authenticate: (user: AppUser) => void;
-  delete: () => void;
+  deleteAuth: () => void;
 };
 
 export const useAuthState = create<AuthState>()(
@@ -23,7 +23,7 @@ export const useAuthState = create<AuthState>()(
       user: undefined,
       isAuthenticated: false,
       authenticate: user => set(_ => ({ user, isAuthenticated: true })),
-      delete: () => set({ user: undefined, isAuthenticated: false }),
+      deleteAuth: () => set({ user: undefined, isAuthenticated: false }),
       setHasHydrated: (state: boolean) => {
         set({
           hasHydrated: state,

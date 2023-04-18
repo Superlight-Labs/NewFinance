@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
 import { ReactNode } from 'react';
-import { Pressable, View } from 'util/wrappers/styled-react-native';
+import { Pressable, View } from 'utils/wrappers/styled-react-native';
 import MonoIcon from '../mono-icon/mono-icon.component';
 
 type Props = {
@@ -21,7 +21,7 @@ const Layout = ({
 }: Props) => {
   const navigator = useNavigation();
   return (
-    <View className={`${style} flex flex-col pt-12`}>
+    <View className={`${style} flex h-full flex-col bg-white pt-12`}>
       <View className="my-4 flex flex-row px-8">
         {!hideBack && (
           <Pressable

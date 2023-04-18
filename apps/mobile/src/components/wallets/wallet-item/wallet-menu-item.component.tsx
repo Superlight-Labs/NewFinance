@@ -1,33 +1,43 @@
-import { Pressable, Text, View } from 'util/wrappers/styled-react-native';
+import SkeletonBar from 'components/shared/loading/skeleton-bar.component';
+import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
-  address?: string;
+  loading: boolean;
   name?: string;
   balance?: string;
   navigate: () => void;
 };
 
 const WalletMenuItem = ({
-  address = '0xBabasdf34',
+  loading,
   name = 'Hauptkonto',
   balance = '1.234,45€',
   navigate,
 }: Props) => {
   return (
-    <Pressable className="w-[45rvw]" onPress={navigate}>
-      <View className="h-[40vw] w-[40vw] rounded-lg bg-rose-500">
-        <View className="mb-4 ml-4 mt-auto flex h-8 flex-row">
-          <Text className="text-lg text-white">{truncate(address)}</Text>
+    <Pressable disabled={loading} className="w-[45rvw]" onPress={navigate}>
+      <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-superblue-100">
+        <View className="flex h-16 w-16 items-center justify-center rounded-md bg-superblue-400">
+          {loading ? (
+            <MonoIcon height={32} width={32} strokeWitdth={4} iconName="Loading" color="white" />
+          ) : (
+            <Text className="text-4xl font-medium text-white">$</Text>
+          )}
         </View>
       </View>
-      <Text>{name}</Text>
-      <Text className="text-gray-500">{balance}</Text>
+      <Text className="mt-3">{name}</Text>
+      {loading ? (
+        <SkeletonBar style="h-4" />
+      ) : (
+        <Text className="text-gray-500">{truncate(balance)}</Text>
+      )}
     </Pressable>
   );
 };
 
 const truncate = (text: string): string => {
-  return text.substring(0, 5) + '...';
+  return text.substring(0, 8) + '...';
 };
 
 export default WalletMenuItem;

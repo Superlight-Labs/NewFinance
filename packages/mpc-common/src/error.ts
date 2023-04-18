@@ -161,6 +161,18 @@ export const other = (error: unknown, context?: string): WebsocketError => ({
   context,
 });
 
+export const appError = (error: unknown, message: string): AppError => ({
+  error,
+  message,
+  level: 'error',
+});
+
+export const bitcoinJsError = (message: string, error?: unknown): AppError => ({
+  error,
+  message,
+  level: 'error',
+});
+
 export type MPCError = {
   message: string;
   error: unknown;

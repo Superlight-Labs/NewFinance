@@ -1,5 +1,5 @@
 {
-  "name": "@superlight/logger",
+  "name": "@superlight-labs/logger",
   "version": "1.0.0",
   "description": "Logging for all superlight apps",
   "main": "index.ts",
@@ -11,8 +11,8 @@
   "author": "Laurenz Honauer",
   "license": "MIT",
   "devDependencies": {
-    "@superlight/eslint-config": "*",
-    "@superlight/prettier-config": "*",
+    "@superlight-labs/eslint-config": "*",
+    "@superlight-labs/prettier-config": "*",
     "pino-pretty": "^8.1.0"
   },
   "peerDependencies": {

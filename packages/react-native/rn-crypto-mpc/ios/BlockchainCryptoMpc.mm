@@ -19,14 +19,14 @@ RCT_EXPORT_METHOD(initGenerateGenericSecret:(RCTPromiseResolveBlock)resolve
     int rv = 0;
     
     if ((rv = MPCCrypto_initGenerateGenericSecret(1, 256, &context))){
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
     }
     
     if(rv == 0)
         resolve(@{@"type": @("sucess")});
         
     else
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
 }
 
@@ -41,10 +41,9 @@ RCT_EXPORT_METHOD(initDeriveBIP32:(nonnull NSNumber*)index withHardened:(nonnull
     int rv = 0;
     
     if ((rv = MPCCrypto_initDeriveBIP32(1, share, hardenedInt, indexInt, &context))){
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
-    
     
     resolve(@{@"type": @("sucess")});
 }
@@ -56,26 +55,28 @@ RCT_EXPORT_METHOD(initGenerateEcdsaKey:(RCTPromiseResolveBlock)resolve
     int rv = 0;
     
     if((rv = MPCCrypto_initGenerateEcdsaKey(1, &context))) {
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
     
     if(rv == 0)
         resolve(@{@"type": @("sucess")});
     else
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
 }
 
 RCT_EXPORT_METHOD(initSignEcdsa:(NSArray*)message withResolver:(RCTPromiseResolveBlock)resolve
                   withRejecter:(RCTPromiseRejectBlock)reject)
 {
+    int rv = 0;
+
     unsigned long size = [message count];
     char messageChars[size];
     react_array_to_char_array(message, size, messageChars);
     
-    if(MPCCrypto_initEcdsaSign(1, share, (const uint8_t *)messageChars, (int)size, 1, &context)) {
-        reject(@("0"), @("MPC Error"), nil);
+    if((rv = MPCCrypto_initEcdsaSign(1, share, (const uint8_t *)messageChars, (int)size, 1, &context))) {
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
         
@@ -90,9 +91,10 @@ RCT_EXPORT_METHOD(importGenericSecret:(NSArray*)secret
     unsigned long size = [secret count];
     char secretChars[size];
     react_array_to_char_array(secret, size, secretChars);
-    
-    if (MPCCrypto_initImportGenericSecret(1, (const uint8_t *)secretChars, (int)size, &context)){
-        reject(@("0"), @("MPC Error"), nil);
+    int rv = 0;
+
+    if ((rv =MPCCrypto_initImportGenericSecret(1, (const uint8_t *)secretChars, (int)size, &context))){
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
     
@@ -117,16 +119,16 @@ RCT_EXPORT_METHOD(verifySignature:(nonnull NSArray*)message withSignature:(nonnu
     
     int pub_key_size = 0;
     if ((rv = MPCCrypto_getEcdsaPublic(share, nullptr, &pub_key_size)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     std::vector<uint8_t> pub_ec_key(pub_key_size);
     if ((rv = MPCCrypto_getEcdsaPublic(share, pub_ec_key.data(), &pub_key_size)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     if ((rv = MPCCrypto_verifyEcdsa(pub_ec_key.data(), (int)pub_ec_key.size(), (const uint8_t *)messageChars, (int)size, (const uint8_t *)signatureChars, (int)sig_size))){
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
     
@@ -147,7 +149,7 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
         react_string_to_char_vector(messageIn, message_buf);
         
     if((rv = nativeStep(message_buf, finished))){
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
     
@@ -202,11 +204,11 @@ RCT_EXPORT_METHOD(getDerSignature:(RCTPromiseResolveBlock)resolve
 
     int sig_size = 0;
     if ((rv = MPCCrypto_getDerResultEcdsaSign(context, nullptr, &sig_size)))
-                reject(@("0"), @("MPC Error"), nil);
+                reject(@(rv).stringValue, @("MPC Error"), nil);
 
     std::vector<uint8_t> sig(sig_size);
     if ((rv = MPCCrypto_getDerResultEcdsaSign(context, sig.data(), &sig_size)))
-                reject(@("0"), @("MPC Error"), nil);
+                reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     
@@ -230,11 +232,11 @@ RCT_EXPORT_METHOD(getBinSignature:(RCTPromiseResolveBlock)resolve
     int recovery_code = 0;
     
     if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, nullptr, &sig_size, &recovery_code)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     std::vector<uint8_t> sig(sig_size);
     if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, sig.data(), &sig_size, &recovery_code)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     
@@ -261,13 +263,13 @@ RCT_EXPORT_METHOD(getResultDeriveBIP32:(RCTPromiseResolveBlock)resolve
     int rv = 0;
     
     if (MPCCrypto_getResultDeriveBIP32(context, &share)){
-        resolve(@false);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
         return;
     }
     
     std::vector<uint8_t> share_buf;
     if ((rv = share_to_buf(share, share_buf)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     NSString * shareBufString;
@@ -291,7 +293,7 @@ RCT_EXPORT_METHOD(getShare:(RCTPromiseResolveBlock)resolve
     
     std::vector<uint8_t> share_buf;
     if ((rv = share_to_buf(share, share_buf)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     NSString * shareBufString;
@@ -314,12 +316,12 @@ RCT_EXPORT_METHOD(getPublicKey:(RCTPromiseResolveBlock)resolve
     int pub_key_size = 0;
     
     if ((rv = MPCCrypto_getEcdsaPublic(share, nullptr, &pub_key_size)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     std::vector<uint8_t> pub_ec_key(pub_key_size);
     
     if ((rv = MPCCrypto_getEcdsaPublic(share, pub_ec_key.data(), &pub_key_size)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
     NSString * pubKey;
@@ -345,11 +347,11 @@ RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
     bool isMain = (bool) [main intValue];
 
     if ((rv = MPCCrypto_serializePubBIP32(share, nullptr, &ser_size, isMain)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
     char *s = new char[ser_size + 1];
     if ((rv = MPCCrypto_serializePubBIP32(share, s, &ser_size, isMain)))
-        reject(@("0"), @("MPC Error"), nil);
+        reject(@(rv).stringValue, @("MPC Error"), nil);
 
 
     NSString * xPub;

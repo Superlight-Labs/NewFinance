@@ -1,6 +1,5 @@
 const constants = {
-  bip44MasterIndex: "m",
-  bip44PurposeIndex: "44",
+  bip44MasterIndex: 'm',
 };
 
 export default constants;

@@ -1,4 +1,4 @@
-import { MPCWebscocketInit, MPCWebsocketMessage, MPCWebsocketResult } from '@superlight/mpc-common';
+import { MPCWebscocketInit, MPCWebsocketMessage, MPCWebsocketResult } from '@superlight-labs/mpc-common';
 import { Observable } from 'rxjs';
 import { User } from 'src/repository/user';
 

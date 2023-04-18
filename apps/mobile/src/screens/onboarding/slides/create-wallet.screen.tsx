@@ -1,20 +1,20 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-import { useGenericSecret } from '@superlight/rn-mpc-client';
+import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { useFailableAction } from 'hooks/useFailable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useBip32State } from 'state/bip32.state';
-import { signWithDeviceKey } from 'util/auth';
-import { apiUrl } from 'util/superlight-api';
+import { signWithDeviceKeyNoAuth } from 'utils/auth';
+import { apiUrl } from 'utils/superlight-api';
 
-import { Text, TextInput } from 'util/wrappers/styled-react-native';
+import { Text, TextInput } from 'utils/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {
@@ -23,7 +23,13 @@ const CreateWallet = ({ navigation }: Props) => {
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
-  const { create } = useBip32State();
+  const { setSecret, setName, derivedUntilLevel } = useBip32State();
+
+  useEffect(() => {
+    if (derivedUntilLevel !== 0) {
+      navigation.navigate('ReviewCreate', { withPhrase: false });
+    }
+  }, []);
 
   const startGenerateWallet = () => {
     if (!user) {
@@ -36,25 +42,24 @@ const CreateWallet = ({ navigation }: Props) => {
 
       navigation.navigate('ReviewCreate', {
         withPhrase: true,
-        walletName,
         phrase,
       });
       return;
     }
 
     perform(
-      generateGenericSecret(
-        apiUrl,
-        signWithDeviceKey({ userId: user.id, devicePublicKey: user.devicePublicKey })
-      )
+      generateGenericSecret({
+        baseUrl: apiUrl,
+        sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
+      })
     ).onSuccess(result => {
-      create({
-        peerShareId: result.serverId,
+      setName(walletName);
+      setSecret({
+        peerShareId: result.peerShareId,
         share: result.share,
         path: 'secret',
-        name: walletName,
       });
-      navigation.navigate('ReviewCreate', { withPhrase: false, walletName });
+      navigation.navigate('ReviewCreate', { withPhrase: false });
     });
   };
 
@@ -65,12 +70,13 @@ const CreateWallet = ({ navigation }: Props) => {
         onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
-      <Title>Configure your new Wallet</Title>
+      <Title style="mb-4">Configure your new Wallet</Title>
       <Text className="mb-2 mr-4">Show the used Seed Phrase</Text>
       <Switch value={withPhrase} onValueChange={setWithPhrase} />
       <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
       <TextInput
         className="border-800 h-8 w-64 border-b"
+        defaultValue="Main Wallet"
         value={walletName}
         onChangeText={setWalletName}
       />

@@ -1,4 +1,4 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
   MPCWebsocketHandler,
   MPCWebsocketMessage,
@@ -6,9 +6,9 @@ import {
   mapWebsocketToAppError,
   mpcInternalError,
   websocketError,
-} from '@superlight/mpc-common';
-import { reset } from '@superlight/rn-crypto-mpc';
-import { StepResult } from '@superlight/rn-crypto-mpc/src/types';
+} from '@superlight-labs/mpc-common';
+import { reset } from '@superlight-labs/rn-crypto-mpc';
+import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
@@ -40,40 +40,40 @@ export const generateGenericSecret: MPCWebsocketHandler<ShareResult, string> = (
   startResult,
   output: _,
 }) => {
-  const serverId$ = new Subject<string>();
+  const peerShareId$ = new Subject<string>();
 
-  listenToWebSocket(input, serverId$);
+  listenToWebSocket(input, peerShareId$);
 
-  const serverIdResult = ResultAsync.fromPromise(firstValueFrom(serverId$), err =>
+  const peerShareIdResult = ResultAsync.fromPromise(firstValueFrom(peerShareId$), err =>
     mapWebsocketToAppError(err)
   );
 
-  return ResultAsync.combine([startResult, serverIdResult]).map(([share, serverId]) => ({
+  return ResultAsync.combine([startResult, peerShareIdResult]).map(([share, peerShareId]) => ({
     share,
-    serverId,
+    peerShareId,
   }));
 };
 
-const listenToWebSocket = (input: Observable<MPCWebsocketMessage>, serverId$: Subject<string>) => {
+const listenToWebSocket = (
+  input: Observable<MPCWebsocketMessage>,
+  peerShareId$: Subject<string>
+) => {
   input.subscribe({
-    next: message => onMessage(message, serverId$),
+    next: message => onMessage(message, peerShareId$),
     error: err => {
       logger.error({ err }, 'Error received from server on websocket');
-      serverId$.error(err);
+      peerShareId$.error(err);
       reset();
-    },
-    complete: () => {
-      logger.debug('Connection on Websocket closed');
     },
   });
 };
 
-const onMessage = (message: MPCWebsocketMessage, serverId$: Subject<string>) => {
+const onMessage = (message: MPCWebsocketMessage, peerShareId$: Subject<string>) => {
   // TODO validate structure of message
   if (message && message.type === 'success') {
-    serverId$.next(message.result);
+    peerShareId$.next(message.result);
     return;
   }
 
-  serverId$.error(websocketError('No serverId received'));
+  peerShareId$.error(websocketError('No peerShareId received'));
 };

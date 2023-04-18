@@ -1,11 +1,9 @@
-import { CreateUserResponse } from '@superlight/api/src/repository/user';
-import { SignResult } from '@superlight/mpc-common';
+import { CreateUserResponse } from '@superlight-labs/api/src/repository/user';
+import { AppError, SignResult, appError } from '@superlight-labs/mpc-common';
 import { ResultAsync } from 'neverthrow';
 import { AppUser } from 'state/auth.state';
-import { AppError } from 'state/snackbar.state';
-import { SignUser, signWithDeviceKey } from 'util/auth';
-import { backend } from 'util/superlight-api';
-import { appError } from './../util/error/error';
+import { SignUser, signWithDeviceKeyNoAuth } from 'utils/auth';
+import { backend } from 'utils/superlight-api';
 
 export const useCreateAuth =
   () =>
@@ -25,7 +23,7 @@ const createUser = (devicePublicKey: string): ResultAsync<SignUser & { nonce: st
   ).map(axiosResponse => ({ ...axiosResponse.data, devicePublicKey }));
 
 const createSignature = (user: SignUser & { nonce: string }): ResultAsync<SignResult, AppError> => {
-  return signWithDeviceKey(user)(user.nonce);
+  return signWithDeviceKeyNoAuth(user)(user.nonce);
 };
 
 const verifyUser = ({

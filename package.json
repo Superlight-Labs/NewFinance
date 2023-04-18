@@ -17,14 +17,14 @@
     "lint": "turbo lint",
     "dev": "dotenv -- turbo dev --parallel --no-cache",
     "reset": "rm -f yarn.lock && git clean -xdf && yarn prep",
-    "prep": "yarn install && husky install && yarn db:push",
-    "db:push": "dotenv -- yarn workspace @superlight/database run db:push",
-    "db:reset": "dotenv -- yarn workspace @superlight/database run db:reset",
-    "postinstall": "yarn workspace @superlight/mobile run postinstall"
+    "prep": "yarn install && husky install && cp .env.example .env && yarn db:push",
+    "db:push": "dotenv -- yarn workspace @superlight-labs/database run db:push",
+    "db:reset": "dotenv -- yarn workspace @superlight-labs/database run db:reset",
+    "postinstall": "yarn workspace @superlight-labs/mobile run postinstall"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",
-  "repository": "https://github.com/lauhon/Superlight.git",
+  "repository": "https://github.com/Superlight-Labs/Superlight.git",
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
   "volta": {

@@ -1,5 +1,5 @@
 {
-  "name": "@superlight/mpc-common",
+  "name": "@superlight-labs/mpc-common",
   "version": "1.0.0",
   "description": "Common types and utils used for MPC Communication between API and client",
   "main": "index.ts",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lauhon/Superlight.git"
+    "url": "git+https://github.com/Superlight-Labs/Superlight.git"
   },
   "keywords": [
     "neverthrow",
@@ -21,9 +21,9 @@
   "author": "Laurenz Honauer",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/lauhon/Superlight/issues"
+    "url": "https://github.com/Superlight-Labs/Superlight/issues"
   },
-  "homepage": "https://github.com/lauhon/Superlight#readme",
+  "homepage": "https://github.com/Superlight-Labs/Superlight#readme",
   "peerDependencies": {
     "axios": "^1.3.4",
     "neverthrow": "^6.0.0",
@@ -31,8 +31,8 @@
     "ws": "^8.0.0"
   },
   "devDependencies": {
-    "@superlight/eslint-config": "*",
-    "@superlight/prettier-config": "*",
+    "@superlight-labs/eslint-config": "*",
+    "@superlight-labs/prettier-config": "*",
     "eslint": "8.19",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",

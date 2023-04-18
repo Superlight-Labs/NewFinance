@@ -1,5 +1,5 @@
 import { styled } from 'nativewind';
-import { TextInput } from 'util/wrappers/styled-react-native';
+import { TextInput } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   value: string;
@@ -15,6 +15,7 @@ const MultilineText = ({ value, setValue, placeholder, style, disabled = false }
     <TextInput
       editable={!disabled}
       selectTextOnFocus={!disabled}
+      autoCapitalize="none"
       scrollEnabled
       multiline
       autoCorrect={false}

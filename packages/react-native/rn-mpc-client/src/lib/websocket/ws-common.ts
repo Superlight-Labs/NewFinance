@@ -1,17 +1,18 @@
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
-  AppError,
-  MPCWebsocketMessage,
-  MpcWebsocketHandlerWrapper,
-  SignResult,
-  WebsocketConfig,
-  WebsocketError,
-  apiError,
-  createMPCWebsocketHandlerWrapper,
-  mapWebsocketToAppError,
-  other,
-  websocketError,
-} from '@superlight/mpc-common';
+    AppError,
+    MPCWebsocketMessage,
+    MpcWebsocketHandlerWrapper,
+    SignResult,
+    WebsocketConfig,
+    WebsocketError,
+    apiError,
+    createMPCWebsocketHandlerWrapper,
+    mapWebsocketToAppError,
+    other,
+    shortenMessage,
+    websocketError,
+} from '@superlight-labs/mpc-common';
 import axios from 'axios';
 import { Result, ResultAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
@@ -86,7 +87,7 @@ export const unwrapStartResult = <T>(
 
 export const logIncommingMessages = {
   next: (message: MPCWebsocketMessage) =>
-    logger.debug({ message }, 'Received message on websocket'),
+    logger.debug({ data: shortenMessage(message) }, 'Received message on websocket'),
   error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
-  complete: () => logger.debug('Websocket closed'),
+  complete: () => logger.debug('Connection on Websocket closed'),
 };

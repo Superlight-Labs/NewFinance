@@ -1,31 +1,33 @@
 import { Context } from '@crypto-mpc';
-import { buildPath, DeriveConfig, step } from '@lib/utils/crypto';
-import logger from '@superlight/logger';
+import { step } from '@lib/utils/crypto';
+import logger from '@superlight-labs/logger';
 import {
-  databaseError,
-  mpcInternalError,
-  MPCWebscocketInit,
-  MPCWebsocketMessage,
-  MPCWebsocketResult,
-  stepMessageError,
-  WebsocketError,
-  WebSocketOutput,
-} from '@superlight/mpc-common';
+    buildPath,
+    databaseError,
+    DeriveConfig,
+    mpcInternalError,
+    MPCWebscocketInit,
+    MPCWebsocketMessage,
+    MPCWebsocketResult,
+    stepMessageError,
+    WebsocketError,
+    WebSocketOutput,
+} from '@superlight-labs/mpc-common';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { MpcKeyShare } from 'src/repository/key-share';
 import { readKeyShareByPath, saveShareBasedOnPath } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import {
-  createDeriveBIP32Context,
-  getNewShare,
-  getResultDeriveBIP32,
+    createDeriveBIP32Context,
+    getNewShare,
+    getResultDeriveBIP32,
 } from 'src/service/mpc/mpc-context.service';
 import { deleteKeyShare, getKeyShare } from 'src/service/persistance/key-share.service';
 
 type OnDeriveStep = (
   deriveContext: DeriveContext,
-  message: MPCWebsocketMessage,
+  message: MPCWebsocketMessage | undefined,
   user: User,
   output: WebSocketOutput
 ) => void;
@@ -83,18 +85,16 @@ const setupContext = (
   deriveConfig: DeriveConfig,
   userId: string
 ): ResultAsync<DeriveContext, WebsocketError> => {
-  return getKeyShare(deriveConfig.serverShareId, userId).andThen(parentKeyShare =>
-    createDeriveBIP32Context(
-      parentKeyShare.value,
-      Number(deriveConfig.hardened) === 1,
-      deriveConfig.index
-    ).map(context => ({ deriveConfig, parent: parentKeyShare, context }))
+  return getKeyShare(deriveConfig.peerShareId, userId).andThen(parentKeyShare =>
+    createDeriveBIP32Context(parentKeyShare.value, deriveConfig.hardened, deriveConfig.index).map(
+      context => ({ deriveConfig, parent: parentKeyShare, context })
+    )
   );
 };
 
-const deriveNonHardenedStep = (
+const deriveWithoutStepping = (
   deriveContext: DeriveContext,
-  message: MPCWebsocketMessage,
+  message: MPCWebsocketMessage | undefined,
   user: User,
   output: WebSocketOutput
 ) => {
@@ -109,9 +109,9 @@ const deriveNonHardenedStep = (
     });
 };
 
-const deriveHardenedStep = async (
+const deriveWithSteps = async (
   deriveContext: DeriveContext,
-  wsMsg: MPCWebsocketMessage,
+  wsMsg: MPCWebsocketMessage | undefined,
   user: User,
   output: WebSocketOutput
 ) => {
@@ -121,8 +121,6 @@ const deriveHardenedStep = async (
     output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
     return;
   }
-
-  logger.info({ input: wsMsg.message.slice(0, 23), contextPtr: context.contextPtr }, 'DERIVE STEP');
 
   const stepOutput = step(wsMsg.message, context);
 
@@ -172,5 +170,5 @@ type DeriveContext = {
   context: Context;
 };
 
-export const deriveBip32Hardened = deriveBIP32(deriveHardenedStep);
-export const deriveBip32NonHardened = deriveBIP32(deriveNonHardenedStep);
+export const deriveBip32WithSteps = deriveBIP32(deriveWithSteps);
+export const deriveBip32WithoutStepping = deriveBIP32(deriveWithoutStepping);

@@ -1,11 +1,12 @@
 import { SocketStream } from '@fastify/websocket';
-import logger from '@superlight/logger';
+import logger from '@superlight-labs/logger';
 import {
-  createMPCWebsocketHandlerWrapper,
-  MPCWebscocketInit,
-  MpcWebsocketHandlerWrapper,
-  MPCWebsocketMessage,
-} from '@superlight/mpc-common';
+    createMPCWebsocketHandlerWrapper,
+    MPCWebscocketInit,
+    MpcWebsocketHandlerWrapper,
+    MPCWebsocketMessage,
+    shortenMessage,
+} from '@superlight-labs/mpc-common';
 import { FastifyRequest } from 'fastify';
 import { firstValueFrom, ReplaySubject, Subject, tap } from 'rxjs';
 import { MPCWebsocketHandler, MPCWebsocketWithInitParameterHandler } from './websocket-types';
@@ -28,20 +29,14 @@ export const websocketRoute = <T>(handler: MPCWebsocketHandler<T>) => {
     connection.socket.on('close', _ => messages.complete());
     connection.on('close', _ => messages.complete());
 
-    const piped = messages.pipe(
-      tap({
-        next: message => logger.debug({ message }, 'Received message on websocket'),
-        error: err => logger.error({ err }, 'Error recieved on websocket'),
-        complete: () => logger.debug('Websocket closed'),
-      })
-    );
+    const piped = messages.pipe(tap(logmessages));
 
     wrapMPCWebsocketHandler(handler(req.user!, piped), connection.socket);
   };
 };
 
-export const websocketRouteWithInitParameter = <Result, Init = string>(
-  handler: MPCWebsocketWithInitParameterHandler<Result, Init>
+export const websocketRouteWithInitParameter = <Result, InitParam = string>(
+  handler: MPCWebsocketWithInitParameterHandler<Result, InitParam>
 ) => {
   return async (connection: SocketStream, req: FastifyRequest) => {
     logger.info('Websocket connection opened');
@@ -53,18 +48,23 @@ export const websocketRouteWithInitParameter = <Result, Init = string>(
     connection.socket.on('close', _ => messages.complete());
     connection.on('close', _ => messages.complete());
 
-    const piped = messages.pipe(
-      tap({
-        next: message => logger.debug({ message }, 'Received message on websocket'),
-        error: err => logger.error({ err }, 'Error recieved on websocket'),
-        complete: () => logger.debug('Websocket closed'),
-      })
-    );
+    const piped = messages.pipe(tap(logmessages));
 
-    const initParameter = (await firstValueFrom(piped)) as MPCWebscocketInit<Init>;
+    const initParameter = (await firstValueFrom(piped)) as MPCWebscocketInit<InitParam>;
 
     connection.socket.send(JSON.stringify({ type: 'start' } as MPCWebsocketMessage));
 
     wrapMPCWebsocketHandler(handler(req.user!, piped, initParameter), connection.socket);
   };
+};
+
+const logmessages = {
+  next: (message: MPCWebsocketMessage) => {
+    const copy = { ...message };
+    logger.debug(
+      { recieved: shortenMessage(Object.assign(copy)) },
+      'Received message on websocket'
+    );
+  },
+  error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
 };

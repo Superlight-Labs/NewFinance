@@ -5,21 +5,21 @@ import Title from 'components/shared/title/title.component';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useBip32State } from 'state/bip32.state';
-import { Text } from 'util/wrappers/styled-react-native';
+import { Text } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const Onboarding = ({ navigation }: Props) => {
-  const { hasBip32State, data, hasHydrated } = useBip32State();
+  const { derivedUntilLevel, hasHydrated } = useBip32State();
 
   useEffect(() => {
-    if (hasHydrated && hasBip32State && data) {
-      navigation.navigate('ReviewCreate', { walletName: data.name, withPhrase: false });
+    if (hasHydrated && derivedUntilLevel !== 0) {
+      navigation.navigate('ReviewCreate', { withPhrase: false });
     }
   }, [hasHydrated]);
   return (
     <Layout hideBack settingsNavigate={() => navigation.navigate('Menu')}>
-      <Title>Onboarding</Title>
+      <Title style="mb-4">Onboarding</Title>
 
       <Text>Hello, welcome to Superlight. Next step is to create your wallet.</Text>
       <Text className="mb-24">
@@ -27,12 +27,14 @@ const Onboarding = ({ navigation }: Props) => {
       </Text>
 
       <Button
+        shadow
         onPress={function (): void {
           navigation.navigate('Create');
         }}>
         Create new Wallet
       </Button>
       <Button
+        shadow
         style="my-4"
         onPress={function (): void {
           navigation.navigate('Import');

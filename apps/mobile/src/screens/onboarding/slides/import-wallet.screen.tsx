@@ -3,16 +3,24 @@ import ButtonComponent from 'components/shared/input/button/button.component';
 import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
+import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
+import { Text, TextInput } from 'utils/wrappers/styled-react-native';
 
-import { Text, TextInput } from 'util/wrappers/styled-react-native';
-type Props = StackScreenProps<RootStackParamList, 'Create'>;
+type Props = StackScreenProps<RootStackParamList, 'Import'>;
 
 const ImportWallet = ({ navigation }: Props) => {
   const [walletName, setWalletName] = useState('');
   const [seedPhrase, setSeedPhrase] = useState('');
+  const { deleteBip32, derivedUntilLevel } = useBip32State();
+
+  useEffect(() => {
+    if (derivedUntilLevel !== DerivedUntilLevel.NONE) {
+      deleteBip32();
+    }
+  }, [seedPhrase]);
 
   const { user } = useAuthState();
 
@@ -24,7 +32,6 @@ const ImportWallet = ({ navigation }: Props) => {
 
     navigation.navigate('ReviewCreate', {
       withPhrase: true,
-      walletName,
       phrase: seedPhrase,
     });
   };

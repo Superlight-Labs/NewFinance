@@ -1,5 +1,8 @@
+import { useEffect, useRef } from 'react';
+import { Animated, Easing } from 'react-native';
 import { AppMessage, useSnackbarState } from 'state/snackbar.state';
-import { Pressable, Text, View } from 'util/wrappers/styled-react-native';
+import { AnimatedView, Pressable, Text, View } from 'utils/wrappers/styled-react-native';
+import MonoIcon, { FeatherIconName } from '../mono-icon/mono-icon.component';
 
 type Props = {
   appMessage: AppMessage;
@@ -8,30 +11,82 @@ type Props = {
 const Snackbar = ({ appMessage }: Props) => {
   const { message, level } = appMessage;
   const { resetMessage } = useSnackbarState();
+  const introAnim = useRef(new Animated.Value(0)).current;
+
+  const close = () => {
+    Animated.timing(introAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+      easing: Easing.bounce,
+    }).start(() => resetMessage());
+  };
+
+  useEffect(() => {
+    Animated.timing(introAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+      easing: Easing.elastic(1),
+    }).start();
+  }, [introAnim]);
+
   return (
-    <Pressable onPress={resetMessage} className={`${colors[level]}-900 flex py-4 text-center`}>
-      <View
-        className={`${colors[level]}-800 flex flex-row items-center justify-center rounded-full p-2 text-center ${colors[level]}-100`}>
-        <Text
-          className={`mr-3 rounded-full ${colors[level]}-500 px-2 py-1 text-xs font-bold uppercase`}>
-          {level}
-        </Text>
-        <Text className={'mr-2 font-semibold'}>{message}</Text>
-      </View>
-    </Pressable>
+    <AnimatedView
+      style={{
+        transform: [
+          { translateY: introAnim.interpolate({ inputRange: [0, 1], outputRange: [500, 0] }) },
+        ],
+      }}>
+      <Pressable
+        onPress={close}
+        className={`flex rounded-2xl bg-${colors[level]}-100 border-${colors[level]}-400 border py-4`}>
+        <View className="flex flex-row items-center justify-around p-2 px-8">
+          {level === 'progress' ? (
+            <Text
+              className={`rounded-full px-2 py-1 text-xs font-bold text-${colors[level]}-900 font-extrabold uppercase`}>
+              {appMessage.step + '/' + appMessage.total}
+            </Text>
+          ) : (
+            <MonoIcon style="" iconName={icons[level] as FeatherIconName} />
+          )}
+
+          <Text className={`font-semibold text-${colors[level]}-900`}>{message}</Text>
+          {level === 'progress' ? (
+            <MonoIcon iconName="Loading" />
+          ) : (
+            <MonoIcon style="opacity-0" iconName="Loading" />
+          )}
+        </View>
+      </Pressable>
+    </AnimatedView>
   );
 };
 
+const icons: Icon = {
+  error: 'XCircle',
+  info: 'Info',
+  progress: 'Info',
+  success: 'CheckCircle',
+  warning: 'AlertCircle',
+  empty: 'AlertCircle',
+};
+
 const colors: Color = {
-  error: 'bg-rose',
-  info: 'bg-cyan',
-  success: 'bg-emerald',
-  warning: 'bg-amber',
+  error: 'superred',
+  info: 'superblue',
+  progress: 'superblue',
+  success: 'supergreen',
+  warning: 'orange',
   empty: '',
 };
 
 type Color = {
   [key in AppMessage['level']]: string;
+};
+
+type Icon = {
+  [key in AppMessage['level']]: FeatherIconName;
 };
 
 export default Snackbar;

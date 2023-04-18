@@ -7,5 +7,5 @@ export type RootStackParamList = {
   Menu: undefined;
   Import: undefined;
   Create: undefined;
-  ReviewCreate: { walletName: string; withPhrase: boolean; phrase?: string };
+  ReviewCreate: { withPhrase: boolean; phrase?: string };
 };

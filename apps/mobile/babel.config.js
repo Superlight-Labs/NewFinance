@@ -12,7 +12,7 @@ module.exports = {
           hooks: './src/hooks',
           components: './src/components',
           screens: './src/screens',
-          util: './src/util',
+          utils: './src/utils',
         },
       },
     ],

@@ -1,16 +1,16 @@
-import { deleteKeyPair } from '@superlight/rn-secure-encryption-module';
+import { deleteKeyPair } from '@superlight-labs/rn-secure-encryption-module';
 import { useAuthState } from 'state/auth.state';
 import { useBip32State } from 'state/bip32.state';
-import { constants } from 'util/constants';
+import { constants } from 'utils/constants';
 
 export const useLogout = () => {
-  const { delete: delBip } = useBip32State();
-  const { delete: delAuth } = useAuthState();
+  const { deleteBip32 } = useBip32State();
+  const { deleteAuth } = useAuthState();
 
   return {
     logout: () => {
-      delBip();
-      delAuth();
+      deleteBip32();
+      deleteAuth();
       deleteKeyPair(constants.deviceKeyName);
     },
   };

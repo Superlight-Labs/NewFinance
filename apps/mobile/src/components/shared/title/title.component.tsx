@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Text } from 'util/wrappers/styled-react-native';
+import { Text } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   children: ReactNode;
@@ -7,7 +7,9 @@ type Props = {
 };
 
 const Title = ({ children, style }: Props) => {
-  return <Text className={`mb-4 text-2xl text-black ${style}`}>{children}</Text>;
+  return (
+    <Text className={`text-3xl font-[500] tracking-wider text-black ${style}`}>{children}</Text>
+  );
 };
 
 export default Title;
