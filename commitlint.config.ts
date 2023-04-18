@@ -7,6 +7,7 @@ const scopes = [
   "rn-encrypt",
   "rn-client",
   "ci",
+  "docs",
 ];
 
 export default {

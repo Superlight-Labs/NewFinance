@@ -35,12 +35,9 @@ Open Source Crypto-Wallet with focus on Stable Coins, Ethereum Layer 2, efficien
      <a href="#-features">Features</a>
    </li>
    <li>
-     <a href="#-goals-of-this-prototype">Goals of this Prototype</a>
-   </li>
-   <li>
      <a href="#%EF%B8%8F-goals-for-the-future">Goals for the Future</a>
    </li>
-   <li><a href="#-local-setup">Local Setup</a></li>
+   <li><a href="#%EF%B8%8F-local-setup">Local Setup</a></li>
    <li><a href="#-license">License</a></li>
    <li><a href="#-contact">Contact</a></li>
  </ol>

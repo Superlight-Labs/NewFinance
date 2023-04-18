@@ -30,7 +30,9 @@
 6. Install yarn globally with `volta install yarn@1.22`
 7. Run `yarn prep` to install node module and setup database
 
-On error `xcrun: error: SDK "iphoneos" cannot be located` it may be necessray to run `npx pod-install` in the `mobile` app folder 8. Start development with `yarn dev`
+On error `xcrun: error: SDK "iphoneos" cannot be located` it may be necessray to run `npx pod-install` in the `mobile` app folder
+
+8. Start development with `yarn dev`
 
 ## Mobile Debugging
 
