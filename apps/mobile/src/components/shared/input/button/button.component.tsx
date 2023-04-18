@@ -10,12 +10,12 @@ type Props = {
 };
 
 const Button = ({ onPress, children, style, disabled = false }: Props) => {
-  const bg = disabled ? 'bg-slate-400' : 'bg-slate-800';
+  const bg = disabled ? 'bg-slate-600' : 'bg-black';
   return (
     <Pressable
       disabled={disabled}
       onPress={onPress}
-      className={`rounded-fullp-4 flex flex-row items-center justify-center rounded-full p-4 shadow-lg ${bg} ${style}`}>
+      className={`rounded-fullp-4 flex flex-row items-center justify-center rounded-full p-4 drop-shadow-lg ${bg} ${style}`}>
       <Text className="font-bold text-white">{children}</Text>
     </Pressable>
   );

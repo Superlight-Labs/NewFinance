@@ -25,7 +25,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
   const { perform } = useFailableAction();
 
   const finishGenerate = () => {
-    navigation.navigate('Derive');
+    navigation.navigate('Home');
   };
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { AppUser, useAuthState } from 'state/auth.state';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
 import { useBitcoinState } from 'state/bitcoin.state.';
+import { useSnackbarState } from 'state/snackbar.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin';
 import { apiUrl } from 'utils/superlight-api';
@@ -39,6 +40,7 @@ type Derivations = {
 
 const useDeriveSteps = (user: AppUser | undefined): Derivations => {
   const { network, saveAccount, saveAddress } = useBitcoinState();
+  const { setMessage } = useSnackbarState();
   const { deriveBip32, deriveBip32Hardened, deriveMasterPair } = useDerive();
   const {
     setAccount,
@@ -58,14 +60,14 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
     sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
   };
 
-  logger.debug({ derivedUntilLevel }, 'Derive until level');
-
   return {
     deriveAndSaveMaster: ({ share: s, peerShareId: pId }) => {
       if (derivedUntilLevel > DerivedUntilLevel.SECRET) {
         logger.debug('Skip Derive master');
         return okAsync(rest.master!);
       }
+
+      setMessage({ message: 'Setting up your wallet...', step: 1, total: 4, level: 'progress' });
 
       return deriveMasterPair(config, { share: s, peerShareId: pId }).map(
         ({ share, peerShareId }) => {
@@ -79,6 +81,8 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         logger.debug('Skip Derive puropse');
         return okAsync(rest.purpose!);
       }
+
+      setMessage({ message: 'Creating Secure wallet...', step: 2, total: 4, level: 'progress' });
 
       return deriveBip32Hardened(config, {
         index: '84',
@@ -96,6 +100,13 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         logger.debug('Skip Derive coinType');
         return okAsync(rest.coinType!);
       }
+
+      setMessage({
+        message: 'Introducing you to Bitcoin...',
+        step: 3,
+        total: 4,
+        level: 'progress',
+      });
 
       return deriveBip32Hardened(config, {
         index: '0',
@@ -115,6 +126,8 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
       }
 
       const path = `m/84'/0'/0'`;
+
+      setMessage({ message: 'Adding your account...', step: 4, total: 4, level: 'progress' });
 
       return deriveBip32Hardened(config, {
         index: '0',
@@ -175,6 +188,8 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
             });
         })
         .map(({ share, peerShareId }) => {
+          setMessage({ message: 'Congrats! all done', level: 'success' });
+
           setIndex({ share, peerShareId, path });
           return { share, peerShareId };
         });

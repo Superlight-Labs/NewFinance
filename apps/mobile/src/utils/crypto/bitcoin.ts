@@ -19,7 +19,7 @@ export const publicKeyToBitcoinAddressP2WPKH = (
   const network =
     configuredNetwork === 'main' ? bitcoin.networks.bitcoin : bitcoin.networks.testnet;
 
-  const pubkeyECPair = bip32.fromBase58(xPub, network);
+  const pubkeyECPair = bip32.fromBase58(xPub);
 
   const { address } = bitcoin.payments.p2wpkh({
     pubkey: pubkeyECPair.publicKey,

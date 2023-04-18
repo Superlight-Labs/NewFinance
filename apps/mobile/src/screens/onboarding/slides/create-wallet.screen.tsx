@@ -76,6 +76,7 @@ const CreateWallet = ({ navigation }: Props) => {
       <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
       <TextInput
         className="border-800 h-8 w-64 border-b"
+        defaultValue="Main Wallet"
         value={walletName}
         onChangeText={setWalletName}
       />

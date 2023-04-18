@@ -13,7 +13,15 @@ export type AppMessage =
       level: 'warning' | 'info' | 'success';
     }
   | AppError
+  | Progress
   | Empty;
+
+type Progress = {
+  level: 'progress';
+  step: number;
+  total: number;
+  message: string;
+};
 
 type Empty = {
   message: '';
