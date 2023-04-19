@@ -1,5 +1,9 @@
 import { BitcoinTransaction } from '@superlight-labs/blockchain-api-client';
 
+export const isIncommingTransaction = (transaction: BitcoinTransaction, address: string) => {
+  return transaction.outputs[0].address === address;
+};
+
 /**
  * Calculates net value of a transaction
  * @param transaction
@@ -9,7 +13,7 @@ import { BitcoinTransaction } from '@superlight-labs/blockchain-api-client';
 export const getNetValueFromTransaction = (
   transaction: BitcoinTransaction,
   address: string
-): number => {
+): string => {
   const ownInputs = transaction.inputs.filter(input => input.coin.address === address);
 
   const ownOutputs = transaction.outputs.filter(output => output.address === address);
@@ -22,5 +26,7 @@ export const getNetValueFromTransaction = (
     return prev + curr.value;
   }, 0);
 
-  return ownOutputValue - ownInputValue;
+  const value = ownOutputValue - ownInputValue;
+
+  return `${value > 0 ? '+' : ''}${value}`;
 };

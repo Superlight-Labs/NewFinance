@@ -4,12 +4,12 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Receive from 'screens/wallet/tabs/receive.screen';
 import Send from 'screens/wallet/tabs/send.screen';
 import Wallet from 'screens/wallet/tabs/wallet.screen';
-import { WalletScreenList } from 'screens/wallet/wallet-navigation';
+import { WalletTabList } from 'screens/wallet/wallet-navigation';
 import { Text } from 'utils/wrappers/styled-react-native';
 
-const Tab = createMaterialTopTabNavigator<WalletScreenList>();
+const Tab = createMaterialTopTabNavigator<WalletTabList>();
 
-const WalletStack = () => {
+const WalletNavigation = () => {
   return (
     <Tab.Navigator tabBarPosition="bottom" initialRouteName="Overview">
       <Tab.Screen
@@ -61,4 +61,4 @@ const WalletStack = () => {
   );
 };
 
-export default WalletStack;
+export default WalletNavigation;

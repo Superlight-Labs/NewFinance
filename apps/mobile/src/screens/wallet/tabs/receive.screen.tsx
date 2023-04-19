@@ -1,4 +1,4 @@
-import WalletLayout from 'components/wallets/wallet-layout.component';
+import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
 const Receive = () => {

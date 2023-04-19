@@ -23,7 +23,7 @@ import { useLogout } from 'hooks/useLogout';
 import reactotron from 'reactotron-react-native';
 import Home from 'screens/home.screen';
 import OnboardingStack from 'screens/onboarding/onboarding.stack';
-import WalletStack from 'screens/wallet/wallet.stack';
+import WalletNavigation from 'screens/wallet/wallet.navigation';
 import Welcome from 'screens/welcome.screen';
 import { useBip32State } from 'state/bip32.state';
 import { View } from 'utils/wrappers/styled-react-native';
@@ -77,7 +77,7 @@ function App(): JSX.Element {
                           gestureEnabled: true,
                           ...TransitionPresets.ModalPresentationIOS,
                         }}>
-                        <Stack.Screen name="Wallet" component={WalletStack} />
+                        <Stack.Screen name="Wallet" component={WalletNavigation} />
                       </Stack.Group>
                     </>
                   )}
