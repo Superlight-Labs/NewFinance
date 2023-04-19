@@ -4,8 +4,8 @@ export interface User {
   id: string;
   devicePublicKey: string;
   keyShares: MpcKeyShare[];
-  name?: string;
-  email?: string;
+  name: string | null;
+  email: string | null;
 }
 
 export interface CreateUserRequest {

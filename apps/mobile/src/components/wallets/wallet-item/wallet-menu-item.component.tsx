@@ -18,7 +18,7 @@ const WalletMenuItem = ({ loading, name = 'Hauptkonto', balance, navigate }: Pro
           {loading ? (
             <MonoIcon height={32} width={32} strokeWitdth={4} iconName="Loading" color="white" />
           ) : (
-            <Text className="text-4xl font-medium text-white">$</Text>
+            <Text className="mt-1 text-4xl font-medium text-white">$</Text>
           )}
         </View>
       </View>
