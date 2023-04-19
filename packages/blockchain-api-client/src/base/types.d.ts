@@ -8,12 +8,6 @@ import {
   AlchemyTransactionCount,
 } from '../provider/alchemy/ethereum/alchemy-ethereum-types';
 import {
-  BlockCyperFees,
-  BlockCypherBalance,
-  BlockCypherBalanceFull,
-  BlockCypherTransaction,
-} from '../provider/blockcypher/bitcoin/blockcypher-bitcoin-types';
-import {
   TatumBalance,
   TatumBroadcastTransaction,
   TatumFees,

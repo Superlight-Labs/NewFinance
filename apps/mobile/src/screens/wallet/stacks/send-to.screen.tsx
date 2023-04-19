@@ -21,17 +21,17 @@ const SendToScreen = ({ navigation }: Props) => {
           <Text className="top-0.5 mx-2 font-bold">To: </Text>
           <TextInputComponent
             value={toAddress}
-            style="border-0 font-bold"
+            style="border-0 flex-1 font-bold"
             placeHolder="BTC Address"
             onChangeText={setToAddress}
           />
-          <MonoIcon style="ml-auto mr-2" iconName="Camera" />
+          <MonoIcon style="ml-auto flex items-center bg-white w-8" iconName="Camera" />
         </View>
         <View className="mb-4 flex flex-row border-b  border-slate-200 pb-2">
           <Text className="top-0.5 mx-2 font-bold">For:</Text>
           <TextInputComponent
             value={note}
-            style="border-0 font-bold"
+            style="border-0 flex-1 font-bold"
             onChangeText={setNote}
             placeHolder="Add a Note if you want"
           />

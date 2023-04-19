@@ -12,7 +12,7 @@
     "blockchain",
     "bitcoin",
     "tatum",
-    "blockcypher"
+    "ethereum"
   ],
   "engines": {
     "node": ">=10"

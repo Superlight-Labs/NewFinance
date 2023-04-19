@@ -74,4 +74,5 @@ export interface BitcoinEndpoints {
   utxo: (...args: any) => string;
   fees: (...args: any) => string;
   broadcastTransaction: (...args: any) => string;
+  exchangeRate: (...args: any) => string;
 }

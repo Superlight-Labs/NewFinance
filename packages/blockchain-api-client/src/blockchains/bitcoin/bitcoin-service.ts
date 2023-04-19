@@ -15,7 +15,10 @@ export class BitcoinService {
    * @param provider Which API should be called
    * @returns
    */
-  sendBroadcastTransaction = async (txData: string, provider: BitcoinProviderEnum): Promise<BroadcastTransaction> => {
+  sendBroadcastTransaction = async (
+    txData: string,
+    provider: BitcoinProviderEnum
+  ): Promise<BroadcastTransaction> => {
     const { mapper, fetcher } = this.factory.getProviderFunctions(provider);
 
     const apiBroadcastTransaction = await fetcher.sendBroadcastTransaction(txData);
@@ -80,5 +83,11 @@ export class BitcoinService {
     const apiFees = await fetcher.fetchFees(chain, type, fromUTXO, to);
 
     return mapper.responseToFees(apiFees);
+  };
+
+  getExchangeRate = (provider: BitcoinProviderEnum) => {
+    const { fetcher } = this.factory.getProviderFunctions(provider);
+
+    return fetcher.fetchExchangeRate();
   };
 }
