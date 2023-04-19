@@ -1,5 +1,6 @@
 import { BitcoinTransaction } from '@superlight-labs/blockchain-api-client';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import { isIncommingTransaction } from 'utils/crypto/bitcoin-transaction-utils';
 import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import TransactionSkeleton from './transaction-skeleton.component';
 import Transaction from './transaction.component';
@@ -25,7 +26,12 @@ const TransactionList = ({ transactions, loading, address }: Props) => {
           <Text>No Transactions yet</Text>
         ) : (
           transactions.map(transaction => (
-            <Transaction key={transaction.hash} address={address} transaction={transaction} />
+            <Transaction
+              key={transaction.hash}
+              address={address}
+              incomming={isIncommingTransaction(transaction, transactions)}
+              transaction={transaction}
+            />
           ))
         )}
       </ScrollView>
