@@ -20,6 +20,6 @@ export const tatumEndpoints: BitcoinEndpoints = {
     return url + '/bitcoin/broadcast';
   },
   exchangeRate: function (): string {
-    return url + '/tatum/rate/BTC';
+    return url + '/tatum/rate/BTC?basePair=EUR';
   },
 };

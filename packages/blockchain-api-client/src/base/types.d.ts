@@ -88,3 +88,11 @@ export interface BroadcastTransaction {
   txId: string;
   failed: boolean;
 }
+
+export interface ExchangeRate {
+  id: string;
+  value: string;
+  basePair: string;
+  timestamp: number;
+  source: string;
+}

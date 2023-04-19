@@ -9,6 +9,7 @@ type Props = {
   style?: string;
   disabled?: boolean;
   keyboardType?: KeyboardType;
+  maxLength?: number;
 };
 
 const MultilineText = ({
@@ -18,8 +19,10 @@ const MultilineText = ({
   style,
   keyboardType = 'default',
   disabled = false,
+  maxLength = 1000,
 }: Props) => {
   const bg = disabled ? 'bg-slate-100' : 'bg-slate-50';
+
   return (
     <TextInput
       editable={!disabled}
@@ -33,6 +36,7 @@ const MultilineText = ({
       placeholder={placeholder}
       onChangeText={setValue}
       value={value}
+      maxLength={maxLength}
       className={` border-slate-400 p-4 shadow-lg ${bg} ${style}`}
     />
   );

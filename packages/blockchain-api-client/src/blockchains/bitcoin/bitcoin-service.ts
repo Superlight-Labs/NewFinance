@@ -1,4 +1,4 @@
-import { BroadcastTransaction, Fees, Network } from '../../base/types';
+import { BroadcastTransaction, ExchangeRate, Fees, Network } from '../../base/types';
 import { BitcoinFactory, BitcoinProviderEnum } from './bitcoin-factory';
 import { BitcoinBalance, BitcoinTransaction } from './types';
 
@@ -85,7 +85,7 @@ export class BitcoinService {
     return mapper.responseToFees(apiFees);
   };
 
-  getExchangeRate = (provider: BitcoinProviderEnum) => {
+  getExchangeRate = (provider: BitcoinProviderEnum): Promise<ExchangeRate> => {
     const { fetcher } = this.factory.getProviderFunctions(provider);
 
     return fetcher.fetchExchangeRate();

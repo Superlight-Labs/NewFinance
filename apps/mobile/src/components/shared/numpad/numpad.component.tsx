@@ -5,10 +5,12 @@ const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 type Props = {
   value: string;
   setValue: (value: string) => void;
+  maxLength?: number;
 };
 
-const Numpad = ({ value, setValue }: Props) => {
+const Numpad = ({ value, setValue, maxLength = 10 }: Props) => {
   const updateState = (num: string) => {
+    if (value.length >= maxLength) return;
     // get last char from value
     const lastChar = value.slice(-1);
 
