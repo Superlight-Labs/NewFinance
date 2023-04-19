@@ -1,6 +1,6 @@
 import { BroadcastTransaction, ExchangeRate, Fees, Network } from '../../base/types';
 import { BitcoinFactory, BitcoinProviderEnum } from './bitcoin-factory';
-import { BitcoinBalance, BitcoinTransaction } from './types';
+import { BitcoinBalance, BitcoinSendToAddress, BitcoinTransaction } from './types';
 
 export class BitcoinService {
   private factory: BitcoinFactory;
@@ -72,15 +72,13 @@ export class BitcoinService {
    * @returns
    */
   getFees = async (
-    chain: string,
-    type: string,
-    fromUTXO: any[],
-    to: any[],
+    from: string[],
+    to: BitcoinSendToAddress[],
     provider: BitcoinProviderEnum
   ): Promise<Fees> => {
     const { mapper, fetcher } = this.factory.getProviderFunctions(provider);
 
-    const apiFees = await fetcher.fetchFees(chain, type, fromUTXO, to);
+    const apiFees = await fetcher.fetchFees(from, to);
 
     return mapper.responseToFees(apiFees);
   };

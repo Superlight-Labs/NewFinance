@@ -8,6 +8,7 @@ import { useDebounce } from 'hooks/useDebounced';
 import { useEffect, useRef, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state.';
+import { getSizeFromLength } from 'utils/string';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
 
@@ -33,7 +34,7 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
   }, [debouncedAmount]);
 
   const numericAmount = parseFloat(amount);
-  const textSize = getSize(amount.length);
+  const textSize = getSizeFromLength(amount.length);
 
   return (
     <WalletLayout style="p-4" leftHeader="back" rightHeader="none">
@@ -48,7 +49,7 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
             style={`border-0 m-w-[60%] flex m-h-48 font-extrabold shadow-none bg-white ${textSize}`}
             value={amount}
             keyboardType="numeric"
-            maxLength={13}
+            maxLength={12}
             setValue={setAmount}
           />
           <Text className="p-1 text-6xl font-extrabold">BTC</Text>
@@ -60,33 +61,21 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
           )}
         </View>
       </View>
-      <Numpad maxLength={13} value={amount} setValue={setAmount} />
+      <Numpad maxLength={12} value={amount} setValue={setAmount} />
       <ButtonComponent
         shadow
         disabled={
           Number.isNaN(numericAmount) ||
           numericAmount <= 0 ||
           !balance ||
-          numericAmount > balance.incoming - balance.outgoing
+          (!__DEV__ && numericAmount > balance.incoming - balance.outgoing)
         }
         style=" mt-auto mb-8 rounded-lg"
-        onPress={() => navigation.navigate('SendReview', { amount, ...route.params })}>
+        onPress={() => navigation.navigate('SendReview', { amount, rate, ...route.params })}>
         Continue
       </ButtonComponent>
     </WalletLayout>
   );
-};
-
-const getSize = (length: number) => {
-  if (length > 11) {
-    return 'text-4xl';
-  }
-
-  if (length > 6) {
-    return 'text-5xl';
-  }
-
-  return 'text-6xl';
 };
 
 export default SendAmountScreen;

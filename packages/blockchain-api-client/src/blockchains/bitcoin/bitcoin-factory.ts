@@ -20,7 +20,7 @@ import {
   TatumTransaction,
 } from '../../provider/tatum/bitcoin/tatum-bitcoin-types';
 import { fetchFromTatum } from '../../provider/tatum/http';
-import { BitcoinProvider } from './types';
+import { BitcoinProvider, BitcoinSendToAddress } from './types';
 
 export enum BitcoinProviderEnum {
   TATUM,
@@ -49,10 +49,10 @@ export class BitcoinFactory {
           tatumEndpoints.transactions(address, query),
           this.network
         ),
-      fetchFees: (chain: string, type: string, fromUTXO: any[], to: any[]) =>
+      fetchFees: (fromAddress: string[], to: BitcoinSendToAddress[]) =>
         fetchFromTatum<TatumFees>(tatumEndpoints.fees(), this.network, {
           method: HttpMethod.POST,
-          body: { chain, type, fromUTXO, to },
+          body: { chain: 'BTC', type: 'TRANSFER', fromAddress, to },
         }),
       sendBroadcastTransaction: (txData: string) =>
         fetchFromTatum<TatumBroadcastTransaction>(

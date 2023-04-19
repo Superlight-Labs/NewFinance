@@ -68,6 +68,11 @@ export interface BitcoinProvider {
   mapper: BitcoinMapper;
 }
 
+export interface BitcoinSendToAddress {
+  address: string;
+  value: number;
+}
+
 export interface BitcoinEndpoints {
   balance: (...args: any) => string;
   transactions: (...args: any) => string;

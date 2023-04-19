@@ -6,6 +6,6 @@ export type WalletTabList = {
 
 export type WalletStackList = {
   SendTo: undefined;
-  SendReview: { toAddress: string; note: string; amount: string };
+  SendReview: { toAddress: string; note: string; amount: string; rate: number };
   SendAmount: { toAddress: string; note: string };
 };
