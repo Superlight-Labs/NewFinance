@@ -1,10 +1,13 @@
+import WalletLayout from 'components/wallets/wallet-layout.component';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
 const Receive = () => {
   return (
-    <View className="flex h-full w-full flex-col items-center justify-center pb-8">
-      <Text>Hi this is a Wallet recieve Screen</Text>
-    </View>
+    <WalletLayout>
+      <View className="flex w-full flex-col items-center justify-center pb-8">
+        <Text>Hi this is a Wallet recieve Screen</Text>
+      </View>
+    </WalletLayout>
   );
 };
 

@@ -12,7 +12,7 @@ type Props = {
 
 const TransactionList = ({ transactions, loading, address }: Props) => {
   return (
-    <View className="flex w-full flex-col px-5">
+    <View className="flex h-full w-full flex-col px-5">
       <View className="mb-4 flex w-full flex-row justify-between ">
         <Text className=" font-bold">Transactions</Text>
         <MonoIcon color="#5BB5A2" iconName="Search" />
@@ -25,7 +25,7 @@ const TransactionList = ({ transactions, loading, address }: Props) => {
           <Text>No Transactions yet</Text>
         ) : (
           transactions.map(transaction => (
-            <Transaction address={address} transaction={transaction} />
+            <Transaction key={transaction.hash} address={address} transaction={transaction} />
           ))
         )}
       </ScrollView>

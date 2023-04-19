@@ -3,6 +3,7 @@ import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
 import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
+import TextInputComponent from 'components/shared/input/text/text-input.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { useFailableAction } from 'hooks/useFailable';
@@ -14,7 +15,7 @@ import { useBip32State } from 'state/bip32.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { apiUrl } from 'utils/superlight-api';
 
-import { Text, TextInput } from 'utils/wrappers/styled-react-native';
+import { Text } from 'utils/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {
@@ -74,7 +75,7 @@ const CreateWallet = ({ navigation }: Props) => {
       <Text className="mb-2 mr-4">Show the used Seed Phrase</Text>
       <Switch value={withPhrase} onValueChange={setWithPhrase} />
       <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
-      <TextInput
+      <TextInputComponent
         className="border-800 h-8 w-64 border-b"
         defaultValue="Main Wallet"
         value={walletName}

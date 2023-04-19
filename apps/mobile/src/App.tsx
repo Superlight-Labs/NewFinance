@@ -4,6 +4,7 @@
  *
  * @format
  */
+import { TransitionPresets } from '@react-navigation/stack';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -69,7 +70,15 @@ function App(): JSX.Element {
 
                       {OnboardingStack({ Stack })}
                       {MenuStack({ Stack })}
-                      {WalletStack({ Stack })}
+                      <Stack.Group
+                        screenOptions={{
+                          cardStyle: { borderRadius: 32 },
+                          presentation: 'modal',
+                          gestureEnabled: true,
+                          ...TransitionPresets.ModalPresentationIOS,
+                        }}>
+                        <Stack.Screen name="Wallet" component={WalletStack} />
+                      </Stack.Group>
                     </>
                   )}
                   <Stack.Screen name="Welcome" component={Welcome} />

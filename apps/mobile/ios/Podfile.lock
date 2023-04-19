@@ -417,6 +417,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.17.12):
     - React-Core
+  - RNCClipboard (1.11.2):
+    - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
   - RNScreens (3.18.2):
@@ -505,6 +507,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - "rn-crypto-mpc (from `../../../node_modules/@superlight-labs/rn-crypto-mpc`)"
   - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
@@ -626,6 +629,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@superlight-labs/rn-crypto-mpc"
   RNCAsyncStorage:
     :path: "../../../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNGestureHandler:
     :path: "../../../node_modules/react-native-gesture-handler"
   RNScreens:
@@ -699,6 +704,7 @@ SPEC CHECKSUMS:
   ReactCommon: 03be76588338a27a88d103b35c3c44a3fd43d136
   rn-crypto-mpc: 0591545239f1ac6417177bdd8d117b2513e99cc9
   RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
+  RNCClipboard: 3f0451a8100393908bea5c5c5b16f96d45f30bfc
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
