@@ -4,6 +4,7 @@
  *
  * @format
  */
+import { TransitionPresets } from '@react-navigation/stack';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -22,12 +23,13 @@ import { useLogout } from 'hooks/useLogout';
 import reactotron from 'reactotron-react-native';
 import Home from 'screens/home.screen';
 import OnboardingStack from 'screens/onboarding/onboarding.stack';
-import WalletsStack from 'screens/wallets/wallets.stack';
+import WalletNavigation from 'screens/wallet/wallet.navigation';
 import Welcome from 'screens/welcome.screen';
 import { useBip32State } from 'state/bip32.state';
 import { View } from 'utils/wrappers/styled-react-native';
 if (__DEV__) {
   import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
+  console.log = reactotron.log!;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -69,7 +71,15 @@ function App(): JSX.Element {
 
                       {OnboardingStack({ Stack })}
                       {MenuStack({ Stack })}
-                      {WalletsStack({ Stack })}
+                      <Stack.Group
+                        screenOptions={{
+                          cardStyle: { borderRadius: 32 },
+                          presentation: 'modal',
+                          gestureEnabled: true,
+                          ...TransitionPresets.ModalPresentationIOS,
+                        }}>
+                        <Stack.Screen name="Wallet" component={WalletNavigation} />
+                      </Stack.Group>
                     </>
                   )}
                   <Stack.Screen name="Welcome" component={Welcome} />

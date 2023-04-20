@@ -10,6 +10,8 @@ generator client {
 model User {
     id              String        @default(uuid())
     devicePublicKey String
+    name            String?
+    email           String?
     keyShares       MpcKeyShare[] @relation("KeySharesForUser")
 
     @@unique([id, devicePublicKey])

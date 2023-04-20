@@ -1,20 +1,21 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
+import TextInputComponent from 'components/shared/input/text/text-input.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
-import { Text, TextInput } from 'utils/wrappers/styled-react-native';
+import { Text } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Import'>;
 
 const ImportWallet = ({ navigation }: Props) => {
   const [walletName, setWalletName] = useState('');
   const [seedPhrase, setSeedPhrase] = useState('');
-  const { deleteBip32, derivedUntilLevel } = useBip32State();
+  const { deleteBip32, derivedUntilLevel, setName } = useBip32State();
 
   useEffect(() => {
     if (derivedUntilLevel !== DerivedUntilLevel.NONE) {
@@ -29,6 +30,8 @@ const ImportWallet = ({ navigation }: Props) => {
       navigation.navigate('Welcome');
       return;
     }
+
+    setName(walletName || 'Main Wallet');
 
     navigation.navigate('ReviewCreate', {
       withPhrase: true,
@@ -51,8 +54,9 @@ const ImportWallet = ({ navigation }: Props) => {
         placeholder="12 to 24 word seed phrase"
       />
       <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
-      <TextInput
+      <TextInputComponent
         className="border-800 h-8 w-64 border-b"
+        defaultValue="Main Wallet"
         value={walletName}
         onChangeText={setWalletName}
       />

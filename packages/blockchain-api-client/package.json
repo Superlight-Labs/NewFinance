@@ -1,0 +1,31 @@
+{
+  "version": "0.1.1",
+  "license": "MIT",
+  "main": "index.ts",
+  "types": "index.ts",
+  "repository": "https://github.com/Superlight-Labs/Superlight",
+  "files": [
+    "src",
+    "index.ts"
+  ],
+  "keywords": [
+    "blockchain",
+    "bitcoin",
+    "tatum",
+    "ethereum"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\""
+  },
+  "name": "@superlight-labs/blockchain-api-client",
+  "author": "Laurenz Honauer",
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.2",
+    "node-fetch": "^2.6.7",
+    "typescript": "^4.9.5"
+  }
+}

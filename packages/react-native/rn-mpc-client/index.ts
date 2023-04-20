@@ -2,12 +2,13 @@ import { generateGenericSecret, startGenerateGenericSecret } from './src/handler
 import { deriveBip32, startDerive } from './src/handlers/derive';
 import { deriveBip32WithSteps, startDeriveWithSteps } from './src/handlers/derive-hardened';
 import { importGenericSecret, startImportGenericSecret } from './src/handlers/import-secret';
-import { DeriveFrom, ShareResult } from './src/lib/mpc/mpc-types';
+import { signEcdsa, startSign } from './src/handlers/sign-ecdsa';
+import { DeriveFrom, ShareResult, SignWithShare } from './src/lib/mpc/mpc-types';
 import { authWebsocket } from './src/lib/websocket/ws-client';
 import { Signer } from './src/lib/websocket/ws-common';
 import { authWebsocketWithSetup } from './src/lib/websocket/ws-setup-client';
 export { getPublicKey, getXPubKey } from './src/lib/mpc/mpc-neverthrow-wrapper';
-export type { Signer };
+export type { Signer, SignWithShare };
 
 export const useGenericSecret = () => ({
   generateGenericSecret: ({ baseUrl, sign }: ActionConfig) =>
@@ -42,6 +43,15 @@ export const useDerive = () => ({
       sign,
       deriveConfig
     )<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
+});
+
+export const useSignEcdsa = () => ({
+  signEcdsa: ({ baseUrl, sign }: ActionConfig, signConfig: SignWithShare) =>
+    authWebsocketWithSetup<SignWithShare, null>(
+      { baseUrl, socketEndpoint: 'sign' },
+      sign,
+      signConfig
+    )(startSign, signEcdsa),
 });
 
 type ActionConfig = {

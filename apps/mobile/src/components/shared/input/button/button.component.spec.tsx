@@ -3,8 +3,6 @@ import React from 'react';
 import 'react-native';
 import Button from './button.component';
 
-// Note: test renderer must be required after react-native.
-
 it('renders correctly', () => {
   render(<Button onPress={() => {}}>Hi there</Button>);
 });

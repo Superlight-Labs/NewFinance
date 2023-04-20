@@ -1,6 +1,7 @@
 import logger from '@superlight-labs/logger';
+import { AppError } from '@superlight-labs/mpc-common';
 import { ResultAsync } from 'neverthrow';
-import { AppError, useSnackbarState } from 'state/snackbar.state';
+import { useSnackbarState } from 'state/snackbar.state';
 
 export const useFailableAction = () => {
   const { setMessage } = useSnackbarState();

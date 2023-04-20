@@ -1,4 +1,5 @@
 import { styled } from 'nativewind';
+import { KeyboardType } from 'react-native';
 import { TextInput } from 'utils/wrappers/styled-react-native';
 
 type Props = {
@@ -7,10 +8,21 @@ type Props = {
   placeholder?: string;
   style?: string;
   disabled?: boolean;
+  keyboardType?: KeyboardType;
+  maxLength?: number;
 };
 
-const MultilineText = ({ value, setValue, placeholder, style, disabled = false }: Props) => {
+const MultilineText = ({
+  value,
+  setValue,
+  placeholder,
+  style,
+  keyboardType = 'default',
+  disabled = false,
+  maxLength = 1000,
+}: Props) => {
   const bg = disabled ? 'bg-slate-100' : 'bg-slate-50';
+
   return (
     <TextInput
       editable={!disabled}
@@ -20,9 +32,11 @@ const MultilineText = ({ value, setValue, placeholder, style, disabled = false }
       multiline
       autoCorrect={false}
       autoComplete="off"
+      keyboardType={keyboardType}
       placeholder={placeholder}
       onChangeText={setValue}
       value={value}
+      maxLength={maxLength}
       className={` border-slate-400 p-4 shadow-lg ${bg} ${style}`}
     />
   );

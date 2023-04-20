@@ -5,6 +5,12 @@ export type DeriveConfig = {
   parentPath?: string;
 };
 
+export type SignConfig = {
+  messageToSign: string;
+  encoding: BufferEncoding;
+  peerShareId: string;
+};
+
 export const buildPath = (deriveConfig: DeriveConfig) => {
   const { parentPath, index, hardened } = deriveConfig;
 

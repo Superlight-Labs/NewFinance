@@ -2,8 +2,8 @@ import {
   createMPCWebsocketHandlerWrapper,
   shortenMessage,
 } from './src/websocket/websocket-message-unwrap';
-export { buildPath, indexToNumber } from './src/derive';
-export type { DeriveConfig } from './src/derive';
+export { buildPath, indexToNumber } from './src/actions';
+export type { DeriveConfig, SignConfig } from './src/actions';
 export {
   apiError,
   appError,
@@ -17,7 +17,6 @@ export {
   websocketError,
 } from './src/error';
 export type { AppError, WebsocketError } from './src/error';
-export type { SignConfig } from './src/sign';
 export type {
   ApiConfig,
   MpcWebsocketHandlerWrapper,

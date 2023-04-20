@@ -2,14 +2,14 @@ import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
 import logger from '@superlight-labs/logger';
 import {
-    MPCWebscocketInit,
-    MPCWebsocketMessage,
-    MPCWebsocketResult,
-    SignConfig,
-    WebSocketOutput,
-    WebsocketError,
-    mpcInternalError,
-    stepMessageError,
+  MPCWebscocketInit,
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  SignConfig,
+  WebSocketOutput,
+  WebsocketError,
+  mpcInternalError,
+  stepMessageError,
 } from '@superlight-labs/mpc-common';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
@@ -49,9 +49,9 @@ const initSignProcess = (
   userId: string
 ): ResultAsync<Context, WebsocketError> => {
   // TODO come up with some message validation
-  const { messageToSign, encoding, shareId } = message.parameter;
+  const { messageToSign, encoding, peerShareId } = message.parameter;
 
-  return getKeyShare(shareId, userId).andThen(keyShare =>
+  return getKeyShare(peerShareId, userId).andThen(keyShare =>
     createEcdsaSignContext(keyShare.value, messageToSign, encoding)
   );
 };
@@ -66,11 +66,7 @@ export const signStep = (
     return;
   }
 
-  logger.info({ input: wsMsg.message.slice(0, 23), contextPtr: context.contextPtr }, 'SIGN STEP');
-
-  const msg = JSON.parse(wsMsg.toString());
-
-  const stepOutput = step(msg.message, context);
+  const stepOutput = step(wsMsg.message, context);
 
   if (stepOutput.type === 'inProgress') {
     output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
