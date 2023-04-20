@@ -1,14 +1,15 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { BitcoinProviderEnum, BitcoinService } from '@superlight-labs/blockchain-api-client';
 import LayoutComponent from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
+import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { useEffect, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
 import { useBitcoinState } from 'state/bitcoin.state.';
+import { safeBalance } from 'utils/crypto/bitcoin-value';
 import { ScrollView } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
@@ -17,13 +18,9 @@ const Home = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet();
   const { secret, derivedUntilLevel, name } = useBip32State();
   const {
-    network,
-    updateBalance,
-    setTransactions,
     indexAddress: { balance, address },
   } = useBitcoinState();
   const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (!secret) {
@@ -39,37 +36,14 @@ const Home = ({ navigation }: Props) => {
 
   useEffect(() => {
     if (address) {
-      loadWalletData();
+      update();
     }
   }, [address]);
 
-  const loadWalletData = () => {
-    setRefreshing(true);
-    let loadBalance = true;
-    let loadTransactions = true;
-
-    const bs = new BitcoinService(network);
-
-    bs.getBalance(address, BitcoinProviderEnum.TATUM).then(fetchedBalance => {
-      loadBalance = false;
-      updateBalance(fetchedBalance);
-      setRefreshing(loadBalance || loadTransactions);
-    });
-
-    const query = new URLSearchParams({
-      pageSize: '5',
-      offset: '0',
-    });
-
-    bs.getTransactions(address, query, BitcoinProviderEnum.TATUM).then(fetchedTransactions => {
-      loadTransactions = false;
-      setTransactions(fetchedTransactions);
-      setRefreshing(loadBalance || loadTransactions);
-    });
-  };
+  const { refreshing, update } = useUpdateWalletData();
 
   const refreshControl = loading ? undefined : (
-    <RefreshControl refreshing={refreshing} onRefresh={loadWalletData} />
+    <RefreshControl refreshing={refreshing} onRefresh={update} />
   );
 
   return (
@@ -81,7 +55,7 @@ const Home = ({ navigation }: Props) => {
       <ScrollView className="h-full" refreshControl={refreshControl}>
         <Title>Wallets</Title>
 
-        <Title style="mb-4">{balance ? balance.incoming - balance.outgoing : 0} BTC</Title>
+        <Title style="mb-4">{balance ? safeBalance(balance) : 0} BTC</Title>
 
         <WalletMenuItem
           name={name}

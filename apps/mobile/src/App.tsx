@@ -29,6 +29,7 @@ import { useBip32State } from 'state/bip32.state';
 import { View } from 'utils/wrappers/styled-react-native';
 if (__DEV__) {
   import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
+  console.log = reactotron.log!;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();

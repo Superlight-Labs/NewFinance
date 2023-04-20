@@ -5,6 +5,7 @@ import * as bitcoin from 'der-bitcoinjs-lib';
 import { Result, err, ok } from 'neverthrow';
 import * as ecc from 'tiny-secp256k1';
 import { getBitcoinJsNetwork } from './bitcoin-network';
+
 const bip32 = BIP32Factory(ecc);
 
 /**
@@ -18,9 +19,10 @@ export const publicKeyToBitcoinAddressP2WPKH = (
   network: Network
 ): Result<AddressResult, AppError> => {
   const pubkeyECPair = bip32.fromBase58(xPub);
+  const pubkey = pubkeyECPair.publicKey;
 
   const { address } = bitcoin.payments.p2wpkh({
-    pubkey: pubkeyECPair.publicKey,
+    pubkey,
     network: getBitcoinJsNetwork(network),
   });
 
@@ -28,10 +30,11 @@ export const publicKeyToBitcoinAddressP2WPKH = (
     return err(bitcoinJsError("Can't transform xPub key to bitcoin address"));
   }
 
-  return ok({ address, xPub });
+  return ok({ address, xPub, publicKey: pubkey.toString('base64') });
 };
 
 type AddressResult = {
   address: string;
+  publicKey: string;
   xPub: string;
 };

@@ -18,6 +18,7 @@ export type BitcoinState = {
   indexAddress: {
     xPub: string;
     address: string;
+    publicKey: string;
     share: SharePair;
     transactions: BitcoinTransaction[];
     balance?: BitcoinBalance;
@@ -49,6 +50,7 @@ export const useBitcoinState = create<BitcoinState>()(
         balance: undefined,
         xPub: '',
         address: '',
+        publicKey: '',
         share: {
           share: '',
           path: '',
@@ -63,7 +65,9 @@ export const useBitcoinState = create<BitcoinState>()(
           },
         })),
       setTransactions: (transactions: BitcoinTransaction[]) =>
-        set(state => ({ indexAddress: { ...state.indexAddress, transactions } })),
+        set(state => ({
+          indexAddress: { ...state.indexAddress, transactions: transactions.sort() },
+        })),
       updateBalance: (balance: BitcoinBalance) =>
         set(state => ({ indexAddress: { ...state.indexAddress, balance } })),
       saveAccount: (account: BitcoinState['account']) => set({ account }),
@@ -78,6 +82,7 @@ export const useBitcoinState = create<BitcoinState>()(
           indexAddress: {
             xPub: '',
             address: '',
+            publicKey: '',
             share: { share: '', path: '', peerShareId: '' },
             balance: undefined,
             transactions: [],

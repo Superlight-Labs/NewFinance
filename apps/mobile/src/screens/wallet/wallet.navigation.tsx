@@ -11,7 +11,10 @@ const Tab = createMaterialTopTabNavigator<WalletTabList>();
 
 const WalletNavigation = () => {
   return (
-    <Tab.Navigator tabBarPosition="bottom" initialRouteName="Overview">
+    <Tab.Navigator
+      screenOptions={{ tabBarStyle: { paddingBottom: 12 }, tabBarIndicator: () => null }}
+      tabBarPosition="bottom"
+      initialRouteName="Overview">
       <Tab.Screen
         name="Recieve"
         options={{

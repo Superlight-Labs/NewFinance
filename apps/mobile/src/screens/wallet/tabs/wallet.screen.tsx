@@ -1,35 +1,52 @@
+import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
 import TransactionList from 'components/wallets/transactions/transaction-list.component';
+import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
+import { RefreshControl } from 'react-native';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBip32State } from 'state/bip32.state';
 import { useBitcoinState } from 'state/bitcoin.state.';
-import { Text, View } from 'utils/wrappers/styled-react-native';
+import { safeBalance } from 'utils/crypto/bitcoin-value';
+import { ScrollView, Text } from 'utils/wrappers/styled-react-native';
+import { WalletTabList } from '../wallet-navigation';
 
-const Wallet = () => {
+type Props = StackScreenProps<WalletTabList, 'Overview'>;
+
+const Wallet = ({ navigation }: Props) => {
   const { name, derivedUntilLevel } = useBip32State();
   const {
     indexAddress: { balance, transactions, address },
   } = useBitcoinState();
 
+  const { refreshing, update } = useUpdateWalletData();
+
+  const refreshControl = <RefreshControl refreshing={refreshing} onRefresh={update} />;
+
   return (
     <WalletLayout leftHeader="copy">
-      <View className="flex h-full w-full flex-col items-center  bg-white pb-8">
+      <ScrollView
+        nestedScrollEnabled
+        refreshControl={refreshControl}
+        contentContainerStyle={{ alignItems: 'center' }}
+        className="flex h-full w-full flex-col bg-white pb-8">
         <Title style="mt-24">{name}</Title>
-        <Title>{balance ? balance.incoming - balance.outgoing : 0} BTC</Title>
+        <Title>{balance ? safeBalance(balance) : 0} BTC</Title>
 
-        <Button shadow style="w-48 my-4 rounded-xl" onPress={() => undefined}>
-          Add Cash
+        <Button shadow style="w-48 my-4 rounded-xl" onPress={() => navigation.navigate('Send')}>
+          Send
         </Button>
-        <Button style="w-48 mb-32 bg-white border-2 rounded-xl" onPress={() => undefined}>
-          <Text className="text-black">Cash out</Text>
+        <Button
+          style="w-48 mb-24 bg-white border-2 rounded-xl"
+          onPress={() => navigation.navigate('Recieve')}>
+          <Text className="text-black">Recieve</Text>
         </Button>
         <TransactionList
           loading={derivedUntilLevel < 7}
           address={address}
           transactions={transactions}
         />
-      </View>
+      </ScrollView>
     </WalletLayout>
   );
 };

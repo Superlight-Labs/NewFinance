@@ -6,12 +6,16 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import ContactList from 'components/wallets/contacts/contact-list.component';
 import { useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
+import { useBitcoinState } from 'state/bitcoin.state.';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
 
 type Props = StackScreenProps<WalletStackList, 'SendTo'>;
 
 const SendToScreen = ({ navigation }: Props) => {
+  const {
+    indexAddress: { address },
+  } = useBitcoinState();
   const [toAddress, setToAddress] = useState('');
   const [note, setNote] = useState('');
   return (
@@ -39,7 +43,7 @@ const SendToScreen = ({ navigation }: Props) => {
         <ContactList lastInteractions={[]} />
         <ButtonComponent
           shadow
-          disabled={!validate(toAddress)}
+          disabled={!validate(toAddress) || toAddress === address}
           style=" mt-auto mb-8 rounded-lg"
           onPress={() => navigation.navigate('SendAmount', { toAddress, note })}>
           Continue

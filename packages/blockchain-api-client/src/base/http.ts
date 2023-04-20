@@ -23,6 +23,7 @@ export const fetchFrom = async <T>(url: string, params?: HttpParams): Promise<T>
 
   if (!response.ok) {
     console.error('Error from API, possibly show snackbar', content);
+    throw content;
   }
 
   return content;

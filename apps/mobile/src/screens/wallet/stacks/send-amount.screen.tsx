@@ -8,6 +8,7 @@ import { useDebounce } from 'hooks/useDebounced';
 import { useEffect, useRef, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state.';
+import { safeBalance } from 'utils/crypto/bitcoin-value';
 import { getSizeFromLength } from 'utils/string';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
@@ -41,7 +42,7 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
       <View className="flex flex-1 flex-col items-center">
         {balance && (
           <View className="flex flex-row items-center justify-center">
-            <Text>Available: {balance.incoming - balance.outgoing} BTC</Text>
+            <Text>Available: {safeBalance(balance)} BTC</Text>
           </View>
         )}
         <View className="flex w-full flex-1 flex-row flex-wrap items-center justify-center p-2">
@@ -49,7 +50,7 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
             style={`border-0 m-w-[60%] flex m-h-48 font-extrabold shadow-none bg-white ${textSize}`}
             value={amount}
             keyboardType="numeric"
-            maxLength={12}
+            maxLength={10}
             setValue={setAmount}
           />
           <Text className="p-1 text-6xl font-extrabold">BTC</Text>
@@ -61,7 +62,7 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
           )}
         </View>
       </View>
-      <Numpad maxLength={12} value={amount} setValue={setAmount} />
+      <Numpad maxLength={10} value={amount} setValue={setAmount} />
       <ButtonComponent
         shadow
         disabled={

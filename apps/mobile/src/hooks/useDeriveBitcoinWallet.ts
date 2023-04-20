@@ -182,8 +182,14 @@ const useDeriveSteps = (user: AppUser | undefined): Derivations => {
         .andThen(({ share, peerShareId }) => {
           return getXPubKey(share)
             .andThen(result => publicKeyToBitcoinAddressP2WPKH(result.xPubKey, network))
-            .map(({ xPub, address }) => {
-              saveAddress({ share: { share, peerShareId, path }, xPub, address, transactions: [] });
+            .map(({ xPub, address, publicKey }) => {
+              saveAddress({
+                share: { share, peerShareId, path },
+                xPub,
+                publicKey,
+                address,
+                transactions: [],
+              });
               return { share, peerShareId };
             });
         })
