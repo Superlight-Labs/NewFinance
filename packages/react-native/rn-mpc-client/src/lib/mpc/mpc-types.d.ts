@@ -10,3 +10,10 @@ export type DeriveFrom = {
   index: string;
   hardened: boolean;
 };
+
+export type SignWithShare = {
+  share: string;
+  peerShareId: string;
+  messageToSign: string;
+  encoding: BufferEncoding;
+};

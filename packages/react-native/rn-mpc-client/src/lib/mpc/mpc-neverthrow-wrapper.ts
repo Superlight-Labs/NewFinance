@@ -1,7 +1,7 @@
 import { appError, indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
 import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
-import { DeriveFrom } from './mpc-types';
+import { DeriveFrom, SignWithShare } from './mpc-types';
 
 export const initGenerateGenericSecret = () => {
   return ResultAsync.fromPromise(RnMpc.initGenerateGenericSecret(), err => mpcInternalError(err));
@@ -17,6 +17,15 @@ export const initDeriveBip32 = (deriveFrom: DeriveFrom, hardened: boolean) => {
   return ResultAsync.fromPromise(
     RnMpc.initDeriveBIP32(deriveFrom.share, indexToNumber(deriveFrom.index), hardened),
     err => mpcInternalError(err, 'Error while creating derive context')
+  );
+};
+
+export const initSignEcdsa = (signConfig: SignWithShare) => {
+  const { share, messageToSign, encoding } = signConfig;
+
+  return ResultAsync.fromPromise(
+    RnMpc.initSignEcdsa(Buffer.from(messageToSign, encoding), share),
+    err => mpcInternalError(err, 'Error while preparing Signature')
   );
 };
 
