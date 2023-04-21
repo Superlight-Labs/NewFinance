@@ -9,7 +9,7 @@ import { useFailableAction } from 'hooks/useFailable';
 import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
-import { useBip32State } from 'state/bip32.state';
+import { useDeriveState } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { apiUrl } from 'utils/superlight-api';
 import { mnemonicToSeed } from 'utils/wrappers/bip32-neverthrow';
@@ -19,7 +19,7 @@ type Props = StackScreenProps<RootStackParamList, 'ReviewCreate'>;
 
 const ReviewCreate = ({ navigation, route }: Props) => {
   const { withPhrase, phrase } = route.params;
-  const { setSecret, name, derivedUntilLevel } = useBip32State();
+  const { setSecret, name, derivedUntilLevel } = useDeriveState();
   const [loading, setLoading] = useState(false);
   const { importGenericSecret } = useGenericSecret();
   const { user } = useAuthState();

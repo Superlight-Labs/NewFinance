@@ -5,19 +5,17 @@ import TransactionList from 'components/wallets/transactions/transaction-list.co
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { RefreshControl } from 'react-native';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
-import { useBip32State } from 'state/bip32.state';
-import { useBitcoinState } from 'state/bitcoin.state.';
-import { safeBalance } from 'utils/crypto/bitcoin-value';
+import { useBitcoinState } from 'state/bitcoin.state';
+import { useDeriveState } from 'state/derive.state';
 import { ScrollView, Text } from 'utils/wrappers/styled-react-native';
 import { WalletTabList } from '../wallet-navigation';
 
 type Props = StackScreenProps<WalletTabList, 'Overview'>;
 
-const Wallet = ({ navigation }: Props) => {
-  const { name, derivedUntilLevel } = useBip32State();
-  const {
-    indexAddress: { balance, transactions, address },
-  } = useBitcoinState();
+const Wallet = ({ navigation, route }: Props) => {
+  const { account } = route.params;
+  const { derivedUntilLevel } = useDeriveState();
+  const { getAccountBalance, getAccExternalAddress, getAccountTransactions } = useBitcoinState();
 
   const { refreshing, update } = useUpdateWalletData();
 
@@ -30,21 +28,24 @@ const Wallet = ({ navigation }: Props) => {
         refreshControl={refreshControl}
         contentContainerStyle={{ alignItems: 'center' }}
         className="flex h-full w-full flex-col bg-white pb-8">
-        <Title style="mt-24">{name}</Title>
-        <Title>{balance ? safeBalance(balance) : 0} BTC</Title>
+        <Title style="mt-24">{account}</Title>
+        <Title>{getAccountBalance(account)} BTC</Title>
 
-        <Button shadow style="w-48 my-4 rounded-xl" onPress={() => navigation.navigate('Send')}>
+        <Button
+          shadow
+          style="w-48 my-4 rounded-xl"
+          onPress={() => navigation.navigate('Send', { account })}>
           Send
         </Button>
         <Button
           style="w-48 mb-24 bg-white border-2 rounded-xl"
-          onPress={() => navigation.navigate('Recieve')}>
+          onPress={() => navigation.navigate('Recieve', { account })}>
           <Text className="text-black">Recieve</Text>
         </Button>
         <TransactionList
           loading={derivedUntilLevel < 7}
-          address={address}
-          transactions={transactions}
+          address={getAccExternalAddress(account).address}
+          transactions={getAccountTransactions(account)}
         />
       </ScrollView>
     </WalletLayout>

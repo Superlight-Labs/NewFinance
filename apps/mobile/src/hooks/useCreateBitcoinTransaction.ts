@@ -3,8 +3,8 @@ import { useSignEcdsa } from '@superlight-labs/rn-mpc-client';
 import { Psbt, SignerAsync, Transaction } from 'der-bitcoinjs-lib';
 import { Result, ResultAsync, errAsync } from 'neverthrow';
 import { useAuthState } from 'state/auth.state';
-import { SharePair } from 'state/bip32.state';
-import { useBitcoinState } from 'state/bitcoin.state.';
+import { useBitcoinState } from 'state/bitcoin.state';
+import { SharePair } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { getBitcoinJsNetwork } from 'utils/crypto/bitcoin-network';
 import {

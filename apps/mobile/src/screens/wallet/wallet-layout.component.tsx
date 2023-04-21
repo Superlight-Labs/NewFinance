@@ -2,7 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { ReactNode } from 'react';
-import { useBitcoinState } from 'state/bitcoin.state.';
+import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { Pressable, View } from 'utils/wrappers/styled-react-native';
 

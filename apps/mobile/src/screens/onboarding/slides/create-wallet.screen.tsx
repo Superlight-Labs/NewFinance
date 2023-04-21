@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
-import { useBip32State } from 'state/bip32.state';
+import { useDeriveState } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { apiUrl } from 'utils/superlight-api';
 
@@ -24,7 +24,7 @@ const CreateWallet = ({ navigation }: Props) => {
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
-  const { setSecret, setName, derivedUntilLevel } = useBip32State();
+  const { setSecret, setName, derivedUntilLevel } = useDeriveState();
 
   useEffect(() => {
     if (derivedUntilLevel !== 0) {

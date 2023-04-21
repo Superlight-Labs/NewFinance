@@ -6,16 +6,13 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import ContactList from 'components/wallets/contacts/contact-list.component';
 import { useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
-import { useBitcoinState } from 'state/bitcoin.state.';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
 
 type Props = StackScreenProps<WalletStackList, 'SendTo'>;
 
-const SendToScreen = ({ navigation }: Props) => {
-  const {
-    indexAddress: { address },
-  } = useBitcoinState();
+const SendToScreen = ({ navigation, route }: Props) => {
+  const { sender } = route.params;
   const [toAddress, setToAddress] = useState('');
   const [note, setNote] = useState('');
   return (
@@ -43,9 +40,9 @@ const SendToScreen = ({ navigation }: Props) => {
         <ContactList lastInteractions={[]} />
         <ButtonComponent
           shadow
-          disabled={!validate(toAddress) || toAddress === address}
+          disabled={!validate(toAddress) || toAddress === sender.address}
           style=" mt-auto mb-8 rounded-lg"
-          onPress={() => navigation.navigate('SendAmount', { toAddress, note })}>
+          onPress={() => navigation.navigate('SendAmount', { toAddress, note, sender })}>
           Continue
         </ButtonComponent>
       </View>

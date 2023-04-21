@@ -1,13 +1,11 @@
-import { BitcoinBalance } from '@superlight-labs/blockchain-api-client';
 import SkeletonBar from 'components/shared/loading/skeleton-bar.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
-import { safeBalance } from 'utils/crypto/bitcoin-value';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   loading: boolean;
-  name?: string;
-  balance?: BitcoinBalance;
+  name: string;
+  balance: number;
   navigate: () => void;
 };
 
@@ -27,7 +25,7 @@ const WalletMenuItem = ({ loading, name = 'Hauptkonto', balance, navigate }: Pro
       {loading || !balance ? (
         <SkeletonBar style="h-4" />
       ) : (
-        <Text className="text-gray-500">{safeBalance(balance)} BTC</Text>
+        <Text className="text-gray-500">{balance} BTC</Text>
       )}
     </Pressable>
   );

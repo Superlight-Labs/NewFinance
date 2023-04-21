@@ -12,7 +12,7 @@ module.export = {
       modules: true,
     },
   },
-
+  rules: {},
   plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",
