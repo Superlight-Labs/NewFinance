@@ -1,13 +1,13 @@
-import type { AddressInfo } from 'state/bitcoin.state';
+import type { AddressInfo, Addresses } from 'state/bitcoin.state';
 
 export type WalletTabList = {
-  Recieve: { account: string };
-  Overview: { account: string };
-  Send: { account: string };
+  Recieve: { external: AddressInfo };
+  Overview: { addresses: Addresses; account: string };
+  Send: { external: AddressInfo };
 };
 
 export type WalletStackList = {
-  SendTo: { sender: AddressInfo };
+  SendTo: { sender: AddressInfo; recipient?: string };
   SendReview: {
     sender: AddressInfo;
     toAddress: string;
@@ -16,4 +16,5 @@ export type WalletStackList = {
     rate: number;
   };
   SendAmount: { sender: AddressInfo; toAddress: string; note: string };
+  ScanQrCode: { sender: AddressInfo };
 };

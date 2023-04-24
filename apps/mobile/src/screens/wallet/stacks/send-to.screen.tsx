@@ -6,14 +6,14 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import ContactList from 'components/wallets/contacts/contact-list.component';
 import { useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
-import { Text, View } from 'utils/wrappers/styled-react-native';
+import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
 
 type Props = StackScreenProps<WalletStackList, 'SendTo'>;
 
 const SendToScreen = ({ navigation, route }: Props) => {
-  const { sender } = route.params;
-  const [toAddress, setToAddress] = useState('');
+  const { sender, recipient } = route.params;
+  const [toAddress, setToAddress] = useState(recipient || '');
   const [note, setNote] = useState('');
   return (
     <WalletLayout leftHeader="copy" address={sender.address}>
@@ -26,7 +26,9 @@ const SendToScreen = ({ navigation, route }: Props) => {
             placeHolder="BTC Address"
             onChangeText={setToAddress}
           />
-          <MonoIcon style="ml-auto flex items-center bg-white w-8" iconName="Camera" />
+          <Pressable onPress={() => navigation.navigate('ScanQrCode', { sender })}>
+            <MonoIcon style="ml-auto flex items-center bg-white w-8" iconName="Camera" />
+          </Pressable>
         </View>
         <View className="mb-4 flex flex-row border-b  border-slate-200 pb-2">
           <Text className="top-0.5 mx-2 font-bold">For:</Text>

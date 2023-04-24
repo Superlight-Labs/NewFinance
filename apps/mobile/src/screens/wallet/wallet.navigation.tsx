@@ -7,6 +7,7 @@ import Receive from 'screens/wallet/tabs/receive.screen';
 import Send from 'screens/wallet/tabs/send.screen';
 import Wallet from 'screens/wallet/tabs/wallet.screen';
 import { WalletTabList } from 'screens/wallet/wallet-navigation';
+import { useBitcoinState } from 'state/bitcoin.state';
 import { Text } from 'utils/wrappers/styled-react-native';
 
 const Tab = createMaterialTopTabNavigator<WalletTabList>();
@@ -14,7 +15,12 @@ const Tab = createMaterialTopTabNavigator<WalletTabList>();
 type Props = StackScreenProps<RootStackParamList, 'Wallet'>;
 
 const WalletNavigation = ({ route }: Props) => {
+  const { getAccountAddresses } = useBitcoinState();
   const { account } = route.params;
+
+  const addresses = getAccountAddresses(account);
+  const { external } = addresses;
+
   return (
     <Tab.Navigator
       screenOptions={{ tabBarStyle: { paddingBottom: 12 }, tabBarIndicator: () => null }}
@@ -22,7 +28,7 @@ const WalletNavigation = ({ route }: Props) => {
       initialRouteName="Overview">
       <Tab.Screen
         name="Recieve"
-        initialParams={{ account }}
+        initialParams={{ external }}
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
@@ -37,7 +43,7 @@ const WalletNavigation = ({ route }: Props) => {
         component={Receive}
       />
       <Tab.Screen
-        initialParams={{ account }}
+        initialParams={{ account, addresses }}
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
@@ -53,7 +59,7 @@ const WalletNavigation = ({ route }: Props) => {
         component={Wallet}
       />
       <Tab.Screen
-        initialParams={{ account }}
+        initialParams={{ external }}
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (

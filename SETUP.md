@@ -47,6 +47,7 @@ The App relies on some Secrets for talking with external API's. You have to setu
 | TATUM_MAIN_TOKEN | https://dashboard.tatum.io/ |
 
 To have an relatively easy time setting this up you can copy the file `.env.example` and rename it to `.env`
+(Sometimes its necessary to start react-native once from inside the `apps/mobile` directory with `yarn dev` to update the config)
 
 ## Testing Address
 

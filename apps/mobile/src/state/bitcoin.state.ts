@@ -177,7 +177,7 @@ const getAccountAddresses = (
   return { external, change };
 };
 
-type Addresses = {
+export type Addresses = {
   external: AddressInfo;
   change: AddressInfo;
 };

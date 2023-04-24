@@ -17,7 +17,7 @@ const ContactList = ({ lastInteractions }: Props) => {
       {lastInteractions.length === 0 ? (
         <View className="flex flex-1 items-center justify-center">
           <MonoIcon color="#8D93A0" iconName="UserX" />
-          <Text className=" font-bold text-slate-400">You dont have any interactions yet</Text>
+          <Text className="font-bold text-slate-400">You dont have any interactions yet</Text>
         </View>
       ) : (
         <ScrollView className="">

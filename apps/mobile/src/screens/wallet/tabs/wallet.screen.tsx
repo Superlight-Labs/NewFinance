@@ -13,22 +13,22 @@ import { WalletTabList } from '../wallet-navigation';
 type Props = StackScreenProps<WalletTabList, 'Overview'>;
 
 const Wallet = ({ navigation, route }: Props) => {
-  const { account } = route.params;
+  const { account, addresses } = route.params;
   const { derivedUntilLevel } = useDeriveState();
-  const { getAccountBalance, getAccountAddresses, getAccountTransactions } = useBitcoinState();
+  const { getAccountBalance, getAccountTransactions } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
 
   const {
-    external: { address },
+    external,
     change: { address: changeAddress },
-  } = getAccountAddresses(account);
+  } = addresses;
 
   const transactions = getAccountTransactions(account);
 
   const refreshControl = <RefreshControl refreshing={refreshing} onRefresh={update} />;
 
   return (
-    <WalletLayout leftHeader="copy" address={address}>
+    <WalletLayout leftHeader="copy" address={external.address}>
       <ScrollView
         nestedScrollEnabled
         refreshControl={refreshControl}
@@ -40,17 +40,17 @@ const Wallet = ({ navigation, route }: Props) => {
         <Button
           shadow
           style="w-48 my-4 rounded-xl"
-          onPress={() => navigation.navigate('Send', { account })}>
+          onPress={() => navigation.navigate('Send', { external })}>
           Send
         </Button>
         <Button
           style="w-48 mb-24 bg-white border-2 rounded-xl"
-          onPress={() => navigation.navigate('Recieve', { account })}>
+          onPress={() => navigation.navigate('Recieve', { external })}>
           <Text className="text-black">Recieve</Text>
         </Button>
         <TransactionList
           loading={derivedUntilLevel < DerivedUntilLevel.COMPLETE}
-          address={address}
+          address={external.address}
           changeAddress={changeAddress}
           transactions={transactions}
         />
