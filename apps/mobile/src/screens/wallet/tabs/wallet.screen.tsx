@@ -6,7 +6,7 @@ import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { RefreshControl } from 'react-native';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state';
-import { useDeriveState } from 'state/derive.state';
+import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 import { ScrollView, Text } from 'utils/wrappers/styled-react-native';
 import { WalletTabList } from '../wallet-navigation';
 
@@ -15,14 +15,20 @@ type Props = StackScreenProps<WalletTabList, 'Overview'>;
 const Wallet = ({ navigation, route }: Props) => {
   const { account } = route.params;
   const { derivedUntilLevel } = useDeriveState();
-  const { getAccountBalance, getAccExternalAddress, getAccountTransactions } = useBitcoinState();
-
+  const { getAccountBalance, getAccountAddresses, getAccountTransactions } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
+
+  const {
+    external: { address },
+    change: { address: changeAddress },
+  } = getAccountAddresses(account);
+
+  const transactions = getAccountTransactions(account);
 
   const refreshControl = <RefreshControl refreshing={refreshing} onRefresh={update} />;
 
   return (
-    <WalletLayout leftHeader="copy">
+    <WalletLayout leftHeader="copy" address={address}>
       <ScrollView
         nestedScrollEnabled
         refreshControl={refreshControl}
@@ -43,9 +49,10 @@ const Wallet = ({ navigation, route }: Props) => {
           <Text className="text-black">Recieve</Text>
         </Button>
         <TransactionList
-          loading={derivedUntilLevel < 7}
-          address={getAccExternalAddress(account).address}
-          transactions={getAccountTransactions(account)}
+          loading={derivedUntilLevel < DerivedUntilLevel.COMPLETE}
+          address={address}
+          changeAddress={changeAddress}
+          transactions={transactions}
         />
       </ScrollView>
     </WalletLayout>

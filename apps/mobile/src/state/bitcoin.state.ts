@@ -4,10 +4,12 @@ import {
   BitcoinBalance,
   BitcoinTransaction,
 } from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
+import Big from 'big.js';
+import { uniqueTransactions } from 'utils/array';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { SharePair } from './derive.state';
-import { createJSONStorage } from './zustand-persist.shim';
+import { createJSONStorage } from './zustand.plugin';
 
 export enum ChangeIndex {
   EXTERNAL = 0,
@@ -31,13 +33,6 @@ export type AddressInfo = {
 
 type AccountKey = string;
 
-export type ExternalAddress = {
-  address: string;
-  publicKey: string;
-  share: SharePair;
-  xPub: string;
-};
-
 export type BitcoinState = {
   network: Network;
   accounts: Map<AccountKey, Account>;
@@ -48,8 +43,9 @@ type BitcoinActions = {
   hasAddress: () => boolean;
   getTotalBalance: () => number;
   getAccountBalance: (account: string) => number;
-  getAccountTransactions: (account: string) => BitcoinTransaction[];
-  getAccExternalAddress: (account: string) => ExternalAddress;
+  getAccountTransactions: (account: string) => AccountTransaction[];
+  getAccExternalAddress: (account: string) => AddressInfo;
+  getAccountAddresses: (account: string) => Addresses;
   updateBalance: (balance: BitcoinBalance, account: string, index: ChangeIndex) => void;
   setTransactions: (
     transactions: BitcoinTransaction[],
@@ -81,6 +77,7 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
       getTotalBalance: () => calculateTotalBalance(get().addresses),
       getAccountBalance: (account: string) => calculateAccountBalance(get().addresses, account),
       getAccountTransactions: (account: string) => getAccountTransactions(get().addresses, account),
+      getAccountAddresses: (account: string) => getAccountAddresses(get().addresses, account),
       getAccExternalAddress: (account: string) => getAccExternalAddress(get(), account),
       addTransactions: (transactions: BitcoinTransaction[], account: string, index: ChangeIndex) =>
         set(state => {
@@ -90,11 +87,11 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
           if (!address || !accountAddresses) throw new Error('Address not found');
 
           return {
-            addresses: state.addresses.set(
+            addresses: new Map(state.addresses).set(
               account,
-              accountAddresses.set(index, {
+              new Map(accountAddresses).set(index, {
                 ...address,
-                transactions: [...(address.transactions || []), ...transactions].sort(),
+                transactions: [...(address.transactions || []), ...transactions],
               })
             ),
           };
@@ -107,9 +104,9 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
           if (!address || !accountAddresses) throw new Error('Address not found');
 
           return {
-            addresses: state.addresses.set(
+            addresses: new Map(state.addresses).set(
               account,
-              accountAddresses.set(index, { ...address, transactions: transactions.sort() })
+              new Map(accountAddresses).set(index, { ...address, transactions: transactions })
             ),
           };
         }),
@@ -121,9 +118,9 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
           if (!address || !accountAddresses) throw new Error('Address not found');
 
           return {
-            addresses: state.addresses.set(
+            addresses: new Map(state.addresses).set(
               account,
-              accountAddresses.set(index, { ...address, balance })
+              new Map(accountAddresses).set(index, { ...address, balance })
             ),
           };
         }),
@@ -134,7 +131,10 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
           const accountAddresses = state.addresses.get(account);
 
           return {
-            addresses: state.addresses.set(account, new Map(accountAddresses).set(index, address)),
+            addresses: new Map(state.addresses).set(
+              account,
+              new Map(accountAddresses).set(index, address)
+            ),
           };
         }),
       setNetwork: (network: Network) => set({ network }),
@@ -161,6 +161,27 @@ const getAccExternalAddress = (state: BitcoinState, account: string): AddressInf
   return external;
 };
 
+const getAccountAddresses = (
+  addresses: Map<string, Map<ChangeIndex, AddressInfo>>,
+  account: string
+): Addresses => {
+  const accountAddresses = addresses.get(account);
+
+  if (!accountAddresses) throw new Error('Account not found');
+
+  const external = accountAddresses.get(ChangeIndex.EXTERNAL);
+  const change = accountAddresses.get(ChangeIndex.CHANGE);
+
+  if (!external || !change) throw new Error('Address has incomplete information');
+
+  return { external, change };
+};
+
+type Addresses = {
+  external: AddressInfo;
+  change: AddressInfo;
+};
+
 const calculateTotalBalance = (addresses: Map<string, Map<ChangeIndex, AddressInfo>>): number => {
   const addressesArr = [...addresses.entries()].map(([key, _]) => key);
 
@@ -181,11 +202,13 @@ const calculateAccountBalance = (
   const accountAddresses = addresses.get(account);
   if (!accountAddresses) return 0;
 
-  return [...accountAddresses].reduce((acc, [_, address]) => {
+  const balance = [...accountAddresses].reduce((acc, [_, address]) => {
     if (!address.balance) return acc;
 
-    return acc + (address.balance.incoming - address.balance.outgoing);
-  }, 0);
+    return acc.add(new Big(address.balance.incoming).sub(new Big(address.balance.outgoing)));
+  }, new Big(0));
+
+  return balance.toNumber() || 0;
 };
 
 /**
@@ -195,12 +218,27 @@ const calculateAccountBalance = (
 const getAccountTransactions = (
   addresses: Map<string, Map<ChangeIndex, AddressInfo>>,
   account: string
-): BitcoinTransaction[] => {
+): AccountTransaction[] => {
   const accountAddresses = addresses.get(account);
   if (!accountAddresses) return [];
 
-  return [...accountAddresses].reduce<BitcoinTransaction[]>(
-    (acc, [_, address]) => [...acc, ...address.transactions].sort(),
+  const allBitcoinTransactions = [...accountAddresses].reduce<AccountTransaction[]>(
+    (acc, [_, address]) =>
+      [
+        ...acc,
+        ...address.transactions.map(trans => ({
+          ...trans,
+          address,
+          incomming: !!trans.outputs.find(o => o.address === address.address),
+        })),
+      ].sort((x, y) => y.time - x.time),
     []
   );
+
+  return uniqueTransactions(allBitcoinTransactions);
+};
+
+export type AccountTransaction = BitcoinTransaction & {
+  address: AddressInfo;
+  incomming: boolean;
 };

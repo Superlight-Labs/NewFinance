@@ -24,7 +24,7 @@ const SendReviewScreen = ({
   const { network, addresses, getAccountBalance } = useBitcoinState();
   const service = useRef(new BitcoinService(network));
   const [fee, setFee] = useState(0);
-  const { createTransaction } = useCreateBitcoinTransaction();
+  const { createTransaction } = useCreateBitcoinTransaction(sender.account);
   const { perform } = useFailableAction();
   const { setMessage } = useSnackbarState();
 

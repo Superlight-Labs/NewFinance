@@ -82,8 +82,5 @@ export enum DerivedUntilLevel {
   PURPOSE = 3,
   COINTYPE = 4,
   ACCOUNT = 5,
-  CHANGE_1 = 7,
-  CHANGE_2 = 8,
-  INDEX_1 = 9,
-  COMPLETE = 10,
+  COMPLETE = 6,
 }

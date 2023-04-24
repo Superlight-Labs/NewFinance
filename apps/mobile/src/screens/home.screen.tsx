@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import LayoutComponent from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
+import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-item.component';
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
@@ -15,7 +16,7 @@ type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
 const Home = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet();
-  const { secret, derivedUntilLevel } = useDeriveState();
+  const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress } = useBitcoinState();
   const [loading, setLoading] = useState(false);
 
@@ -49,13 +50,12 @@ const Home = ({ navigation }: Props) => {
 
         <Title style="mb-4">{getTotalBalance()} BTC</Title>
         {loading || !hasAddress() ? (
-          <Title>Loading...</Title>
+          <LoadingWalletItem name={name} />
         ) : (
           [...accounts].map(([key, _]) => (
             <WalletMenuItem
               key={key}
               name={key}
-              loading={loading || refreshing}
               balance={getAccountBalance(key)}
               navigate={() => navigation.navigate('Wallet', { account: key })}
             />

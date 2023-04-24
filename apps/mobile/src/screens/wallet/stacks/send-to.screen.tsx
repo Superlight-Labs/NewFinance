@@ -16,7 +16,7 @@ const SendToScreen = ({ navigation, route }: Props) => {
   const [toAddress, setToAddress] = useState('');
   const [note, setNote] = useState('');
   return (
-    <WalletLayout leftHeader="copy">
+    <WalletLayout leftHeader="copy" address={sender.address}>
       <View className="flex w-full flex-1 flex-col bg-white p-4 pt-12">
         <View className="mb-4 flex flex-row border-b border-slate-200 pb-2">
           <Text className="top-0.5 mx-2 font-bold">To: </Text>

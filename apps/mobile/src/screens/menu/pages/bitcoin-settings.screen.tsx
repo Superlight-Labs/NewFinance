@@ -2,12 +2,10 @@ import LayoutComponent from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { Switch } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
-import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
 const BitcoinSettings = () => {
-  const { network, setNetwork } = useBitcoinState();
-  const { derivedUntilLevel } = useDeriveState();
+  const { network, setNetwork, hasAddress } = useBitcoinState();
 
   const onNetworkChange = (value: boolean) => {
     setNetwork(value ? 'main' : 'test');
@@ -19,7 +17,7 @@ const BitcoinSettings = () => {
       <View className="mb-4 flex w-full flex-row items-center justify-between border-y-2 border-slate-100 p-4 pl-8">
         <Text className="text-lg">Use Main-Network</Text>
         <Switch
-          disabled={derivedUntilLevel >= DerivedUntilLevel.COINTYPE}
+          disabled={hasAddress()}
           value={network === 'main'}
           onValueChange={onNetworkChange}
         />
