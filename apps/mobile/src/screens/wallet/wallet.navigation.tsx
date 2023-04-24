@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import { RootStackParamList } from 'screens/main-navigation';
 import Receive from 'screens/wallet/tabs/receive.screen';
 import Send from 'screens/wallet/tabs/send.screen';
 import Wallet from 'screens/wallet/tabs/wallet.screen';
@@ -9,7 +11,10 @@ import { Text } from 'utils/wrappers/styled-react-native';
 
 const Tab = createMaterialTopTabNavigator<WalletTabList>();
 
-const WalletNavigation = () => {
+type Props = StackScreenProps<RootStackParamList, 'Wallet'>;
+
+const WalletNavigation = ({ route }: Props) => {
+  const { account } = route.params;
   return (
     <Tab.Navigator
       screenOptions={{ tabBarStyle: { paddingBottom: 12 }, tabBarIndicator: () => null }}
@@ -17,6 +22,7 @@ const WalletNavigation = () => {
       initialRouteName="Overview">
       <Tab.Screen
         name="Recieve"
+        initialParams={{ account }}
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
@@ -31,6 +37,7 @@ const WalletNavigation = () => {
         component={Receive}
       />
       <Tab.Screen
+        initialParams={{ account }}
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
@@ -46,6 +53,7 @@ const WalletNavigation = () => {
         component={Wallet}
       />
       <Tab.Screen
+        initialParams={{ account }}
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (

@@ -25,7 +25,7 @@ import Home from 'screens/home.screen';
 import OnboardingStack from 'screens/onboarding/onboarding.stack';
 import WalletNavigation from 'screens/wallet/wallet.navigation';
 import Welcome from 'screens/welcome.screen';
-import { useBip32State } from 'state/bip32.state';
+import { useDeriveState } from 'state/derive.state';
 import { View } from 'utils/wrappers/styled-react-native';
 if (__DEV__) {
   import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
@@ -38,7 +38,7 @@ export type RootStack = typeof Stack;
 function App(): JSX.Element {
   const { hasHydrated: authHydrated, isAuthenticated } = useAuthState();
   const { message } = useSnackbarState();
-  const { hasHydrated: bipHydrated } = useBip32State();
+  const { hasHydrated: bipHydrated } = useDeriveState();
   const { logout } = useLogout();
 
   if (__DEV__) {

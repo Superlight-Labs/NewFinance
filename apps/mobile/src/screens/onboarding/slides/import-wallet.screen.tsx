@@ -7,7 +7,7 @@ import Title from 'components/shared/title/title.component';
 import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
-import { DerivedUntilLevel, useBip32State } from 'state/bip32.state';
+import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 import { Text } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Import'>;
@@ -15,7 +15,7 @@ type Props = StackScreenProps<RootStackParamList, 'Import'>;
 const ImportWallet = ({ navigation }: Props) => {
   const [walletName, setWalletName] = useState('');
   const [seedPhrase, setSeedPhrase] = useState('');
-  const { deleteBip32, derivedUntilLevel, setName } = useBip32State();
+  const { deleteBip32, derivedUntilLevel, setName } = useDeriveState();
 
   useEffect(() => {
     if (derivedUntilLevel !== DerivedUntilLevel.NONE) {

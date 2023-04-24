@@ -4,13 +4,13 @@ import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
-import { useBip32State } from 'state/bip32.state';
+import { useDeriveState } from 'state/derive.state';
 import { Text } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const Onboarding = ({ navigation }: Props) => {
-  const { derivedUntilLevel, hasHydrated } = useBip32State();
+  const { derivedUntilLevel, hasHydrated } = useDeriveState();
 
   useEffect(() => {
     if (hasHydrated && derivedUntilLevel !== 0) {

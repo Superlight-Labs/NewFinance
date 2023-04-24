@@ -3,15 +3,14 @@ import { useSignEcdsa } from '@superlight-labs/rn-mpc-client';
 import { Psbt, SignerAsync, Transaction } from 'der-bitcoinjs-lib';
 import { Result, ResultAsync, errAsync } from 'neverthrow';
 import { useAuthState } from 'state/auth.state';
-import { SharePair } from 'state/bip32.state';
-import { useBitcoinState } from 'state/bitcoin.state.';
+import { useBitcoinState } from 'state/bitcoin.state';
+import { SharePair } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { getBitcoinJsNetwork } from 'utils/crypto/bitcoin-network';
 import {
-  getChangeIndexFromUTXO,
+  getOutputIndexFromUtxo,
   getUnusedTransactionsNeededToReachValue,
   getValueOfTransactions,
-  isIncommingTransaction,
   isSTXO,
   signAndFinalize,
 } from 'utils/crypto/bitcoin-transaction-utils';
@@ -19,12 +18,16 @@ import { toSatoshi } from 'utils/crypto/bitcoin-value';
 import { apiUrl } from 'utils/superlight-api';
 import { useFailableAction } from './useFailable';
 
-export const useCreateBitcoinTransaction = () => {
-  const {
-    network,
-    indexAddress: { address: senderAddress, transactions, publicKey, share },
-  } = useBitcoinState();
+export const useCreateBitcoinTransaction = (account: string) => {
+  const { network, getAccountTransactions, getAccountAddresses } = useBitcoinState();
   const { createSigner } = useBitcoinSigner();
+
+  const {
+    change: { address: changeAddress },
+    external: { address: senderAddress },
+  } = getAccountAddresses(account);
+
+  const transactions = getAccountTransactions(account);
 
   return {
     createTransaction: (
@@ -36,21 +39,21 @@ export const useCreateBitcoinTransaction = () => {
       const signers: SignerAsync[] = [];
       const totalValue = toSatoshi(value) + toSatoshi(fee);
 
-      const allUnspent = transactions.filter(
-        t => isIncommingTransaction(t, senderAddress) && !isSTXO(t, transactions)
-      );
+      const allUnspent = transactions.filter(t => t.incomming && !isSTXO(t, transactions));
 
       const unspentT = getUnusedTransactionsNeededToReachValue(
         allUnspent,
         totalValue,
-        senderAddress
+        senderAddress,
+        changeAddress
       );
 
       if (unspentT.isErr()) {
         return errAsync(unspentT.error);
       }
 
-      const changeValue = getValueOfTransactions(unspentT.value, senderAddress) - totalValue;
+      const changeValue =
+        getValueOfTransactions(unspentT.value, senderAddress, changeAddress) - totalValue;
 
       if (changeValue < 0) {
         return errAsync(appError(undefined, 'Not enough funds'));
@@ -60,11 +63,11 @@ export const useCreateBitcoinTransaction = () => {
         // Adding ingoing transaction
         psbt.addInput({
           hash: transaction.hash,
-          index: getChangeIndexFromUTXO(transaction, senderAddress),
+          index: getOutputIndexFromUtxo(transaction, senderAddress, changeAddress),
           nonWitnessUtxo: Buffer.from(transaction.hex, 'hex'),
         });
 
-        signers.push(createSigner(publicKey, share));
+        signers.push(createSigner(transaction.address.publicKey, transaction.address.share));
       });
 
       try {
@@ -74,7 +77,7 @@ export const useCreateBitcoinTransaction = () => {
             address: recieverAddress,
           },
           {
-            address: senderAddress,
+            address: changeAddress,
             value: changeValue,
           },
         ]);

@@ -8,14 +8,11 @@ export type SharePair = {
   peerShareId: string;
 };
 
-export type Bip32State = {
+export type DeriveState = {
   secret: SharePair | undefined;
   master: SharePair | undefined;
   purpose: SharePair | undefined;
   coinType: SharePair | undefined;
-  account: SharePair | undefined;
-  change: SharePair | undefined;
-  index: SharePair | undefined;
   name: string;
   hasHydrated: boolean;
   derivedUntilLevel: DerivedUntilLevel;
@@ -26,12 +23,10 @@ export type Bip32State = {
   setMaster: (data: SharePair) => void;
   setPurpose: (data: SharePair) => void;
   setCoinType: (data: SharePair) => void;
-  setAccount: (data: SharePair) => void;
-  setChange: (data: SharePair) => void;
-  setIndex: (data: SharePair) => void;
+  setLevel: (level: DerivedUntilLevel) => void;
 };
 
-export const useBip32State = create<Bip32State>()(
+export const useDeriveState = create<DeriveState>()(
   persist(
     set => ({
       hasHydrated: false,
@@ -39,27 +34,20 @@ export const useBip32State = create<Bip32State>()(
       master: undefined,
       purpose: undefined,
       coinType: undefined,
-      account: undefined,
-      change: undefined,
-      index: undefined,
       name: '',
       derivedUntilLevel: 0,
       setName: (name: string) => set(current => ({ ...current, name })),
       setSecret: (data: SharePair) =>
         set(current => ({ ...current, secret: data, derivedUntilLevel: 1 })),
       setMaster: (data: SharePair) =>
-        set(current => ({ ...current, master: data, derivedUntilLevel: 2 })),
+        set(current => ({ ...current, secret: undefined, master: data, derivedUntilLevel: 2 })),
       setPurpose: (data: SharePair) =>
         set(current => ({ ...current, purpose: data, derivedUntilLevel: 3 })),
       setCoinType: (data: SharePair) =>
         set(current => ({ ...current, coinType: data, derivedUntilLevel: 4 })),
-      setAccount: (data: SharePair) =>
-        set(current => ({ ...current, account: data, derivedUntilLevel: 5 })),
-      setChange: (data: SharePair) =>
-        set(current => ({ ...current, change: data, derivedUntilLevel: 6 })),
-      setIndex: (data: SharePair) =>
-        set(current => ({ ...current, index: data, derivedUntilLevel: 7 })),
       deleteBip32: () => set(deleteBip32State),
+      setLevel: (level: DerivedUntilLevel) =>
+        set(current => ({ ...current, derivedUntilLevel: level })),
       setHasHydrated: (state: boolean) => {
         set({
           hasHydrated: state,
@@ -76,18 +64,15 @@ export const useBip32State = create<Bip32State>()(
   )
 );
 
-const deleteBip32State = (_: Bip32State) => {
+const deleteBip32State = (_: DeriveState) => {
   return {
     secret: undefined,
     master: undefined,
     purpose: undefined,
     coinType: undefined,
-    account: undefined,
-    change: undefined,
-    index: undefined,
     name: '',
     derivedUntilLevel: DerivedUntilLevel.NONE,
-  } as Bip32State;
+  } as DeriveState;
 };
 
 export enum DerivedUntilLevel {
@@ -97,6 +82,5 @@ export enum DerivedUntilLevel {
   PURPOSE = 3,
   COINTYPE = 4,
   ACCOUNT = 5,
-  CHANGE = 6,
-  COMPLETE = 7,
+  COMPLETE = 6,
 }

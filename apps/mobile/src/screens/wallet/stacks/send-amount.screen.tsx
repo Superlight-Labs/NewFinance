@@ -7,8 +7,7 @@ import Numpad from 'components/shared/numpad/numpad.component';
 import { useDebounce } from 'hooks/useDebounced';
 import { useEffect, useRef, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
-import { useBitcoinState } from 'state/bitcoin.state.';
-import { safeBalance } from 'utils/crypto/bitcoin-value';
+import { useBitcoinState } from 'state/bitcoin.state';
 import { getSizeFromLength } from 'utils/string';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
@@ -16,13 +15,11 @@ import { WalletStackList } from '../wallet-navigation';
 type Props = StackScreenProps<WalletStackList, 'SendAmount'>;
 
 const SendAmountScreen = ({ navigation, route }: Props) => {
+  const { sender } = route.params;
   const [amount, setAmount] = useState('0');
   const [rate, setRate] = useState(0);
   const [loadRate, setLoadRate] = useState(false);
-  const {
-    network,
-    indexAddress: { balance },
-  } = useBitcoinState();
+  const { network, getAccountBalance } = useBitcoinState();
   const debouncedAmount = useDebounce(amount, 5000);
   const bitcoinService = useRef(new BitcoinService(network));
 
@@ -37,14 +34,14 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
   const numericAmount = parseFloat(amount);
   const textSize = getSizeFromLength(amount.length);
 
+  const balance = getAccountBalance(sender.account);
+
   return (
     <WalletLayout style="p-4" leftHeader="back" rightHeader="none">
       <View className="flex flex-1 flex-col items-center">
-        {balance && (
-          <View className="flex flex-row items-center justify-center">
-            <Text>Available: {safeBalance(balance)} BTC</Text>
-          </View>
-        )}
+        <View className="flex flex-row items-center justify-center">
+          <Text>Available: {balance} BTC</Text>
+        </View>
         <View className="flex w-full flex-1 flex-row flex-wrap items-center justify-center p-2">
           <MultilineTextComponent
             style={`border-0 m-w-[60%] flex m-h-48 font-extrabold shadow-none bg-white ${textSize}`}
@@ -69,7 +66,7 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
           Number.isNaN(numericAmount) ||
           numericAmount <= 0 ||
           !balance ||
-          (!__DEV__ && numericAmount > balance.incoming - balance.outgoing)
+          (!__DEV__ && numericAmount > balance)
         }
         style=" mt-auto mb-8 rounded-lg"
         onPress={() => navigation.navigate('SendReview', { amount, rate, ...route.params })}>

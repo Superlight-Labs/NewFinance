@@ -7,9 +7,8 @@ import { useCreateBitcoinTransaction } from 'hooks/useCreateBitcoinTransaction';
 import { useFailableAction } from 'hooks/useFailable';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
-import { useBitcoinState } from 'state/bitcoin.state.';
+import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
-import { safeBalance } from 'utils/crypto/bitcoin-value';
 import { getSizeFromLength, shortenAddress } from 'utils/string';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList, WalletTabList } from '../wallet-navigation';
@@ -19,23 +18,21 @@ type Props = StackScreenProps<WalletStackList & WalletTabList, 'SendReview'>;
 const SendReviewScreen = ({
   navigation,
   route: {
-    params: { amount, rate, toAddress, note: _ },
+    params: { amount, rate, toAddress, sender, note: _ },
   },
 }: Props) => {
-  const {
-    network,
-    indexAddress: { address, balance },
-  } = useBitcoinState();
+  const { network, addresses, getAccountBalance } = useBitcoinState();
   const service = useRef(new BitcoinService(network));
   const [fee, setFee] = useState(0);
-  const { createTransaction } = useCreateBitcoinTransaction();
+  const { createTransaction } = useCreateBitcoinTransaction(sender.account);
   const { perform } = useFailableAction();
   const { setMessage } = useSnackbarState();
 
   useEffect(() => {
+    // TODO: change this back to fromUTXO since its not advised by tatum to use more than 1 tx per address in this way
     service.current
       .getFees(
-        [address],
+        [...(addresses.get(sender.account) || [])].map(([_, a]) => a.address),
         [{ address: toAddress, value: parseFloat(amount) }],
         BitcoinProviderEnum.TATUM
       )
@@ -58,11 +55,13 @@ const SendReviewScreen = ({
           setMessage({ level: 'error', error, message: 'Failed to send Transaction' });
         });
     });
-  }, [setMessage, perform, service, createTransaction, numericAmount, toAddress, fee]);
+  }, [setMessage, perform, navigation, service, createTransaction, numericAmount, toAddress, fee]);
 
   return (
     <WalletLayout leftHeader="back" rightHeader="none">
-      <Text className="absolute right-6 top-6">Your Balance: {safeBalance(balance)}</Text>
+      <Text className="absolute right-6 top-6">
+        Your Balance: {getAccountBalance(sender.account)}
+      </Text>
       <View className="flex flex-1 flex-col items-center justify-center p-4 pt-24">
         <Text className=" font-bold">Send</Text>
         <Title style={`p-2 font-extrabold ${getSizeFromLength(amount.length + 4)}`}>

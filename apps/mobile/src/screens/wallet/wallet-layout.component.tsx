@@ -2,23 +2,28 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { ReactNode } from 'react';
-import { useBitcoinState } from 'state/bitcoin.state.';
+import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { Pressable, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   children: ReactNode;
   leftHeader?: 'copy' | 'back' | 'none';
+  address?: string;
   rightHeader?: 'close' | 'none';
   style?: string;
 };
 
-const WalletLayout = ({ children, rightHeader = 'close', leftHeader = 'none', style }: Props) => {
+const WalletLayout = ({
+  children,
+  address = '',
+  rightHeader = 'close',
+  leftHeader = 'none',
+  style,
+}: Props) => {
   const navigator = useNavigation();
 
-  const {
-    indexAddress: { address },
-  } = useBitcoinState();
+  const {} = useBitcoinState();
 
   const { setMessage } = useSnackbarState();
 

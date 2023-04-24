@@ -52,7 +52,7 @@ To have an relatively easy time setting this up you can copy the file `.env.exam
 
 To have funds for testing purposes, import this seed and make sure that main net is disabled in the settings
 
-`tide thrive exotic acquire gloom upon soon east warm blossom wheat brave`
+`tide thrive exotic acquire gloom upon soon east warm blossom wheat bread`
 
 ## Mobile Debugging
 

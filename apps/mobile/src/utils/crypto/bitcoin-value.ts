@@ -42,11 +42,16 @@ export const safeBalance = (balance: BitcoinBalance | undefined) => {
  */
 export const getNetValueFromTransaction = (
   transaction: BitcoinTransaction,
-  address: string
+  address: string,
+  changeAddress: string
 ): number => {
-  const ownInputs = transaction.inputs.filter(input => input.coin.address === address);
+  const ownInputs = transaction.inputs.filter(
+    input => input.coin.address === address || input.coin.address === changeAddress
+  );
 
-  const ownOutputs = transaction.outputs.filter(output => output.address === address);
+  const ownOutputs = transaction.outputs.filter(
+    output => output.address === address || output.address === changeAddress
+  );
 
   const ownInputValue = ownInputs.reduce((prev, curr) => {
     return prev + curr.coin.value;
@@ -57,4 +62,16 @@ export const getNetValueFromTransaction = (
   }, 0);
 
   return ownOutputValue - ownInputValue;
+};
+
+export const getTxFee = (transaction: BitcoinTransaction): number => {
+  const inputTotal = transaction.inputs.reduce((prev, curr) => {
+    return prev + curr.coin.value;
+  }, 0);
+
+  const outputTotal = transaction.outputs.reduce((prev, curr) => {
+    return prev + curr.value;
+  }, 0);
+
+  return inputTotal - outputTotal;
 };
