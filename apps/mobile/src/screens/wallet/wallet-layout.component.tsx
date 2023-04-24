@@ -38,7 +38,7 @@ const WalletLayout = ({
         <>
           {leftHeader === 'copy' && (
             <Pressable className="flex flex-col items-center" onPress={copyToClipboard}>
-              <MonoIcon style="p-2 rounded-full bg-slate-100" iconName="Clipboard" />
+              <MonoIcon style="p-2 rounded-full bg-slate-100" iconName="Copy" />
             </Pressable>
           )}
           {leftHeader === 'back' && (
