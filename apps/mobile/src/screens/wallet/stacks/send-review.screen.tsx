@@ -1,5 +1,4 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { User } from '@superlight-labs/api/src/repository/user';
 import { BitcoinProviderEnum, BitcoinService } from '@superlight-labs/blockchain-api-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
@@ -10,6 +9,7 @@ import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { getSizeFromLength, shortenAddress } from 'utils/string';
+import { backend } from 'utils/superlight-api';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList, WalletTabList } from '../wallet-navigation';
 
@@ -18,7 +18,7 @@ type Props = StackScreenProps<WalletStackList & WalletTabList, 'SendReview'>;
 const SendReviewScreen = ({
   navigation,
   route: {
-    params: { amount, rate, toAddress, sender, note: _ },
+    params: { amount, rate, toAddress, sender, contact, note },
   },
 }: Props) => {
   const { network, addresses, getAccountBalance } = useBitcoinState();
@@ -39,12 +39,21 @@ const SendReviewScreen = ({
       .then(fees => setFee(fees.medium));
   }, []);
 
-  const recipient: User | any = {}; // { name: 'Lance' };
   const numericAmount = parseFloat(amount);
 
   const createAndSendTransaction = useCallback(() => {
     setMessage({ level: 'progress', total: 1, step: 1, message: 'Processing Transaction' });
     perform(createTransaction(numericAmount, toAddress, fee)).onSuccess(trans => {
+      backend.post('/contact/transaction/create', {
+        hash: trans.getId(),
+        reciever: {
+          address: toAddress,
+          name: contact?.name,
+        },
+        amount: numericAmount,
+        note,
+      });
+
       service.current
         .sendBroadcastTransaction(trans.toHex(), BitcoinProviderEnum.TATUM)
         .then(_ => {
@@ -55,7 +64,18 @@ const SendReviewScreen = ({
           setMessage({ level: 'error', error, message: 'Failed to send Transaction' });
         });
     });
-  }, [setMessage, perform, navigation, service, createTransaction, numericAmount, toAddress, fee]);
+  }, [
+    contact,
+    setMessage,
+    perform,
+    navigation,
+    service,
+    createTransaction,
+    numericAmount,
+    toAddress,
+    fee,
+    note,
+  ]);
 
   return (
     <WalletLayout leftHeader="back" rightHeader="none">
@@ -67,18 +87,23 @@ const SendReviewScreen = ({
         <Title style={`p-2 font-extrabold ${getSizeFromLength(amount.length + 4)}`}>
           {amount} BTC
         </Title>
-        <Text>~ {(numericAmount * rate).toFixed(2)} €</Text>
+        <Text className="font-bold text-slate-400">~ {(numericAmount * rate).toFixed(2)} €</Text>
         {!!fee && (
           <>
-            <Text className="mt-12 font-bold">With Transaction Fees of</Text>
-            <Text className="text-xl">
+            <Text className="mt-12 font-bold text-slate-900">With Transaction Fees of</Text>
+            <Text className="font-bold text-slate-400">
               ~ {fee} BTC / {(fee * rate).toFixed(2)} €
             </Text>
           </>
         )}
 
         <Text className="mt-12 font-bold">To</Text>
-        <Title style="text-5xl font-extrabold">{recipient.name || shortenAddress(toAddress)}</Title>
+        <Title style="text-4xl mt-2 font-extrabold">
+          {contact?.name || shortenAddress(toAddress)}
+        </Title>
+        {contact?.name && (
+          <Text className="font-bold text-slate-400">{shortenAddress(toAddress)}</Text>
+        )}
 
         <ButtonComponent
           onPress={createAndSendTransaction}

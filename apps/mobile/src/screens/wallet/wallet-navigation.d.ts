@@ -1,3 +1,4 @@
+import { Contact } from '@superlight-labs/api/src/repository/contact';
 import type { AddressInfo, Addresses } from 'state/bitcoin.state';
 
 export type WalletTabList = {
@@ -14,7 +15,13 @@ export type WalletStackList = {
     note: string;
     amount: string;
     rate: number;
+    contact?: Contact;
   };
-  SendAmount: { sender: AddressInfo; toAddress: string; note: string };
+  SendAmount: {
+    sender: AddressInfo;
+    toAddress: string;
+    note: string;
+    contact?: Contact & { new: boolean };
+  };
   ScanQrCode: { sender: AddressInfo };
 };

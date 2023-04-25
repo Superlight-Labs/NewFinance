@@ -58,6 +58,7 @@ export type FeatherIconName =
   | 'ArrowDownCircle'
   | 'Heart'
   | 'Search'
+  | 'User'
   | 'Copy'
   | 'Send'
   | 'Minimize2'

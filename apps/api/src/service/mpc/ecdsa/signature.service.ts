@@ -14,8 +14,8 @@ import {
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { User } from 'src/repository/user';
+import { getKeyShare } from 'src/service/data/key-share.service';
 import { createEcdsaSignContext } from 'src/service/mpc/mpc-context.service';
-import { getKeyShare } from 'src/service/persistance/key-share.service';
 
 export const signWithEcdsaKey = (
   user: User,

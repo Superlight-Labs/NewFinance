@@ -13,19 +13,43 @@ model User {
     name            String?
     email           String?
     keyShares       MpcKeyShare[] @relation("KeySharesForUser")
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
 
     @@unique([id, devicePublicKey])
 }
 
+model Contact {
+    address              String        @id
+    name                 String
+    createdAt            DateTime      @default(now())
+    updatedAt            DateTime      @updatedAt
+    sentTransactions     Transaction[] @relation("sentTransactions")
+    recievedTransactions Transaction[] @relation("recievedTransactions")
+}
+
+model Transaction {
+    hash            String   @id
+    reciever        Contact  @relation(name: "recievedTransactions", fields: [recieverAddress], references: [address])
+    recieverAddress String
+    amount          Float
+    createdAt       DateTime @default(now())
+    sender          Contact? @relation(name: "sentTransactions", fields: [senderAddress], references: [address])
+    senderAddress   String?
+    note            String?
+}
+
 model MpcKeyShare {
-    id       String  @id @default(uuid())
-    path     String
-    value    String
-    address  String?
+    id    String @id @default(uuid())
+    path  String
+    value String
 
     user                User   @relation("KeySharesForUser", fields: [userId, userDevicePublicKey], references: [id, devicePublicKey])
     userId              String
     userDevicePublicKey String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@unique([userId, path])
 }
