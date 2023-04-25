@@ -20,20 +20,23 @@ model User {
 }
 
 model Contact {
-    address   String   @id
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    address              String        @id
+    name                 String
+    createdAt            DateTime      @default(now())
+    updatedAt            DateTime      @updatedAt
+    sentTransactions     Transaction[] @relation("sentTransactions")
+    recievedTransactions Transaction[] @relation("recievedTransactions")
 }
 
 model Transaction {
     hash            String   @id
+    reciever        Contact  @relation(name: "recievedTransactions", fields: [recieverAddress], references: [address])
     recieverAddress String
-    senderAddress   String
-    amount          Int
-    time            DateTime
-    note            String?
+    amount          Float
     createdAt       DateTime @default(now())
+    sender          Contact? @relation(name: "sentTransactions", fields: [senderAddress], references: [address])
+    senderAddress   String?
+    note            String?
 }
 
 model MpcKeyShare {
