@@ -28,3 +28,8 @@ export interface UpdateUserWalletByPathRequest {
   path: string;
   address: string;
 }
+
+export type GetUserRequest = {
+  userId: string;
+  devicePublicKey: string;
+};

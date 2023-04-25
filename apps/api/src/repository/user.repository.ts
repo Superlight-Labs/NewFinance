@@ -1,7 +1,7 @@
 import { notFound, other, RouteError } from '@lib/routes/rest/rest-error';
 import { client } from '@superlight-labs/database';
 import { MpcKeyShare } from './key-share';
-import { CreateUserRequest, User } from './user';
+import { CreateUserRequest, GetUserRequest, User } from './user';
 
 export const createUser = async (request: CreateUserRequest): Promise<User> => {
   const user = await client.user.create({
@@ -14,7 +14,7 @@ export const createUser = async (request: CreateUserRequest): Promise<User> => {
   return user;
 };
 
-export const readUser = async (request: GetUser): Promise<User | RouteError> => {
+export const readUser = async (request: GetUserRequest): Promise<User | RouteError> => {
   const { userId, devicePublicKey } = request;
 
   const user = await client.user.findUnique({
@@ -48,9 +48,4 @@ export const readUserKeyShareByPath = async (
     });
 
   return userWithKeyShares.keyShares[0];
-};
-
-type GetUser = {
-  userId: string;
-  devicePublicKey: string;
 };
