@@ -39,15 +39,12 @@ Since the App is hooked up with external API's etc. it is necessary to do a few 
 
 ## Secrets
 
-The App relies on some Secrets for talking with external API's. You have to setup the `.env` file INSIDE THE `apps/mobile` directory with following secrets:
+The Api relies on some Secrets for talking with external API's. You have to create secrets and copy the values to the `.env` file with following secrets:
 
 | Secret Name      | Website                     |
 | ---------------- | --------------------------- |
 | TATUM_TEST_TOKEN | https://dashboard.tatum.io/ |
 | TATUM_MAIN_TOKEN | https://dashboard.tatum.io/ |
-
-To have an relatively easy time setting this up you can copy the file `.env.example` and rename it to `.env`
-(Sometimes its necessary to start react-native once from inside the `apps/mobile` directory with `yarn dev` to update the config)
 
 ## Testing Address
 

@@ -5,10 +5,10 @@ import { shortenMessage } from '@superlight-labs/mpc-common';
 import crypto from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
-    AuthenticatedRouteHandler,
-    NonceRouteHandler,
-    RouteHandler,
-    RouteResult,
+  AuthenticatedRouteHandler,
+  NonceRouteHandler,
+  RouteHandler,
+  RouteResult,
 } from './rest-types';
 
 const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void => {

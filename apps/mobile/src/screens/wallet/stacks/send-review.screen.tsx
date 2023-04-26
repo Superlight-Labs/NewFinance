@@ -1,10 +1,14 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { BitcoinProviderEnum, BitcoinService } from '@superlight-labs/blockchain-api-client';
+import {
+  BroadCastTransactionBody,
+  GetFeesRequest,
+} from '@superlight-labs/api/src/routes/blockchain.routes';
+import { BroadcastTransaction } from '@superlight-labs/blockchain-api-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
 import { useCreateBitcoinTransaction } from 'hooks/useCreateBitcoinTransaction';
 import { useFailableAction } from 'hooks/useFailable';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
@@ -22,21 +26,19 @@ const SendReviewScreen = ({
   },
 }: Props) => {
   const { network, addresses, getAccountBalance } = useBitcoinState();
-  const service = useRef(new BitcoinService(network));
   const [fee, setFee] = useState(0);
   const { createTransaction } = useCreateBitcoinTransaction(sender.account);
   const { perform } = useFailableAction();
   const { setMessage } = useSnackbarState();
 
   useEffect(() => {
-    // TODO: change this back to fromUTXO since its not advised by tatum to use more than 1 tx per address in this way
-    service.current
-      .getFees(
-        [...(addresses.get(sender.account) || [])].map(([_, a]) => a.address),
-        [{ address: toAddress, value: parseFloat(amount) }],
-        BitcoinProviderEnum.TATUM
-      )
-      .then(fees => setFee(fees.medium));
+    backend
+      .post('/blockchain/fees', {
+        network,
+        from: [...(addresses.get(sender.account) || [])].map(([_, a]) => a.address),
+        to: [{ address: toAddress, value: parseFloat(amount) }],
+      } as Partial<GetFeesRequest>)
+      .then(fees => setFee(fees.data.medium));
   }, []);
 
   const numericAmount = parseFloat(amount);
@@ -44,7 +46,7 @@ const SendReviewScreen = ({
   const createAndSendTransaction = useCallback(() => {
     setMessage({ level: 'progress', total: 1, step: 1, message: 'Processing Transaction' });
     perform(createTransaction(numericAmount, toAddress, fee)).onSuccess(trans => {
-      backend.post('/contact/transaction/create', {
+      backend.post('/transaction/create', {
         hash: trans.getId(),
         reciever: {
           address: toAddress,
@@ -54,8 +56,11 @@ const SendReviewScreen = ({
         note,
       });
 
-      service.current
-        .sendBroadcastTransaction(trans.toHex(), BitcoinProviderEnum.TATUM)
+      backend
+        .post<BroadcastTransaction>('/blockchain/broadcast-transaction', {
+          network,
+          hash: trans.toHex(),
+        } as Partial<BroadCastTransactionBody>)
         .then(_ => {
           setMessage({ level: 'success', message: 'Transaction sent successfully' });
           navigation.reset({ index: 1, routes: [{ name: 'Overview' }] });
@@ -68,8 +73,8 @@ const SendReviewScreen = ({
     contact,
     setMessage,
     perform,
+    network,
     navigation,
-    service,
     createTransaction,
     numericAmount,
     toAddress,

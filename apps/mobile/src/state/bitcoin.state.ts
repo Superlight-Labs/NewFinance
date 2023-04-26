@@ -5,6 +5,7 @@ import {
   BitcoinTransaction,
 } from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
 import Big from 'big.js';
+import reactotron from 'reactotron-react-native';
 import { uniqueTransactions } from 'utils/array';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -46,12 +47,8 @@ type BitcoinActions = {
   getAccountTransactions: (account: string) => AccountTransaction[];
   getAccExternalAddress: (account: string) => AddressInfo;
   getAccountAddresses: (account: string) => Addresses;
-  updateBalance: (balance: BitcoinBalance, account: string, index: ChangeIndex) => void;
-  setTransactions: (
-    transactions: BitcoinTransaction[],
-    account: string,
-    index: ChangeIndex
-  ) => void;
+  updateBalance: (balance: BitcoinBalance, account: string, address: string) => void;
+  setTransactions: (transactions: BitcoinTransaction[], account: string, address: string) => void;
   addTransactions: (
     transactions: BitcoinTransaction[],
     account: string,
@@ -96,31 +93,39 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
             ),
           };
         }),
-      setTransactions: (transactions: BitcoinTransaction[], account: string, index: ChangeIndex) =>
+      setTransactions: (transactions: BitcoinTransaction[], account: string, address: string) =>
         set(state => {
           const accountAddresses = state.addresses.get(account);
-          const address = accountAddresses?.get(index);
+          const addressStore = getByAddress(accountAddresses, address);
 
-          if (!address || !accountAddresses) throw new Error('Address not found');
+          if (!addressStore || !accountAddresses) throw new Error('Address not found');
 
           return {
             addresses: new Map(state.addresses).set(
               account,
-              new Map(accountAddresses).set(index, { ...address, transactions: transactions })
+              new Map(accountAddresses).set(addressStore.index, {
+                ...addressStore.addressInfo,
+                transactions: transactions,
+              })
             ),
           };
         }),
-      updateBalance: (balance: BitcoinBalance, account: string, index: ChangeIndex) =>
+      updateBalance: (balance: BitcoinBalance, account: string, address: string) =>
         set(state => {
           const accountAddresses = state.addresses.get(account);
-          const address = accountAddresses?.get(index);
+          const addressStore = getByAddress(accountAddresses, address);
 
-          if (!address || !accountAddresses) throw new Error('Address not found');
+          reactotron.log({ accountAddresses, address });
+
+          if (!addressStore || !accountAddresses) throw new Error('Address not found');
 
           return {
             addresses: new Map(state.addresses).set(
               account,
-              new Map(accountAddresses).set(index, { ...address, balance })
+              new Map(accountAddresses).set(addressStore.index, {
+                ...addressStore.addressInfo,
+                balance,
+              })
             ),
           };
         }),
@@ -242,3 +247,11 @@ export type AccountTransaction = BitcoinTransaction & {
   address: AddressInfo;
   incomming: boolean;
 };
+
+function getByAddress(map: Map<ChangeIndex, AddressInfo> | undefined, searchValue: string) {
+  if (!map) return undefined;
+
+  for (let [index, addressInfo] of map.entries()) {
+    if (addressInfo.address === searchValue) return { index, addressInfo };
+  }
+}

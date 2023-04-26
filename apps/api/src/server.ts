@@ -3,9 +3,9 @@ import underPressure, { TYPE_HEAP_USED_BYTES, TYPE_RSS_BYTES } from '@fastify/un
 import websocketPlugin from '@fastify/websocket';
 import config from '@lib/config';
 import logger from '@superlight-labs/logger';
-import { FastifyInstance, FastifyRequest } from 'fastify';
 import { registerRoutes } from './routes/register-routes';
 
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { PrismaClient } from '@superlight-labs/database';
 import fastify from 'fastify';
 import { User } from './repository/user';
@@ -20,7 +20,7 @@ declare module 'fastify' {
 }
 
 export const createServer = async (client: PrismaClient) => {
-  const server = fastify({ logger });
+  const server = fastify({ logger }).withTypeProvider<TypeBoxTypeProvider>();
 
   logger.info({ config }, 'Started up server with config');
 
