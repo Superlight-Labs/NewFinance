@@ -7,16 +7,22 @@ import { backend } from 'utils/superlight-api';
 
 export const useCreateAuth =
   () =>
-  (devicePublicKey: string): ResultAsync<AppUser, AppError> => {
-    return createUser(devicePublicKey)
+  (devicePublicKey: string, username: string, email: string): ResultAsync<AppUser, AppError> => {
+    return createUser(devicePublicKey, username, email)
       .andThen(createSignature)
       .andThen(verifyUser)
-      .map(userId => ({ id: userId, devicePublicKey }));
+      .map(userId => ({ id: userId, devicePublicKey, username, email }));
   };
 
-const createUser = (devicePublicKey: string): ResultAsync<SignUser & { nonce: string }, AppError> =>
+const createUser = (
+  devicePublicKey: string,
+  username: string,
+  email: string
+): ResultAsync<SignUser & { nonce: string }, AppError> =>
   ResultAsync.fromPromise(
     backend.post<CreateUserResponse>('/user/create', {
+      username,
+      email,
       devicePublicKey,
     }),
     error => appError(error, 'Error while creating user')

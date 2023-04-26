@@ -4,12 +4,8 @@ export interface User {
   id: string;
   devicePublicKey: string;
   keyShares: MpcKeyShare[];
-  name: string | null;
-  email: string | null;
-}
-
-export interface CreateUserRequest {
-  devicePublicKey: string;
+  username: string;
+  email: string;
 }
 
 export interface CreateUserResponse {

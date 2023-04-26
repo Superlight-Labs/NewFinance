@@ -1,7 +1,8 @@
 import { notFound, other, RouteError } from '@lib/routes/rest/rest-error';
 import { client } from '@superlight-labs/database';
+import { CreateUserRequest } from 'src/routes/user.routes';
 import { MpcKeyShare } from './key-share';
-import { CreateUserRequest, GetUserRequest, User } from './user';
+import { GetUserRequest, User } from './user';
 
 export const createUser = async (request: CreateUserRequest): Promise<User> => {
   const user = await client.user.create({

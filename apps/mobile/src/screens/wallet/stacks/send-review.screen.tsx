@@ -10,6 +10,7 @@ import { useCreateBitcoinTransaction } from 'hooks/useCreateBitcoinTransaction';
 import { useFailableAction } from 'hooks/useFailable';
 import { useCallback, useEffect, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
+import { useAuthState } from 'state/auth.state';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { getSizeFromLength, shortenAddress } from 'utils/string';
@@ -25,6 +26,7 @@ const SendReviewScreen = ({
     params: { amount, rate, toAddress, sender, contact, note },
   },
 }: Props) => {
+  const { user } = useAuthState();
   const { network, addresses, getAccountBalance } = useBitcoinState();
   const [fee, setFee] = useState(0);
   const { createTransaction } = useCreateBitcoinTransaction(sender.account);
@@ -51,6 +53,10 @@ const SendReviewScreen = ({
         reciever: {
           address: toAddress,
           name: contact?.name,
+        },
+        sender: {
+          address: sender.address,
+          name: user?.username,
         },
         amount: numericAmount,
         note,
@@ -80,6 +86,8 @@ const SendReviewScreen = ({
     toAddress,
     fee,
     note,
+    sender,
+    user,
   ]);
 
   return (

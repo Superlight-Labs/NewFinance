@@ -25,7 +25,8 @@ const Input = ({
 }: Props) => {
   return (
     <TextInput
-      className={`border-800 h-8 border-b ${style}`}
+      placeholderTextColor="#8D93A0"
+      className={`border-800 h-8 border-b font-bold ${style}`}
       defaultValue={defaultValue}
       editable={!disabled}
       value={value}

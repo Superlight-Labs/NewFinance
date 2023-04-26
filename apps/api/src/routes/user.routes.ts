@@ -1,30 +1,14 @@
+import { Static, Type } from '@fastify/type-provider-typebox';
 import { nonceRoute, setNonceRoute } from '@lib/routes/rest/rest-handlers';
 import { FastifyInstance, FastifyRequest, FastifySchema } from 'fastify';
 import { createNewUser, verifyUser } from 'src/service/data/user.service';
-import { CreateUserRequest, CreateUserResponse, VerifyUserRequest } from '../repository/user';
+import { CreateUserResponse, VerifyUserRequest } from '../repository/user';
 
-export const registerUserRoutes = (server: FastifyInstance) => {
-  server.post('/user/create', { schema: createUserSchema }, postCreateUser);
-  server.post('/user/verify', { schema: verifyUserSchema }, postVerifyUser);
-};
-
-const postCreateUser = setNonceRoute<CreateUserResponse>((req: FastifyRequest, nonce: string) => {
-  return createNewUser(req.body as CreateUserRequest, nonce);
+const createUserSchema = Type.Object({
+  devicePublicKey: Type.String({ maxLength: 130, minLength: 88 }),
+  username: Type.String({ maxLength: 36, minLength: 3 }),
+  email: Type.String({ maxLength: 36, minLength: 3, format: 'email' }),
 });
-
-const postVerifyUser = nonceRoute<boolean>((req: FastifyRequest, nonce: string) => {
-  return verifyUser(req.body as VerifyUserRequest, nonce);
-});
-
-const createUserSchema: FastifySchema = {
-  body: {
-    type: 'object',
-    required: ['devicePublicKey'],
-    properties: {
-      devicePublicKey: { type: 'string', maxLength: 130, minLength: 88 },
-    },
-  },
-};
 
 const verifyUserSchema: FastifySchema = {
   body: {
@@ -37,3 +21,17 @@ const verifyUserSchema: FastifySchema = {
     },
   },
 };
+
+export type CreateUserRequest = Static<typeof createUserSchema>;
+export const registerUserRoutes = (server: FastifyInstance) => {
+  server.post('/user/create', { schema: { body: createUserSchema } }, postCreateUser);
+  server.post('/user/verify', { schema: verifyUserSchema }, postVerifyUser);
+};
+
+const postCreateUser = setNonceRoute<CreateUserResponse>((req: FastifyRequest, nonce: string) => {
+  return createNewUser(req.body as CreateUserRequest, nonce);
+});
+
+const postVerifyUser = nonceRoute<boolean>((req: FastifyRequest, nonce: string) => {
+  return verifyUser(req.body as VerifyUserRequest, nonce);
+});

@@ -12,13 +12,13 @@ export type { Signer, SignWithShare };
 
 export const useGenericSecret = () => ({
   generateGenericSecret: ({ baseUrl, sign }: ActionConfig) =>
-    authWebsocket({ baseUrl, socketEndpoint: 'generateGenericSecret' }, sign)<ShareResult>(
+    authWebsocket({ baseUrl, socketEndpoint: 'generate-generic-secret' }, sign)<ShareResult>(
       startGenerateGenericSecret,
       generateGenericSecret
     ),
   importGenericSecret: ({ baseUrl, sign }: ActionConfig, hexSeed: string) =>
     authWebsocketWithSetup(
-      { baseUrl, socketEndpoint: 'importGenericSecret' },
+      { baseUrl, socketEndpoint: 'import-generic-secret' },
       sign,
       hexSeed
     )<ShareResult>(startImportGenericSecret, importGenericSecret),

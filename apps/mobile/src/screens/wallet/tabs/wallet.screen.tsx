@@ -7,6 +7,7 @@ import { RefreshControl } from 'react-native';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
+import { uniqueTransactions } from 'utils/array';
 import { ScrollView, Text } from 'utils/wrappers/styled-react-native';
 import { WalletTabList } from '../wallet-navigation';
 
@@ -23,7 +24,7 @@ const Wallet = ({ navigation, route }: Props) => {
     change: { address: changeAddress },
   } = addresses;
 
-  const transactions = getAccountTransactions(account);
+  const transactions = uniqueTransactions(getAccountTransactions(account));
 
   const refreshControl = (
     <RefreshControl refreshing={refreshing} onRefresh={() => update(account)} />

@@ -5,6 +5,8 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 export type AppUser = {
   id: string;
   devicePublicKey: string;
+  username: string;
+  email: string;
 };
 
 export type AuthState = {

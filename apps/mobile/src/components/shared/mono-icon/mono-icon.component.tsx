@@ -63,4 +63,5 @@ export type FeatherIconName =
   | 'Send'
   | 'Minimize2'
   | 'CheckCircle'
+  | 'AtSign'
   | 'Loading';

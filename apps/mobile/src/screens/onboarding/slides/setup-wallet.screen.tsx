@@ -7,9 +7,9 @@ import { RootStackParamList } from 'screens/main-navigation';
 import { useDeriveState } from 'state/derive.state';
 import { Text } from 'utils/wrappers/styled-react-native';
 
-type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
+type Props = StackScreenProps<RootStackParamList, 'SetupWallet'>;
 
-const Onboarding = ({ navigation }: Props) => {
+const SetupWallet = ({ navigation }: Props) => {
   const { derivedUntilLevel, hasHydrated } = useDeriveState();
 
   useEffect(() => {
@@ -45,4 +45,4 @@ const Onboarding = ({ navigation }: Props) => {
   );
 };
 
-export default Onboarding;
+export default SetupWallet;

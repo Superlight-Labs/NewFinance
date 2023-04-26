@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { FeatherIconName } from 'components/shared/mono-icon/mono-icon.component';
 import { useLogout } from 'hooks/useLogout';
 import { MenuStackParamList } from './menu-navigation';
@@ -25,6 +26,7 @@ type LinkItem = {
 
 export const useMenuItems = () => {
   const { logout } = useLogout();
+  const navigation = useNavigation();
 
   const items: MenuItem[] = [
     {
@@ -32,7 +34,10 @@ export const useMenuItems = () => {
       subText: 'Delete your wallet completely',
       type: 'action',
       icon: 'LogOut',
-      onPress: logout,
+      onPress: () => {
+        logout();
+        navigation.navigate('Welcome' as never);
+      },
     },
     {
       name: 'Bitcoin Settings',
