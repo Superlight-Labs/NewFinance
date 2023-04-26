@@ -4,20 +4,21 @@ import { getSafeResultAsync } from '@lib/utils/neverthrow';
 import crypto from 'crypto';
 import { okAsync, ResultAsync } from 'neverthrow';
 import { createUser, readUser } from 'src/repository/user.repository';
-import { CreateUserRequest, CreateUserResponse, VerifyUserRequest } from '../../repository/user';
+import { CreateUserRequest } from 'src/routes/user.routes';
+import { CreateUserResponse, VerifyUserRequest } from '../../repository/user';
 
 export const createNewUser = (
   request: CreateUserRequest,
   nonce: string
 ): ResultAsync<CreateUserResponse, RouteError> => {
-  return ResultAsync.fromPromise(createUser(request), e =>
-    other('Err while creating user', e as Error)
-  ).map(user => {
-    return {
-      nonce,
-      userId: user.id,
-    };
-  });
+  return ResultAsync.fromPromise(createUser(request), e => other('Err while creating user', e)).map(
+    user => {
+      return {
+        nonce,
+        userId: user.id,
+      };
+    }
+  );
 };
 
 export const verifyUser = (

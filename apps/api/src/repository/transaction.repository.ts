@@ -1,6 +1,7 @@
 import { other } from '@lib/routes/rest/rest-error';
 import { client } from '@superlight-labs/database';
-import { CreateTransactionRequest, Transaction } from './transaction';
+import { CreateTransactionRequest } from 'src/routes/transaction.routes';
+import { Transaction } from './transaction';
 
 export const createTransaction = async (
   request: CreateTransactionRequest
@@ -13,6 +14,14 @@ export const createTransaction = async (
           create: { ...request.reciever },
           where: {
             address: request.reciever.address,
+          },
+        },
+      },
+      sender: {
+        connectOrCreate: {
+          create: { ...request.sender },
+          where: {
+            address: request.sender.address,
           },
         },
       },

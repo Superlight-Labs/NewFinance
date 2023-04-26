@@ -10,7 +10,7 @@ type Props = {
 const Contact = ({ contact }: Props) => {
   return (
     <View className="mb-2 flex w-full flex-row items-center rounded-lg">
-      <View className="flex items-center justify-center rounded-lg bg-slate-900 p-3">
+      <View className="flex items-center justify-center rounded-lg bg-black p-3">
         <MonoIcon color="white" iconName="User" />
       </View>
       <View className="ml-4 flex flex-col justify-around">

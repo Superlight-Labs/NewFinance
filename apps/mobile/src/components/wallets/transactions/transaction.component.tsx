@@ -20,7 +20,7 @@ const Transaction = ({ transaction, address, changeAddress }: Props) => {
 
   return (
     <View className="mb-2 flex w-full flex-row items-center rounded-lg bg-slate-100 p-4">
-      <View className="flex items-center justify-center rounded-lg bg-slate-900 p-4">
+      <View className="flex items-center justify-center rounded-lg bg-black p-4">
         {incomming ? (
           <MonoIcon color="white" iconName="ArrowDownCircle" />
         ) : (

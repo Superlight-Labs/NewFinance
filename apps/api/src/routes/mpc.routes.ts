@@ -2,12 +2,12 @@ import { authenticate } from '@lib/utils/auth';
 import { DeriveConfig, SignConfig } from '@superlight-labs/mpc-common';
 import { FastifyInstance } from 'fastify';
 import {
-    deriveBip32WithSteps,
-    deriveBip32WithoutStepping,
+  deriveBip32WithSteps,
+  deriveBip32WithoutStepping,
 } from 'src/service/mpc/ecdsa/derive-bip-32.service';
 import {
-    generateGenericSecret,
-    importGenericSecret,
+  generateGenericSecret,
+  importGenericSecret,
 } from 'src/service/mpc/ecdsa/generic-secret.service';
 import { signWithEcdsaKey } from 'src/service/mpc/ecdsa/signature.service';
 import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
@@ -36,7 +36,7 @@ const registerMcpRoutes = (server: FastifyInstance): void => {
 const registerPrivateMpcRoutes = (server: FastifyInstance) => {
   server.register(async function (server) {
     server.get(
-      route + '/generateGenericSecret',
+      route + '/generate-generic-secret',
       { websocket: true },
       websocketRoute(generateGenericSecret)
     );
@@ -44,7 +44,7 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
 
   server.register(async function (server) {
     server.get(
-      route + '/importGenericSecret',
+      route + '/import-generic-secret',
       { websocket: true },
       websocketRouteWithInitParameter(importGenericSecret)
     );

@@ -5,8 +5,6 @@ import {
   BitcoinTransaction,
 } from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
 import Big from 'big.js';
-import reactotron from 'reactotron-react-native';
-import { uniqueTransactions } from 'utils/array';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { SharePair } from './derive.state';
@@ -114,8 +112,6 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
         set(state => {
           const accountAddresses = state.addresses.get(account);
           const addressStore = getByAddress(accountAddresses, address);
-
-          reactotron.log({ accountAddresses, address });
 
           if (!addressStore || !accountAddresses) throw new Error('Address not found');
 
@@ -240,7 +236,7 @@ const getAccountTransactions = (
     []
   );
 
-  return uniqueTransactions(allBitcoinTransactions);
+  return allBitcoinTransactions;
 };
 
 export type AccountTransaction = BitcoinTransaction & {

@@ -1,7 +1,8 @@
 import { RouteError, other } from '@lib/routes/rest/rest-error';
 import { ResultAsync } from 'neverthrow';
-import { CreateTransactionRequest, Transaction } from 'src/repository/transaction';
+import { Transaction } from 'src/repository/transaction';
 import { createTransaction, readTransactions } from 'src/repository/transaction.repository';
+import { CreateTransactionRequest } from 'src/routes/transaction.routes';
 
 export const createNewTransaction = (
   request: CreateTransactionRequest

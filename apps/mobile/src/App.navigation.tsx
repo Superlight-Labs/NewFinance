@@ -11,6 +11,7 @@ import { useSnackbarState } from './state/snackbar.state';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import Home from 'screens/home.screen';
 import OnboardingStack from 'screens/onboarding/onboarding.stack';
+
 import WalletNavigation from 'screens/wallet/wallet.navigation';
 import Welcome from 'screens/welcome.screen';
 import { useDeriveState } from 'state/derive.state';
@@ -33,8 +34,6 @@ const AppNavigation = () => {
                   <>
                     <Stack.Screen name="Home" component={Home} />
 
-                    {OnboardingStack({ Stack })}
-                    {MenuStack({ Stack })}
                     <Stack.Group
                       screenOptions={{
                         cardStyle: { borderRadius: 32 },
@@ -47,6 +46,9 @@ const AppNavigation = () => {
                   </>
                 )}
                 <Stack.Screen name="Welcome" component={Welcome} />
+
+                {OnboardingStack({ Stack })}
+                {MenuStack({ Stack })}
               </>
             ) : (
               <Stack.Screen name="Loading" component={LoadingScreen} />
