@@ -19,6 +19,7 @@ const Home = ({ navigation }: Props) => {
   const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress } = useBitcoinState();
   const [loading, setLoading] = useState(false);
+  const { refreshing, update } = useUpdateWalletData();
 
   useEffect(() => {
     if (derivedUntilLevel < DerivedUntilLevel.COMPLETE) {
@@ -29,14 +30,18 @@ const Home = ({ navigation }: Props) => {
 
   useEffect(() => {
     if (derivedUntilLevel === DerivedUntilLevel.COMPLETE) {
-      update();
+      updateAll();
     }
   }, [derivedUntilLevel]);
 
-  const { refreshing, update } = useUpdateWalletData();
+  const updateAll = () => {
+    for (const [key, _] of accounts) {
+      update(key);
+    }
+  };
 
   const refreshControl = loading ? undefined : (
-    <RefreshControl refreshing={refreshing} onRefresh={update} />
+    <RefreshControl refreshing={refreshing} onRefresh={updateAll} />
   );
 
   return (

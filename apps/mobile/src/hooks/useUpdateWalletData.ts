@@ -1,54 +1,57 @@
-import { BitcoinProviderEnum, BitcoinService } from '@superlight-labs/blockchain-api-client';
-import { useRef, useState } from 'react';
-import { AddressInfo, useBitcoinState } from 'state/bitcoin.state';
-
+import { AddressInfoRequest } from '@superlight-labs/api/src/routes/blockchain.routes';
+import { BlockchainResult } from '@superlight-labs/api/src/service/data/blockchain.service';
+import { BitcoinBalance, BitcoinTransaction } from '@superlight-labs/blockchain-api-client';
+import { useState } from 'react';
+import { useBitcoinState } from 'state/bitcoin.state';
+import { backend } from 'utils/superlight-api';
 export const useUpdateWalletData = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { network, updateBalance, setTransactions, addresses } = useBitcoinState();
-  const service = useRef(new BitcoinService(network));
 
   return {
     refreshing,
-    update: () => {
+    update: (account: string) => {
       setRefreshing(true);
       let loadBalance = true;
       let loadTransactions = true;
 
       const allAddresses = [...addresses]
-        .flatMap(([_, address]) => [
-          { ...address.get(0), index: 0 },
-          { ...address.get(1), index: 1 },
-        ])
-        .filter((address): address is AddressInfo & { index: number } => !!address);
+        .flatMap(([_, address]) => [address.get(0)?.address, address.get(1)?.address])
+        .filter((address): address is string => !!address);
 
-      Promise.allSettled(
-        allAddresses.map(addr =>
-          service.current
-            .getBalance(addr.address, BitcoinProviderEnum.TATUM)
-            .then(balance => updateBalance(balance, addr.account, addr.index))
-        )
-      ).then(_ => {
-        loadBalance = false;
-        setRefreshing(loadBalance || loadTransactions);
-      });
+      const addrInfoRequest: Partial<AddressInfoRequest> = {
+        addresses: allAddresses,
+        network,
+      };
+
+      backend
+        .post<BlockchainResult<BitcoinBalance>>('/blockchain/balance', addrInfoRequest)
+        .then(balances => {
+          Object.entries(balances.data).forEach(([address, balance]) => {
+            updateBalance(balance, account, address);
+          });
+          loadBalance = false;
+          setRefreshing(loadBalance || loadTransactions);
+        });
 
       const query = new URLSearchParams({
         pageSize: '50',
         offset: '0',
       });
 
-      Promise.allSettled(
-        allAddresses.map(addr =>
-          service.current
-            .getTransactions(addr.address, query, BitcoinProviderEnum.TATUM)
-            .then(fetchedTransactions => {
-              setTransactions(fetchedTransactions, addr.account, addr.index);
-            })
+      backend
+        .post<BlockchainResult<BitcoinTransaction[]>>(
+          `/blockchain/transactions?${query.toString()}`,
+          addrInfoRequest
         )
-      ).then(_ => {
-        loadTransactions = false;
-        setRefreshing(loadBalance || loadTransactions);
-      });
+        .then(t => {
+          Object.entries(t.data).forEach(([address, transactions]) => {
+            setTransactions(transactions, account, address);
+          });
+
+          loadTransactions = false;
+          setRefreshing(loadBalance || loadTransactions);
+        });
     },
   };
 };

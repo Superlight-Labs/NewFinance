@@ -2175,6 +2175,13 @@
   dependencies:
     fast-json-stringify "^5.0.0"
 
+"@fastify/type-provider-typebox@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@fastify/type-provider-typebox/-/type-provider-typebox-3.1.0.tgz#55e4e2d981c55c06d1d06638399aa37a2159162c"
+  integrity sha512-gR1ZYaFbnPd5U24OblcvFJsqcwb2U9oXnmeSEL3FQakgoQ2J5lPluUMU/Rmq9LOy6DMUILuyj+uwXTYh7PNqpQ==
+  dependencies:
+    "@sinclair/typebox" "^0.27.8"
+
 "@fastify/under-pressure@^8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@fastify/under-pressure/-/under-pressure-8.2.0.tgz#0a8998739657daa043ffa9b891194b09e926679d"
@@ -3023,6 +3030,11 @@
   version "0.25.24"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.25.24.tgz#8c7688559979f7079aacaf31aa881c3aa410b718"
   integrity sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==
+
+"@sinclair/typebox@^0.27.8":
+  version "0.27.8"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
+  integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
 "@sinonjs/commons@^2.0.0":
   version "2.0.0"

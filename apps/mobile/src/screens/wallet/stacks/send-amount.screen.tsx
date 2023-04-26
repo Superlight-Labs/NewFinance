@@ -1,14 +1,15 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { BitcoinProviderEnum, BitcoinService } from '@superlight-labs/blockchain-api-client';
+import { ExchangeRate } from '@superlight-labs/blockchain-api-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MultilineTextComponent from 'components/shared/input/multiline-text/multiline-text.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Numpad from 'components/shared/numpad/numpad.component';
 import { useDebounce } from 'hooks/useDebounced';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { getSizeFromLength } from 'utils/string';
+import { backend } from 'utils/superlight-api';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletStackList } from '../wallet-navigation';
 
@@ -21,13 +22,12 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
   const [loadRate, setLoadRate] = useState(false);
   const { network, getAccountBalance } = useBitcoinState();
   const debouncedAmount = useDebounce(amount, 5000);
-  const bitcoinService = useRef(new BitcoinService(network));
 
   useEffect(() => {
     setLoadRate(true);
-    bitcoinService.current.getExchangeRate(BitcoinProviderEnum.TATUM).then(res => {
+    backend.post<ExchangeRate>('/blockchain/exchange-rate', { network }).then(res => {
       setLoadRate(false);
-      setRate(parseFloat(res.value));
+      setRate(parseFloat(res.data.value));
     });
   }, [debouncedAmount]);
 

@@ -33,8 +33,8 @@ const ContactList = ({ lastInteractions, search, onSelectContact }: Props) => {
         </View>
       ) : (
         <ScrollView className="mt-2">
-          {lastInteractions.map(contact => (
-            <Pressable onPress={() => onSelectContact(contact)}>
+          {lastInteractions.map((contact, i) => (
+            <Pressable key={contact.address + i} onPress={() => onSelectContact(contact)}>
               <ContactComponent contact={contact} />
             </Pressable>
           ))}

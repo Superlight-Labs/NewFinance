@@ -25,7 +25,9 @@ const Wallet = ({ navigation, route }: Props) => {
 
   const transactions = getAccountTransactions(account);
 
-  const refreshControl = <RefreshControl refreshing={refreshing} onRefresh={update} />;
+  const refreshControl = (
+    <RefreshControl refreshing={refreshing} onRefresh={() => update(account)} />
+  );
 
   return (
     <WalletLayout leftHeader="copy" address={external.address}>

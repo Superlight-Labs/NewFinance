@@ -19,11 +19,13 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
+    "@fastify/type-provider-typebox": "^3.1.0",
     "@fastify/under-pressure": "^8.2.0",
     "@fastify/websocket": "^7.2.0",
     "@superlight-labs/database": "*",
     "@superlight-labs/logger": "*",
     "@superlight-labs/mpc-common": "*",
+    "@superlight-labs/blockchain-api-client": "*",
     "@types/node": "^18.7.15",
     "@types/ref-napi": "^3.0.4",
     "ajv": "^6.12.6",
