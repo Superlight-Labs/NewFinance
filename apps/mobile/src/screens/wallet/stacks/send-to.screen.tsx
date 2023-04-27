@@ -71,10 +71,10 @@ const SendToScreen = ({ navigation, route }: Props) => {
     <WalletLayout leftHeader="copy" address={sender.address}>
       <View className="flex w-full flex-1 flex-col bg-white p-4 pt-12">
         <View className="mb-4 flex flex-row border-b border-slate-200 pb-2">
-          <Text className="top-0.5 mx-2 font-bold">To: </Text>
+          <Text className="top-0.5 mx-2 font-manrope-bold">To: </Text>
           <TextInputComponent
             value={toAddress}
-            style="border-0 flex-1 font-bold"
+            style="border-0 flex-1 font-manrope-bold"
             placeHolder="BTC Address"
             onChangeText={addressChange}
           />
@@ -84,20 +84,20 @@ const SendToScreen = ({ navigation, route }: Props) => {
         </View>
         {addContact && (
           <View className="mb-4 flex flex-row border-b border-slate-200 pb-2">
-            {/* <Text className="top-0.5 mx-2 font-bold">Name: </Text> */}
+            {/* <Text className="top-0.5 mx-2 font-manrope-bold">Name: </Text> */}
             <TextInputComponent
               value={recipientName}
-              style="border-0 flex-1 ml-11 font-bold"
+              style="border-0 flex-1 ml-11 font-manrope-bold"
               placeHolder="Name of your new Contact"
               onChangeText={setRecipientName}
             />
           </View>
         )}
         <View className="mb-4 flex flex-row border-b  border-slate-200 pb-2">
-          <Text className="top-0.5 mx-2 font-bold">For:</Text>
+          <Text className="top-0.5 mx-2 font-manrope-bold">For:</Text>
           <TextInputComponent
             value={note}
-            style="border-0 flex-1 font-bold"
+            style="border-0 flex-1 font-manrope-bold"
             onChangeText={setNote}
             placeHolder="Add a Note if you want"
           />
@@ -110,9 +110,8 @@ const SendToScreen = ({ navigation, route }: Props) => {
           />
         }
         <ButtonComponent
-          shadow
           disabled={!addressValid || toAddress === sender.address}
-          style=" mt-auto mb-8 rounded-lg"
+          style=" mt-auto mb-8 py-3"
           onPress={onContinue}>
           Continue
         </ButtonComponent>

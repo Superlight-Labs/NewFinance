@@ -42,7 +42,7 @@ const Wallet = ({ navigation, route }: Props) => {
 
         <Button
           shadow
-          style="w-48 my-4 rounded-xl"
+          style="w-48 mt-6 mb-4 rounded-xl"
           onPress={() => navigation.navigate('Send', { external })}>
           Send
         </Button>

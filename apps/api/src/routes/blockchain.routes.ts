@@ -27,7 +27,7 @@ const baseRequestBody = Type.Object({
 });
 
 const broadCastTransactionBody = Type.Object({
-  hash: Type.String({ maxLength: 512, minLength: 12 }),
+  hash: Type.String({ maxLength: 4096, minLength: 12 }),
   ...baseRequestBody.properties,
 });
 

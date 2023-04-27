@@ -24,8 +24,8 @@ const Button = ({ onPress, children, style, shadow, disabled = false }: Props) =
       disabled={disabled}
       onPress={onPress}
       style={shadow && !disabled && dropStyle}
-      className={`rounded-fullp-4 flex flex-row items-center justify-center rounded-full p-4 ${bg} ${style}`}>
-      <Text className="font-manrope text-base font-bold text-white">{children}</Text>
+      className={`flex flex-row items-center justify-center rounded-full px-8 py-2 ${bg} ${style}`}>
+      <Text className="font-manrope-bold text-base text-white">{children}</Text>
     </Pressable>
   );
 };

@@ -41,9 +41,7 @@ const ImportWallet = ({ navigation }: Props) => {
 
   return (
     <Layout>
-      <ButtonComponent
-        style="px-6 py-3 absolute right-8 -top-12 rounded-xl"
-        onPress={startGenerateWallet}>
+      <ButtonComponent style="absolute right-8 -top-12 rounded-xl" onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
       <Title>Configure your new Wallet</Title>

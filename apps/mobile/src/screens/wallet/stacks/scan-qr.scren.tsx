@@ -44,7 +44,7 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
         {permission === null && <Text>Requesting for camera permission</Text>}
         {permission?.status === 'denied' && permission.canAskAgain && (
           <View className="flex-col items-center justify-center">
-            <Text className="mt-24 font-bold text-slate-400">No access to camera</Text>
+            <Text className="mt-24 font-manrope-bold text-slate-400">No access to camera</Text>
             <ButtonComponent style="mx-12 mt-6 rounded-lg" onPress={getBarCodeScannerPermissions}>
               Tap to allow camera access
             </ButtonComponent>
@@ -52,8 +52,8 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
         )}
         {permission?.status === 'denied' && !permission.canAskAgain && (
           <View className="flex-col items-center justify-center">
-            <Text className="mt-24 font-bold text-slate-400">No access to camera</Text>
-            <Text className="mt-6 text-center font-bold text-slate-400">
+            <Text className="mt-24 font-manrope-bold text-slate-400">No access to camera</Text>
+            <Text className="mt-6 text-center font-manrope-bold text-slate-400">
               Please enable Superlight to use Camera in the Settings of your phone
             </Text>
           </View>

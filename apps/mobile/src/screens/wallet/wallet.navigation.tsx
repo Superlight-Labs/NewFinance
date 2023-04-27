@@ -32,7 +32,10 @@ const WalletNavigation = ({ route }: Props) => {
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
-            <Text className={`${focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'} text-xs font-bold`}>
+            <Text
+              className={`${
+                focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'
+              } font-manrope-bold text-xs`}>
               Recieve
             </Text>
           ),
@@ -47,7 +50,10 @@ const WalletNavigation = ({ route }: Props) => {
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
-            <Text className={`${focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'} text-xs font-bold`}>
+            <Text
+              className={`${
+                focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'
+              } font-manrope-bold text-xs`}>
               Home
             </Text>
           ),
@@ -63,7 +69,10 @@ const WalletNavigation = ({ route }: Props) => {
         options={{
           tabBarLabelStyle: { fontSize: 10, fontWeight: 'bold' },
           tabBarLabel: ({ focused }) => (
-            <Text className={`${focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'} text-xs font-bold`}>
+            <Text
+              className={`${
+                focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'
+              } font-manrope-bold text-xs`}>
               Send
             </Text>
           ),

@@ -20,7 +20,7 @@ const Transaction = ({ transaction, address, changeAddress }: Props) => {
 
   return (
     <View className="mb-2 flex w-full flex-row items-center rounded-lg bg-slate-100 p-4">
-      <View className="flex items-center justify-center rounded-lg bg-black p-4">
+      <View className="flex items-center justify-center rounded-lg bg-black p-3">
         {incomming ? (
           <MonoIcon color="white" iconName="ArrowDownCircle" />
         ) : (
@@ -28,17 +28,21 @@ const Transaction = ({ transaction, address, changeAddress }: Props) => {
         )}
       </View>
       <View className="ml-4 flex flex-col justify-around">
-        <Text className="mb-2 w-36">{shortenAddress(peer)}</Text>
+        <Text className="w-36 font-inter-medium">{shortenAddress(peer)}</Text>
 
-        <Text>{new Date(transaction.time).toDateString()}</Text>
+        <Text className="font-inter text-slate-400">
+          {new Date(transaction.time).toDateString()}
+        </Text>
       </View>
       <View className="ml-auto">
         {incomming ? (
-          <Text>+{value} sats</Text>
+          <Text className="font-inter-medium">+{value} sats</Text>
         ) : (
           <>
-            <Text>{value + fee} sats</Text>
-            <Text className=" text-xs">Fees: {getTxFee(transaction)} sats</Text>
+            <Text className="font-inter-medium">{value + fee} sats</Text>
+            <Text className="font-inter text-xs text-slate-400">
+              Fees: {getTxFee(transaction)} sats
+            </Text>
           </>
         )}
       </View>

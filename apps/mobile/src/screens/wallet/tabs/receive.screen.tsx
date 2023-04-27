@@ -39,7 +39,7 @@ const Receive = ({ route }: Props) => {
           <MonoIcon iconName="Copy" />
         </Pressable>
 
-        <Text className="mx-12 mt-auto text-center font-bold text-slate-400">
+        <Text className="mx-12 mt-auto text-center font-manrope-bold text-slate-400">
           Other Superlight users can scan this QR Code to send you Bitcoin!
         </Text>
       </View>

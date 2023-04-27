@@ -16,24 +16,29 @@ module.exports = {
         400: '#8D93A0',
         900: '#2A2434',
       },
-      superred: {
+      red: {
         100: '#F1DFDF',
         400: '#DAA3A3',
-        900: '#A33A3A',
+        800: '#A33A3A',
       },
-      superblue: {
+      blue: {
         100: '#F0F3FE',
         400: '#6986F8',
-        900: '#343E99',
+        800: '#343E99',
       },
-      supergreen: {
-        100: '#5BB5A2',
+      green: {
+        100: '#E8F2EE',
         400: '#72B3A3',
-        900: '#0B8869',
+        800: '#0B8869',
       },
     },
     fontFamily: {
-      manrope: ['Manrope'],
+      manrope: ['Manrope-Regular'],
+      'manrope-medium': ['Manrope-Medium'],
+      'manrope-bold': ['Manrope-Bold'],
+      inter: ['Inter-Regular'],
+      'inter-medium': ['Inter-Medium'],
+      'inter-bold': ['Inter-Bold'],
     },
   },
   plugins: [],
