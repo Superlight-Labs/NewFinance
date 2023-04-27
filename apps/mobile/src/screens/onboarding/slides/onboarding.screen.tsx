@@ -20,17 +20,16 @@ const OnboardingScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState('');
 
   const createProfile = useCreateAuth();
-  const { authenticate } = useAuthState();
+  const { registerUser } = useAuthState();
   const { perform } = useFailableAction();
 
   const getStarted = useCallback(async () => {
     const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
 
     perform(createProfile(newDevicePublicKey, username, email)).onSuccess(user => {
-      authenticate(user);
-      navigation.navigate('SetupWallet');
+      registerUser(user);
     });
-  }, [navigation, authenticate, createProfile, username, email, perform]);
+  }, [navigation, registerUser, createProfile, username, email, perform]);
 
   const isDisabled = () => {
     if (username.length < 3 || email.length < 3) return true;

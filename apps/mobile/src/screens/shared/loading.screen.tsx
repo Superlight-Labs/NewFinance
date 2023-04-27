@@ -1,11 +1,14 @@
-import LayoutComponent from 'components/shared/layout/layout.component';
-import Title from 'components/shared/title/title.component';
+import { useAuthState } from 'state/auth.state';
+import { Image, View } from 'utils/wrappers/styled-react-native';
 
 const LoadingScreen = () => {
+  const { isAuthenticated } = useAuthState();
   return (
-    <LayoutComponent hideBack style=" justify-center items-center h-full bg-teal-300">
-      <Title style="text-white font-manrope-bold">Loading...</Title>
-    </LayoutComponent>
+    <View className="flex h-screen w-screen items-center justify-center bg-white">
+      {!isAuthenticated && (
+        <Image className="h-32 w-32" source={require('../../../assets/images/logo.png')} />
+      )}
+    </View>
   );
 };
 

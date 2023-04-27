@@ -11,7 +11,7 @@ import 'react-native-gesture-handler';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useLogout } from 'hooks/useLogout';
+import { useDeleteLocalData } from 'hooks/useDeleteLocalData';
 import reactotron from 'reactotron-react-native';
 import { View } from 'utils/wrappers/styled-react-native';
 import AppNavigation from './App.navigation';
@@ -22,7 +22,7 @@ if (__DEV__) {
 }
 
 function App(): JSX.Element {
-  const { logout } = useLogout();
+  const { deleteLocalData: logout } = useDeleteLocalData();
   const queryClient = new QueryClient();
 
   if (__DEV__) {
