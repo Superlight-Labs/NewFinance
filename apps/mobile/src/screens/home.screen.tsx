@@ -24,15 +24,12 @@ const Home = ({ navigation }: Props) => {
   useEffect(() => {
     if (derivedUntilLevel < DerivedUntilLevel.COMPLETE) {
       setLoading(true);
-      createBitcoinWallet(secret).onSuccess(_ => setLoading(false));
+      createBitcoinWallet(secret).onSuccess(_ => {
+        setLoading(false);
+        updateAll();
+      });
     }
   }, []);
-
-  useEffect(() => {
-    if (derivedUntilLevel === DerivedUntilLevel.COMPLETE) {
-      updateAll();
-    }
-  }, [derivedUntilLevel]);
 
   const updateAll = () => {
     for (const [key, _] of accounts) {

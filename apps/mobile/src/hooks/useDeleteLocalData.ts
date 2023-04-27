@@ -4,15 +4,15 @@ import { useBitcoinState } from 'state/bitcoin.state';
 import { useDeriveState } from 'state/derive.state';
 import { constants } from 'utils/constants';
 
-export const useLogout = () => {
+export const useDeleteLocalData = () => {
   const { deleteBip32 } = useDeriveState();
-  const { deleteAuth } = useAuthState();
+  const { deleteUser } = useAuthState();
   const { deleteBitcoin } = useBitcoinState();
 
   return {
-    logout: () => {
+    deleteLocalData: () => {
       deleteBip32();
-      deleteAuth();
+      deleteUser();
       deleteBitcoin();
       deleteKeyPair(constants.deviceKeyName);
     },
