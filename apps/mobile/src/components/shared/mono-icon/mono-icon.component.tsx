@@ -56,6 +56,7 @@ export type FeatherIconName =
   | 'AlertCircle'
   | 'Clipboard'
   | 'ArrowDownCircle'
+  | 'UserCheck'
   | 'Heart'
   | 'Search'
   | 'User'

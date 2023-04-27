@@ -48,9 +48,12 @@ The Api relies on some Secrets for talking with external API's. You have to crea
 
 ## Testing Address
 
-To have funds for testing purposes, import this seed and make sure that main net is disabled in the settings
+To have funds for testing purposes, import one of those seed and make sure that main net is disabled in the settings
 
-`tide thrive exotic acquire gloom upon soon east warm blossom wheat bread`
+| Seed                                                                        | Address                                    |
+| --------------------------------------------------------------------------- | ------------------------------------------ |
+| tide thrive exotic acquire gloom upon soon east warm blossom wheat bread    | tb1qjxw4mxeprse3aet7yg7m3qlryed8a2wvz5m6re |
+| tide thrive exotic acquire gloom upon soon east warm blossom wheat accident | tb1q8xc532tmuddh6yleswgncmws6k5sye4938g6s6 |
 
 ## Mobile Debugging
 

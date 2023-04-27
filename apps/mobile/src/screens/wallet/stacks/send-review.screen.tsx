@@ -3,6 +3,7 @@ import {
   BroadCastTransactionBody,
   GetFeesRequest,
 } from '@superlight-labs/api/src/routes/blockchain.routes';
+import { CreateTransactionRequest } from '@superlight-labs/api/src/routes/transaction.routes';
 import { BroadcastTransaction, Fees } from '@superlight-labs/blockchain-api-client';
 import Big from 'big.js';
 import ButtonComponent from 'components/shared/input/button/button.component';
@@ -69,10 +70,11 @@ const SendReviewScreen = ({
         sender: {
           address: sender.address,
           name: user?.username,
+          userEmail: user?.email,
         },
         amount: numericAmount,
         note,
-      });
+      } as CreateTransactionRequest);
 
       backend
         .post<BroadcastTransaction>('/blockchain/broadcast-transaction', {

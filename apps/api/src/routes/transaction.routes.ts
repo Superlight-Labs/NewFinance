@@ -22,7 +22,7 @@ const createTransactionSchema = Type.Object({
   }),
   sender: Type.Object({
     address: Type.String({ maxLength: 64, minLength: 32 }),
-    name: Type.String({ maxLength: 130 }),
+    userEmail: Type.String({ maxLength: 130 }),
   }),
   amount: Type.Number(),
   note: Type.Optional(Type.String({ maxLength: 130 })),

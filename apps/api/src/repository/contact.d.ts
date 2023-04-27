@@ -1,6 +1,7 @@
 export interface Contact {
   address: string;
-  name: string;
+  name: string | null;
+  userEmail: string | null;
   interaction?: 'send' | 'receive';
 }
 

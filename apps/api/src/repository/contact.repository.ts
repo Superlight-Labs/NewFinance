@@ -3,7 +3,7 @@ import { client } from '@superlight-labs/database';
 import { Contact } from './contact';
 
 export const createContact = async (request: Contact): Promise<Contact> => {
-  const contact = await client.contact.create({
+  const contact = await client.externalAddress.create({
     data: { ...request },
   });
 
@@ -13,22 +13,38 @@ export const createContact = async (request: Contact): Promise<Contact> => {
 };
 
 export const readContacts = async (userAddress: string, peerAddress?: string) => {
-  const contacts = await client.contact.findMany({
+  const contacts = await client.externalAddress.findMany({
     where: {
-      OR: [
+      AND: [
         {
-          recievedTransactions: {
-            some: {
-              OR: [{ senderAddress: userAddress }, { recieverAddress: { contains: peerAddress } }],
-            },
+          address: {
+            startsWith: peerAddress,
+            notIn: [userAddress],
           },
         },
         {
-          sentTransactions: {
-            some: {
-              OR: [{ recieverAddress: userAddress }, { senderAddress: { contains: peerAddress } }],
+          OR: [
+            {
+              recievedTransactions: {
+                some: {
+                  AND: [
+                    { senderAddress: userAddress },
+                    { recieverAddress: { contains: peerAddress } },
+                  ],
+                },
+              },
             },
-          },
+            {
+              sentTransactions: {
+                some: {
+                  AND: [
+                    { recieverAddress: userAddress },
+                    { senderAddress: { contains: peerAddress } },
+                  ],
+                },
+              },
+            },
+          ],
         },
       ],
     },
@@ -40,7 +56,7 @@ export const readContacts = async (userAddress: string, peerAddress?: string) =>
 };
 
 export const readAllContacts = async (): Promise<Contact[]> => {
-  const contacts = await client.contact.findMany();
+  const contacts = await client.externalAddress.findMany();
 
   return contacts;
 };
