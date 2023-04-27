@@ -8,20 +8,23 @@ generator client {
 }
 
 model User {
-    id              String        @default(uuid())
+    id              String            @default(uuid())
     devicePublicKey String
     username        String
-    email           String        @unique
-    keyShares       MpcKeyShare[] @relation("KeySharesForUser")
-    createdAt       DateTime      @default(now())
-    updatedAt       DateTime      @updatedAt
+    email           String            @unique
+    keyShares       MpcKeyShare[]     @relation("KeySharesForUser")
+    createdAt       DateTime          @default(now())
+    updatedAt       DateTime          @updatedAt
+    ExternalAddress ExternalAddress[]
 
     @@unique([id, devicePublicKey])
 }
 
-model Contact {
+model ExternalAddress {
     address              String        @id
-    name                 String
+    name                 String?
+    user                 User?         @relation(fields: [userEmail], references: [email])
+    userEmail            String?
     createdAt            DateTime      @default(now())
     updatedAt            DateTime      @updatedAt
     sentTransactions     Transaction[] @relation("sentTransactions")
@@ -29,12 +32,12 @@ model Contact {
 }
 
 model Transaction {
-    hash            String   @id
-    reciever        Contact  @relation(name: "recievedTransactions", fields: [recieverAddress], references: [address])
+    hash            String          @id
+    reciever        ExternalAddress @relation(name: "recievedTransactions", fields: [recieverAddress], references: [address])
     recieverAddress String
     amount          Float
-    createdAt       DateTime @default(now())
-    sender          Contact  @relation(name: "sentTransactions", fields: [senderAddress], references: [address])
+    createdAt       DateTime        @default(now())
+    sender          ExternalAddress @relation(name: "sentTransactions", fields: [senderAddress], references: [address])
     senderAddress   String
     note            String?
 }

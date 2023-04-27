@@ -16,7 +16,7 @@ const Welcome = ({ navigation }: Props) => {
       <StyledView className="w-full px-4">
         <Button
           shadow
-          style="flex flex-row justify-center w-full"
+          style="py-3 flex flex-row justify-center w-full"
           onPress={() => navigation.navigate('Onboarding')}>
           Get started
         </Button>
