@@ -3,7 +3,8 @@ import {
   BroadCastTransactionBody,
   GetFeesRequest,
 } from '@superlight-labs/api/src/routes/blockchain.routes';
-import { BroadcastTransaction } from '@superlight-labs/blockchain-api-client';
+import { BroadcastTransaction, Fees } from '@superlight-labs/blockchain-api-client';
+import Big from 'big.js';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
 import { useCreateBitcoinTransaction } from 'hooks/useCreateBitcoinTransaction';
@@ -33,17 +34,28 @@ const SendReviewScreen = ({
   const { perform } = useFailableAction();
   const { setMessage } = useSnackbarState();
 
+  const numericAmount = parseFloat(amount);
+  const balance = getAccountBalance(sender.account);
+  const total = new Big(numericAmount).add(new Big(fee));
+
+  useEffect(() => {
+    if (balance < total.toNumber())
+      setMessage({
+        level: 'error',
+        message: 'Insufficient funds',
+        error: 'Insufficient funds',
+      });
+  }, [fee, numericAmount]);
+
   useEffect(() => {
     backend
-      .post('/blockchain/fees', {
+      .post<Fees>('/blockchain/fees', {
         network,
         from: [...(addresses.get(sender.account) || [])].map(([_, a]) => a.address),
         to: [{ address: toAddress, value: parseFloat(amount) }],
       } as Partial<GetFeesRequest>)
       .then(fees => setFee(fees.data.medium));
   }, []);
-
-  const numericAmount = parseFloat(amount);
 
   const createAndSendTransaction = useCallback(() => {
     setMessage({ level: 'progress', total: 1, step: 1, message: 'Processing Transaction' });
@@ -92,36 +104,33 @@ const SendReviewScreen = ({
 
   return (
     <WalletLayout leftHeader="back" rightHeader="none">
-      <Text className="absolute right-6 top-6">
-        Your Balance: {getAccountBalance(sender.account)}
-      </Text>
+      <Text className="absolute right-6 top-6">Your Balance: {balance}</Text>
       <View className="flex flex-1 flex-col items-center justify-center p-4 pt-24">
-        <Text className=" font-bold">Send</Text>
-        <Title style={`p-2 font-extrabold ${getSizeFromLength(amount.length + 4)}`}>
-          {amount} BTC
-        </Title>
-        <Text className="font-bold text-slate-400">~ {(numericAmount * rate).toFixed(2)} €</Text>
+        <Text className=" font-manrope-bold">Send</Text>
+        <Title style={`p-2 font-bold ${getSizeFromLength(amount.length + 4)}`}>{amount} BTC</Title>
+        <Text className="font-manrope-bold text-slate-400">
+          ~ {(numericAmount * rate).toFixed(2)} €
+        </Text>
         {!!fee && (
           <>
-            <Text className="mt-12 font-bold text-slate-900">With Transaction Fees of</Text>
-            <Text className="font-bold text-slate-400">
+            <Text className="mt-12 font-manrope-bold text-slate-900">With Transaction Fees of</Text>
+            <Text className="font-manrope-bold text-slate-400">
               ~ {fee} BTC / {(fee * rate).toFixed(2)} €
             </Text>
           </>
         )}
 
-        <Text className="mt-12 font-bold">To</Text>
-        <Title style="text-4xl mt-2 font-extrabold">
-          {contact?.name || shortenAddress(toAddress)}
-        </Title>
+        <Text className="mt-12 font-manrope-bold">To</Text>
+        <Title style="text-4xl mt-2 font-bold">{contact?.name || shortenAddress(toAddress)}</Title>
         {contact?.name && (
-          <Text className="font-bold text-slate-400">{shortenAddress(toAddress)}</Text>
+          <Text className="font-manrope-bold text-slate-400">{shortenAddress(toAddress)}</Text>
         )}
 
         <ButtonComponent
+          disabled={balance < total.toNumber()}
           onPress={createAndSendTransaction}
           shadow
-          style="px-12 mb-8 rounded-lg mt-auto">
+          style="px-12 w-full mb-8 py-3 mt-auto">
           Send Amount now!
         </ButtonComponent>
       </View>

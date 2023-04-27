@@ -16,8 +16,8 @@ const Menu = ({ navigation }: Props) => {
       <Title style="ml-8 mb-8">Settings</Title>
       <ScrollView className="flex h-full flex-col px-4 pl-4">
         {categories.map(({ items, name }) => (
-          <View key={name} className="border-b border-slate-100 px-4 pb-6">
-            <Text className="pb-4 text-xl font-[500]">{name}</Text>
+          <View key={name} className="border-b border-slate-100 px-4">
+            <Text className="pb-4 font-manrope-bold text-xl">{name}</Text>
 
             {items.map(item => (
               <Pressable
@@ -27,8 +27,8 @@ const Menu = ({ navigation }: Props) => {
                   item.type === 'link' ? navigation.navigate(item.screen) : item.onPress();
                 }}>
                 <View>
-                  <Text className="text-lg">{item.name}</Text>
-                  <Text className="text-sm text-slate-400">{item.subText}</Text>
+                  <Text className="font-inter-medium text-lg">{item.name}</Text>
+                  <Text className="font-inter text-sm text-slate-400">{item.subText}</Text>
                 </View>
 
                 <MonoIcon style="ml-auto" iconName={item.icon} />

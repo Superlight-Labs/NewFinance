@@ -21,12 +21,15 @@ const SetupWallet = ({ navigation }: Props) => {
     <Layout hideBack settingsNavigate={() => navigation.navigate('Menu')}>
       <Title style="mb-4">Onboarding</Title>
 
-      <Text>Hello, welcome to Superlight. Next step is to create your wallet.</Text>
-      <Text className="mb-24">
+      <Text className=" font-inter">
+        Hello, welcome to Superlight. Next step is to create your wallet.
+      </Text>
+      <Text className="mb-24 font-inter">
         You can either generate a new one, or import an existing wallet by your passphrase
       </Text>
 
       <Button
+        style="py-3"
         shadow
         onPress={function (): void {
           navigation.navigate('Create');
@@ -35,7 +38,7 @@ const SetupWallet = ({ navigation }: Props) => {
       </Button>
       <Button
         shadow
-        style="my-4"
+        style="my-4 py-3"
         onPress={function (): void {
           navigation.navigate('Import');
         }}>

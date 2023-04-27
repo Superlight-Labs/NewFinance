@@ -9,13 +9,13 @@ type Props = {
 const WalletMenuItem = ({ name, balance, navigate }: Props) => {
   return (
     <Pressable className="w-[45rvw]" onPress={navigate}>
-      <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-superblue-100">
-        <View className="flex h-16 w-16 items-center justify-center rounded-md bg-superblue-400">
-          <Text className="mt-1 text-4xl font-medium text-white">$</Text>
+      <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-blue-100">
+        <View className="flex h-14 w-14 items-center justify-center rounded-md bg-blue-400">
+          <Text className="mt-2 font-manrope-bold text-4xl text-white">$</Text>
         </View>
       </View>
-      <Text className="mt-3">{name}</Text>
-      <Text className="text-gray-500">{balance} BTC</Text>
+      <Text className="mt-3 font-inter-medium">{name}</Text>
+      <Text className="font-inter text-slate-400">{balance} BTC</Text>
     </Pressable>
   );
 };

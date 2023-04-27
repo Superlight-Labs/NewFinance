@@ -45,14 +45,14 @@ const OnboardingScreen = ({ navigation }: Props) => {
     <LayoutComponent>
       <ButtonComponent
         disabled={isDisabled()}
-        style="px-6 py-3 absolute right-8 -top-12 rounded-xl"
+        style="absolute right-8 -top-12 rounded-xl"
         onPress={getStarted}>
         Next
       </ButtonComponent>
       <Title>Tell us about yourself</Title>
       <View className="mb-8 mt-12 flex w-full flex-row border-b border-b-slate-200 pb-2">
         <View className="flex-1">
-          <Text className="font-bold">Username*</Text>
+          <Text className="font-inter-medium">Username*</Text>
           <TextInputComponent
             style="border-b-0"
             placeHolder="eg. John Doe"
@@ -66,7 +66,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
       </View>
       <View className="flex w-full flex-row border-b border-b-slate-200 pb-2">
         <View className="flex-1">
-          <Text className="font-bold">E-mail*</Text>
+          <Text className="font-inter-medium">E-mail*</Text>
           <TextInputComponent
             style="border-b-0"
             placeHolder="eg. john.doe@gmail.com"

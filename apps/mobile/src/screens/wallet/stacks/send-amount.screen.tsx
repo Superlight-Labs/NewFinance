@@ -44,13 +44,13 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
         </View>
         <View className="flex w-full flex-1 flex-row flex-wrap items-center justify-center p-2">
           <MultilineTextComponent
-            style={`border-0 m-w-[60%] flex m-h-48 font-extrabold shadow-none bg-white ${textSize}`}
+            style={`border-0 m-w-[60%] flex m-h-48 font-bold shadow-none bg-white ${textSize}`}
             value={amount}
             keyboardType="numeric"
             maxLength={10}
             setValue={setAmount}
           />
-          <Text className="p-1 text-6xl font-extrabold">BTC</Text>
+          <Text className="p-1 text-6xl font-bold">BTC</Text>
           {numericAmount > 0 && (
             <View className="flex w-[100%] flex-row items-center justify-center">
               <Text>~ ${(numericAmount * rate).toFixed(2)} €</Text>
@@ -61,14 +61,10 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
       </View>
       <Numpad maxLength={10} value={amount} setValue={setAmount} />
       <ButtonComponent
-        shadow
         disabled={
-          Number.isNaN(numericAmount) ||
-          numericAmount <= 0 ||
-          !balance ||
-          (!__DEV__ && numericAmount > balance)
+          Number.isNaN(numericAmount) || numericAmount <= 0 || !balance || numericAmount > balance
         }
-        style=" mt-auto mb-8 rounded-lg"
+        style=" mt-auto mb-8 py-3"
         onPress={() => navigation.navigate('SendReview', { amount, rate, ...route.params })}>
         Continue
       </ButtonComponent>

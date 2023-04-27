@@ -1,4 +1,3 @@
-import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { AccountTransaction } from 'state/bitcoin.state';
 import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import TransactionSkeleton from './transaction-skeleton.component';
@@ -15,8 +14,8 @@ const TransactionList = ({ transactions, loading, address, changeAddress }: Prop
   return (
     <View className="flex w-full flex-1 flex-col px-5">
       <View className="mb-4 flex w-full flex-row justify-between ">
-        <Text className=" font-bold">Transactions</Text>
-        <MonoIcon color="#5BB5A2" iconName="Search" />
+        <Text className="font-inter-medium">Transactions</Text>
+        {/* <MonoIcon color="#5BB5A2" iconName="Search" /> */}
       </View>
 
       <ScrollView className="flex-12 mb-8">

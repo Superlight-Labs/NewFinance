@@ -45,18 +45,17 @@ const Snackbar = ({ appMessage }: Props) => {
       }}>
       <Pressable
         onPress={close}
-        className={`flex rounded-2xl bg-${colors[level]}-100 border-${colors[level]}-400 border py-4`}>
+        className={`flex rounded-2xl bg-${colors[level]}-100 border-2 border-[${font[level]}] border-[${font[level]}] py-4`}>
         <View className="flex flex-row items-center justify-around p-2 px-8">
           {level === 'progress' ? (
             <Text
-              className={`rounded-full px-2 py-1 text-xs font-bold text-${colors[level]}-900 font-extrabold uppercase`}>
+              className={`rounded-full px-2 py-1 font-manrope-bold text-xs text-[${font[level]}] font-manrope-bold uppercase`}>
               {appMessage.step + '/' + appMessage.total}
             </Text>
           ) : (
-            <MonoIcon style="" iconName={icons[level] as FeatherIconName} />
+            <MonoIcon color={font[level]} iconName={icons[level] as FeatherIconName} />
           )}
-
-          <Text className={`font-semibold text-${colors[level]}-900`}>{message}</Text>
+          <Text className={`text-[${font[level]}]`}>{message}</Text>
           {level === 'progress' ? (
             <MonoIcon iconName="Loading" />
           ) : (
@@ -78,11 +77,20 @@ const icons: Icon = {
 };
 
 const colors: Color = {
-  error: 'superred',
-  info: 'superblue',
-  progress: 'superblue',
-  success: 'supergreen',
+  error: 'red',
+  info: 'blue',
+  progress: 'blue',
+  success: 'green',
   warning: 'orange',
+  empty: '',
+};
+
+const font: Color = {
+  error: '#A33A3A',
+  info: '#343E99',
+  progress: '#343E99',
+  success: '#2B8469',
+  warning: '#E8C9A7',
   empty: '',
 };
 
