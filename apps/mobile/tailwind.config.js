@@ -33,7 +33,12 @@ module.exports = {
       },
     },
     fontFamily: {
-      manrope: ['Manrope'],
+      manrope: ['Manrope-Regular'],
+      'manrope-medium': ['Manrope-Medium'],
+      'manrope-bold': ['Manrope-Bold'],
+      inter: ['Inter-Regular'],
+      'inter-medium': ['Inter-Medium'],
+      'inter-bold': ['Inter-Bold'],
     },
   },
   plugins: [],
