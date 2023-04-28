@@ -12,13 +12,13 @@
   </a>
  
  
- <h1 align="center">Superlight - Easy to use Crypto App</h1>
+ <h1 align="center">Superlight - Easy to use Bitcoin App</h1>
  
  <p align="center">
    A mobile banking app, without the bank.
     <br />
 
-Open Source Crypto-Wallet with focus on Stable Coins, Ethereum Layer 2, efficient Ramp on/off and self custody. Fully banking compatible.
+Open Source Crypto-Wallet with focus on Bitcoin and Lightning, efficient Ramp on/off and self custody.
 <br />
 <a href="https://github.com/Superlight-Labs/Superlight/issues">Report Bug</a>
 ·
@@ -48,7 +48,7 @@ Open Source Crypto-Wallet with focus on Stable Coins, Ethereum Layer 2, efficien
 1. Fully non-custodial wallet
 2. High Security by relying on Multi Party Computation (Based on [Unbounds C++ MPC Library](https://github.com/unboundsecurity/blockchain-crypto-mpc))
 3. Use of known and established UX such as in mobile banking apps
-4. No requirements of new know-how by users
+4. No requirements of bitcoin specific know-how by users
 5. Absolute transparency through building in public (open source github repository)
 
 <p align="right"><a href="#readme-top">🔝</a></p>
@@ -56,7 +56,7 @@ Open Source Crypto-Wallet with focus on Stable Coins, Ethereum Layer 2, efficien
 ## ⚒️ Goals for the Future
 
 1. Audit Security
-2. Fully Leverage Paymaster to enable free transactions
+2. Fully Leverage Lightning to enable fast and cheap transactions
 3. Fully interop between FIAT and Crypto by providing a Debit Card
 
 <p align="right"><a href="#readme-top">🔝</a></p>
