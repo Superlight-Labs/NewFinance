@@ -3,6 +3,12 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["DB_URL", "LOG_LEVLE"],
+      "outputs": ["dist/**"]
+    },
+    "api": {
+      "dependsOn": ["^build"],
+      "env": ["TATUM_TEST_TOKEN", "TATUM_MAIN_TOKEN", "COOKIE_SECRET"],
       "outputs": ["dist/**"]
     },
     "test": {
