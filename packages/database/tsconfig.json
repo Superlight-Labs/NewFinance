@@ -1,5 +1,7 @@
 {
-  "extends": "./../../tsconfig.json",
+  "extends": "@superlight-labs/tsconfig",
   "include": ["index.ts"],
-  "compilerOptions": { "outDir": "dist" }
+  "compilerOptions": {
+    "outDir": "dist"
+  }
 }

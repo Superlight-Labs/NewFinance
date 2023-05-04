@@ -12,5 +12,3 @@ export type {
   BitcoinSendToAddress,
   BitcoinTransaction,
 } from './src/blockchains/bitcoin/types';
-export { EthereumService } from './src/blockchains/ethereum/ethereum-service';
-export { EthereumSwappingService } from './src/blockchains/ethereum/ethereum-swapping-service';

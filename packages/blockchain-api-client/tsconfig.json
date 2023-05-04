@@ -1,6 +1,5 @@
 {
-  "extends": "./../../tsconfig.json",
-
+  "extends": "@superlight-labs/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
     "module": "CommonJS",

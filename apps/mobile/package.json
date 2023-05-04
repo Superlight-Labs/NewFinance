@@ -25,6 +25,7 @@
     "@superlight-labs/rn-crypto-mpc": "*",
     "@superlight-labs/rn-mpc-client": "*",
     "@superlight-labs/rn-secure-encryption-module": "*",
+    "@superlight-labs/tsconfig": "*",
     "@tanstack/react-query": "^4.29.5",
     "axios": "^1.3.4",
     "big.js": "^6.2.1",

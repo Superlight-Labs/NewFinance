@@ -1,7 +1,7 @@
 import { other, RouteError } from '@lib/routes/rest/rest-error';
 import { buildPubKey } from '@lib/utils/auth';
 import { getSafeResultAsync } from '@lib/utils/neverthrow';
-import crypto from 'crypto';
+import { createVerify } from 'crypto';
 import { okAsync, ResultAsync } from 'neverthrow';
 import { createUser, readUser } from 'src/repository/user.repository';
 import { CreateUserRequest } from 'src/routes/user.routes';
@@ -32,7 +32,7 @@ export const verifyUser = (
   );
 
   return readUserResult.andThen(user => {
-    const verifier = crypto.createVerify('SHA256').update(message, 'utf-8');
+    const verifier = createVerify('SHA256').update(message, 'utf-8');
     const result = verifier.verify(
       {
         key: buildPubKey(user.devicePublicKey),

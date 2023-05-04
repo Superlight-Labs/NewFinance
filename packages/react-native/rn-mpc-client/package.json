@@ -35,6 +35,7 @@
   "devDependencies": {
     "@superlight-labs/eslint-config": "*",
     "@superlight-labs/prettier-config": "*",
+    "@superlight-labs/tsconfig": "*",
     "eslint": "8.19",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",

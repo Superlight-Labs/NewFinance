@@ -1,12 +1,11 @@
 {
   "name": "@superlight-labs/database",
   "version": "0.1.0",
-  "main": "./index.ts",
+  "main": "index.ts",
   "types": "./index.ts",
   "scripts": {
+    "build": "prisma generate",
     "dev": "prisma studio --port 5556",
-    "start": "docker compose up -d",
-    "build": "tsc -p tsconfig.json",
     "db:reset": "prisma db push --force-reset",
     "db:push": "prisma db push",
     "studio": "yarn with-env prisma studio --port 5556",
@@ -16,6 +15,7 @@
     "@prisma/client": "^4.10.1"
   },
   "devDependencies": {
+    "@superlight-labs/tsconfig": "*",
     "dotenv-cli": "^7.0.0",
     "prisma": "^4.10.0",
     "typescript": "^4.9.5"
