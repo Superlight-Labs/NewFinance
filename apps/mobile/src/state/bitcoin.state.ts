@@ -59,7 +59,7 @@ type BitcoinActions = {
 };
 
 const initial: BitcoinState = {
-  network: __DEV__ ? 'test' : 'main',
+  network: __DEV__ ? 'test' : 'test', // TODO: change to main for production
   accounts: new Map<string, Account>(),
   addresses: new Map<string, Map<ChangeIndex, AddressInfo>>(),
 };
