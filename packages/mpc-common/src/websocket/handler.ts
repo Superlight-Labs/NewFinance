@@ -1,6 +1,6 @@
 import { ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
-import { AppError, WebsocketError } from '../error';
+import { AppError, WebsocketError } from 'src/error';
 import { MPCWebsocketMessage } from './websocket-messages';
 
 export type MPCWebsocketStarter<T> = (ws: WebSocket) => ResultAsync<T, WebsocketError>;

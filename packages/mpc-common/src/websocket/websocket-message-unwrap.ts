@@ -1,5 +1,4 @@
 import { ResultAsync } from 'neverthrow';
-import { WebSocket } from 'ws';
 import { WebsocketError, mapWebsocketToApiError } from '../error';
 import { MpcWebsocketHandlerWrapper } from './common';
 import { MPCWebsocketMessage, MPCWebsocketResult } from './websocket-messages';
