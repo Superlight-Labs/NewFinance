@@ -2,7 +2,7 @@ import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
 import logger from '@superlight-labs/logger';
 import { shortenMessage } from '@superlight-labs/mpc-common';
-import crypto from 'crypto';
+import { randomBytes } from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   AuthenticatedRouteHandler,
@@ -56,7 +56,7 @@ type NonceOptions = {
 export const setNonceRoute = <T>(handler: NonceRouteHandler<T>, options?: NonceOptions) => {
   const { nonceLength = 16, cookieName = 'authnonce' } = options || {};
   return (req: FastifyRequest, res: FastifyReply) => {
-    const nonce = crypto.randomBytes(nonceLength).toString('base64');
+    const nonce = randomBytes(nonceLength).toString('base64');
 
     res.setCookie(cookieName, nonce, {
       signed: true,

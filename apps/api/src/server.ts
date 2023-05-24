@@ -8,7 +8,7 @@ import { registerRoutes } from './routes/register-routes';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { PrismaClient } from '@superlight-labs/database';
 import fastify from 'fastify';
-import { User } from './repository/user';
+import type { User } from './repository/user';
 
 declare module 'fastify' {
   interface FastifyRequest {

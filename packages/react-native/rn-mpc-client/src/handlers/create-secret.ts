@@ -48,10 +48,12 @@ export const generateGenericSecret: MPCWebsocketHandler<ShareResult, string> = (
     mapWebsocketToAppError(err)
   );
 
-  return ResultAsync.combine([startResult, peerShareIdResult]).map(([share, peerShareId]) => ({
-    share,
-    peerShareId,
-  }));
+  return ResultAsync.combine([startResult, peerShareIdResult])
+    .map(([share, peerShareId]) => ({
+      share,
+      peerShareId,
+    }))
+    .mapErr(mapWebsocketToAppError);
 };
 
 const listenToWebSocket = (

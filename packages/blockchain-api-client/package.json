@@ -18,12 +18,12 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "name": "@superlight-labs/blockchain-api-client",
   "author": "Laurenz Honauer",
   "devDependencies": {
+    "@superlight-labs/tsconfig": "*",
     "@types/node-fetch": "^2.6.2",
     "node-fetch": "^2.6.7",
     "typescript": "^4.9.5"

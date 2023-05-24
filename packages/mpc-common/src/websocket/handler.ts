@@ -15,7 +15,7 @@ export type MPCWebsocketHandlerWithSetup<Result, StartRes> = (
 
 export type StarterWithSetupParams<InitParam> = {
   input: Observable<MPCWebsocketMessage>;
-  output: Subject<ResultAsync<MPCWebsocketMessage<U>, WebsocketError>>;
+  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>;
   initParam: InitParam;
 };
 

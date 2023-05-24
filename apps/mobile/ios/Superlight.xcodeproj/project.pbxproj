@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SuperlightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SuperlightTests.m */; };
+		0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */; };
 		0D6FED552E2D44905DB2D7F8 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */; };
+		11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D3E19221D74E8590752265 /* Inter-Regular.ttf */; };
 		32FEB25F587F7C10AB1697D1 /* libPods-Superlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */; };
 		5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */; };
 		6592C7485FEF4BDA8EA4A865 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */; };
@@ -21,9 +24,6 @@
 		8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */; };
 		9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */; };
 		BE0FED711FA04793A393A36C /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */; };
-		0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */; };
-		11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */; };
-		32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D3E19221D74E8590752265 /* Inter-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +41,7 @@
 		00E356EE1AD99517003FC87E /* SuperlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperlightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SuperlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuperlightTests.m; sourceTree = "<group>"; };
+		03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Superlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Superlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Superlight/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Superlight/AppDelegate.mm; sourceTree = "<group>"; };
@@ -50,7 +51,9 @@
 		1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight-SuperlightTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Regular.ttf"; path = "../assets/fonts/Manrope-Regular.ttf"; sourceTree = "<group>"; };
+		26D3E19221D74E8590752265 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
+		3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Superlight-appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-appTests.debug.xcconfig"; path = "Target Support Files/Pods-Superlight-appTests/Pods-Superlight-appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		738C9690B7EA85AA87177E87 /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
@@ -65,9 +68,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Medium.ttf"; path = "../assets/fonts/Manrope-Medium.ttf"; sourceTree = "<group>"; };
 		FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Superlight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */ = {isa = PBXFileReference; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		26D3E19221D74E8590752265 /* Inter-Regular.ttf */ = {isa = PBXFileReference; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

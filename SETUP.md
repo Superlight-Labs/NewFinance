@@ -1,6 +1,9 @@
 # Local Dev Setup
 
-## Prerequisites
+WARNING
+Setup has only been tested on Apple Silicon M1 Macs. Linux could work but is not tested. Windows is expected to have problems with the native dependencies.
+
+## Setup
 
 1. [Volta](https://volta.sh/) is installed
 2. [Homebrew](https://brew.sh/index_de) is installed and used for dependencies

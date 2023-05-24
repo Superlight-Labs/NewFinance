@@ -1,5 +1,5 @@
 {
-  "extends": "./../../tsconfig.json",
+  "extends": "@superlight-labs/tsconfig",
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": ".",
@@ -7,7 +7,6 @@
     "lib": ["es2019"],
     "allowJs": true,
     "jsx": "react-native",
-    "noEmit": false,
     "isolatedModules": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,

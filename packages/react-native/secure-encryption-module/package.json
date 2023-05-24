@@ -41,6 +41,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@superlight-labs/eslint-config": "*",
     "@superlight-labs/prettier-config": "*",
+    "@superlight-labs/tsconfig": "*",
     "@types/react": "^16.9.19",
     "@types/react-native": "0.71.1",
     "commitlint": "^11.0.0",

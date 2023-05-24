@@ -5,12 +5,12 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "build": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "author": "Laurenz Honauer",
   "license": "MIT",
   "devDependencies": {
+    "@superlight-labs/tsconfig": "*",
     "@superlight-labs/eslint-config": "*",
     "@superlight-labs/prettier-config": "*",
     "pino-pretty": "^8.1.0"

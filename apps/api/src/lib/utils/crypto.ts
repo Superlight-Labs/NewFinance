@@ -1,7 +1,7 @@
 import { Context } from '@crypto-mpc';
 import logger from '@superlight-labs/logger';
 import { shortenMessage } from '@superlight-labs/mpc-common';
-import crypto from 'crypto';
+import { createVerify } from 'crypto';
 import { buildPubKey } from './auth';
 
 type StepResult =
@@ -15,7 +15,7 @@ type StepResult =
     };
 
 export const verifySignature = (publicKey: string, message: string, signature: string): boolean => {
-  const verifier = crypto.createVerify('SHA256').update(message, 'utf-8');
+  const verifier = createVerify('SHA256').update(message, 'utf-8');
 
   return verifier.verify(
     {

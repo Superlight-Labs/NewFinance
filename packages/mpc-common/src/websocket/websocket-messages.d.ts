@@ -1,6 +1,6 @@
 import { ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
-import { WebsocketError } from 'src/error';
+import { WebsocketError } from './../error';
 
 export type MPCWebsocketMessage<T = string> =
   | {
