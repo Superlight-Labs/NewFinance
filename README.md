@@ -1,3 +1,5 @@
+[![Check Codebase](https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml/badge.svg)](https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml)
+
 <a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
