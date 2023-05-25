@@ -1,4 +1,11 @@
-[![Check Codebase](https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml/badge.svg)](https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml)
+<p align="center">
+  <a href="https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml">
+    <img src="https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml/badge.svg" alt="Codebase Status" />
+  </a>&nbsp;
+  <a href="https://github.com/Superlight-Labs/Superlight/actions/workflows/build-docker.yml">
+    <img src="https://github.com/Superlight-Labs/Superlight/actions/workflows/build-docker.yml/badge.svg" alt="Angular on npm" />
+  </a>&nbsp;
+</p>
 
 <a name="readme-top"></a>
 
