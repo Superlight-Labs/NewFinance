@@ -1,6 +1,8 @@
-name: Deploy Azure
+name: Build Docker
 
-on: workflow_dispatch
+on:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -13,12 +15,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: superlight/superlight-api
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./apps/api/.
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+          context: .
+          file: ./apps/api/Dockerfile
+          push: ${{ github.event_name == 'release' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
