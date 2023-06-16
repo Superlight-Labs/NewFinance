@@ -5,6 +5,7 @@ import config from '@lib/config';
 import logger from '@superlight-labs/logger';
 import { registerRoutes } from './routes/register-routes';
 
+import cors from '@fastify/cors';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { PrismaClient } from '@superlight-labs/database';
 import fastify from 'fastify';
@@ -29,6 +30,10 @@ export const createServer = async (client: PrismaClient) => {
   server.register(fastifyCookie, {
     secret: config.cookieSecret,
   });
+  server.register(cors, {
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST'],
+  });
 
   server.register(underPressure, {
     maxHeapUsedBytes: 500 * 1000000,
@@ -47,7 +52,11 @@ export const createServer = async (client: PrismaClient) => {
 
   registerRoutes(server);
 
-  server.all('*', (request, reply) => {
+  server.get('*', (request, reply) => {
+    reply.status(404).send({ error: 'Route does not exist' });
+  });
+
+  server.post('*', (request, reply) => {
     reply.status(404).send({ error: 'Route does not exist' });
   });
 
