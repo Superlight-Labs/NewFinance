@@ -9,7 +9,7 @@ RUN turbo prune --scope=@superlight-labs/api --docker
 
 
 # Install Dependencies and Node Modules
-FROM amd64/node:16-bullseye-slim AS installer
+FROM amd64/node:16 AS installer
 
 RUN apt-get update
 RUN apt-get --yes install python3 \
