@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
+    "@fastify/cors": "^8.3.0",
     "@fastify/type-provider-typebox": "^3.1.0",
     "@fastify/under-pressure": "^8.2.0",
     "@fastify/websocket": "^7.2.0",
@@ -39,8 +40,8 @@
     "openpgp": "^5.5.0",
     "ref-napi": "^3.0.3",
     "rxjs": "^7.8.0",
-    "tsconfig-paths": "^4.1.2",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2"
   },
   "devDependencies": {
     "@superlight-labs/eslint-config": "*",
