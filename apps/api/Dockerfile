@@ -1,5 +1,5 @@
 # Install Turbo and Prune
-FROM amd64/node:16-bullseye-slim AS builder
+FROM amd64/node:16 AS builder
 
 WORKDIR /app
 RUN yarn global add turbo
@@ -30,7 +30,7 @@ COPY turbo.json turbo.json
 RUN yarn turbo run build --filter=@superlight-labs/api...
 
 # Setup Process and run command
-FROM amd64/node:16-bullseye-slim AS runner
+FROM amd64/node:16 AS runner
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 superlight-api
