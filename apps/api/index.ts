@@ -1,10 +1,11 @@
+import config from '@lib/config';
 import { client } from '@superlight-labs/database';
 import logger from '@superlight-labs/logger';
 import { createServer } from 'src/server';
 
 createServer(client)
   .then(server => {
-    server.listen({ port: 8080 }, (err, address) => {
+    server.listen({ host: config.host, port: config.port }, (err, address) => {
       if (err) {
         logger.error({ err, address }, 'Error while trying to listen on port 8080');
         process.exit(1);
