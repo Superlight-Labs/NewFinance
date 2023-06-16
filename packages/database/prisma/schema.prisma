@@ -1,12 +1,13 @@
 datasource db {
-    provider = "sqlite"
+    provider = "mysql" // "sqlite" for development
     url      = env("DB_URL")
 
-    // relationMode = "prisma"
+    relationMode = "prisma"
 }
 
 generator client {
-    provider = "prisma-client-js"
+    provider   = "prisma-client-js"
+    engineType = "binary"
 }
 
 model User {
@@ -31,6 +32,8 @@ model ExternalAddress {
     updatedAt            DateTime      @updatedAt
     sentTransactions     Transaction[] @relation("sentTransactions")
     recievedTransactions Transaction[] @relation("recievedTransactions")
+
+    @@index([userEmail])
 }
 
 model Transaction {
@@ -42,6 +45,9 @@ model Transaction {
     sender          ExternalAddress @relation(name: "sentTransactions", fields: [senderAddress], references: [address])
     senderAddress   String
     note            String?
+
+    @@index([recieverAddress])
+    @@index([senderAddress])
 }
 
 model MpcKeyShare {
@@ -57,4 +63,5 @@ model MpcKeyShare {
     updatedAt DateTime @updatedAt
 
     @@unique([userId, path])
+    @@index([userId, userDevicePublicKey])
 }
