@@ -39,6 +39,4 @@ USER superlight-api
 
 COPY --from=installer /app .
 
-EXPOSE 8080
-
 CMD yarn workspace @superlight-labs/api start

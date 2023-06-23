@@ -1,17 +1,17 @@
 import logger from '@superlight-labs/logger';
 import {
-    AppError,
-    MPCWebsocketMessage,
-    MpcWebsocketHandlerWrapper,
-    SignResult,
-    WebsocketConfig,
-    WebsocketError,
-    apiError,
-    createMPCWebsocketHandlerWrapper,
-    mapWebsocketToAppError,
-    other,
-    shortenMessage,
-    websocketError,
+  AppError,
+  MPCWebsocketMessage,
+  MpcWebsocketHandlerWrapper,
+  SignResult,
+  WebsocketConfig,
+  WebsocketError,
+  apiError,
+  createMPCWebsocketHandlerWrapper,
+  mapWebsocketToAppError,
+  other,
+  shortenMessage,
+  websocketError,
 } from '@superlight-labs/mpc-common';
 import axios from 'axios';
 import { Result, ResultAsync } from 'neverthrow';
@@ -61,13 +61,15 @@ export const createWebsocket = Result.fromThrowable(
 
     // TODO check if JWT makes sense here, this is a bit custom
     try {
-      return new WebSocket(`ws://${baseUrl}/mpc/ecdsa/${socketEndpoint}`, undefined, {
+      const ws = new WebSocket(`ws://${baseUrl}/mpc/ecdsa/${socketEndpoint}`, undefined, {
         headers: {
           userid: userId,
           devicepublickey: devicePublicKey,
           signature,
         },
       });
+
+      return ws;
     } catch (err) {
       logger.error({ err }, "Couldn't create websocket");
       throw err;

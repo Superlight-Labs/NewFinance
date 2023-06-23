@@ -4,6 +4,7 @@
   "main": "index.ts",
   "types": "./index.ts",
   "scripts": {
+    "start": "docker compose up -d",
     "build": "prisma generate",
     "dev": "prisma studio --port 5556",
     "db:reset": "prisma db push --force-reset",

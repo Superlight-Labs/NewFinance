@@ -1,5 +1,5 @@
 datasource db {
-    provider = "mysql" // "sqlite" for development
+    provider = "mysql"
     url      = env("DB_URL")
 
     relationMode = "prisma"
@@ -53,7 +53,7 @@ model Transaction {
 model MpcKeyShare {
     id    String @id @default(uuid())
     path  String
-    value String
+    value String @db.VarChar(2000)
 
     user                User   @relation("KeySharesForUser", fields: [userId, userDevicePublicKey], references: [id, devicePublicKey])
     userId              String
