@@ -33,7 +33,7 @@ const Carousel = ({ children }: Props) => {
           scrollEventThrottle={1}>
           {children.map((child, childIndex) => {
             return (
-              <View className="w-[100vw] bg-white" key={childIndex}>
+              <View className="w-[100vw] bg-white p-12" key={childIndex}>
                 {child}
               </View>
             );

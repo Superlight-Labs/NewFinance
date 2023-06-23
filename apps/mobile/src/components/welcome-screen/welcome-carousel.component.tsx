@@ -6,16 +6,18 @@ const WelcomeCarousel = () => {
     <View className="flex flex-1 flex-col">
       <Carousel>
         <View className="flex w-full flex-1 flex-col items-center justify-center">
-          <Text>Hi</Text>
+          <Text>
+            Hi, this carousel is yet to be built and will explain new users what the app is about
+          </Text>
         </View>
         <View className="flex w-full flex-1 flex-col items-center justify-center">
-          <Text>this</Text>
+          <Text>page 2</Text>
         </View>
         <View className="flex w-full flex-1 flex-col items-center justify-center">
-          <Text>will</Text>
+          <Text>page 3</Text>
         </View>
         <View className="flex w-full flex-1 flex-col items-center justify-center">
-          <Text>explain</Text>
+          <Text>page 4</Text>
         </View>
       </Carousel>
     </View>

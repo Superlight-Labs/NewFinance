@@ -160,7 +160,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       index: '0',
       peerShareId: cShareId,
       share: cShare,
-      parentPath: `m/84'/0'/0'/${changeIndex}}`,
+      parentPath: `m/84'/0'/0'/${changeIndex}`,
       hardened: false,
     }).andThen(({ share, peerShareId }) => {
       return getXPubKey(share)
