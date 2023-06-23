@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: "superlight"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - superlight-dev-db:/var/lib/mysql
+volumes:
+  superlight-dev-db:

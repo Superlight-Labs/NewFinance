@@ -26,42 +26,41 @@
 		<true />
 		<key>NSAppTransportSecurity</key>
 		<dict>
-			<key>NSExceptionDomains</key>
+			<key>NSAllowsArbitraryLoads</key>
+			<true />
+			<!-- <key>NSExceptionDomains</key>
+		<dict>
+			<key>superlight-api-test.westeurope.azurecontainer.io:3000</key>
 			<dict>
-
-				<key>superlight-api-test.westeurope.azurecontainer.io:3000</key>
-				<dict>
-					<key>NSExceptionAllowsInsecureHTTPLoads</key>
-					<true />
-					<key>NSExceptionDomains</key>
-					<true />
-					<key>NSIncludesSubdomains</key>
-					<true />
-					<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-					<true />
-				</dict>
-				<key> superlight-api-test.westeurope.azurecontainer.io </key>
-				<dict>
-					<key> NSIncludesSubdomains </key>
-					<true />
-					<key> NSTemporaryExceptionAllowsInsecureHTTPLoads </key>
-					<true />
-					<key> NSTemporaryExceptionMinimumTLSVersion </key>
-					<string> TLSv1.1 </string>
-				</dict>
-				<key>localhost</key>
-				<dict>
-					<key>NSExceptionAllowsInsecureHTTPLoads</key>
-					<true />
-				</dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
 			</dict>
+			<key> superlight-api-test.westeurope.azurecontainer.io </key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
+			</dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict> -->
 		</dict>
 		<key>NSCameraUsageDescription</key>
 		<string>Allow ${PRODUCT_NAME} to use Camera</string>
 		<key>NSFaceIDUsageDescription</key>
 		<string>Allow $(PRODUCT_NAME) to use FaceID</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string />
+		<string></string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Allow $(PRODUCT_NAME) to use the microphone</string>
 		<key>UIAppFonts</key>

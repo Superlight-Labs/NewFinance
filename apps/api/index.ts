@@ -7,7 +7,10 @@ createServer(client)
   .then(server => {
     server.listen({ host: config.host, port: config.port }, (err, address) => {
       if (err) {
-        logger.error({ err, address }, 'Error while trying to listen on port 8080');
+        logger.error(
+          { err, address },
+          `Error while trying to listen to "${config.host}:${config.port}"`
+        );
         process.exit(1);
       }
     });
