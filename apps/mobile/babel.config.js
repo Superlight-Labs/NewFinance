@@ -1,6 +1,13 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
+    [
+      'module:react-native-dotenv',
+      {
+        verbose: false,
+        path: './../../.env',
+      },
+    ],
     'nativewind/babel',
     [
       'module-resolver',

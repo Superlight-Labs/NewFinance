@@ -59,7 +59,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
             onChangeText={setUsername}
           />
         </View>
-        <View className=" bottom-1 flex h-14 w-14 items-center justify-center rounded-lg bg-black">
+        <View className=" bottom-1 flex h-12 w-12 items-center justify-center rounded-lg bg-black">
           <MonoIcon color="white" iconName="User" />
         </View>
       </View>
@@ -73,7 +73,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
             onChangeText={setEmail}
           />
         </View>
-        <View className="bottom-1 flex h-14 w-14 items-center justify-center rounded-lg bg-black p-3">
+        <View className="bottom-1 flex h-12 w-12 items-center justify-center rounded-lg bg-black p-3">
           <MonoIcon color="white" iconName="AtSign" />
         </View>
       </View>

@@ -1,3 +1,4 @@
+import { API_URL } from '@env';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
@@ -11,7 +12,6 @@ import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useDeriveState } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
-import { apiUrl } from 'utils/superlight-api';
 import { mnemonicToSeed } from 'utils/wrappers/bip32-neverthrow';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
@@ -39,7 +39,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
     const importSecret = mnemonicToSeed(phrase).andThen(secret =>
       importGenericSecret(
         {
-          baseUrl: apiUrl,
+          baseUrl: API_URL,
           sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
         },
         Buffer.from(secret).toString('hex')

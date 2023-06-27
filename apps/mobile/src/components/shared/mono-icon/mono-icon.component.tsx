@@ -1,11 +1,11 @@
+import * as Icon from 'lucide-react-native';
 import { styled } from 'nativewind';
 import React from 'react';
 import { View } from 'react-native';
-import * as Icon from 'react-native-feather';
 import LoadingIcon from './loading-icon.component';
 
 type Props = {
-  iconName: FeatherIconName;
+  iconName: IconName;
   strokeWitdth?: number;
   height?: number;
   width?: number;
@@ -32,7 +32,7 @@ const MonoIcon = ({
   );
 };
 
-const getIcon = (name: FeatherIconName) => {
+const getIcon = (name: IconName) => {
   if (name === 'Loading') return LoadingIcon;
 
   return Icon[name];
@@ -40,7 +40,7 @@ const getIcon = (name: FeatherIconName) => {
 
 export default MonoIcon;
 
-export type FeatherIconName =
+export type IconName =
   | 'ArrowUpCircle'
   | 'Send'
   | 'LogOut'
@@ -55,6 +55,7 @@ export type FeatherIconName =
   | 'Info'
   | 'AlertCircle'
   | 'Clipboard'
+  | 'Delete'
   | 'ArrowDownCircle'
   | 'UserCheck'
   | 'Heart'
@@ -65,4 +66,6 @@ export type FeatherIconName =
   | 'Minimize2'
   | 'CheckCircle'
   | 'AtSign'
-  | 'Loading';
+  | 'Loading'
+  | 'ListRestart'
+  | 'Wallet';

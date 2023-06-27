@@ -1,3 +1,4 @@
+import { API_URL } from '@env';
 import { AppError, appError } from '@superlight-labs/mpc-common';
 import { useSignEcdsa } from '@superlight-labs/rn-mpc-client';
 import { Psbt, SignerAsync, Transaction } from 'der-bitcoinjs-lib';
@@ -15,7 +16,6 @@ import {
   signAndFinalize,
 } from 'utils/crypto/bitcoin-transaction-utils';
 import { toSatoshi } from 'utils/crypto/bitcoin-value';
-import { apiUrl } from 'utils/superlight-api';
 import { useFailableAction } from './useFailable';
 
 export const useCreateBitcoinTransaction = (account: string) => {
@@ -103,7 +103,7 @@ const useBitcoinSigner = () => {
   if (!user) throw new Error('User is not authenticated!');
 
   const config = {
-    baseUrl: apiUrl,
+    baseUrl: API_URL,
     sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
   };
 

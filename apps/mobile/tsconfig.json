@@ -11,6 +11,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./src/env.d.tsx"],
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "state/*": ["src/state/*"],

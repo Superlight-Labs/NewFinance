@@ -1,20 +1,22 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import ButtonComponent from 'components/shared/input/button/button.component';
-import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
 import TextInputComponent from 'components/shared/input/text/text-input.component';
 import Layout from 'components/shared/layout/layout.component';
+import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Title from 'components/shared/title/title.component';
+import RecoveryPhraseComponent from 'components/wallets/create/recovery-phrase.component';
 import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
-import { Text } from 'utils/wrappers/styled-react-native';
+import { Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Import'>;
 
 const ImportWallet = ({ navigation }: Props) => {
+  const [phraseValid, setPhraseValid] = useState(false);
   const [walletName, setWalletName] = useState('');
-  const [seedPhrase, setSeedPhrase] = useState('');
+  const [seedPhrase, _] = useState('');
   const { deleteBip32, derivedUntilLevel, setName } = useDeriveState();
 
   useEffect(() => {
@@ -41,23 +43,30 @@ const ImportWallet = ({ navigation }: Props) => {
 
   return (
     <Layout>
-      <ButtonComponent style="absolute right-8 -top-12 rounded-xl" onPress={startGenerateWallet}>
+      <ButtonComponent
+        style="absolute right-8 -top-12 rounded-xl"
+        disabled={!phraseValid}
+        onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
       <Title>Configure your new Wallet</Title>
-      <Text className="mb-2 mr-4">Enter your existing seed phrase</Text>
-      <MultilineText
-        setValue={setSeedPhrase}
-        value={seedPhrase}
-        placeholder="12 to 24 word seed phrase"
-      />
-      <Text className="mr-4 mt-8">Set the Name for your Wallet</Text>
-      <TextInputComponent
-        className="border-800 h-8 w-64 border-b"
-        defaultValue="Main Wallet"
-        value={walletName}
-        onChangeText={setWalletName}
-      />
+      <View className="flex w-full flex-row items-center border-b border-b-slate-200 py-2">
+        <View className="flex-1">
+          <Text className="font-inter-medium">Wallet Name</Text>
+          <TextInputComponent
+            style="border-b-0"
+            placeHolder="Main Wallet"
+            defaultValue="Main Wallet"
+            value={walletName}
+            onChangeText={setWalletName}
+          />
+        </View>
+        <View className="flex h-12 w-12 items-center justify-center rounded-lg bg-black p-3">
+          <MonoIcon color="white" iconName="Wallet" />
+        </View>
+      </View>
+
+      <RecoveryPhraseComponent setPhraseValid={setPhraseValid} />
     </Layout>
   );
 };

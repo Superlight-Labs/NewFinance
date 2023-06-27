@@ -1,4 +1,4 @@
-import { FeatherIconName } from 'components/shared/mono-icon/mono-icon.component';
+import { IconName } from 'components/shared/mono-icon/mono-icon.component';
 import { useDeleteLocalData } from 'hooks/useDeleteLocalData';
 import { MenuStackParamList } from './menu-navigation';
 
@@ -10,7 +10,7 @@ type MenuCategory = {
 type MenuItem = {
   name: string;
   subText: string;
-  icon: FeatherIconName;
+  icon: IconName;
 } & (ActionItem | LinkItem);
 
 type ActionItem = {

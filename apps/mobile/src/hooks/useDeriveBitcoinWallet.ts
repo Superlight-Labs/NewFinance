@@ -1,3 +1,4 @@
+import { API_URL } from '@env';
 import logger from '@superlight-labs/logger';
 import { appError } from '@superlight-labs/mpc-common';
 import { getXPubKey, useDerive } from '@superlight-labs/rn-mpc-client';
@@ -9,7 +10,6 @@ import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin-address';
-import { apiUrl } from 'utils/superlight-api';
 import { useFailableAction } from './useFailable';
 
 export const useCreateBitcoinWallet = () => {
@@ -59,7 +59,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
   if (!user) throw new Error('User is not authenticated!');
 
   const config = {
-    baseUrl: apiUrl,
+    baseUrl: API_URL,
     sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
   };
   const deriveAndSaveMaster = (secretShare: ShareResult | undefined) => {

@@ -44,9 +44,8 @@ export const listenToWebsocket = (
 };
 
 export const createNonce = (apiUrl: string): ResultAsync<string, AppError> => {
-  return ResultAsync.fromPromise(
-    axios.get<CreateNonceResponse>(`http://${apiUrl}/auth/get-nonce`),
-    err => mapWebsocketToAppError(apiError(err, 'Error while creating nonce'))
+  return ResultAsync.fromPromise(axios.get<CreateNonceResponse>(`${apiUrl}/auth/get-nonce`), err =>
+    mapWebsocketToAppError(apiError(err, 'Error while creating nonce'))
   ).map(res => res.data.nonce);
 };
 
@@ -59,15 +58,21 @@ export const createWebsocket = Result.fromThrowable(
     const { userId, devicePublicKey, signature } = config.signResult;
     const { baseUrl, socketEndpoint } = config.apiConfig;
 
+    const baseUrlWithoutProtocol = baseUrl.replace(/(^\w+:|^)\/\//, '');
+
     // TODO check if JWT makes sense here, this is a bit custom
     try {
-      const ws = new WebSocket(`ws://${baseUrl}/mpc/ecdsa/${socketEndpoint}`, undefined, {
-        headers: {
-          userid: userId,
-          devicepublickey: devicePublicKey,
-          signature,
-        },
-      });
+      const ws = new WebSocket(
+        `ws://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
+        undefined,
+        {
+          headers: {
+            userid: userId,
+            devicepublickey: devicePublicKey,
+            signature,
+          },
+        }
+      );
 
       return ws;
     } catch (err) {

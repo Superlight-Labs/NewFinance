@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { AppMessage, useSnackbarState } from 'state/snackbar.state';
 import { AnimatedView, Pressable, Text, View } from 'utils/wrappers/styled-react-native';
-import MonoIcon, { FeatherIconName } from '../mono-icon/mono-icon.component';
+import MonoIcon, { IconName } from '../mono-icon/mono-icon.component';
 
 type Props = {
   appMessage: AppMessage;
@@ -53,7 +53,7 @@ const Snackbar = ({ appMessage }: Props) => {
               {appMessage.step + '/' + appMessage.total}
             </Text>
           ) : (
-            <MonoIcon color={font[level]} iconName={icons[level] as FeatherIconName} />
+            <MonoIcon color={font[level]} iconName={icons[level] as IconName} />
           )}
           <Text className={`text-[${font[level]}]`}>{message}</Text>
           {level === 'progress' ? (
@@ -99,7 +99,7 @@ type Color = {
 };
 
 type Icon = {
-  [key in AppMessage['level']]: FeatherIconName;
+  [key in AppMessage['level']]: IconName;
 };
 
 export default Snackbar;
