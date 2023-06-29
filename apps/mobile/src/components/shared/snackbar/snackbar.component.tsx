@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { AppMessage, useSnackbarState } from 'state/snackbar.state';
+import { openWebsite, reportBugUrl } from 'utils/web-opener';
 import { AnimatedView, Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 import MonoIcon, { IconName } from '../mono-icon/mono-icon.component';
 
@@ -34,18 +35,21 @@ const Snackbar = ({ appMessage }: Props) => {
   return (
     <AnimatedView
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         backgroundColor: 'white',
         position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        bottom: 50,
+        left: 10,
+        right: 10,
         transform: [
           { translateY: introAnim.interpolate({ inputRange: [0, 1], outputRange: [500, 0] }) },
         ],
       }}>
       <Pressable
         onPress={close}
-        className={`flex rounded-2xl bg-${colors[level]}-100 border-2 border-[${font[level]}] border-[${font[level]}] py-4`}>
+        className={`flex w-full flex-col rounded-2xl bg-${colors[level]}-100 border-2 border-[${font[level]}] border-[${font[level]}] py-4`}>
         <View className="flex flex-row items-center justify-around p-2 px-8">
           {level === 'progress' ? (
             <Text
@@ -53,7 +57,7 @@ const Snackbar = ({ appMessage }: Props) => {
               {appMessage.step + '/' + appMessage.total}
             </Text>
           ) : (
-            <MonoIcon color={font[level]} iconName={icons[level] as IconName} />
+            <MonoIcon style="w-16" color={font[level]} iconName={icons[level] as IconName} />
           )}
           <Text className={`text-[${font[level]}]`}>{message}</Text>
           {level === 'progress' ? (
@@ -62,6 +66,17 @@ const Snackbar = ({ appMessage }: Props) => {
             <MonoIcon style="opacity-0" iconName="Loading" />
           )}
         </View>
+        {level === 'error' && (
+          <Pressable
+            onPress={() => openWebsite(reportBugUrl)}
+            className="mt-4 flex flex-row items-center justify-center underline">
+            <Text className="mr-2 text-center underline">Report a Bug</Text>
+            <MonoIcon iconName="Github" />
+          </Pressable>
+        )}
+      </Pressable>
+      <Pressable className="mt-2" onPress={close}>
+        <MonoIcon iconName="ChevronDown" />
       </Pressable>
     </AnimatedView>
   );

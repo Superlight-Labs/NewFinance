@@ -4,7 +4,7 @@ import TextInputComponent from 'components/shared/input/text/text-input.componen
 import Layout from 'components/shared/layout/layout.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Title from 'components/shared/title/title.component';
-import RecoveryPhraseComponent from 'components/wallets/create/recovery-phrase.component';
+import RecoveryPhraseInputComponent from 'components/wallets/create/recovery-phrase-input.component';
 import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
@@ -14,9 +14,8 @@ import { Text, View } from 'utils/wrappers/styled-react-native';
 type Props = StackScreenProps<RootStackParamList, 'Import'>;
 
 const ImportWallet = ({ navigation }: Props) => {
-  const [phraseValid, setPhraseValid] = useState(false);
-  const [walletName, setWalletName] = useState('');
-  const [seedPhrase, _] = useState('');
+  const [walletName, setWalletName] = useState('Main Wallet');
+  const [seedPhrase, setPhrase] = useState('');
   const { deleteBip32, derivedUntilLevel, setName } = useDeriveState();
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const ImportWallet = ({ navigation }: Props) => {
       return;
     }
 
-    setName(walletName || 'Main Wallet');
+    setName(walletName);
 
     navigation.navigate('ReviewCreate', {
       withPhrase: true,
@@ -45,7 +44,7 @@ const ImportWallet = ({ navigation }: Props) => {
     <Layout>
       <ButtonComponent
         style="absolute right-8 -top-12 rounded-xl"
-        disabled={!phraseValid}
+        disabled={!seedPhrase}
         onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
@@ -66,7 +65,7 @@ const ImportWallet = ({ navigation }: Props) => {
         </View>
       </View>
 
-      <RecoveryPhraseComponent setPhraseValid={setPhraseValid} />
+      <RecoveryPhraseInputComponent setPhrase={setPhrase} />
     </Layout>
   );
 };

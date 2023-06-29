@@ -2,10 +2,10 @@ import { API_URL } from '@env';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
 import ButtonComponent from 'components/shared/input/button/button.component';
-import MultilineText from 'components/shared/input/multiline-text/multiline-text.component';
 import Layout from 'components/shared/layout/layout.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Title from 'components/shared/title/title.component';
+import RecoveryPhraseDisplayComponent from 'components/wallets/create/recovery-phrase-display.component';
 import { useFailableAction } from 'hooks/useFailable';
 import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
@@ -66,8 +66,17 @@ const ReviewCreate = ({ navigation, route }: Props) => {
       </ButtonComponent>
       <Title style="mb-4">Review Settings and finish</Title>
 
-      <Text>Name: {name}</Text>
-      {withPhrase && phrase && <MultilineText value={phrase} disabled />}
+      <View className="flex w-full flex-row items-center border-b border-b-slate-200 py-2">
+        <View className="flex-1">
+          <Text className="font-inter-medium">Wallet Name</Text>
+          <Text className="border-b-0">{name}</Text>
+        </View>
+        <View className="flex h-12 w-12 items-center justify-center rounded-lg bg-black p-3">
+          <MonoIcon color="white" iconName="Wallet" />
+        </View>
+      </View>
+
+      {withPhrase && phrase && <RecoveryPhraseDisplayComponent phrase={phrase} />}
 
       {loading && (
         <View className="mt-6 flex items-center justify-center">

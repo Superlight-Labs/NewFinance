@@ -21,7 +21,7 @@ type Props = StackScreenProps<RootStackParamList, 'Create'>;
 
 const CreateWallet = ({ navigation }: Props) => {
   const [withPhrase, setWithPhrase] = useState(false);
-  const [walletName, setWalletName] = useState('');
+  const [walletName, setWalletName] = useState('Main Wallet');
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
@@ -55,7 +55,7 @@ const CreateWallet = ({ navigation }: Props) => {
         sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
       })
     ).onSuccess(result => {
-      setName(walletName || 'Main Wallet');
+      setName(walletName);
       setSecret({
         peerShareId: result.peerShareId,
         share: result.share,
