@@ -11,7 +11,7 @@ import { useCallback, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { constants } from 'utils/constants';
-import { Text, View } from 'utils/wrappers/styled-react-native';
+import { Image, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 
@@ -77,6 +77,10 @@ const OnboardingScreen = ({ navigation }: Props) => {
           <MonoIcon color="white" iconName="AtSign" />
         </View>
       </View>
+      <Image
+        className="-ml-8 mt-16 h-72 w-screen"
+        source={require('../../../../assets/images/lines-1.png')}
+      />
     </LayoutComponent>
   );
 };

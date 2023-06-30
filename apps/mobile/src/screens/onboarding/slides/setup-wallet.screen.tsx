@@ -5,7 +5,7 @@ import Title from 'components/shared/title/title.component';
 import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useDeriveState } from 'state/derive.state';
-import { Text } from 'utils/wrappers/styled-react-native';
+import { Image, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'SetupWallet'>;
 
@@ -18,18 +18,18 @@ const SetupWallet = ({ navigation }: Props) => {
     }
   }, [hasHydrated]);
   return (
-    <Layout hideBack settingsNavigate={() => navigation.navigate('Menu')}>
+    <Layout
+      style="flex w-screen flex-col"
+      hideBack
+      settingsNavigate={() => navigation.navigate('Menu')}>
       <Title style="mb-4">Onboarding</Title>
 
-      <Text className=" font-inter">
+      <Text className="my-8 font-inter">
         Hello, welcome to Superlight. Next step is to create your wallet.
-      </Text>
-      <Text className="mb-24 font-inter">
-        You can either generate a new one, or import an existing wallet by your passphrase
       </Text>
 
       <Button
-        style="py-3"
+        style="py-3 mt-auto"
         shadow
         onPress={function (): void {
           navigation.navigate('Create');
@@ -44,6 +44,13 @@ const SetupWallet = ({ navigation }: Props) => {
         }}>
         Import Existing Wallet
       </Button>
+
+      <View className="mt-8 flex w-full flex-1 flex-col items-center">
+        <Image
+          className="h-72 w-screen"
+          source={require('../../../../assets/images/lines-2.png')}
+        />
+      </View>
     </Layout>
   );
 };
