@@ -93,6 +93,10 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
           <MonoIcon iconName="XCircle" />
         </Button>
       </View>
+      <View className="left-0 right-0 mt-8 flex flex-row">
+        <MonoIcon color="#8D93A0" iconName="Info" />
+        <Text className="text-slate-400"> We use a standard BIP84 derivation path</Text>
+      </View>
     </View>
   );
 };

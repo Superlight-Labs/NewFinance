@@ -10,12 +10,12 @@ import { RefreshControl } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
-import { Image, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
+import { Image, ScrollView } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
 const Home = ({ navigation }: Props) => {
-  const createBitcoinWallet = useCreateBitcoinWallet();
+  const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
   const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress } = useBitcoinState();
   const [loading, setLoading] = useState(false);
@@ -50,11 +50,6 @@ const Home = ({ navigation }: Props) => {
         {loading || !hasAddress() ? (
           <>
             <LoadingWalletItem name={name} />
-            <View className="mr-8 flex items-center justify-center self-center">
-              <Text className="mt-24 flex items-center justify-center text-center font-manrope-bold text-blue-800">
-                Your Wallet is currently being created for you. This can take a few moments...
-              </Text>
-            </View>
           </>
         ) : (
           [...accounts].map(([key, _]) => (

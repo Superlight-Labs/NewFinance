@@ -30,7 +30,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
   };
 
   useEffect(() => {
-    if (!withPhrase || !phrase || !user || derivedUntilLevel !== 0) return;
+    if (!withPhrase || !phrase || !user || derivedUntilLevel > 1) return;
 
     // Only executed if use decides to use a seed phrase
     // We do this because the `mnemonicToSeed` function is very slow and blocks the UI thread

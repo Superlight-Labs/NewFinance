@@ -21,7 +21,7 @@ const RecoveryPhraseDisplayComponent = ({ phrase }: Props) => {
   };
 
   return (
-    <View className="flex h-full w-full">
+    <View className=" flex h-full w-full">
       <View className="flex w-full flex-row items-center py-2">
         <View className="flex-1">
           <Text className="font-inter-medium">Recovery phrase</Text>
@@ -54,6 +54,10 @@ const RecoveryPhraseDisplayComponent = ({ phrase }: Props) => {
         <Text className="mr-4 font-inter-medium text-black">Copy to clipboard!</Text>
         <MonoIcon iconName="ClipboardCopy" />
       </Pressable>
+      <View className="left-0 right-0 mt-8 flex flex-row">
+        <MonoIcon color="#8D93A0" iconName="Info" />
+        <Text className="text-slate-400"> We use a standard BIP84 derivation path</Text>
+      </View>
     </View>
   );
 };

@@ -12,7 +12,7 @@ import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin-address';
 import { useFailableAction } from './useFailable';
 
-export const useCreateBitcoinWallet = () => {
+export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
   const { perform } = useFailableAction();
   const { user } = useAuthState();
 
@@ -34,7 +34,8 @@ export const useCreateBitcoinWallet = () => {
         .andThen(deriveAndSavePurpose)
         .andThen(deriveAndSaveCoinType)
         .andThen(deriveAndSaveAccount)
-        .andThen(deriveAddresses)
+        .andThen(deriveAddresses),
+      naviagteBack
     );
 };
 
