@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { AppMessage, useSnackbarState } from 'state/snackbar.state';
-import { openWebsite, reportBugUrl } from 'utils/web-opener';
+import { createBugUrl, openWebsite } from 'utils/web-opener';
 import { AnimatedView, Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 import MonoIcon, { IconName } from '../mono-icon/mono-icon.component';
 
@@ -68,7 +68,7 @@ const Snackbar = ({ appMessage }: Props) => {
         </View>
         {level === 'error' && (
           <Pressable
-            onPress={() => openWebsite(reportBugUrl)}
+            onPress={() => openWebsite(createBugUrl(appMessage.error))}
             className="mt-4 flex flex-row items-center justify-center underline">
             <Text className="mr-2 text-center underline">Report a Bug</Text>
             <MonoIcon iconName="Github" />
