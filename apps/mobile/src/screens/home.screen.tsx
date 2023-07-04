@@ -10,7 +10,7 @@ import { RefreshControl } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
-import { Image, ScrollView } from 'utils/wrappers/styled-react-native';
+import { ScrollView } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
@@ -62,10 +62,6 @@ const Home = ({ navigation }: Props) => {
           ))
         )}
       </ScrollView>
-      <Image
-        className="absolute bottom-[15%] left-0 h-72 w-screen"
-        source={require('../../assets/images/lines-2.png')}
-      />
     </LayoutComponent>
   );
 };
