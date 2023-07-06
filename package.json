@@ -21,6 +21,7 @@
     "db:start": "dotenv -- yarn workspace @superlight-labs/database start",
     "db:push": "dotenv -- yarn workspace @superlight-labs/database run db:push",
     "db:reset": "dotenv -- yarn workspace @superlight-labs/database run db:reset",
+    "db:studio": "dotenv -- yarn workspace @superlight-labs/database run studio",
     "pod-install": "yarn workspace @superlight-labs/mobile run postinstall"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
