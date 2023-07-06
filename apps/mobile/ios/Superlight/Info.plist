@@ -27,27 +27,9 @@
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsArbitraryLoads</key>
-			<true />
+			<false />
 			<key>NSExceptionDomains</key>
 			<dict>
-				<key>superlight-api-test.westeurope.azurecontainer.io:3000</key>
-				<dict>
-					<key>NSIncludesSubdomains</key>
-					<true />
-					<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-					<true />
-					<key>NSTemporaryExceptionMinimumTLSVersion</key>
-					<string>TLSv1.1</string>
-				</dict>
-				<key> superlight-api-test.westeurope.azurecontainer.io </key>
-				<dict>
-					<key>NSIncludesSubdomains</key>
-					<true />
-					<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-					<true />
-					<key>NSTemporaryExceptionMinimumTLSVersion</key>
-					<string>TLSv1.1</string>
-				</dict>
 				<key>localhost</key>
 				<dict>
 					<key>NSExceptionAllowsInsecureHTTPLoads</key>

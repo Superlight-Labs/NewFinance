@@ -1,5 +1,6 @@
 import { IconName } from 'components/shared/mono-icon/mono-icon.component';
 import { useDeleteLocalData } from 'hooks/useDeleteLocalData';
+import { openWebsite, reportBugUrl } from 'utils/web-opener';
 import { MenuStackParamList } from './menu-navigation';
 
 type MenuCategory = {
@@ -23,10 +24,12 @@ type LinkItem = {
   screen: keyof MenuStackParamList;
 };
 
+const homePageUrl = 'https://www.superlight.me/';
+
 export const useMenuItems = () => {
   const { deleteLocalData: logout } = useDeleteLocalData();
 
-  const items: MenuItem[] = [
+  const generalItems: MenuItem[] = [
     {
       name: 'Logout',
       subText: 'Delete your wallet completely',
@@ -43,7 +46,34 @@ export const useMenuItems = () => {
     },
   ];
 
-  const categories: MenuCategory[] = [{ name: 'General', items }];
+  const aboutItems: MenuItem[] = [
+    {
+      name: 'Homepage',
+      subText: 'Visit our homepage',
+      type: 'action',
+      icon: 'ExternalLink',
+      onPress: () => openWebsite(homePageUrl),
+    },
+    {
+      name: 'Support',
+      subText: 'Raise a question or give us feedback',
+      type: 'action',
+      icon: 'ExternalLink',
+      onPress: () => openWebsite(homePageUrl + '/support'),
+    },
+    {
+      name: 'Raise a bug',
+      subText: 'Imrpove the app by raising a bug',
+      type: 'action',
+      icon: 'Github',
+      onPress: () => openWebsite(reportBugUrl),
+    },
+  ];
+
+  const categories: MenuCategory[] = [
+    { name: 'General', items: generalItems },
+    { name: 'About', items: aboutItems },
+  ];
 
   return categories;
 };

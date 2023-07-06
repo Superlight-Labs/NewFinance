@@ -63,7 +63,9 @@ export const createWebsocket = Result.fromThrowable(
     // TODO check if JWT makes sense here, this is a bit custom
     try {
       const ws = new WebSocket(
-        `ws://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
+        `${getProtocol(
+          process.env.NODE_ENV || 'development'
+        )}://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
         undefined,
         {
           headers: {
@@ -97,4 +99,12 @@ export const logIncommingMessages = {
     logger.debug({ data: shortenMessage(message) }, 'Received message on websocket'),
   error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
   complete: () => logger.debug('Connection on Websocket closed'),
+};
+
+const getProtocol = (env: string) => {
+  if (env === 'production') {
+    return 'wss';
+  } else {
+    return 'ws';
+  }
 };

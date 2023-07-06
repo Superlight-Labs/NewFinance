@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
-  setPhraseValid: (valid: boolean) => void;
+  setPhrase: (phrase: string) => void;
 };
 
-const RecoveryPhraseComponent = ({ setPhraseValid }: Props) => {
+const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
   const [word, setWord] = useState('');
-  const [selected, setSelected] = useState<Map<number, string>>(new Map());
+  const [selected, setSelected] = useState<string[]>([]);
 
   useEffect(() => {
     const pieces = word.split(' ');
@@ -21,41 +21,34 @@ const RecoveryPhraseComponent = ({ setPhraseValid }: Props) => {
       const allMatching = wordlist.filter(w => w.startsWith(piece));
 
       if (allMatching.length === 1 && allMatching[0] === piece) {
-        setSelected(new Map(selected).set(selected.size, piece));
+        setSelected([...selected, piece]);
         setWord('');
       }
 
       return;
     }
 
-    const newSelection = new Map(selected);
+    const newSelection = [...selected, ...pieces.filter(p => wordlist.includes(p))];
 
-    for (const [index, piece] of pieces.entries()) {
-      const found = wordlist.find(w => w === piece);
-      found && newSelection.set(selected.size + index, found);
-    }
-
-    setSelected(new Map(newSelection));
+    setSelected(newSelection);
     setWord('');
   }, [word, selected]);
 
   useEffect(() => {
-    if (selected.size === 12) {
-      setPhraseValid(true);
+    if (selected.length === 12) {
+      setPhrase(selected.join(' '));
       return;
     }
-
-    setPhraseValid(false);
-  }, [selected, setPhraseValid]);
+  }, [selected, setPhrase]);
 
   const removeLast = () => {
-    selected.delete(selected.size - 1);
-    setSelected(new Map(selected));
+    const newSelected = [...selected];
+    newSelected.pop();
+    setSelected(newSelected);
   };
 
   const removeAll = () => {
-    selected.clear();
-    setSelected(new Map(selected));
+    setSelected([]);
   };
 
   return (
@@ -64,7 +57,7 @@ const RecoveryPhraseComponent = ({ setPhraseValid }: Props) => {
         <View className="flex-1">
           <Text className="font-inter-medium">Recovery phrase</Text>
           <TextInputComponent
-            disabled={selected.size >= 12}
+            disabled={selected.length >= 12}
             style="border-b-0"
             value={word}
             onChangeText={setWord}
@@ -75,21 +68,21 @@ const RecoveryPhraseComponent = ({ setPhraseValid }: Props) => {
         </View>
       </View>
       <View className="mt-8 flex w-full flex-row justify-around">
-        <View className="flex w-[20vw] flex-col">
-          <Text className="font-inter-medium">1. {selected.get(0)}</Text>
-          <Text className="font-inter-medium">2. {selected.get(1)}</Text>
-          <Text className="font-inter-medium">3. {selected.get(2)}</Text>
-          <Text className="font-inter-medium">4. {selected.get(3)}</Text>
-          <Text className="font-inter-medium">5. {selected.get(4)}</Text>
-          <Text className="font-inter-medium">6. {selected.get(5)}</Text>
+        <View className="flex w-[25vw] flex-col">
+          <Text className="font-inter-medium">1. {selected.at(0)}</Text>
+          <Text className="font-inter-medium">2. {selected.at(1)}</Text>
+          <Text className="font-inter-medium">3. {selected.at(2)}</Text>
+          <Text className="font-inter-medium">4. {selected.at(3)}</Text>
+          <Text className="font-inter-medium">5. {selected.at(4)}</Text>
+          <Text className="font-inter-medium">6. {selected.at(5)}</Text>
         </View>
-        <View className="flex w-[20vw] flex-col">
-          <Text className="font-inter-medium">7. {selected.get(6)}</Text>
-          <Text className="font-inter-medium">8. {selected.get(7)}</Text>
-          <Text className="font-inter-medium">9. {selected.get(8)}</Text>
-          <Text className="font-inter-medium">10. {selected.get(9)}</Text>
-          <Text className="font-inter-medium">11. {selected.get(10)}</Text>
-          <Text className="font-inter-medium">12. {selected.get(11)}</Text>
+        <View className="flex w-[25vw] flex-col">
+          <Text className="font-inter-medium">7. {selected.at(6)}</Text>
+          <Text className="font-inter-medium">8. {selected.at(7)}</Text>
+          <Text className="font-inter-medium">9. {selected.at(8)}</Text>
+          <Text className="font-inter-medium">10. {selected.at(9)}</Text>
+          <Text className="font-inter-medium">11. {selected.at(10)}</Text>
+          <Text className="font-inter-medium">12. {selected.at(11)}</Text>
         </View>
       </View>
       <View className="mt-8 flex w-full flex-row justify-center">
@@ -100,8 +93,12 @@ const RecoveryPhraseComponent = ({ setPhraseValid }: Props) => {
           <MonoIcon iconName="XCircle" />
         </Button>
       </View>
+      <View className="left-0 right-0 mt-8 flex flex-row">
+        <MonoIcon color="#8D93A0" iconName="Info" />
+        <Text className="text-slate-400"> We use a standard BIP84 derivation path</Text>
+      </View>
     </View>
   );
 };
 
-export default RecoveryPhraseComponent;
+export default RecoveryPhraseInputComponent;

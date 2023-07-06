@@ -11,12 +11,8 @@ export const shortenAddress = (address: string): string => {
 };
 
 export const getSizeFromLength = (length: number) => {
-  if (length > 11) {
-    return 'text-4xl';
-  }
-
   if (length > 6) {
-    return 'text-5xl';
+    return 'text-4xl';
   }
 
   return 'text-6xl';

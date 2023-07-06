@@ -7,6 +7,10 @@ import { registerTransactionRoutes } from './transaction.routes';
 import { registerUserRoutes } from './user.routes';
 
 export const registerRoutes = (server: FastifyInstance): void => {
+  server.get('/health', (_, res) => {
+    res.send({ status: 'ok' });
+  });
+
   registerUserRoutes(server);
   registerMcpRoutes(server);
   registerAuthRoutes(server);

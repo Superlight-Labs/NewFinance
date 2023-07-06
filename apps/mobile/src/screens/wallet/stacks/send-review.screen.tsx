@@ -106,7 +106,7 @@ const SendReviewScreen = ({
 
   return (
     <WalletLayout leftHeader="back" rightHeader="none">
-      <Text className="absolute right-6 top-6">Your Balance: {balance}</Text>
+      <Text className="absolute right-6 top-6 font-manrope">Your Balance: {balance}</Text>
       <View className="flex flex-1 flex-col items-center justify-center p-4 pt-24">
         <Text className=" font-manrope-bold">Send</Text>
         <Title style={`p-2 font-bold ${getSizeFromLength(amount.length + 4)}`}>{amount} BTC</Title>
