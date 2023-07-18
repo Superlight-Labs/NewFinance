@@ -2,6 +2,9 @@ require File.join(File.dirname(`node --print "require.resolve('expo/package.json
 require_relative '../../../node_modules/react-native/scripts/react_native_pods'
 require_relative '../../../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+pod 'OpenSSL-Universal', :modular_headers => true, :configurations => ['Release']
+
+
 platform :ios, '13.0'
 prepare_react_native_project!
 
@@ -69,3 +72,4 @@ target 'Superlight' do
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
+
