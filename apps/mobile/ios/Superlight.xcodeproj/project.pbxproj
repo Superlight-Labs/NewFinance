@@ -24,7 +24,6 @@
 		8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */; };
 		9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */; };
 		BE0FED711FA04793A393A36C /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */; };
-		CF6ED7F52A57128500BFB77F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = CF6ED7F42A57128500BFB77F /* main.jsbundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +62,6 @@
 		8E443CD86058416CC171C21D /* Pods-Superlight-SuperlightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.debug.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9171F8B77B2EBF4AAD38B811 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
 		98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight-appTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		CF6ED7F42A57128500BFB77F /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Bold.ttf"; path = "../assets/fonts/Manrope-Bold.ttf"; sourceTree = "<group>"; };
 		E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.release.xcconfig"; sourceTree = "<group>"; };
 		E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Superlight-SuperlightTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,7 +158,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				CF6ED7F42A57128500BFB77F /* main.jsbundle */,
 				13B07FAE1A68108700A75B9A /* Superlight */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* SuperlightTests */,
@@ -317,7 +314,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF6ED7F52A57128500BFB77F /* main.jsbundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */,
