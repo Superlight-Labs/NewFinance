@@ -1,0 +1,49 @@
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+ingress:
+  rules:
+    - component:
+        name: superlight-superlight-api
+      match:
+        path:
+          prefix: /
+name: monkfish-app
+region: fra
+services:
+  - envs:
+      - key: COOKIE_SECRET
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value:
+      - key: DB_URL
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value:
+      - key: TATUM_TEST_TOKEN
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value:
+      - key: TATUM_MAIN_TOKEN
+        scope: RUN_AND_BUILD_TIME
+      - key: API_HOST
+        scope: RUN_AND_BUILD_TIME
+        value: 0.0.0.0
+      - key: API_PORT
+        scope: RUN_AND_BUILD_TIME
+        value: '3000'
+      - key: LOG_LEVEL
+        scope: RUN_AND_BUILD_TIME
+        value: debug
+    health_check:
+      http_path: /health
+      period_seconds: 1800
+    http_port: 3000
+    image:
+      registry: superlight
+      registry_type: DOCKER_HUB
+      repository: superlight-api
+      tag: latest
+    instance_count: 1
+    instance_size_slug: basic-m
+    name: superlight-superlight-api
