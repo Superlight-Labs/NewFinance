@@ -70,7 +70,6 @@
 		98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight-appTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		CF6ED7F42A57128500BFB77F /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Bold.ttf"; path = "../assets/fonts/Manrope-Bold.ttf"; sourceTree = "<group>"; };
-		CFF508782A5837E4002B7120 /* OpenSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenSSL.framework; path = "Pods/OpenSSL-Universal/Frameworks/OpenSSL.xcframework/ios-arm64_armv7/OpenSSL.framework"; sourceTree = "<group>"; };
 		E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.release.xcconfig"; sourceTree = "<group>"; };
 		E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Superlight-SuperlightTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -96,10 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF14FB522A616A0C00BFC332 /* libssl.a in Frameworks */,
-				CF14FB532A616A0C00BFC332 /* libcrypto.a in Frameworks */,
 				32FEB25F587F7C10AB1697D1 /* libPods-Superlight.a in Frameworks */,
-				CF14FB4D2A61612900BFC332 /* OpenSSL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,10 +144,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CF14FB562A61739D00BFC332 /* libcrypto-iOS.a */,
-				CF14FB512A616A0C00BFC332 /* libcrypto.a */,
-				CF14FB502A616A0C00BFC332 /* libssl.a */,
-				CFF508782A5837E4002B7120 /* OpenSSL.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */,
 				E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */,
@@ -640,10 +632,7 @@
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = BXB7RBS9FX;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/OpenSSL-Universal/Frameworks/OpenSSL.xcframework/ios-arm64_armv7",
-				);
+			
 				INFOPLIST_FILE = Superlight/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
@@ -678,10 +667,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = BXB7RBS9FX;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/OpenSSL-Universal/Frameworks/OpenSSL.xcframework/ios-arm64_armv7",
-				);
 				INFOPLIST_FILE = Superlight/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
@@ -693,10 +678,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-I../../../packages/react-native/rn-crypto-mpc/ios/lib/include",
 					"-ObjC",
 					"-lc++",
-					"-L../../../packages/react-native/rn-crypto-mpc/ios/lib/",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
