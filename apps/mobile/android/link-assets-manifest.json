@@ -24,6 +24,26 @@
     {
       "path": "assets/fonts/Manrope-Regular.ttf",
       "sha1": "7e862264836329a059f38d0fc66b22a4936402e8"
+    },
+    {
+      "path": "assets/images/lines-1.png",
+      "sha1": "edc9ffdda40bfdcafbcab576daa0b3f93fe4fdb9"
+    },
+    {
+      "path": "assets/images/lines-2.png",
+      "sha1": "0d322e77949fa8a1693b160d0cb2039d5233134a"
+    },
+    {
+      "path": "assets/images/lines-3.png",
+      "sha1": "eac9e78bdf1e07b75180a7c193336ad7bea1c361"
+    },
+    {
+      "path": "assets/images/lines-4.png",
+      "sha1": "860ee3449aa68a07cf1e279c7314dc8d36c055ca"
+    },
+    {
+      "path": "assets/images/logo.png",
+      "sha1": "20171e44ff638e32bac11289f0e754d1ce63f87c"
     }
   ]
 }
