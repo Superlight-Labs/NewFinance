@@ -107,7 +107,7 @@ const SendReviewScreen = ({
   return (
     <WalletLayout leftHeader="back" rightHeader="none">
       <Text className="absolute right-6 top-6 font-manrope">Your Balance: {balance}</Text>
-      <View className="flex flex-1 flex-col items-center justify-center p-4 pt-24">
+      <View className="flex flex-1 flex-col items-center justify-center p-4 pt-12">
         <Text className=" font-manrope-bold">Send</Text>
         <Title style={`p-2 font-bold ${getSizeFromLength(amount.length + 4)}`}>{amount} BTC</Title>
         <Text className="font-manrope-bold text-slate-400">
@@ -132,7 +132,7 @@ const SendReviewScreen = ({
           disabled={balance < total.toNumber()}
           onPress={createAndSendTransaction}
           shadow
-          style="px-12 w-full mb-8 py-3 mt-auto">
+          style="px-12 w-full py-3 mt-auto">
           Send Amount now!
         </ButtonComponent>
       </View>

@@ -23,14 +23,16 @@ const Receive = ({ route }: Props) => {
   return (
     <WalletLayout>
       <View className="flex flex-1 flex-col items-center  pb-8">
-        <Title style="mb-24">Scan Address</Title>
-        <QRCode
-          value={`bitcoin:${external.address}}`}
-          logoBackgroundColor="transparent"
-          size={240}
-          logoSize={70}
-          logo={require('../../../../assets/images/logo.png')}
-        />
+        <Title style="mb-2">Scan Address</Title>
+        <View className="flex h-[50%] w-[50%] items-center justify-center">
+          <QRCode
+            value={`bitcoin:${external.address}}`}
+            logoBackgroundColor="transparent"
+            size={240}
+            logoSize={70}
+            logo={require('../../../../assets/images/logo.png')}
+          />
+        </View>
 
         <Pressable
           onPress={copyToClipboard}

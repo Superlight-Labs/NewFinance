@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "pod-install",
-    "dev": "yarn ios -- --simulator='iPhone 14' && yarn start",
+    "dev": "yarn ios -- --simulator='iPhone SE 2nd edition' && yarn start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios:release": "react-native bundle --entry-file='index.js' --bundle-output='./main.jsbundle' --dev=false --platform='ios'",

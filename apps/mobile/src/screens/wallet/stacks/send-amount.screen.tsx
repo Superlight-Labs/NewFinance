@@ -37,20 +37,20 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
   const balance = getAccountBalance(sender.account);
 
   return (
-    <WalletLayout style="p-4" leftHeader="back" rightHeader="none">
-      <View className="flex flex-1 flex-col items-center">
-        <View className="flex flex-row items-center justify-center">
-          <Text>Available: {balance} BTC</Text>
-        </View>
-        <View className="flex w-full flex-1 flex-row flex-wrap items-center justify-center p-2">
+    <WalletLayout style="p-4 flex-1" leftHeader="back" rightHeader="none">
+      <View className="absolute top-10 flex flex-row items-center justify-center self-center">
+        <Text>Available: {balance} BTC</Text>
+      </View>
+      <View className="flex flex-grow flex-col items-center">
+        <View className="flex w-full flex-1 flex-row flex-wrap items-center justify-center">
           <MultilineTextComponent
-            style={`border-0 m-w-[60%] flex m-h-48 font-bold shadow-none bg-white ${textSize}`}
+            style={`border-0 m-w-[100%] flex m-h-48 font-bold shadow-none bg-white ${textSize}`}
             value={amount}
             keyboardType="numeric"
             maxLength={10}
             setValue={setAmount}
           />
-          <Text className="p-1 text-6xl font-bold">BTC</Text>
+          <Text className={`${textSize} p-1 font-bold`}>BTC</Text>
           {numericAmount > 0 && (
             <View className="flex w-[100%] flex-row items-center justify-center">
               <Text>~ ${(numericAmount * rate).toFixed(2)} €</Text>
@@ -59,12 +59,12 @@ const SendAmountScreen = ({ navigation, route }: Props) => {
           )}
         </View>
       </View>
-      <Numpad maxLength={10} value={amount} setValue={setAmount} />
+      <Numpad style="mb-20" maxLength={10} value={amount} setValue={setAmount} />
       <ButtonComponent
         disabled={
           Number.isNaN(numericAmount) || numericAmount <= 0 || !balance || numericAmount > balance
         }
-        style=" mt-auto mb-8 py-3"
+        style=" mt-auto py-3"
         onPress={() => navigation.navigate('SendReview', { amount, rate, ...route.params })}>
         Continue
       </ButtonComponent>

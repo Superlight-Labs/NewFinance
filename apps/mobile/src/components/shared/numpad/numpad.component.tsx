@@ -6,9 +6,10 @@ type Props = {
   value: string;
   setValue: (value: string) => void;
   maxLength?: number;
+  style?: string;
 };
 
-const Numpad = ({ value, setValue, maxLength = 10 }: Props) => {
+const Numpad = ({ value, setValue, maxLength = 10, style = '' }: Props) => {
   const updateState = (num: string) => {
     if (value.length >= maxLength) return;
     // get last char from value
@@ -38,7 +39,7 @@ const Numpad = ({ value, setValue, maxLength = 10 }: Props) => {
   };
 
   return (
-    <View className="w-full flex-1 flex-row flex-wrap">
+    <View className={`w-full flex-1 flex-row flex-wrap ${style}`}>
       {numbers.map(num => (
         <Key key={num} num={num} update={updateState} />
       ))}
