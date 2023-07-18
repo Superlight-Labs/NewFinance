@@ -8,6 +8,7 @@ import Title from 'components/shared/title/title.component';
 import { useCreateAuth } from 'hooks/useCreateAuth';
 import { useFailableAction } from 'hooks/useFailable';
 import { useCallback, useState } from 'react';
+import { Keyboard } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { constants } from 'utils/constants';
@@ -24,6 +25,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
   const { perform } = useFailableAction();
 
   const getStarted = useCallback(async () => {
+    Keyboard.dismiss();
     const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
 
     perform(createProfile(newDevicePublicKey, username, email)).onSuccess(user => {
@@ -35,7 +37,8 @@ const OnboardingScreen = ({ navigation }: Props) => {
     if (username.length < 3 || email.length < 3) return true;
     if (username.length > 36 || email.length > 100) return true;
 
-    if (!email.includes('@')) return true;
+    if (!email.includes('@') || email.endsWith('@') || email.endsWith('.') || !email.includes('.'))
+      return true;
 
     return false;
   };
