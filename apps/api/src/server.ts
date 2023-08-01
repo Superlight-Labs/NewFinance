@@ -25,7 +25,7 @@ export const createServer = async (client: PrismaClient) => {
   logger.info({ config }, 'Started up server with config');
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  server.register(websocketPlugin);
+  server.register(websocketPlugin, { options: { perMessageDeflate: true } });
   server.register(fastifyCookie, {
     secret: config.cookieSecret,
   });
