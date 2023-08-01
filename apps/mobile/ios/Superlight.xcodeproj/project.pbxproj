@@ -14,22 +14,18 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		25EB0FAE214446E7A07AF781 /* lines-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E6E0257A114043B4A54C83B7 /* lines-1.png */; };
 		32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D3E19221D74E8590752265 /* Inter-Regular.ttf */; };
 		32FEB25F587F7C10AB1697D1 /* libPods-Superlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */; };
-		4AF1EC8F562D4385BE4B620D /* lines-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD4FE5492754BC7A570431F /* lines-3.png */; };
 		5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */; };
-		5E9550C5406A41F78245A2AB /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D422B90EFC7945CCBFF2D46F /* logo.png */; };
 		6592C7485FEF4BDA8EA4A865 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */; };
 		70C8491A07B872155AD22176 /* libPods-Superlight-SuperlightTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		843CE66A5ED90109A9D5DE55 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */; };
 		8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */; };
-		8DFA3EA403164E198B9A1B9A /* lines-2.png in Resources */ = {isa = PBXBuildFile; fileRef = D8C740F384284231850614D3 /* lines-2.png */; };
 		9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */; };
 		BE0FED711FA04793A393A36C /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */; };
 		CF1E73642A66B9D5001B4F41 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = CF1E73632A66B9D5001B4F41 /* main.jsbundle */; };
-		D1132E7761E246F8B450E797 /* lines-4.png in Resources */ = {isa = PBXBuildFile; fileRef = B2A24E60FF2E4743AE1A34DF /* lines-4.png */; };
+		CFD06DA52A7940B6001ACBF8 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CFD06DA42A7940B6001ACBF8 /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +68,7 @@
 		B2A24E60FF2E4743AE1A34DF /* lines-4.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "lines-4.png"; path = "../assets/images/lines-4.png"; sourceTree = "<group>"; };
 		CF1E73632A66B9D5001B4F41 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
 		CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Bold.ttf"; path = "../assets/fonts/Manrope-Bold.ttf"; sourceTree = "<group>"; };
+		CFD06DA42A7940B6001ACBF8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		D422B90EFC7945CCBFF2D46F /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
 		D8C740F384284231850614D3 /* lines-2.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "lines-2.png"; path = "../assets/images/lines-2.png"; sourceTree = "<group>"; };
 		E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -170,6 +167,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CFD06DA42A7940B6001ACBF8 /* assets */,
 				CF1E73632A66B9D5001B4F41 /* main.jsbundle */,
 				13B07FAE1A68108700A75B9A /* Superlight */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -337,15 +335,11 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */,
 				BE0FED711FA04793A393A36C /* Manrope-Medium.ttf in Resources */,
+				CFD06DA52A7940B6001ACBF8 /* assets in Resources */,
 				6592C7485FEF4BDA8EA4A865 /* Manrope-Regular.ttf in Resources */,
 				0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */,
 				11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */,
 				32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */,
-				25EB0FAE214446E7A07AF781 /* lines-1.png in Resources */,
-				8DFA3EA403164E198B9A1B9A /* lines-2.png in Resources */,
-				4AF1EC8F562D4385BE4B620D /* lines-3.png in Resources */,
-				D1132E7761E246F8B450E797 /* lines-4.png in Resources */,
-				5E9550C5406A41F78245A2AB /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,7 +625,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = BXB7RBS9FX;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Superlight/Info.plist;
@@ -666,7 +660,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = BXB7RBS9FX;
 				INFOPLIST_FILE = Superlight/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
