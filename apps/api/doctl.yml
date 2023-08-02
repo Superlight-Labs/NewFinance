@@ -12,7 +12,7 @@ name: monkfish-app
 region: fra
 services:
   - envs:
-      - key: COOKIE_SECRET
+      - key: TATUM_TEST_TOKEN
         scope: RUN_AND_BUILD_TIME
         type: SECRET
         value:
@@ -20,11 +20,7 @@ services:
         scope: RUN_AND_BUILD_TIME
         type: SECRET
         value:
-      - key: TATUM_TEST_TOKEN
-        scope: RUN_AND_BUILD_TIME
-        type: SECRET
-        value:
-      - key: TATUM_MAIN_TOKEN
+      - key: COOKIE_SECRET
         scope: RUN_AND_BUILD_TIME
         type: SECRET
         value:
@@ -47,5 +43,5 @@ services:
       repository: superlight-api
       tag: latest
     instance_count: 1
-    instance_size_slug: basic-m
+    instance_size_slug: basic-xs
     name: superlight-superlight-api

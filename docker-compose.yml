@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
   api:
+    # Needed to run image on Mac M1
+    # platform: linux/x86_64
     image: superlight/superlight-api:latest
     # In case you want to build locally, replace "image:"" with this
     # build:

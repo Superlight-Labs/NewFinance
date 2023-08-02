@@ -24,6 +24,7 @@
     "@fastify/type-provider-typebox": "^3.1.0",
     "@fastify/under-pressure": "^8.2.0",
     "@fastify/websocket": "^7.2.0",
+    "@sinclair/typebox": "^0.30.0",
     "@superlight-labs/blockchain-api-client": "*",
     "@superlight-labs/database": "*",
     "@superlight-labs/logger": "*",
