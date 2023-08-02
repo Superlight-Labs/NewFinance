@@ -26,6 +26,8 @@ services:
         value:
       - key: TATUM_MAIN_TOKEN
         scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value:
       - key: API_HOST
         scope: RUN_AND_BUILD_TIME
         value: 0.0.0.0

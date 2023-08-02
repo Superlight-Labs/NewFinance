@@ -1,5 +1,6 @@
 import { CreateUserResponse } from '@superlight-labs/api/src/repository/user';
 import { AppError, SignResult, appError } from '@superlight-labs/mpc-common';
+import { AxiosError } from 'axios';
 import { ResultAsync } from 'neverthrow';
 import { AppUser } from 'state/auth.state';
 import { SignUser, signWithDeviceKeyNoAuth } from 'utils/auth';
@@ -25,7 +26,15 @@ const createUser = (
       email,
       devicePublicKey,
     }),
-    error => appError(error, 'Error while creating user')
+    error => {
+      let msg = 'Error while creating user';
+
+      if (error instanceof AxiosError) {
+        msg = error.response?.data?.error;
+      }
+
+      return appError(error, msg);
+    }
   ).map(axiosResponse => ({ ...axiosResponse.data, devicePublicKey }));
 
 const createSignature = (user: SignUser & { nonce: string }): ResultAsync<SignResult, AppError> => {

@@ -34,7 +34,7 @@ export const mapRouteError = (err: RouteError): HttpError => {
     case 'Conflict': {
       return {
         statusCode: 409,
-        errorMsg: 'Conflict',
+        errorMsg: err.context,
       };
     }
 
@@ -83,7 +83,7 @@ enum ErrorTypes {
 
 export type RouteError =
   | { type: ErrorTypes.NotFound; context?: string }
-  | { type: ErrorTypes.Conflict; context?: string }
+  | { type: ErrorTypes.Conflict; context: string; error: unknown }
   | { type: ErrorTypes.Other; error?: unknown; context?: string }
   | { type: ErrorTypes.ThirdPartyError; error?: unknown; context?: string }
   | { type: ErrorTypes.MissingHeader }
@@ -100,9 +100,10 @@ export const notFound = (context?: string): RouteError => ({
   context,
 });
 
-export const conflict = (context?: string): RouteError => ({
+export const conflict = (error: unknown, context: string): RouteError => ({
   type: ErrorTypes.Conflict,
   context,
+  error,
 });
 
 export const other = (context: string, error?: unknown): RouteError => ({
