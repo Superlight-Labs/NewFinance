@@ -1,21 +1,21 @@
 import {
-    ApiConfig,
-    AppError,
-    HandlerParams,
-    MPCWebsocketMessage,
-    MPCWebsocketStarter,
-    WebsocketError,
-    mapWebsocketToAppError,
+  ApiConfig,
+  AppError,
+  HandlerParams,
+  MPCWebsocketMessage,
+  MPCWebsocketStarter,
+  WebsocketError,
+  mapWebsocketToAppError,
 } from '@superlight-labs/mpc-common';
 import { ResultAsync } from 'neverthrow';
 import { Subject, tap } from 'rxjs';
 import {
-    Signer,
-    createNonce,
-    createWebsocket,
-    listenToWebsocket,
-    logIncommingMessages,
-    unwrapStartResult,
+  Signer,
+  createNonce,
+  createWebsocket,
+  listenToWebsocket,
+  logIncommingMessages,
+  unwrapStartResult,
 } from './ws-common';
 
 export const authWebsocket =

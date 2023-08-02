@@ -20,13 +20,13 @@ PODS:
     - React-Core
   - EXLocalAuthentication (13.0.2):
     - ExpoModulesCore
-  - Expo (49.0.3):
+  - Expo (49.0.6):
     - ExpoModulesCore
   - ExpoCrypto (12.2.2):
     - ExpoModulesCore
   - ExpoKeepAwake (12.3.0):
     - ExpoModulesCore
-  - ExpoModulesCore (1.5.7):
+  - ExpoModulesCore (1.5.9):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTAppDelegate
@@ -675,10 +675,10 @@ SPEC CHECKSUMS:
   EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
   EXImageLoader: 34b214f9387e98f3c73989f15d8d5b399c9ab3f7
   EXLocalAuthentication: 78cc5a00b13745b41d16d189ab332b61a01299f9
-  Expo: d5956de70d4076190861f6730b93e75478b6faf8
+  Expo: 5601f86edc81c7e7e1772b9af9ae58fa3b45ad53
   ExpoCrypto: 9105610a09cd6290b900bd82fc5d190e489125a3
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
-  ExpoModulesCore: 0f852adb827287ca38b46d7ff6f7d86d4ff27edb
+  ExpoModulesCore: af228cd4b0469c9833496d4d8574f599a46a5e1c
   FBLazyVector: ad72713385db5289b19f1ead07e8e4aa26dcb01d
   FBReactNativeSpec: 00db26bb4375e7e191abe8d6ea8ee6b37c7b0271
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
