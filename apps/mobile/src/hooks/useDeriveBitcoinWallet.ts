@@ -70,7 +70,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
     }
     const { share: s, peerShareId: pId } = secretShare;
 
-    setMessage({ message: 'Setting up your wallet...', step: 1, total: 4, level: 'progress' });
+    setMessage({ message: 'Deriving master key shares...', step: 1, total: 4, level: 'progress' });
 
     return deriveMasterPair(config, { share: s, peerShareId: pId }).map(
       ({ share, peerShareId }) => {
@@ -86,7 +86,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       return okAsync(purpose!);
     }
 
-    setMessage({ message: 'Creating Secure wallet...', step: 2, total: 4, level: 'progress' });
+    setMessage({ message: 'Deriving purpose key shares...', step: 2, total: 4, level: 'progress' });
 
     return deriveBip32Hardened(config, {
       index: '84',
@@ -133,7 +133,12 @@ const useDeriveSteps = (user: AppUser | undefined) => {
 
     const path = `m/84'/0'/0'`;
 
-    setMessage({ message: 'Adding your account...', step: 4, total: 4, level: 'progress' });
+    setMessage({
+      message: 'Deriving low level key shares...',
+      step: 4,
+      total: 4,
+      level: 'progress',
+    });
     return deriveBip32Hardened(config, {
       index: '0',
       peerShareId: ctShareId,
