@@ -27,7 +27,11 @@ export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, W
         return errAsync(mpcInternalError('No share received'));
       }
 
-      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
+      const wsMessage: MPCWebsocketMessage = {
+        type: 'inProgress',
+        message: stepMsg.message,
+        compressed: false,
+      };
 
       ws.send(JSON.stringify(wsMessage));
 

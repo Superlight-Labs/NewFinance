@@ -1,3 +1,4 @@
+import { decode } from '@msgpack/msgpack';
 import logger from '@superlight-labs/logger';
 import {
   MPCWebsocketHandlerWithSetup,
@@ -9,7 +10,6 @@ import {
   websocketError,
 } from '@superlight-labs/mpc-common';
 import { getResultDeriveBIP32, reset } from '@superlight-labs/rn-crypto-mpc';
-import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, combineLatest, firstValueFrom, from, map, mergeMap } from 'rxjs';
 import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
@@ -25,13 +25,23 @@ export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<DeriveFrom, null
 }) => {
   return initDeriveBip32(initParam, initParam.hardened)
     .andThen(_ => step(null))
-    .andThen((stepMsg: StepResult) => {
+    .andThen(stepMsg => {
       if (stepMsg.type === 'error') {
         reset();
         return errAsync(mpcInternalError(stepMsg.error));
       }
 
-      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
+      if (stepMsg.type === 'success') {
+        reset();
+        return errAsync(mpcInternalError('Unexpected success message received from server'));
+      }
+
+      const wsMessage: MPCWebsocketMessage = {
+        type: 'inProgress',
+        message: stepMsg.message as string,
+        compressed: false,
+      };
+
       output.next(okAsync(wsMessage));
 
       return okAsync({ startResult: okAsync(null), input, output });
@@ -95,7 +105,10 @@ const onMessage = (
     return;
   }
 
-  step(message.message).match(
+  logger.info({ compressed: message.compressed, type: typeof message.message }, 'watta client');
+  const stepIn = message.compressed ? (decode(message.message) as string) : message.message;
+
+  step(stepIn).match(
     result => {
       if (result.type === 'error') {
         output.next(errAsync(websocketError(result.error)));
@@ -106,7 +119,9 @@ const onMessage = (
         context$.next(result.context);
       }
 
-      output.next(okAsync({ type: 'inProgress', message: result.message }));
+      output.next(
+        okAsync({ type: 'inProgress', message: result.message as string, compressed: false })
+      );
     },
     err => output.next(errAsync(websocketError(err)))
   );

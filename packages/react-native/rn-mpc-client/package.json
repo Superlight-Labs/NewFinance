@@ -24,9 +24,10 @@
   },
   "homepage": "https://github.com/Superlight-Labs/Superlight#readme",
   "peerDependencies": {
-    "@superlight-labs/rn-crypto-mpc": "*",
-    "@superlight-labs/mpc-common": "*",
     "@superlight-labs/logger": "*",
+    "@superlight-labs/mpc-common": "*",
+    "@superlight-labs/rn-crypto-mpc": "*",
+    "@msgpack/msgpack": "^2.8.0",
     "axios": "^1.3.4",
     "neverthrow": "^6.0.0",
     "rxjs": "^7.8.0"
@@ -35,9 +36,9 @@
     "@superlight-labs/eslint-config": "*",
     "@superlight-labs/prettier-config": "*",
     "@superlight-labs/tsconfig": "*",
-    "eslint": "8.19",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "8.19",
     "typescript": "4.9.5"
   }
 }

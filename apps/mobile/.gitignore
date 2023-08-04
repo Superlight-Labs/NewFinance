@@ -53,7 +53,7 @@ yarn-error.log
 **/fastlane/test_output
 
 # Bundle artifact - commented out because it is needed in copy phase of release which causes problems in development if its missing
-# *.jsbundle
+*.jsbundle
 
 # Ruby / CocoaPods
 /ios/Pods/

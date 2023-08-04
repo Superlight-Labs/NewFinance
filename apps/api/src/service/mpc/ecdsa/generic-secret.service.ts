@@ -2,22 +2,22 @@ import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
 import logger from '@superlight-labs/logger';
 import {
-    MPCWebscocketInit,
-    MPCWebsocketMessage,
-    MPCWebsocketResult,
-    WebSocketOutput,
-    WebsocketError,
-    databaseError,
-    mpcInternalError,
-    stepMessageError,
+  MPCWebscocketInit,
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  WebSocketOutput,
+  WebsocketError,
+  databaseError,
+  mpcInternalError,
+  stepMessageError,
 } from '@superlight-labs/mpc-common';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import {
-    createGenerateGenericSecretContext,
-    createImportGenericSecretContext,
+  createGenerateGenericSecretContext,
+  createImportGenericSecretContext,
 } from 'src/service/mpc/mpc-context.service';
 
 export const generateGenericSecret = (
@@ -82,10 +82,10 @@ const onMessage = (
     return;
   }
 
-  const stepOutput = step(message.message, context);
+  const stepOutput = step(message, context);
 
   if (stepOutput.type === 'inProgress') {
-    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+    output.next(okAsync(stepOutput));
     return;
   }
 
@@ -98,7 +98,9 @@ const onMessage = (
   }
 
   if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError(stepOutput.error, 'Error while stepping in context')));
+    output.next(
+      errAsync(mpcInternalError(stepOutput.error, 'Error output from stepping in context'))
+    );
     context.free();
     return;
   }

@@ -1,14 +1,14 @@
 import { SocketStream } from '@fastify/websocket';
 import logger from '@superlight-labs/logger';
 import {
-    createMPCWebsocketHandlerWrapper,
-    MPCWebscocketInit,
-    MpcWebsocketHandlerWrapper,
-    MPCWebsocketMessage,
-    shortenMessage,
+  MPCWebscocketInit,
+  MPCWebsocketMessage,
+  MpcWebsocketHandlerWrapper,
+  createMPCWebsocketHandlerWrapper,
+  shortenMessage,
 } from '@superlight-labs/mpc-common';
 import { FastifyRequest } from 'fastify';
-import { firstValueFrom, ReplaySubject, Subject, tap } from 'rxjs';
+import { ReplaySubject, Subject, firstValueFrom, tap } from 'rxjs';
 import { MPCWebsocketHandler, MPCWebsocketWithInitParameterHandler } from './websocket-types';
 
 const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =

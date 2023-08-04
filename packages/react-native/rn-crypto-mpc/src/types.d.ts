@@ -16,7 +16,13 @@ export type StepResult =
       message: string;
     }
   | {
+      message: Uint8Array;
+      compressed: true;
+      type: 'inProgress';
+    }
+  | {
       message: string;
+      compressed: false;
       type: 'inProgress';
     };
 

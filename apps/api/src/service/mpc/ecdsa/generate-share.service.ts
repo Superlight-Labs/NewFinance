@@ -2,13 +2,13 @@ import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
 import logger from '@superlight-labs/logger';
 import {
-    databaseError,
-    mpcInternalError,
-    MPCWebsocketMessage,
-    MPCWebsocketResult,
-    stepMessageError,
-    WebsocketError,
-    WebSocketOutput,
+  databaseError,
+  mpcInternalError,
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  stepMessageError,
+  WebsocketError,
+  WebSocketOutput,
 } from '@superlight-labs/mpc-common';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
 import { Observable, Subject } from 'rxjs';
@@ -53,10 +53,10 @@ const onMessage = (
     return;
   }
 
-  const stepOutput = step(wsMsg.message, context);
+  const stepOutput = step(wsMsg, context);
 
   if (stepOutput.type === 'inProgress') {
-    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+    output.next(okAsync(stepOutput));
     return;
   }
 

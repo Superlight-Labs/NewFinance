@@ -8,7 +8,6 @@ import {
   websocketError,
 } from '@superlight-labs/mpc-common';
 import { reset } from '@superlight-labs/rn-crypto-mpc';
-import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { initImportGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
@@ -21,17 +20,22 @@ export const startImportGenericSecret: MPCWebsocketStarterWithSetup<string, stri
 }) => {
   return initImportGenericSecret(initParam)
     .andThen(_ => step(null))
-    .andThen((stepMsg: StepResult) => {
+    .andThen(stepMsg => {
       if (stepMsg.type === 'error') {
         reset();
         return errAsync(mpcInternalError(stepMsg.error));
       }
+
       if (stepMsg.type !== 'success' || !stepMsg.share) {
         reset();
         return errAsync(mpcInternalError('No share received'));
       }
 
-      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
+      const wsMessage: MPCWebsocketMessage = {
+        type: 'inProgress',
+        message: stepMsg.message,
+        compressed: false,
+      };
       output.next(okAsync(wsMessage));
 
       return okAsync({ startResult: okAsync(stepMsg.share), input, output });

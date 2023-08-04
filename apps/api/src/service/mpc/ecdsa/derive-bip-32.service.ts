@@ -122,10 +122,10 @@ const deriveWithSteps = async (
     return;
   }
 
-  const stepOutput = step(wsMsg.message, context);
+  const stepOutput = step(wsMsg, context);
 
   if (stepOutput.type === 'inProgress') {
-    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
+    output.next(okAsync(stepOutput));
     return;
   }
 

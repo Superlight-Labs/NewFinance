@@ -8,7 +8,6 @@ import {
   websocketError,
 } from '@superlight-labs/mpc-common';
 import { getResultDeriveBIP32, reset } from '@superlight-labs/rn-crypto-mpc';
-import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
 import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
@@ -23,7 +22,7 @@ export const startDerive: MPCWebsocketStarterWithSetup<DeriveFrom, string> = ({
 }) => {
   return initDeriveBip32(initParam, false)
     .andThen(_ => step(null))
-    .andThen((stepMsg: StepResult) => {
+    .andThen(stepMsg => {
       if (stepMsg.type === 'error') {
         reset();
         return errAsync(mpcInternalError(stepMsg.error));
@@ -34,7 +33,11 @@ export const startDerive: MPCWebsocketStarterWithSetup<DeriveFrom, string> = ({
         return errAsync(mpcInternalError('No context received'));
       }
 
-      const wsMessage: MPCWebsocketMessage<null> = { type: 'inProgress', message: '' };
+      const wsMessage: MPCWebsocketMessage<null> = {
+        type: 'inProgress',
+        message: '',
+        compressed: false,
+      };
       output.next(okAsync(wsMessage));
 
       return okAsync({ startResult: okAsync(stepMsg.context), input, output });

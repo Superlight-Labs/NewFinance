@@ -5,7 +5,13 @@ import { WebsocketError } from './../error';
 export type MPCWebsocketMessage<T = string> =
   | {
       type: 'inProgress';
+      message: Uint8Array;
+      compressed: true;
+    }
+  | {
+      type: 'inProgress';
       message: string;
+      compressed: false;
     }
   | { type: 'success'; result: T }
   | { type: 'start' }

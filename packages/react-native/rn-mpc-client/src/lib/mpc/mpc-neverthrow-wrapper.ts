@@ -1,5 +1,11 @@
-import { appError, indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
+import {
+  WebsocketError,
+  appError,
+  indexToNumber,
+  mpcInternalError,
+} from '@superlight-labs/mpc-common';
 import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
+import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync } from 'neverthrow';
 import { DeriveFrom, SignWithShare } from './mpc-types';
 
@@ -41,6 +47,23 @@ export const getPublicKey = (share: string) => {
   );
 };
 
-export const step = (message: string | null) => {
-  return ResultAsync.fromPromise(RnMpc.step(message), err => mpcInternalError(err));
+export const step = (message: string | null): ResultAsync<StepResult, WebsocketError> => {
+  const result = ResultAsync.fromPromise(RnMpc.step(message), err => mpcInternalError(err));
+
+  return result.map(stepOut => {
+    if (stepOut.type !== 'inProgress') return stepOut;
+
+    // if (stepOut.message.length > 10000000) {
+    //   return {
+    //     type: 'inProgress',
+    //     message: encode(stepOut.message) as Uint8Array,
+    //     compressed: true,
+    //   };
+    // }
+    return {
+      type: 'inProgress',
+      message: stepOut.message as string,
+      compressed: false,
+    };
+  });
 };
