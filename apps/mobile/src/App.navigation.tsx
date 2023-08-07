@@ -43,10 +43,7 @@ const AppNavigation = () => {
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (appState.current.match(/background|unknown/) && nextAppState === 'active') {
         setLatestAppStateChange('opened');
-      } else if (
-        nextAppState.match(/background|inactive/) &&
-        appState.current.match(/inactive|active/)
-      ) {
+      } else if (nextAppState.match(/background|unknown/) && appState.current === 'inactive') {
         setLatestAppStateChange('closed');
       }
 
@@ -88,7 +85,9 @@ const AppNavigation = () => {
     if (latestAppStateChange === 'opened' && !isAuthenticated && authHydrated) {
       authenticateLocally();
     }
-  }, [latestAppStateChange, isAuthenticated, authHydrated, logout, authenticateLocally]);
+  }, [latestAppStateChange, authHydrated, isAuthenticated, authenticateLocally]);
+
+  logger.info({ isAuthenticated });
 
   return (
     <NavigationContainer>
