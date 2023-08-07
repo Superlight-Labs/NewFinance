@@ -75,7 +75,7 @@ const Snackbar = ({ appMessage }: Props) => {
           </Pressable>
         )}
       </Pressable>
-      <Pressable className="mt-2" onPress={close}>
+      <Pressable className="bg-transparent mt-2" onPress={close}>
         <MonoIcon iconName="ChevronDown" />
       </Pressable>
     </AnimatedView>

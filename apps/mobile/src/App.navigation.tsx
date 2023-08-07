@@ -5,8 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import logger from '@superlight-labs/logger';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { useEffect, useRef } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AppState } from 'react-native';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
 import MenuStack from 'screens/menu/menu.stack';
@@ -27,62 +27,68 @@ const Stack = createStackNavigator<RootStackParamList>();
 export type RootStack = typeof Stack;
 
 const AppNavigation = () => {
-  const { hasHydrated: authHydrated, isAuthenticated, hasKeysSetUp } = useAuthState();
+  const {
+    hasHydrated: authHydrated,
+    isAuthenticated,
+    hasKeysSetUp,
+    logout,
+    login,
+  } = useAuthState();
   const { message } = useSnackbarState();
   const { hasHydrated: bipHydrated, derivedUntilLevel } = useDeriveState();
-  const { login, logout } = useAuthState();
   const appState = useRef(AppState.currentState);
-  const isAuthenticatedRef = useRef(isAuthenticated);
+  const [latestAppStateChange, setLatestAppStateChange] = useState<'closed' | 'opened'>('closed');
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
-      handleActiveChange(nextAppState, hasKeysSetUp, isAuthenticatedRef.current);
+      if (appState.current.match(/background|unknown/) && nextAppState === 'active') {
+        setLatestAppStateChange('opened');
+      } else if (
+        nextAppState.match(/background|inactive/) &&
+        appState.current.match(/inactive|active/)
+      ) {
+        setLatestAppStateChange('closed');
+      }
+
+      appState.current = nextAppState;
     });
+
+    setLatestAppStateChange('opened');
 
     return () => {
       subscription.remove();
     };
-  }, []);
+  }, [authHydrated]);
 
-  const handleActiveChange = (nextAppState: AppStateStatus, hasP: boolean, isA: boolean) => {
-    if (appState.current.match(/background|inactive/) && nextAppState === 'active') {
-      logger.debug('App has come to the foreground!');
-      authenticateLocally(hasP, isA);
-    } else if (nextAppState.match(/background/) && appState.current.match(/inactive|active/)) {
-      isAuthenticatedRef.current = false;
-      logger.debug('App has come to the background!');
-      logout();
-    }
-
-    appState.current = nextAppState;
-  };
-
-  const authenticateLocally = (hasP: boolean, isA: boolean) => {
-    if (!hasP || isA) {
-      return;
-    }
-
+  const authenticateLocally = useCallback(() => {
     LocalAuthentication.authenticateAsync({
       promptMessage: 'Authenticate to proceed',
       cancelLabel: 'cancel',
     })
       .then(result => {
         if (result.success) {
-          isAuthenticatedRef.current = true;
           logger.debug({ result }, 'Authenticated');
           login();
         } else {
-          isAuthenticatedRef.current = false;
           logger.error({ result }, 'Error authenticating');
           logout();
         }
       })
       .catch(err => {
-        isAuthenticatedRef.current = false;
         logger.error({ err }, 'Error authenticating');
         logout();
       });
-  };
+  }, [login, logout]);
+
+  useEffect(() => {
+    if (latestAppStateChange === 'closed' && isAuthenticated) {
+      logout();
+    }
+
+    if (latestAppStateChange === 'opened' && !isAuthenticated && authHydrated) {
+      authenticateLocally();
+    }
+  }, [latestAppStateChange, isAuthenticated, authHydrated, logout, authenticateLocally]);
 
   return (
     <NavigationContainer>
