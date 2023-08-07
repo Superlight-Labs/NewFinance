@@ -4,6 +4,7 @@ import ButtonComponent from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
 import { BarCodeEvent, BarCodeScanner, PermissionResponse } from 'expo-barcode-scanner';
 import { useEffect, useState } from 'react';
+import { useSnackbarState } from 'state/snackbar.state';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import WalletLayout from '../wallet-layout.component';
 import { WalletStackList } from '../wallet-navigation';
@@ -14,6 +15,7 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
   const { sender } = route.params;
   const [permission, setPermission] = useState<PermissionResponse | null>(null);
   const [scanned, setScanned] = useState(false);
+  const { setMessage } = useSnackbarState();
 
   const getBarCodeScannerPermissions = async () => {
     const res = await BarCodeScanner.requestPermissionsAsync();
@@ -30,8 +32,11 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
     if (type !== 'org.iso.QRCode') return;
 
     try {
-      const { address } = bip21.decode(data);
-      navigation.navigate('SendTo', { sender, recipient: address });
+      const scan = bip21.decode(data);
+
+      setMessage({ level: 'info', message: JSON.stringify(scan) });
+
+      navigation.navigate('SendTo', { sender, recipient: scan.address });
     } catch (e) {
       console.warn('Invalid QR code', e);
     }

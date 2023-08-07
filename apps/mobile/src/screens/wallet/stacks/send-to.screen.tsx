@@ -51,10 +51,11 @@ const SendToScreen = ({ navigation, route }: Props) => {
   };
 
   const onContinue = () => {
-    const contact = {
+    const contact: Contact & { new: boolean } = {
       address: toAddress,
       name: recipientName,
       new: addContact,
+      userEmail: null,
     };
 
     navigation.navigate('SendAmount', { toAddress, note, sender, contact });
@@ -62,7 +63,7 @@ const SendToScreen = ({ navigation, route }: Props) => {
 
   const onSelectContact = (contact: Contact) => {
     setToAddress(contact.address);
-    setRecipientName(contact.name);
+    setRecipientName(contact.name || '');
     setAddressValid(true);
     setAddContact(false);
   };

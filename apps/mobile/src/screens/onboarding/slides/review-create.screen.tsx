@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useDeriveState } from 'state/derive.state';
+import { useSnackbarState } from 'state/snackbar.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { mnemonicToSeed } from 'utils/wrappers/bip32-neverthrow';
 import { Text, View } from 'utils/wrappers/styled-react-native';
@@ -22,10 +23,15 @@ const ReviewCreate = ({ navigation, route }: Props) => {
   const { setSecret, name, derivedUntilLevel } = useDeriveState();
   const [loading, setLoading] = useState(false);
   const { importGenericSecret } = useGenericSecret();
-  const { user } = useAuthState();
+  const { user, isAuthenticated } = useAuthState();
   const { perform } = useFailableAction();
+  const { setMessage } = useSnackbarState();
 
   const finishGenerate = () => {
+    if (!isAuthenticated) {
+      setMessage({ message: "You're not authenticated", level: 'warning' });
+      return;
+    }
     navigation.navigate('Home');
   };
 

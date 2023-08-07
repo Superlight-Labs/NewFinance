@@ -16,7 +16,7 @@ const SetupWallet = ({ navigation }: Props) => {
     if (hasHydrated && derivedUntilLevel !== 0) {
       navigation.navigate('ReviewCreate', { withPhrase: false });
     }
-  }, [hasHydrated]);
+  }, [hasHydrated, derivedUntilLevel]);
   return (
     <Layout
       style="flex w-screen flex-col"
