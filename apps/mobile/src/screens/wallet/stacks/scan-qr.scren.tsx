@@ -1,4 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
+import logger from '@superlight-labs/logger';
 import bip21 from 'bip21';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
@@ -30,8 +31,10 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
     if (type !== 'org.iso.QRCode') return;
 
     try {
-      const { address } = bip21.decode(data);
-      navigation.navigate('SendTo', { sender, recipient: address });
+      const scan = bip21.decode(data);
+
+      logger.debug('SendTo', { sender, recipient: scan.address });
+      navigation.navigate('SendTo', { sender, recipient: scan.address });
     } catch (e) {
       console.warn('Invalid QR code', e);
     }

@@ -17,12 +17,16 @@ type Props = StackScreenProps<WalletStackList, 'SendTo'>;
 
 const SendToScreen = ({ navigation, route }: Props) => {
   const { sender, recipient } = route.params;
-  const [toAddress, setToAddress] = useState(recipient || '');
+  const [toAddress, setToAddress] = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [addressValid, setAddressValid] = useState(false);
   const [addContact, setAddContact] = useState(false);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [note, setNote] = useState('');
+
+  useEffect(() => {
+    setToAddress(recipient || '');
+  }, [recipient]);
 
   const debouncedToAddress = useDebounce(toAddress, 500);
 
@@ -51,10 +55,11 @@ const SendToScreen = ({ navigation, route }: Props) => {
   };
 
   const onContinue = () => {
-    const contact = {
+    const contact: Contact & { new: boolean } = {
       address: toAddress,
       name: recipientName,
       new: addContact,
+      userEmail: null,
     };
 
     navigation.navigate('SendAmount', { toAddress, note, sender, contact });
@@ -62,7 +67,7 @@ const SendToScreen = ({ navigation, route }: Props) => {
 
   const onSelectContact = (contact: Contact) => {
     setToAddress(contact.address);
-    setRecipientName(contact.name);
+    setRecipientName(contact.name || '');
     setAddressValid(true);
     setAddContact(false);
   };
