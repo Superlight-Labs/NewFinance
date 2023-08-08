@@ -82,10 +82,10 @@ const AppNavigation = () => {
       logout();
     }
 
-    if (latestAppStateChange === 'opened' && !isAuthenticated && authHydrated) {
+    if (latestAppStateChange === 'opened' && !isAuthenticated && hasKeysSetUp && authHydrated) {
       authenticateLocally();
     }
-  }, [latestAppStateChange, authHydrated, isAuthenticated, authenticateLocally]);
+  }, [latestAppStateChange, authHydrated, isAuthenticated, authenticateLocally, hasKeysSetUp]);
 
   logger.info({ isAuthenticated });
 
