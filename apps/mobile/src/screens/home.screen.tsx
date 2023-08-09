@@ -5,7 +5,7 @@ import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-ite
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { RefreshControl } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useBitcoinState } from 'state/bitcoin.state';
@@ -18,14 +18,13 @@ const Home = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
   const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress } = useBitcoinState();
-  const [loading, setLoading] = useState(false);
   const { refreshing, update } = useUpdateWalletData();
 
+  const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
+
   useEffect(() => {
-    if (derivedUntilLevel < DerivedUntilLevel.COMPLETE) {
-      setLoading(true);
-      createBitcoinWallet(secret).onSuccess(_ => {
-        setLoading(false);
+    if (loading) {
+      createBitcoinWallet(secret)(() => {
         updateAll();
       });
     }

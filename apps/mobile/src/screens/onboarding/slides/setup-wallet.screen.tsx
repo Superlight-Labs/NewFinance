@@ -2,21 +2,12 @@ import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
 import Layout from 'components/shared/layout/layout.component';
 import Title from 'components/shared/title/title.component';
-import { useEffect } from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
-import { useDeriveState } from 'state/derive.state';
 import { Image, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'SetupWallet'>;
 
 const SetupWallet = ({ navigation }: Props) => {
-  const { derivedUntilLevel, hasHydrated } = useDeriveState();
-
-  useEffect(() => {
-    if (hasHydrated && derivedUntilLevel !== 0) {
-      navigation.navigate('ReviewCreate', { withPhrase: false });
-    }
-  }, [hasHydrated, derivedUntilLevel]);
   return (
     <Layout
       style="flex w-screen flex-col"
