@@ -9,7 +9,7 @@ import Layout from 'components/shared/layout/layout.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Title from 'components/shared/title/title.component';
 import { useFailableAction } from 'hooks/useFailable';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch } from 'react-native-gesture-handler';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
@@ -25,13 +25,7 @@ const CreateWallet = ({ navigation }: Props) => {
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
-  const { setSecret, setName, derivedUntilLevel } = useDeriveState();
-
-  useEffect(() => {
-    if (derivedUntilLevel !== 0) {
-      navigation.navigate('ReviewCreate', { withPhrase: false });
-    }
-  }, []);
+  const { setSecret, setName } = useDeriveState();
 
   const startGenerateWallet = () => {
     if (!user) {

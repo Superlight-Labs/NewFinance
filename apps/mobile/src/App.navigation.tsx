@@ -99,7 +99,7 @@ const AppNavigation = () => {
               <>
                 {hasKeysSetUp ? (
                   <>
-                    {derivedUntilLevel < DerivedUntilLevel.COMPLETE && (
+                    {derivedUntilLevel < DerivedUntilLevel.MASTER && (
                       <Stack.Group>
                         <Stack.Screen name="SetupWallet" component={SetupWallet} />
                         <Stack.Screen name="Import" component={ImportWallet} />
@@ -109,25 +109,18 @@ const AppNavigation = () => {
                       </Stack.Group>
                     )}
 
-                    {isAuthenticated ? (
-                      <>
-                        <Stack.Screen name="Home" component={Home} />
-
-                        <Stack.Screen
-                          name="Wallet"
-                          options={{
-                            cardStyle: { borderRadius: 32 },
-                            presentation: 'modal',
-                            gestureEnabled: true,
-                            ...TransitionPresets.ModalPresentationIOS,
-                          }}
-                          component={WalletNavigation}
-                        />
-                        {derivedUntilLevel === DerivedUntilLevel.COMPLETE && MenuStack({ Stack })}
-                      </>
-                    ) : (
-                      <Stack.Screen name="Loading" component={LoadingScreen} />
-                    )}
+                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen
+                      name="Wallet"
+                      options={{
+                        cardStyle: { borderRadius: 32 },
+                        presentation: 'modal',
+                        gestureEnabled: true,
+                        ...TransitionPresets.ModalPresentationIOS,
+                      }}
+                      component={WalletNavigation}
+                    />
+                    {derivedUntilLevel >= DerivedUntilLevel.MASTER && MenuStack({ Stack })}
                   </>
                 ) : (
                   <>

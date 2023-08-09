@@ -1,9 +1,10 @@
 import { API_URL } from '@env';
 import logger from '@superlight-labs/logger';
-import { appError } from '@superlight-labs/mpc-common';
 import { getXPubKey, useDerive } from '@superlight-labs/rn-mpc-client';
 import { ShareResult } from '@superlight-labs/rn-mpc-client/src/lib/mpc/mpc-types';
-import { errAsync, okAsync } from 'neverthrow';
+import { okAsync } from 'neverthrow';
+import { Platform } from 'react-native';
+import BackgroundService from 'react-native-background-actions';
 import { AppUser, useAuthState } from 'state/auth.state';
 import { ChangeIndex, useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
@@ -11,6 +12,18 @@ import { useSnackbarState } from 'state/snackbar.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin-address';
 import { useFailableAction } from './useFailable';
+
+const options = {
+  taskName: 'Creating your wallet',
+  taskTitle: 'Creating your wallet',
+  taskDesc: 'We are creating a Standard BIP84 Bitcoin wallet for you.',
+  taskIcon: {
+    name: 'ic_launcher',
+    type: 'mipmap',
+  },
+  color: '#ff00ff',
+  // linkingURI: 'yourSchemeHere://chat/jane', // See Deep Linking for more info
+};
 
 export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
   const { perform } = useFailableAction();
@@ -24,19 +37,31 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
     deriveAddresses,
   } = useDeriveSteps(user);
 
-  if (!user) {
-    return () => perform(errAsync(appError(undefined, 'Not Authenticated!')));
-  }
+  return (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
+    BackgroundService.on('expiration', () => {
+      console.log('I am being closed :(');
+    });
 
-  return (secretShare: ShareResult | undefined) =>
-    perform(
-      deriveAndSaveMaster(secretShare)
-        .andThen(deriveAndSavePurpose)
-        .andThen(deriveAndSaveCoinType)
-        .andThen(deriveAndSaveAccount)
-        .andThen(deriveAddresses),
-      naviagteBack
-    );
+    const prom = (_: unknown) =>
+      new Promise<void>(resolve => {
+        const { onSuccess } = perform(
+          deriveAndSaveMaster(secretShare)
+            .andThen(deriveAndSavePurpose)
+            .andThen(deriveAndSaveCoinType)
+            .andThen(deriveAndSaveAccount)
+            .andThen(deriveAddresses),
+          naviagteBack
+        );
+
+        onSuccess(() => {
+          onSuccessCb;
+          Platform.OS === 'ios' && BackgroundService.stop();
+          resolve();
+        });
+      });
+
+    return await BackgroundService.start(prom, options);
+  };
 };
 
 type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
