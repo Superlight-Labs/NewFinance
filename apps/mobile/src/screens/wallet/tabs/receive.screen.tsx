@@ -26,7 +26,7 @@ const Receive = ({ route }: Props) => {
         <Title style="mb-2">Scan Address</Title>
         <View className="flex h-[50%] w-[50%] items-center justify-center">
           <QRCode
-            value={`bitcoin:${external.address}}`}
+            value={`bitcoin:${external.address}`}
             logoBackgroundColor="transparent"
             size={240}
             logoSize={70}
