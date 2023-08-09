@@ -18,4 +18,9 @@ Pod::Spec.new do |s|
 
   s.dependency "React-Core"
   s.dependency "OpenSSL-Universal"
+
+  s.pod_target_xcconfig = {
+    'OTHER_CFLAGS[sdk=iphonesimulator*][arch=x86_64]' => '-maes -mpclmul'
+  }
+
 end
