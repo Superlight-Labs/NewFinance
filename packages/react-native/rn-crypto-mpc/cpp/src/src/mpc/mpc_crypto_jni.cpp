@@ -20,7 +20,8 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef __APPLE__
+#ifdef __ANDROID__
+
 #include "precompiled.h"
 
 #ifndef MPC_CRYPTO_NO_JNI
@@ -236,13 +237,13 @@ static void set_share_handle(JNIEnv *env, jobject object, MPCCryptoShare *share)
   env->SetLongField(object, jfield_Share_handle, (jlong)(uintptr_t)share);
 }
 
-JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_freeShare(JNIEnv *, jclass, jlong share_handle)
+extern "C" JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_freeShare(JNIEnv *, jclass, jlong share_handle)
 {
   MPCCryptoShare *share = (MPCCryptoShare *)(uintptr_t)share_handle;
   MPCCrypto_freeShare(share);
 }
 
-JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_freeContext(JNIEnv *, jclass, jlong context_handle)
+JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_freeContext(JNIEnv *, jclass, jlong context_handle)
 {
   MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
   MPCCrypto_freeContext(context);
@@ -538,7 +539,7 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
   return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getBinResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jlong share_handle, jbyteArray j_out, jobject j_out_size, jobject j_recovery_code)
+JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getBinResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jlong share_handle, jbyteArray j_out, jobject j_out_size, jboolean recovery_code)
 {
   error_t rv = 0;
   MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
@@ -546,13 +547,11 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
 
   ub::jni_out_buf_t out(env, j_out);
 
-  int *recoveryCode = nullptr;
 
-  rv = MPCCrypto_getBinResultEcdsaSign(context, share, out.data, &out.size, *recoveryCodeInt);
+  rv = MPCCrypto_getBinResultEcdsaSign(context, share, out.data, &out.size, recovery_code?1:0);
   if (j_out_size)
     set_int_ref(env, j_out_size, out.size);
 
-  set_int_ref(env, j_recovery_code, recoveryCode);
 
   if (rv == 0)
     out.save();
@@ -787,4 +786,4 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
 }
 
 #endif // MPC_CRYPTO_NO_JNI
-#endif // __APPLE__
+ #endif // __ANDROID__
