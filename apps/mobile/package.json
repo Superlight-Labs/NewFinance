@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "pod-install",
-    "dev": "yarn android --variant=debug && yarn start",
+    "dev": "yarn ios && yarn start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios:release": "react-native bundle --entry-file='index.js' --bundle-output='./main.jsbundle' --dev=false --platform='ios'",
@@ -44,7 +44,7 @@
     "nativewind": "^2.0.11",
     "neverthrow": "^6.0.0",
     "react": "18.2.0",
-    "react-native": "0.72.3",
+    "react-native": "0.71.5",
     "react-native-background-actions": "^3.0.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-qrcode-svg": "^6.2.0",

@@ -8,6 +8,10 @@
       "packages/*",
       "packages/react-native/*",
       "packages/config/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**"
     ]
   },
   "scripts": {
