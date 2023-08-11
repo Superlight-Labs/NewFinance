@@ -6,8 +6,14 @@
  */
 const MetroSymlinksResolver = require('@rnx-kit/metro-resolver-symlinks');
 const { makeMetroConfig } = require('@rnx-kit/metro-config');
-
-module.exports = makeMetroConfig({
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -23,4 +29,6 @@ module.exports = makeMetroConfig({
       crypto: require.resolve('expo-crypto'),
     },
   },
-});
+};
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

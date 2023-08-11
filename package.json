@@ -10,6 +10,7 @@
       "packages/config/*"
     ],
     "nohoist": [
+      "**/expo",
       "**/react-native",
       "**/react-native/**"
     ]
