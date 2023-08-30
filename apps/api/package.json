@@ -37,7 +37,7 @@
     "fastify": "^4.0.3",
     "ffi-napi": "^4.0.3",
     "neverthrow": "^6.0.0",
-    "openpgp": "^5.5.0",
+    "openpgp": "^5.10.1",
     "ref-napi": "^3.0.3",
     "rxjs": "^7.8.0",
     "ts-node": "^10.9.1",
