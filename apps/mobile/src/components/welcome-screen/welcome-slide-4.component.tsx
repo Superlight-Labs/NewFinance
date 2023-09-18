@@ -14,7 +14,7 @@ const WelcomeSlide4 = () => {
       />
       <Image
         className="h-72 w-screen pb-4"
-        source={require('../../../assets/images/lines-4.png')}
+        source={require('../../../assets/images/lines_4.png')}
       />
       <View className="flex-1 items-center justify-center">
         <Title style="text-4xl text-slate-400 font-manrope-bold">Open Source.</Title>

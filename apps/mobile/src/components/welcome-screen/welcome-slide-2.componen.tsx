@@ -12,7 +12,7 @@ const WelcomeSlide2 = () => {
         width={30}
         style="p-4 absolute -top-6 z-10 bg-black rounded-xl shadow-black "
       />
-      <Image className="h-72 w-screen" source={require('../../../assets/images/lines-2.png')} />
+      <Image className="h-72 w-screen" source={require('../../../assets/images/lines_2.png')} />
 
       <View className="flex-1 items-center justify-center">
         <Title style="text-4xl text-slate-400 font-manrope-bold">Non custodial.</Title>
