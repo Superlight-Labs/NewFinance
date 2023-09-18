@@ -1,5 +1,6 @@
 package me.superlight.app;
 import expo.modules.ReactActivityDelegateWrapper;
+import me.superlight.app.BuildConfig;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -28,7 +29,7 @@ public class MainActivity extends ReactActivity {
         this,
         getMainComponentName(),
         // If you opted-in for the New Architecture, we enable the Fabric Renderer.
-        DefaultNewArchitectureEntryPoint.getFabricEnabled(), // fabricEnabled
+        DefaultNewArchitectureEntryPoint.getFabricEnabled() // fabricEnabled
 
         ));
   }

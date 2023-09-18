@@ -97,13 +97,20 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "me.app.superlight"
+    namespace "me.superlight.app"
     defaultConfig {
-        applicationId "me.app.superlight"
+        applicationId "me.superlight.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+    }
+
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libcrypto.so'
+        pickFirst 'lib/armeabi-v7a/libcrypto.so'
+        pickFirst 'lib/x86/libcrypto.so'
+        pickFirst 'lib/x86_64/libcrypto.so'
     }
 
     splits {

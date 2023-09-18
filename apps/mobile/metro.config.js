@@ -5,7 +5,8 @@
  * @format
  */
 const MetroSymlinksResolver = require('@rnx-kit/metro-resolver-symlinks');
-const { makeMetroConfig } = require('@rnx-kit/metro-config');
+const path = require('path');
+
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 /**
  * Metro configuration
@@ -14,6 +15,7 @@ const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
  * @type {import('metro-config').MetroConfig}
  */
 const config = {
+  projectRoot: path.resolve(__dirname, './'),
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -29,6 +31,10 @@ const config = {
       crypto: require.resolve('expo-crypto'),
     },
   },
+  watchFolders: [
+    path.resolve(__dirname, '../../node_modules'),
+    path.resolve(__dirname, '../../packages/'),
+  ],
 };
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);

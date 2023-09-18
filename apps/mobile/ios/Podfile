@@ -6,7 +6,7 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-pod 'OpenSSL-Universal', :modular_headers => true, :configurations => ['Release']
+pod 'OpenSSL-Universal', :modular_headers => true, :configurations => ['Release', 'Debug']
 
 
 platform :ios, '13.0'
