@@ -39,7 +39,7 @@ const SetupWallet = ({ navigation }: Props) => {
       <View className="mt-8 flex w-full flex-1 flex-col items-center">
         <Image
           className="h-72 w-screen"
-          source={require('../../../../assets/images/lines-2.png')}
+          source={require('../../../../assets/images/lines_2.png')}
         />
       </View>
     </Layout>
