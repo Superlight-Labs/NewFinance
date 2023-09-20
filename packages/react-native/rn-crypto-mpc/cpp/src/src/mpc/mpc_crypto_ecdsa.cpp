@@ -338,7 +338,7 @@ MPCCRYPTO_API int MPCCrypto_getDerResultEcdsaSign(MPCCryptoContext *context, uin
   return 0;
 }
 
-MPCCRYPTO_API int MPCCrypto_getBinResultEcdsaSign(MPCCryptoContext *context, MPCCryptoShare *share_ptr, uint8_t *signature, int *out_size, int *recoveryCode)
+MPCCRYPTO_API int MPCCrypto_getBinResultEcdsaSign(MPCCryptoContext *context, MPCCryptoShare *share_ptr, uint8_t *signature, int *out_size, int recoveryCode)
 {
   error_t rv = 0;
 
@@ -357,7 +357,7 @@ MPCCRYPTO_API int MPCCrypto_getBinResultEcdsaSign(MPCCryptoContext *context, MPC
 
   mpc_ecdsa_share_t *share = dynamic_cast<mpc_ecdsa_share_t *>((mpc_crypto_share_t *)share_ptr);
 
-  *recoveryCode = sig.get_recovery_code(mem_t(bin.data(), *out_size), share->core.Q_full);
+  recoveryCode = sig.get_recovery_code(mem_t(bin.data(), *out_size), share->core.Q_full);
 
   if (signature)
   {

@@ -11,6 +11,8 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
+import me.superlight.app.BuildConfig;
+
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {

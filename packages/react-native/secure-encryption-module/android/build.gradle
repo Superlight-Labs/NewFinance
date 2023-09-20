@@ -3,7 +3,6 @@ buildscript {
         repositories {
             google()
             mavenCentral()
-            jcenter()
         }
 
         dependencies {
@@ -19,9 +18,9 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('SecureEncryptionModule_compileSdkVersion', 29)
+    compileSdkVersion safeExtGet('SecureEncryptionModule_compileSdkVersion', 30)
     defaultConfig {
-        minSdkVersion safeExtGet('SecureEncryptionModule_minSdkVersion', 16)
+        minSdkVersion safeExtGet('SecureEncryptionModule_minSdkVersion', 21)
         targetSdkVersion safeExtGet('SecureEncryptionModule_targetSdkVersion', 29)
         versionCode 1
         versionName "1.0"
@@ -46,11 +45,10 @@ repositories {
     mavenLocal()
     maven {
         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-        url("$rootDir/../node_modules/react-native/android")
+        url("$rootDir/node_modules/react-native/android")
     }
     google()
     mavenCentral()
-    jcenter()
 }
 
 dependencies {

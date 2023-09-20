@@ -82,7 +82,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
       </View>
       <Image
         className="-ml-8 mt-16 h-72 w-screen"
-        source={require('../../../../assets/images/lines-1.png')}
+        source={require('../../../../assets/images/lines_1.png')}
       />
     </LayoutComponent>
   );

@@ -42,6 +42,10 @@ On error `xcrun: error: SDK "iphoneos" cannot be located` it may be necessray to
 CONGRATS - now you have setup the project for Development.
 Since the App is hooked up with external API's etc. it is necessary to do a few more steps to actually interact with the blockchain. See [here](#secrets)
 
+### Android
+
+1. Install CMAKE 3.10.2.... via Android Studio SDK Manager -> SDK Tools -> Show Pacakge Details -> Select 3.10.2...
+
 ## Secrets
 
 The Api relies on some Secrets for talking with external API's. You have to create secrets and copy the values to the `.env` file with following secrets:
