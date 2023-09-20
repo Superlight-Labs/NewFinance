@@ -19,19 +19,24 @@ type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 const OnboardingScreen = ({ navigation }: Props) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const createProfile = useCreateAuth();
   const { registerUser } = useAuthState();
   const { perform } = useFailableAction();
 
   const getStarted = useCallback(async () => {
+    setLoading(true);
     Keyboard.dismiss();
     const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
 
-    perform(createProfile(newDevicePublicKey, username, email)).onSuccess(user => {
+    perform(createProfile(newDevicePublicKey, username, email), () => {
+      setLoading(false);
+    }).onSuccess(user => {
       registerUser(user);
+      setLoading(false);
     });
-  }, [navigation, registerUser, createProfile, username, email, perform]);
+  }, [navigation, registerUser, createProfile, username, email, perform, setLoading]);
 
   const isDisabled = () => {
     if (username.length < 3 || email.length < 3) return true;
@@ -46,7 +51,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
   return (
     <LayoutComponent>
       <ButtonComponent
-        disabled={isDisabled()}
+        disabled={isDisabled() || loading}
         style="absolute right-8 -top-12 rounded-xl"
         onPress={getStarted}>
         Next
@@ -72,6 +77,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
           <TextInputComponent
             style="border-b-0"
             placeHolder="eg. john.doe@gmail.com"
+            inputMode="email"
             value={email}
             onChangeText={setEmail}
           />
@@ -79,6 +85,9 @@ const OnboardingScreen = ({ navigation }: Props) => {
         <View className="bottom-1 flex h-12 w-12 items-center justify-center rounded-lg bg-black p-3">
           <MonoIcon color="white" iconName="AtSign" />
         </View>
+      </View>
+      <View className="flex h-16 items-center pt-4 ">
+        {loading && <MonoIcon height={32} width={32} style="" iconName="Loading" />}
       </View>
       <Image
         className="-ml-8 mt-16 h-72 w-screen"

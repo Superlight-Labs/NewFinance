@@ -87,8 +87,6 @@ const AppNavigation = () => {
     }
   }, [latestAppStateChange, authHydrated, isAuthenticated, authenticateLocally, hasKeysSetUp]);
 
-  logger.info({ isAuthenticated });
-
   return (
     <NavigationContainer>
       <Stack.Navigator

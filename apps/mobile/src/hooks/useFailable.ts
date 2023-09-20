@@ -11,7 +11,7 @@ export const useFailableAction = () => {
       onSuccess: (action: (value: T) => void) => {
         result.match(action, err => {
           errFn && errFn();
-          logger.error({ err }, 'Error performing action');
+          logger.error({ ...err }, 'Error performing action');
           setMessage(err);
         });
       },

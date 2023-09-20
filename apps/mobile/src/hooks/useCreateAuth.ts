@@ -1,4 +1,6 @@
+import { API_URL } from '@env';
 import { CreateUserResponse } from '@superlight-labs/api/src/repository/user';
+import logger from '@superlight-labs/logger';
 import { AppError, SignResult, appError } from '@superlight-labs/mpc-common';
 import { AxiosError } from 'axios';
 import { ResultAsync } from 'neverthrow';
@@ -30,8 +32,10 @@ const createUser = (
       let msg = 'Error while creating user';
 
       if (error instanceof AxiosError) {
-        msg = error.response?.data?.error;
+        msg = error.response?.data?.error || error.message;
       }
+
+      logger.info({ msg, hi: API_URL }, 'hi');
 
       return appError(error, msg);
     }
