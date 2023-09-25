@@ -18,11 +18,12 @@ export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, W
   return initGenerateGenericSecret()
     .andThen(_ => step(null))
     .andThen((stepMsg: StepResult) => {
+      logger.info({ stepMsg }, 'Step result received');
       if (stepMsg.type === 'error') {
         reset();
         return errAsync(mpcInternalError(stepMsg.error));
       }
-      if (stepMsg.type !== 'success' || !stepMsg.share) {
+      if (stepMsg.type !== 'success' || !stepMsg.keyShare) {
         reset();
         return errAsync(mpcInternalError('No share received'));
       }
@@ -31,7 +32,7 @@ export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, W
 
       ws.send(JSON.stringify(wsMessage));
 
-      return okAsync(stepMsg.share);
+      return okAsync(stepMsg.keyShare);
     });
 };
 

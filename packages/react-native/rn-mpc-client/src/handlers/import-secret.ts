@@ -26,7 +26,7 @@ export const startImportGenericSecret: MPCWebsocketStarterWithSetup<string, stri
         reset();
         return errAsync(mpcInternalError(stepMsg.error));
       }
-      if (stepMsg.type !== 'success' || !stepMsg.share) {
+      if (stepMsg.type !== 'success' || !stepMsg.keyShare) {
         reset();
         return errAsync(mpcInternalError('No share received'));
       }
@@ -34,7 +34,7 @@ export const startImportGenericSecret: MPCWebsocketStarterWithSetup<string, stri
       const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
       output.next(okAsync(wsMessage));
 
-      return okAsync({ startResult: okAsync(stepMsg.share), input, output });
+      return okAsync({ startResult: okAsync(stepMsg.keyShare), input, output });
     });
 };
 

@@ -51,7 +51,7 @@ export const signEcdsa: MPCWebsocketHandlerWithSetup<string, null> = ({
         map(shareResult => shareResult.signature)
       )
     ),
-    err => other(err, 'Failed to derive Keys')
+    err => other(err, 'Failed to sign with Keys')
   );
 };
 
