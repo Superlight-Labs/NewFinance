@@ -21,12 +21,36 @@ public class StepManager {
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
   public void setContext(Context context) {
-    this.context.close();
+    if(this.context != null) {
+      this.context.close();
+    }
+
     this.context = context;
+  }
+
+  public void setShare(Share share) {
+    if(this.share != null) {
+      this.share.close();
+    }
+
+    this.share = share;
   }
 
   public Share getShare() {
     return share;
+  }
+
+  public void reset() {
+    if(this.context != null) {
+      this.context.close();
+    }
+
+    if(this.share != null) {
+      this.share.close();
+    }
+
+    context = null;
+    share = null;
   }
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)

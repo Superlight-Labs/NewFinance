@@ -88,11 +88,13 @@ public class Native {
 
   static native int getEcdsaPublic(long shareHandle, byte[] out, IntRef outLen);
 
-  static native int getResultEcdsaSign(
+  static native int getDerResultEcdsaSign(
     long contextHandle,
     byte[] out,
     IntRef outLen
   );
+
+
 
   public static native int initGenerateEcdsaKey(int peer, Context out);
 

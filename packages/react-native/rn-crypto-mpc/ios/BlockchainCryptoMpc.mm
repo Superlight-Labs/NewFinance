@@ -174,7 +174,7 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
          resolve(@{
             @"type": @("success"),
             @"message": outString,
-            @"share": shareString,
+            @"keyShare": shareString,
             @"context": contextString,
         });
         
@@ -221,35 +221,6 @@ RCT_EXPORT_METHOD(getDerSignature:(RCTPromiseResolveBlock)resolve
             @"signature": signatureString,
         });
     
-    sig.clear();
-}
-
-RCT_EXPORT_METHOD(getBinSignature:(RCTPromiseResolveBlock)resolve
-                  withRejecter:(RCTPromiseRejectBlock)reject)
-{
-    int rv = 0;
-    int sig_size = 0;
-    int recovery_code = 0;
-    
-    if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, nullptr, &sig_size, &recovery_code)))
-        reject(@(rv).stringValue, @("MPC Error"), nil);
-
-    std::vector<uint8_t> sig(sig_size);
-    if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, sig.data(), &sig_size, &recovery_code)))
-        reject(@(rv).stringValue, @("MPC Error"), nil);
-
-    
-    
-    NSString *signatureString;
-    
-    char_vector_to_react_string(sig, &signatureString);
-    
-    resolve(@{
-        @"type": @("sucess"),
-        @"signature": signatureString,
-        @"recoveryCode": @(recovery_code)
-    });
-        
     sig.clear();
 }
 

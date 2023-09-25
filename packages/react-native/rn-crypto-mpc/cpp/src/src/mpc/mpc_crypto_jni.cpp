@@ -243,7 +243,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_crypto
   MPCCrypto_freeShare(share);
 }
 
-JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_freeContext(JNIEnv *, jclass, jlong context_handle)
+extern "C" JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_freeContext(JNIEnv *, jclass, jlong context_handle)
 {
   MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
   MPCCrypto_freeContext(context);
@@ -536,26 +536,6 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
     set_int_ref(env, j_out_size, out.size);
   if (rv == 0)
     out.save();
-  return 0;
-}
-
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getBinResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jlong share_handle, jbyteArray j_out, jobject j_out_size, jboolean recovery_code)
-{
-  error_t rv = 0;
-  MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
-  MPCCryptoShare *share = (MPCCryptoShare *)(uintptr_t)share_handle;
-
-  ub::jni_out_buf_t out(env, j_out);
-
-
-  rv = MPCCrypto_getBinResultEcdsaSign(context, share, out.data, &out.size, recovery_code?1:0);
-  if (j_out_size)
-    set_int_ref(env, j_out_size, out.size);
-
-
-  if (rv == 0)
-    out.save();
-
   return 0;
 }
 
