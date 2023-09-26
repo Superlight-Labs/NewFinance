@@ -26,7 +26,7 @@ export const createServer = async (client: PrismaClient) => {
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   server.register(websocketPlugin, {
-    options: { perMessageDeflate: true, maxPayload: 30 * 1024 * 1024 },
+    options: { perMessageDeflate: true, maxPayload: 100 * 1024 * 1024, clientTracking: true },
   });
   server.register(fastifyCookie, {
     secret: config.cookieSecret,
@@ -47,7 +47,7 @@ export const createServer = async (client: PrismaClient) => {
     },
   });
 
-  registerRoutes(server);
+  registerRoutes(server as any);
 
   server.all('*', (request, reply) => {
     reply.status(404).send({ error: 'Route does not exist' });

@@ -1,4 +1,5 @@
 import { ResultAsync } from 'neverthrow';
+import WebSocket from 'ws';
 import { WebsocketError, mapWebsocketToApiError } from '../error';
 import { MpcWebsocketHandlerWrapper } from './common';
 import { MPCWebsocketMessage, MPCWebsocketResult } from './websocket-messages';
@@ -10,14 +11,16 @@ export const createMPCWebsocketHandlerWrapper =
       next: (val: ResultAsync<MPCWebsocketMessage<T>, WebsocketError>) => {
         val.match(
           data => {
-            logger.debug(
-              { data: shortenMessage({ ...data }) },
-              'Successfully sending data on websocket'
-            );
-            socket.send(JSON.stringify(data));
+            setTimeout(() => {
+              logger.debug(
+                { data: shortenMessage({ ...data }) },
+                'Successfully sending data on websocket'
+              );
+              socket.send(JSON.stringify(data));
 
-            data.type === 'success' &&
-              socket.close(1000, 'Successfully finished process with websocket');
+              data.type === 'success' &&
+                socket.close(1000, 'Successfully finished process with websocket');
+            }, 2000);
           },
           error => {
             logger.error({ error }, 'Failed to work on request');
@@ -47,7 +50,7 @@ type Logger = {
 
 export const shortenMessage = (message: any) => {
   if (typeof message === 'string' && message.length > 23) {
-    return message.slice(0, 24) + '...';
+    return `${message.slice(0, 24)}...+${message.length}`;
   }
 
   if (typeof message === 'object' && message !== null) {

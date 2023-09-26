@@ -103,6 +103,10 @@ const CreateWallet = ({ navigation }: Props) => {
           <Switch value={withPhrase} onValueChange={setWithPhrase} />
         </View>
       </View>
+
+      <View className="fley items-center justify-center py-4">
+        {loading && <MonoIcon iconName="Loading" />}
+      </View>
     </Layout>
   );
 };

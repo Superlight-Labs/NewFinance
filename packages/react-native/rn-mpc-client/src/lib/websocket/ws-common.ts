@@ -39,7 +39,6 @@ export const listenToWebsocket = (
     logger.error({ err }, 'Websocket error');
   };
   ws.onclose = err => {
-    logger.error({ err }, 'Websocket closed');
     if (err.code !== 1000) input.error(err);
     else input.complete();
   };
