@@ -14,7 +14,7 @@ import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin-address';
 import { useFailableAction } from './useFailable';
 
 const options = {
-  taskName: 'Creating your wallet',
+  taskName: 'CreatingYourWallet',
   taskTitle: 'Creating your wallet',
   taskDesc: 'We are creating a Standard BIP84 Bitcoin wallet for you.',
   taskIcon: {
@@ -37,31 +37,63 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
     deriveAddresses,
   } = useDeriveSteps(user);
 
-  return (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
-    BackgroundService.on('expiration', () => {
-      console.log('I am being closed :(');
-    });
-
-    const prom = (_: unknown) =>
-      new Promise<void>(resolve => {
-        const { onSuccess } = perform(
-          deriveAndSaveMaster(secretShare)
-            .andThen(deriveAndSavePurpose)
-            .andThen(deriveAndSaveCoinType)
-            .andThen(deriveAndSaveAccount)
-            .andThen(deriveAddresses),
-          naviagteBack
-        );
-
-        onSuccess(() => {
-          onSuccessCb;
-          Platform.OS === 'ios' && BackgroundService.stop();
-          resolve();
-        });
+  const deriveInBackground =
+    (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
+      BackgroundService.on('expiration', () => {
+        console.log('I am being closed :(');
       });
 
-    return await BackgroundService.start(prom, options);
-  };
+      const prom = (_: unknown) =>
+        new Promise<void>(resolve => {
+          const { onSuccess } = perform(
+            deriveAndSaveMaster(secretShare)
+              .andThen(deriveAndSavePurpose)
+              .andThen(deriveAndSaveCoinType)
+              .andThen(deriveAndSaveAccount)
+              .andThen(deriveAddresses),
+            naviagteBack
+          );
+
+          onSuccess(() => {
+            onSuccessCb;
+            BackgroundService.stop();
+            resolve();
+          });
+        });
+
+      return await BackgroundService.start(prom, options);
+    };
+
+  const deriveInForeground =
+    (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
+      BackgroundService.on('expiration', () => {
+        console.log('I am being closed :(');
+      });
+
+      const backgroundTask = async (taskData: any) => {
+        logger.info({ taskData }, 'WTF');
+
+        await new Promise<void>(resolve => {
+          const { onSuccess } = perform(
+            deriveAndSaveMaster(secretShare)
+              .andThen(deriveAndSavePurpose)
+              .andThen(deriveAndSaveCoinType)
+              .andThen(deriveAndSaveAccount)
+              .andThen(deriveAddresses),
+            naviagteBack
+          );
+
+          onSuccess(() => {
+            onSuccessCb;
+            resolve();
+          });
+        });
+      };
+      return await backgroundTask(options);
+    };
+
+  // TODO: get Background tasks working on both platforms
+  return Platform.OS === 'ios' ? deriveInBackground : deriveInForeground;
 };
 
 type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
