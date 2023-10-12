@@ -117,12 +117,12 @@ public class Share implements AutoCloseable
     return out;
   }
 
-  public String serializePubBIP32() throws MPCException
+  public String serializePubBIP32(boolean isMainNet) throws MPCException
   {
     Native.IntRef outLen = new Native.IntRef();
-    MPCException.check(Native.serializePubBIP32(handle, null, outLen));
+    MPCException.check(Native.serializePubBIP32(handle, null, outLen, isMainNet));
     char[] chars = new char[outLen.value];
-    MPCException.check(Native.serializePubBIP32(handle, chars, outLen));
+    MPCException.check(Native.serializePubBIP32(handle, chars, outLen, isMainNet));
     return new String(chars);
   }
 

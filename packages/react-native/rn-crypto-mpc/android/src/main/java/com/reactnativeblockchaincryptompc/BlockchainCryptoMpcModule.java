@@ -68,10 +68,13 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
   @ReactMethod
   public void initDeriveBIP32(int index, int hardened, Promise promise) {
-    Log.i("asdf", "Starting to derive shit" + index + " "+ hardened);
     try {
       Share share = stepManager.getShare();
-      stepManager = new StepManager(share.initDeriveBIP32(1,hardened == 1, index), share);
+
+      Context context = share.initDeriveBIP32(1,hardened == 1, index);
+
+      stepManager.setContext(context);
+
       promise.resolve( rb.withType(Type.success).build());
     } catch (MPCException e) {
       e.printStackTrace();
@@ -94,6 +97,9 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
   @ReactMethod
   public void useShare(String in, Promise promise) {
+    stepManager.reset();
+
+
     byte[] shareBytes = stringToByteArray(in);
 
     try {
@@ -208,7 +214,10 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
   @ReactMethod
-  public void MPCCrypto_getResultDeriveBIP32(Promise promise) {
+  public void getResultDeriveBIP32(Promise promise) {
+
+    stepManager.getShare().close();
+
 
     Log.i("asdf", "Trying to get res " + protocolFinished);
     if (!protocolFinished) {
@@ -217,7 +226,7 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
     }
 
     try {
-      promise.resolve(rb.withType(Type.success).withKeyShare(byteArrayToString(stepManager.getShare().toBuf())).build());
+      promise.resolve(rb.withType(Type.success).withKeyShare(byteArrayToString(stepManager.getContext().getResultDeriveBIP32().toBuf())).build());
     } catch (MPCException e) {
       e.printStackTrace();
       promise.reject("MPC Error",e);
@@ -258,9 +267,9 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
   @ReactMethod
-  public void getXPubKey(Promise promise) {
+  public void getXPubKey(boolean isMainNet, Promise promise) {
     try {
-      String pubKey = stepManager.getShare().serializePubBIP32();
+      String pubKey = stepManager.getShare().serializePubBIP32(isMainNet);
       promise.resolve(rb.withType(Type.success).withXPubKey(pubKey).build());
     } catch (MPCException e) {
       promise.reject("MPC Error",e);

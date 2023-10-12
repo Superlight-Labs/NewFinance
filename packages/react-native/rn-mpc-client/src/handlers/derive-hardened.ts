@@ -106,7 +106,24 @@ const onMessage = (
         context$.next(result.context);
       }
 
-      output.next(okAsync({ type: 'inProgress', message: result.message }));
+      if (result.message.length > 10000000) {
+        const half = Math.floor(result.message.length / 2);
+
+        const wsMessage1: MPCWebsocketMessage = {
+          type: 'inProgress',
+          message: result.message.slice(0, half),
+        };
+        const wsMessage2: MPCWebsocketMessage = {
+          type: 'inProgress',
+          message: result.message.slice(half),
+        };
+
+        output.next(okAsync({ ...wsMessage1, part: 1 }));
+
+        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 500);
+      } else {
+        output.next(okAsync({ type: 'inProgress', message: result.message }));
+      }
     },
     err => output.next(errAsync(websocketError(err)))
   );

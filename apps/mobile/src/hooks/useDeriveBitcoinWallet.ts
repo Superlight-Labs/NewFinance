@@ -125,14 +125,14 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       logger.debug('Skip Derive master');
       return okAsync(master!);
     }
-    const { share: s, peerShareId: pId } = secretShare;
+    const { share: sShare, peerShareId: pId } = secretShare;
 
     setMessage({ message: 'Setting up your wallet...', step: 1, total: 4, level: 'progress' });
 
-    return deriveMasterPair(config, { share: s, peerShareId: pId }).map(
-      ({ share, peerShareId }) => {
-        setMaster({ share, peerShareId, path: 'm' });
-        return { share, peerShareId };
+    return deriveMasterPair(config, { share: sShare, peerShareId: pId }).map(
+      ({ share: mShare, peerShareId }) => {
+        setMaster({ share: mShare, peerShareId, path: 'm' });
+        return { share: mShare, peerShareId };
       }
     );
   };
@@ -151,9 +151,9 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       share,
       parentPath: 'm',
       hardened: true,
-    }).map(({ share: s, peerShareId: pId }) => {
-      setPurpose({ share: s, peerShareId: pId, path: `m/84'` });
-      return { share: s, peerShareId: pId };
+    }).map(({ share: pShare, peerShareId: pId }) => {
+      setPurpose({ share: pShare, peerShareId: pId, path: `m/84'` });
+      return { share: pShare, peerShareId: pId };
     });
   };
 

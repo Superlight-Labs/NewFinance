@@ -71,7 +71,7 @@ extern "C"
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_initDeriveBIP32(JNIEnv *, jclass, jint peer, jlong share_handle, jboolean hardened, jint index, jobject j_out_context);
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getResultDeriveBIP32(JNIEnv *, jclass, jlong context_handle, jobject j_out_share);
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getBIP32Info(JNIEnv *, jclass, jlong share_handle, jobject j_bip32_info);
-    JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_serializePubBIP32(JNIEnv *, jclass, jlong share_handle, jcharArray j_out, jobject j_out_size);
+    JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_serializePubBIP32(JNIEnv *, jclass, jlong share_handle, jcharArray j_out, jobject j_out_size, jboolean isMainNet);
 
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_initBackupEcdsaKey(JNIEnv *, jclass, jint peer, jlong share_handle, jbyteArray j_pub_backup_key, jobject j_out_context);
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getResultBackupEcdsaKey(JNIEnv *, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size);

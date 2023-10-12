@@ -307,7 +307,7 @@ RCT_EXPORT_METHOD(getPublicKey:(RCTPromiseResolveBlock)resolve
     pub_ec_key.clear();
 }
 
-RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
+RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)mainNet
                   withResolver:(RCTPromiseResolveBlock)resolve
                   withRejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -315,13 +315,13 @@ RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
 
     int ser_size = 0;
     
-    bool isMain = (bool) [main intValue];
+    bool isMainNet = (bool) [mainNet intValue];
 
-    if ((rv = MPCCrypto_serializePubBIP32(share, nullptr, &ser_size, isMain)))
+    if ((rv = MPCCrypto_serializePubBIP32(share, nullptr, &ser_size, isMainNet)))
         reject(@(rv).stringValue, @("MPC Error"), nil);
 
     char *s = new char[ser_size + 1];
-    if ((rv = MPCCrypto_serializePubBIP32(share, s, &ser_size, isMain)))
+    if ((rv = MPCCrypto_serializePubBIP32(share, s, &ser_size, isMainNet)))
         reject(@(rv).stringValue, @("MPC Error"), nil);
 
 

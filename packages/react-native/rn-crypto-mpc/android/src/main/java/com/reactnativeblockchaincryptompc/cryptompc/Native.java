@@ -131,7 +131,8 @@ public class Native {
   static native int serializePubBIP32(
     long shareHandle,
     char[] out,
-    IntRef outLen
+    IntRef outLen,
+    boolean isMainNet
   );
 
   static native int initBackupEcdsaKey(

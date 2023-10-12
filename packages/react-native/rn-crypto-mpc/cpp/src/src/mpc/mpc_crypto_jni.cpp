@@ -612,13 +612,13 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
 }
 
 // TODO Create in Java Bridge and verify if this works
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_serializePubBIP32(JNIEnv *env, jclass, jlong share_handle, jcharArray j_out, jobject j_out_size, jboolean main)
+JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_serializePubBIP32(JNIEnv *env, jclass, jlong share_handle, jcharArray j_out, jobject j_out_size, jboolean isMainNet)
 {
   error_t rv = 0;
   MPCCryptoShare *share = (MPCCryptoShare *)(uintptr_t)share_handle;
 
   int str_size = 0;
-  rv = MPCCrypto_serializePubBIP32(share, nullptr, &str_size, main);
+  rv = MPCCrypto_serializePubBIP32(share, nullptr, &str_size, isMainNet);
   int out_size = str_size - 1;
 
   if (j_out_size)
@@ -635,7 +635,7 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
     char *chars = new char[str_size];
     jchar *j_chars = new jchar[out_size];
 
-    MPCCrypto_serializePubBIP32(share, chars, &str_size, main);
+    MPCCrypto_serializePubBIP32(share, chars, &str_size, isMainNet);
     for (int i = 0; i < out_size; i++)
       j_chars[i] = jchar(chars[i]);
     env->SetCharArrayRegion(j_out, 0, out_size, j_chars);

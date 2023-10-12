@@ -3,13 +3,15 @@ import { Observable, Subject } from 'rxjs';
 import { WebsocketError } from './../error';
 
 export type MPCWebsocketMessage<T = string> =
-  | {
-      type: 'inProgress';
-      message: string;
-    }
+  | MPCWebsocketInProgress
   | { type: 'success'; result: T }
   | { type: 'start' }
   | MPCWebscocketInit;
+
+export type MPCWebsocketInProgress = {
+  type: 'inProgress';
+  message: string;
+};
 
 export type MPCWebscocketInit<T = string> = {
   type: 'init';

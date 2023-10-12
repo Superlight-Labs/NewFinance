@@ -34,6 +34,7 @@ export type {
 export type { SignResult } from './src/websocket/results';
 export type {
   MPCWebscocketInit,
+  MPCWebsocketInProgress,
   MPCWebsocketMessage,
   MPCWebsocketResult,
   WebSocketOutput,
