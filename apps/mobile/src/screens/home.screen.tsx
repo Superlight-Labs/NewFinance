@@ -17,18 +17,19 @@ type Props = StackScreenProps<RootStackParamList, 'Home'>;
 const Home = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
   const { secret, derivedUntilLevel, name } = useDeriveState();
-  const { accounts, getAccountBalance, getTotalBalance, hasAddress } = useBitcoinState();
+  const { accounts, getAccountBalance, getTotalBalance, hasAddress, hasHydrated } =
+    useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
 
   const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
 
   useEffect(() => {
-    if (loading) {
+    if (hasHydrated && loading) {
       createBitcoinWallet(secret)(() => {
         updateAll();
       });
     }
-  }, []);
+  }, [hasHydrated]);
 
   const updateAll = () => {
     for (const [key, _] of accounts) {

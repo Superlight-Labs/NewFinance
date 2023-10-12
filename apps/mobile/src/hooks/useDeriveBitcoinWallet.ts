@@ -100,6 +100,7 @@ type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
 
 const useDeriveSteps = (user: AppUser | undefined) => {
   const { network, saveAccount, saveAddress, accounts } = useBitcoinState();
+
   const { setMessage } = useSnackbarState();
   const { deriveBip32, deriveBip32Hardened, deriveMasterPair } = useDerive();
   const {
@@ -242,6 +243,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
   };
 
   const deriveAddresses = ({ share, peerShareId }: ShareResult) => {
+    logger.info('first non hardened derive');
     return deriveBip32(config, {
       index: '0',
       peerShareId,

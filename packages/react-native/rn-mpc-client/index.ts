@@ -8,7 +8,7 @@ import { authWebsocket } from './src/lib/websocket/ws-client';
 import { Signer } from './src/lib/websocket/ws-common';
 import { authWebsocketWithSetup } from './src/lib/websocket/ws-setup-client';
 export { getPublicKey, getXPubKey } from './src/lib/mpc/mpc-neverthrow-wrapper';
-export type { Signer, SignWithShare };
+export type { SignWithShare, Signer };
 
 export const useGenericSecret = () => ({
   generateGenericSecret: ({ baseUrl, sign }: ActionConfig) =>
@@ -35,14 +35,13 @@ export const useDerive = () => ({
     authWebsocketWithSetup<DeriveFrom, string>(
       { baseUrl, socketEndpoint: 'derive/no-steps' },
       sign,
-      deriveConfig
+      { ...deriveConfig, hardened: false }
     )<ShareResult>(startDerive, deriveBip32),
   deriveBip32Hardened: ({ baseUrl, sign }: ActionConfig, deriveConfig: DeriveFrom) =>
-    authWebsocketWithSetup<DeriveFrom, null>(
-      { baseUrl, socketEndpoint: 'derive/stepping' },
-      sign,
-      deriveConfig
-    )<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
+    authWebsocketWithSetup<DeriveFrom, null>({ baseUrl, socketEndpoint: 'derive/stepping' }, sign, {
+      ...deriveConfig,
+      hardened: true,
+    })<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
 });
 
 export const useSignEcdsa = () => ({
