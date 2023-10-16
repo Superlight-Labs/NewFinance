@@ -22,7 +22,6 @@ export const fetchFrom = async <T>(url: string, params?: HttpParams): Promise<T>
   const content = (await response.json()) as T;
 
   if (!response.ok) {
-    console.error('Error from API, possibly show snackbar', content);
     throw content;
   }
 

@@ -14,6 +14,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.module.annotations.ReactModule;
 import com.reactnativeblockchaincryptompc.cryptompc.Context;
 import com.reactnativeblockchaincryptompc.cryptompc.MPCException;
+import com.reactnativeblockchaincryptompc.cryptompc.Message;
 import com.reactnativeblockchaincryptompc.cryptompc.ResultBuilder;
 import com.reactnativeblockchaincryptompc.cryptompc.Share;
 import com.reactnativeblockchaincryptompc.cryptompc.StepManager;
@@ -287,7 +288,9 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
     try {
       Context.MessageAndFlags msgAndFlags = stepManager.step(messageInChars);
       protocolFinished = msgAndFlags.protocolFinished;
-      String message = byteArrayToString(msgAndFlags.message.toBuf());
+
+      Message msg = msgAndFlags.message;
+      String message = byteArrayToString(msg != null ? msg.toBuf() : new byte[0]);
 
       if(!protocolFinished) {
         promise.resolve(rb.withMessage(message).withType(Type.inProgress).build());

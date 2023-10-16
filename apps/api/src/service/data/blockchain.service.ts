@@ -51,7 +51,7 @@ export const getTransactions = (
         service
           .getTransactions(addr, new URLSearchParams(query), provider)
           .then(bal => ({ [addr]: bal })),
-        e => thirdPartyError('Err while fetching balances', e)
+        e => thirdPartyError('Err while fetching transactions', e)
       )
     )
   );
