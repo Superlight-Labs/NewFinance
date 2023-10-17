@@ -85,7 +85,7 @@ const ReviewCreate = ({ navigation, route }: Props) => {
       {withPhrase && phrase && <RecoveryPhraseDisplayComponent phrase={phrase} />}
 
       {loading && (
-        <View className="mt-6 flex items-center justify-center">
+        <View className=" mt-6 flex items-center justify-center ">
           <MonoIcon iconName="Loading" />
         </View>
       )}

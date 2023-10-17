@@ -34,7 +34,10 @@ export const listenToWebsocket = (
   ws: WebSocket
 ): void => {
   ws.onmessage = ({ data }) => input.next(JSON.parse(data.toString()) as MPCWebsocketMessage);
-  ws.onerror = err => input.error(err);
+  ws.onerror = err => {
+    input.error(err);
+    logger.error({ err }, 'Websocket error');
+  };
   ws.onclose = err => {
     if (err.code !== 1000) input.error(err);
     else input.complete();
@@ -64,7 +67,7 @@ export const createWebsocket = Result.fromThrowable(
     try {
       const ws = new WebSocket(
         `${getProtocol()}://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
-        undefined,
+        null,
         {
           headers: {
             userid: userId,
@@ -96,7 +99,7 @@ export const logIncommingMessages = {
   next: (message: MPCWebsocketMessage) =>
     logger.debug({ data: shortenMessage(message) }, 'Received message on websocket'),
   error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
-  complete: () => logger.debug('Connection on Websocket closed'),
+  complete: () => logger.debug('Connection on Websocket closed - general'),
 };
 
 const getProtocol = () => {

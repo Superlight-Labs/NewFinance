@@ -85,9 +85,14 @@ const AppNavigation = () => {
     if (latestAppStateChange === 'opened' && !isAuthenticated && hasKeysSetUp && authHydrated) {
       authenticateLocally();
     }
-  }, [latestAppStateChange, authHydrated, isAuthenticated, authenticateLocally, hasKeysSetUp]);
-
-  logger.info({ isAuthenticated });
+  }, [
+    latestAppStateChange,
+    authHydrated,
+    isAuthenticated,
+    authenticateLocally,
+    hasKeysSetUp,
+    logout,
+  ]);
 
   return (
     <NavigationContainer>

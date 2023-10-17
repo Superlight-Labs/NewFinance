@@ -174,7 +174,7 @@ RCT_EXPORT_METHOD(step:(NSString*)messageIn
          resolve(@{
             @"type": @("success"),
             @"message": outString,
-            @"share": shareString,
+            @"keyShare": shareString,
             @"context": contextString,
         });
         
@@ -203,11 +203,11 @@ RCT_EXPORT_METHOD(getDerSignature:(RCTPromiseResolveBlock)resolve
     
 
     int sig_size = 0;
-    if ((rv = MPCCrypto_getDerResultEcdsaSign(context, nullptr, &sig_size)))
+    if ((rv = MPCCrypto_getResultEcdsaSign(context, nullptr, &sig_size)))
                 reject(@(rv).stringValue, @("MPC Error"), nil);
 
     std::vector<uint8_t> sig(sig_size);
-    if ((rv = MPCCrypto_getDerResultEcdsaSign(context, sig.data(), &sig_size)))
+    if ((rv = MPCCrypto_getResultEcdsaSign(context, sig.data(), &sig_size)))
                 reject(@(rv).stringValue, @("MPC Error"), nil);
 
     
@@ -221,35 +221,6 @@ RCT_EXPORT_METHOD(getDerSignature:(RCTPromiseResolveBlock)resolve
             @"signature": signatureString,
         });
     
-    sig.clear();
-}
-
-RCT_EXPORT_METHOD(getBinSignature:(RCTPromiseResolveBlock)resolve
-                  withRejecter:(RCTPromiseRejectBlock)reject)
-{
-    int rv = 0;
-    int sig_size = 0;
-    int recovery_code = 0;
-    
-    if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, nullptr, &sig_size, &recovery_code)))
-        reject(@(rv).stringValue, @("MPC Error"), nil);
-
-    std::vector<uint8_t> sig(sig_size);
-    if ((rv = MPCCrypto_getBinResultEcdsaSign(context, share, sig.data(), &sig_size, &recovery_code)))
-        reject(@(rv).stringValue, @("MPC Error"), nil);
-
-    
-    
-    NSString *signatureString;
-    
-    char_vector_to_react_string(sig, &signatureString);
-    
-    resolve(@{
-        @"type": @("sucess"),
-        @"signature": signatureString,
-        @"recoveryCode": @(recovery_code)
-    });
-        
     sig.clear();
 }
 
@@ -336,7 +307,7 @@ RCT_EXPORT_METHOD(getPublicKey:(RCTPromiseResolveBlock)resolve
     pub_ec_key.clear();
 }
 
-RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
+RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)mainNet
                   withResolver:(RCTPromiseResolveBlock)resolve
                   withRejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -344,13 +315,13 @@ RCT_EXPORT_METHOD(getXPubKey:(nonnull NSNumber*)main
 
     int ser_size = 0;
     
-    bool isMain = (bool) [main intValue];
+    bool isMainNet = (bool) [mainNet intValue];
 
-    if ((rv = MPCCrypto_serializePubBIP32(share, nullptr, &ser_size, isMain)))
+    if ((rv = MPCCrypto_serializePubBIP32(share, nullptr, &ser_size, isMainNet)))
         reject(@(rv).stringValue, @("MPC Error"), nil);
 
     char *s = new char[ser_size + 1];
-    if ((rv = MPCCrypto_serializePubBIP32(share, s, &ser_size, isMain)))
+    if ((rv = MPCCrypto_serializePubBIP32(share, s, &ser_size, isMainNet)))
         reject(@(rv).stringValue, @("MPC Error"), nil);
 
 

@@ -1,11 +1,11 @@
 import { SocketStream } from '@fastify/websocket';
 import logger from '@superlight-labs/logger';
 import {
-    createMPCWebsocketHandlerWrapper,
-    MPCWebscocketInit,
-    MpcWebsocketHandlerWrapper,
-    MPCWebsocketMessage,
-    shortenMessage,
+  createMPCWebsocketHandlerWrapper,
+  MPCWebscocketInit,
+  MpcWebsocketHandlerWrapper,
+  MPCWebsocketMessage,
+  shortenMessage,
 } from '@superlight-labs/mpc-common';
 import { FastifyRequest } from 'fastify';
 import { firstValueFrom, ReplaySubject, Subject, tap } from 'rxjs';
@@ -42,11 +42,16 @@ export const websocketRouteWithInitParameter = <Result, InitParam = string>(
     logger.info('Websocket connection opened');
     const messages = new Subject<MPCWebsocketMessage>();
 
+    const closeSocket = (arg: any) => {
+      logger.debug({ arg }, 'Closing socket');
+      messages.complete();
+    };
+
     // TODO Parse and verify
     connection.socket.on('message', message => messages.next(JSON.parse(message.toString())));
     connection.socket.on('error', error => messages.error(error));
-    connection.socket.on('close', _ => messages.complete());
-    connection.on('close', _ => messages.complete());
+    connection.socket.on('close', closeSocket);
+    connection.on('close', closeSocket);
 
     const piped = messages.pipe(tap(logmessages));
 

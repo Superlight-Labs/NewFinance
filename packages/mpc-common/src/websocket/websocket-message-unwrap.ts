@@ -1,4 +1,5 @@
 import { ResultAsync } from 'neverthrow';
+import WebSocket from 'ws';
 import { WebsocketError, mapWebsocketToApiError } from '../error';
 import { MpcWebsocketHandlerWrapper } from './common';
 import { MPCWebsocketMessage, MPCWebsocketResult } from './websocket-messages';
@@ -47,7 +48,7 @@ type Logger = {
 
 export const shortenMessage = (message: any) => {
   if (typeof message === 'string' && message.length > 23) {
-    return message.slice(0, 24) + '...';
+    return `${message.slice(0, 24)}...+${message.length - 24}`;
   }
 
   if (typeof message === 'object' && message !== null) {

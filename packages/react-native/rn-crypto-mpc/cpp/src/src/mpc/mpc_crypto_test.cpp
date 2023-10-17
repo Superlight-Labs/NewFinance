@@ -370,10 +370,10 @@ static int test_ecdsa_sign(test_key_t &test_key)
     return rv;
 
   int sig_size = 0;
-  if (rv = MPCCrypto_getDerResultEcdsaSign(test_context.client, nullptr, &sig_size))
+  if (rv = MPCCrypto_getResultEcdsaSign(test_context.client, nullptr, &sig_size))
     return rv;
   std::vector<uint8_t> sig(sig_size);
-  if (rv = MPCCrypto_getDerResultEcdsaSign(test_context.client, sig.data(), &sig_size))
+  if (rv = MPCCrypto_getResultEcdsaSign(test_context.client, sig.data(), &sig_size))
     return rv;
 
   int pub_key_size = 0;

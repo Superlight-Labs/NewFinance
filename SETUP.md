@@ -37,7 +37,8 @@ Setup has only been tested on Apple Silicon M1 Macs. Linux could work but is not
 
 On error `xcrun: error: SDK "iphoneos" cannot be located` it may be necessray to run `npx pod-install` in the `mobile` app folder
 
-8. Start development with `yarn dev`
+8. Start development of all services with `yarn dev`
+9. Start development of app in new console with `cd  apps/mobile` and `yarn ios`or `yarn android`
 
 CONGRATS - now you have setup the project for Development.
 Since the App is hooked up with external API's etc. it is necessary to do a few more steps to actually interact with the blockchain. See [here](#secrets)

@@ -1,5 +1,5 @@
 import { styled } from 'nativewind';
-import { KeyboardType } from 'react-native';
+import { InputModeOptions, KeyboardType } from 'react-native';
 import { TextInput } from 'utils/wrappers/styled-react-native';
 
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
   placeHolder?: string;
   autoCorrect?: boolean;
   keyboardType?: KeyboardType;
+  inputMode?: InputModeOptions;
 };
 
 const Input = ({
@@ -22,11 +23,12 @@ const Input = ({
   autoCorrect = false,
   disabled = false,
   keyboardType = 'default',
+  inputMode = 'text',
 }: Props) => {
   return (
     <TextInput
       placeholderTextColor="#8D93A0"
-      className={`border-800 h-8 border-b font-manrope-bold ${style}`}
+      className={`border-800 border-bfont-manrope-bold h-12 ${style}`}
       defaultValue={defaultValue}
       editable={!disabled}
       value={value}
@@ -35,6 +37,7 @@ const Input = ({
       autoCapitalize={autoCorrect ? 'sentences' : 'none'}
       autoCorrect={autoCorrect}
       keyboardType={keyboardType}
+      inputMode={inputMode}
     />
   );
 };

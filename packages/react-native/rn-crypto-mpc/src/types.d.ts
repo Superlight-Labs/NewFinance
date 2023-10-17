@@ -11,7 +11,7 @@ export type StepResult =
   | { type: 'error'; error?: unknown }
   | {
       type: 'success';
-      share: string;
+      keyShare: string;
       context: string;
       message: string;
     }
@@ -34,9 +34,4 @@ export type XPubKeyResult = MPCSuccess & {
 
 export type SignatureResult = MPCSuccess & {
   signature: string;
-};
-
-export type BinSignatureResult = MPCSuccess & {
-  signature: string;
-  recoveryCode: number;
 };

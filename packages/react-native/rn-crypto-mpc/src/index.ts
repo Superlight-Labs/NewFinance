@@ -1,7 +1,6 @@
 import { Buffer } from 'buffer';
 import { NativeModules, Platform } from 'react-native';
 import {
-  BinSignatureResult,
   KeyShareResult,
   MPCSuccess,
   PublicKeyResult,
@@ -63,8 +62,9 @@ export function initSignEcdsa(message: Uint8Array, share: string): Promise<MPCSu
   });
 }
 
-export function step(messageIn: string | null): Promise<StepResult> {
-  return BlockchainCryptoMpc.step(messageIn);
+export async function step(messageIn: string | null): Promise<StepResult> {
+  const res = await BlockchainCryptoMpc.step(messageIn);
+  return res;
 }
 
 export function getPublicKey(share: string): Promise<PublicKeyResult> {
@@ -91,18 +91,6 @@ export function getDerSignature(context: string): Promise<SignatureResult> {
   return new Promise(async res => {
     await useContext(context);
     const signature = await BlockchainCryptoMpc.getDerSignature();
-    res(signature);
-
-    reset();
-  });
-}
-
-export function getBinSignature(context: string, share: string): Promise<BinSignatureResult> {
-  return new Promise(async res => {
-    await useContext(context);
-    await useShare(share);
-
-    const signature = await BlockchainCryptoMpc.getBinSignature();
     res(signature);
 
     reset();

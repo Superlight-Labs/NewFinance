@@ -11,6 +11,7 @@ import {
 import { getResultDeriveBIP32, reset } from '@superlight-labs/rn-crypto-mpc';
 import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
+import { Platform } from 'react-native';
 import { Observable, Subject, combineLatest, firstValueFrom, from, map, mergeMap } from 'rxjs';
 import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
@@ -106,7 +107,25 @@ const onMessage = (
         context$.next(result.context);
       }
 
-      output.next(okAsync({ type: 'inProgress', message: result.message }));
+      if (Platform.OS === 'android' && result.message.length > 10000000) {
+        const half = Math.floor(result.message.length / 2);
+
+        const wsMessage1: MPCWebsocketMessage = {
+          type: 'inProgress',
+          message: result.message.slice(0, half),
+        };
+        const wsMessage2: MPCWebsocketMessage = {
+          type: 'inProgress',
+          message: result.message.slice(half),
+        };
+
+        output.next(okAsync({ ...wsMessage1, part: 1 }));
+
+        //TODO: very bad! has to be replaced with a proper solution
+        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 1250);
+      } else {
+        output.next(okAsync({ type: 'inProgress', message: result.message }));
+      }
     },
     err => output.next(errAsync(websocketError(err)))
   );

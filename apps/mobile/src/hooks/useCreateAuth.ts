@@ -30,7 +30,7 @@ const createUser = (
       let msg = 'Error while creating user';
 
       if (error instanceof AxiosError) {
-        msg = error.response?.data?.error;
+        msg = error.response?.data?.error || error.message;
       }
 
       return appError(error, msg);

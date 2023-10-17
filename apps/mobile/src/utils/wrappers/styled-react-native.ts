@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 const ScrollView = styled(RNScrollView);
-const Text = styled(RNText, 'font-manrope text-base');
+const Text = styled(RNText, 'font-manrope text-base text-black');
 const TextInput = styled(RNTextInput, 'font-manrope');
 const Button = styled(RNButton);
 const Pressable = styled(RNPressable);
@@ -21,4 +21,4 @@ const View = styled(RNView);
 const Image = styled(RNImage);
 const AnimatedView = styled(Animated.View);
 
-export { SafeAreaView, Image, View, Pressable, Button, Text, ScrollView, AnimatedView, TextInput };
+export { AnimatedView, Button, Image, Pressable, SafeAreaView, ScrollView, Text, TextInput, View };

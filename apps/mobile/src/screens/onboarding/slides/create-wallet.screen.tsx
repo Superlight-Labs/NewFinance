@@ -22,6 +22,8 @@ type Props = StackScreenProps<RootStackParamList, 'Create'>;
 const CreateWallet = ({ navigation }: Props) => {
   const [withPhrase, setWithPhrase] = useState(false);
   const [walletName, setWalletName] = useState('Main Wallet');
+  const [loading, setLoading] = useState(false);
+
   const { user } = useAuthState();
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
@@ -43,12 +45,16 @@ const CreateWallet = ({ navigation }: Props) => {
       return;
     }
 
+    setLoading(true);
+
     perform(
       generateGenericSecret({
         baseUrl: API_URL,
         sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
-      })
+      }),
+      () => setLoading(false)
     ).onSuccess(result => {
+      setLoading(false);
       setName(walletName);
       setSecret({
         peerShareId: result.peerShareId,
@@ -61,7 +67,10 @@ const CreateWallet = ({ navigation }: Props) => {
 
   return (
     <Layout>
-      <ButtonComponent style="absolute right-8 -top-12 rounded-xl" onPress={startGenerateWallet}>
+      <ButtonComponent
+        disabled={loading}
+        style="absolute right-8 -top-12 rounded-xl"
+        onPress={startGenerateWallet}>
         Next
       </ButtonComponent>
       <Title style="mb-4">Configure your new Wallet</Title>
@@ -93,6 +102,10 @@ const CreateWallet = ({ navigation }: Props) => {
         <View className="bottom-1 flex h-max w-12 flex-col items-center justify-center p-3">
           <Switch value={withPhrase} onValueChange={setWithPhrase} />
         </View>
+      </View>
+
+      <View className="fley items-center justify-center py-4">
+        {loading && <MonoIcon iconName="Loading" />}
       </View>
     </Layout>
   );

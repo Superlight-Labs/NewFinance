@@ -24,10 +24,6 @@ const SendToScreen = ({ navigation, route }: Props) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [note, setNote] = useState('');
 
-  useEffect(() => {
-    setToAddress(recipient || '');
-  }, [recipient]);
-
   const debouncedToAddress = useDebounce(toAddress, 500);
 
   const { data: contactsRes } = useQuery(
@@ -39,9 +35,9 @@ const SendToScreen = ({ navigation, route }: Props) => {
     { retry: false }
   );
 
-  if (contactsRes !== undefined && contactsRes.length !== contacts.length) {
-    setContacts(contactsRes);
-  }
+  useEffect(() => {
+    addressChange(recipient || '');
+  }, [recipient]);
 
   useEffect(() => {
     const addContactNew = toAddress.length > 0 && !!contactsRes && contactsRes.length === 0;
@@ -71,6 +67,10 @@ const SendToScreen = ({ navigation, route }: Props) => {
     setAddressValid(true);
     setAddContact(false);
   };
+
+  if (contactsRes !== undefined && contactsRes.length !== contacts.length) {
+    setContacts(contactsRes);
+  }
 
   return (
     <WalletLayout leftHeader="copy" address={sender.address}>

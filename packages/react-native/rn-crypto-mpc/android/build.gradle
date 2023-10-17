@@ -6,7 +6,7 @@ buildscript {
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.3'
+            classpath 'com.android.tools.build:gradle:7.4.1'
         }
     }
 }
@@ -61,17 +61,14 @@ android {
 
 repositories {
     mavenLocal()
-    maven {
-        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-        url("$rootDir/node_modules/react-native/android")
-    }
+
     google()
     mavenCentral()
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.react:react-android:+'
     implementation 'com.android.ndk.thirdparty:openssl:1.1.1l-beta-1'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'

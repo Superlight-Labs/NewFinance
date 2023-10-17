@@ -25,18 +25,15 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }: BarCodeEvent) => {
+  const handleBarCodeScanned = ({ data }: BarCodeEvent) => {
     setScanned(true);
-
-    if (type !== 'org.iso.QRCode') return;
 
     try {
       const scan = bip21.decode(data);
 
-      logger.debug('SendTo', { sender, recipient: scan.address });
       navigation.navigate('SendTo', { sender, recipient: scan.address });
     } catch (e) {
-      console.warn('Invalid QR code', e);
+      logger.warn({ e }, 'Invalid QR code');
     }
   };
 

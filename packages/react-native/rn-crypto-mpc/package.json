@@ -45,6 +45,7 @@
     "@superlight-labs/eslint-config": "*",
     "@superlight-labs/prettier-config": "*",
     "@superlight-labs/tsconfig": "*",
+    "@superlight-labs/logger": "*",
     "@types/jest": "^29.2.1",
     "@types/react": "18.0.28",
     "@types/react-native": "0.71.1",

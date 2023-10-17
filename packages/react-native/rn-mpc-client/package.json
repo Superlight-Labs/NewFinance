@@ -29,6 +29,7 @@
     "@superlight-labs/logger": "*",
     "axios": "^1.3.4",
     "neverthrow": "^6.0.0",
+    "react-native": ">=0.72.3",
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "@superlight-labs/prettier-config": "*",
     "@superlight-labs/tsconfig": "*",
     "eslint": "8.19",
+    "react-native": "*",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "typescript": "4.9.5"

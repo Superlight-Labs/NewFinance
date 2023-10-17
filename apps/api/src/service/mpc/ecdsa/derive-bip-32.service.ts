@@ -36,7 +36,7 @@ const deriveBIP32 =
   (stepFn: OnDeriveStep) =>
   (
     user: User,
-    messages: Observable<MPCWebsocketMessage>,
+    inputStream: Observable<MPCWebsocketMessage>,
     initParameter: MPCWebscocketInit<DeriveConfig>
   ): MPCWebsocketResult => {
     const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
@@ -45,8 +45,30 @@ const deriveBIP32 =
       deriveContext => {
         const { context } = deriveContext;
 
-        messages.subscribe({
-          next: message => stepFn(deriveContext, message, user, output),
+        let msg = {
+          first: '',
+          second: '',
+        };
+
+        inputStream.subscribe({
+          next: input => {
+            if (input.type !== 'inProgress' || (input as any).part === undefined) {
+              stepFn(deriveContext, input, user, output);
+              return;
+            }
+
+            if ((input as any).part === 1) {
+              msg.first = input.message;
+            }
+
+            if ((input as any).part === 2) {
+              msg.second = input.message;
+            }
+
+            if (msg.first !== '' && msg.second !== '') {
+              stepFn(deriveContext, { ...input, message: msg.first + msg.second }, user, output);
+            }
+          },
           error: err => {
             logger.error({ err, user: user.id }, 'Error received from client on websocket');
             context.free();

@@ -136,8 +136,7 @@ extern "C"
   // ECDSA specific functions
   MPCCRYPTO_API int MPCCrypto_initGenerateEcdsaKey(int peer, MPCCryptoContext **context);
   MPCCRYPTO_API int MPCCrypto_initEcdsaSign(int peer, MPCCryptoShare *share, const uint8_t *in, int in_size, int refresh, MPCCryptoContext **context);
-  MPCCRYPTO_API int MPCCrypto_getDerResultEcdsaSign(MPCCryptoContext *context, uint8_t *signature, int *out_size);
-  MPCCRYPTO_API int MPCCrypto_getBinResultEcdsaSign(MPCCryptoContext *context, MPCCryptoShare *share, uint8_t *signature, int *out_size, int recovery_code);
+  MPCCRYPTO_API int MPCCrypto_getResultEcdsaSign(MPCCryptoContext *context, uint8_t *signature, int *out_size);
 
   MPCCRYPTO_API int MPCCrypto_verifyEcdsa(const uint8_t *pub_key, int pub_key_size, const uint8_t *in, int in_size, const uint8_t *signature, int signature_size);
   MPCCRYPTO_API int MPCCrypto_getEcdsaPublic(MPCCryptoShare *share, uint8_t *pub_key, int *pub_key_size);

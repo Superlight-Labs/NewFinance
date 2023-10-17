@@ -34,11 +34,13 @@ type AccountKey = string;
 
 export type BitcoinState = {
   network: Network;
+  hasHydrated: boolean;
   accounts: Map<AccountKey, Account>;
   addresses: Map<AccountKey, Map<ChangeIndex, AddressInfo>>;
 };
 
 type BitcoinActions = {
+  setHasHydrated: (state: boolean) => void;
   hasAddress: () => boolean;
   getTotalBalance: () => number;
   getAccountBalance: (account: string) => number;
@@ -59,6 +61,7 @@ type BitcoinActions = {
 };
 
 const initial: BitcoinState = {
+  hasHydrated: false,
   network: __DEV__ ? 'test' : 'test', // TODO: change to main for production
   accounts: new Map<string, Account>(),
   addresses: new Map<string, Map<ChangeIndex, AddressInfo>>(),
@@ -139,6 +142,11 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
           };
         }),
       setNetwork: (network: Network) => set({ network }),
+      setHasHydrated: (state: boolean) => {
+        set({
+          hasHydrated: state,
+        });
+      },
       deleteBitcoin: () =>
         set({
           ...initial,
@@ -149,6 +157,9 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
     {
       name: 'bitcoin-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => state => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

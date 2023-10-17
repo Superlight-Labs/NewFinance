@@ -311,7 +311,7 @@ MPCCRYPTO_API int MPCCrypto_initEcdsaSign(int peer, MPCCryptoShare *share_ptr, c
   return 0;
 }
 
-MPCCRYPTO_API int MPCCrypto_getDerResultEcdsaSign(MPCCryptoContext *context, uint8_t *signature, int *out_size)
+MPCCRYPTO_API int MPCCrypto_getResultEcdsaSign(MPCCryptoContext *context, uint8_t *signature, int *out_size)
 {
   error_t rv = 0;
 
@@ -333,37 +333,6 @@ MPCCRYPTO_API int MPCCrypto_getDerResultEcdsaSign(MPCCryptoContext *context, uin
     if (buf_size < der.size())
       return ub::error(E_TOO_SMALL);
     memmove(signature, der.data(), der.size());
-  }
-
-  return 0;
-}
-
-MPCCRYPTO_API int MPCCrypto_getBinResultEcdsaSign(MPCCryptoContext *context, MPCCryptoShare *share_ptr, uint8_t *signature, int *out_size, int recoveryCode)
-{
-  error_t rv = 0;
-
-  if (!context)
-    return rv = ub::error(E_BADARG);
-  mpc_ecdsa_sign_t *ctx = dynamic_cast<mpc_ecdsa_sign_t *>((mpc_crypto_context_t *)context);
-  if (!ctx)
-    return rv = ub::error(E_BADARG);
-
-  int buf_size = *out_size;
-
-  crypto::ecdsa_signature_t sig = ctx->get_signature();
-
-  buf_t bin = sig.to_bin();
-  *out_size = bin.size();
-
-  mpc_ecdsa_share_t *share = dynamic_cast<mpc_ecdsa_share_t *>((mpc_crypto_share_t *)share_ptr);
-
-  recoveryCode = sig.get_recovery_code(mem_t(bin.data(), *out_size), share->core.Q_full);
-
-  if (signature)
-  {
-    if (buf_size < bin.size())
-      return ub::error(E_TOO_SMALL);
-    memmove(signature, bin.data(), bin.size());
   }
 
   return 0;

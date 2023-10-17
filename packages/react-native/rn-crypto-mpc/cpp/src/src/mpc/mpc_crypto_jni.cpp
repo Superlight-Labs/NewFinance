@@ -243,7 +243,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_crypto
   MPCCrypto_freeShare(share);
 }
 
-JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_freeContext(JNIEnv *, jclass, jlong context_handle)
+extern "C" JNIEXPORT void JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_freeContext(JNIEnv *, jclass, jlong context_handle)
 {
   MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
   MPCCrypto_freeContext(context);
@@ -525,37 +525,17 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
   return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getDerResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size)
+JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size)
 {
   error_t rv = 0;
   MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
 
   ub::jni_out_buf_t out(env, j_out);
-  rv = MPCCrypto_getDerResultEcdsaSign(context, out.data, &out.size);
+  rv = MPCCrypto_getResultEcdsaSign(context, out.data, &out.size);
   if (j_out_size)
     set_int_ref(env, j_out_size, out.size);
   if (rv == 0)
     out.save();
-  return 0;
-}
-
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getBinResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jlong share_handle, jbyteArray j_out, jobject j_out_size, jboolean recovery_code)
-{
-  error_t rv = 0;
-  MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
-  MPCCryptoShare *share = (MPCCryptoShare *)(uintptr_t)share_handle;
-
-  ub::jni_out_buf_t out(env, j_out);
-
-
-  rv = MPCCrypto_getBinResultEcdsaSign(context, share, out.data, &out.size, recovery_code?1:0);
-  if (j_out_size)
-    set_int_ref(env, j_out_size, out.size);
-
-
-  if (rv == 0)
-    out.save();
-
   return 0;
 }
 
@@ -632,13 +612,13 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
 }
 
 // TODO Create in Java Bridge and verify if this works
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_serializePubBIP32(JNIEnv *env, jclass, jlong share_handle, jcharArray j_out, jobject j_out_size, jboolean main)
+JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_serializePubBIP32(JNIEnv *env, jclass, jlong share_handle, jcharArray j_out, jobject j_out_size, jboolean isMainNet)
 {
   error_t rv = 0;
   MPCCryptoShare *share = (MPCCryptoShare *)(uintptr_t)share_handle;
 
   int str_size = 0;
-  rv = MPCCrypto_serializePubBIP32(share, nullptr, &str_size, main);
+  rv = MPCCrypto_serializePubBIP32(share, nullptr, &str_size, isMainNet);
   int out_size = str_size - 1;
 
   if (j_out_size)
@@ -655,7 +635,7 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
     char *chars = new char[str_size];
     jchar *j_chars = new jchar[out_size];
 
-    MPCCrypto_serializePubBIP32(share, chars, &str_size, main);
+    MPCCrypto_serializePubBIP32(share, chars, &str_size, isMainNet);
     for (int i = 0; i < out_size; i++)
       j_chars[i] = jchar(chars[i]);
     env->SetCharArrayRegion(j_out, 0, out_size, j_chars);
