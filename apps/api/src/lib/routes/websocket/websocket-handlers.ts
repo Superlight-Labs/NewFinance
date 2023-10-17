@@ -42,11 +42,16 @@ export const websocketRouteWithInitParameter = <Result, InitParam = string>(
     logger.info('Websocket connection opened');
     const messages = new Subject<MPCWebsocketMessage>();
 
+    const closeSocket = (arg: any) => {
+      logger.debug({ arg }, 'Closing socket');
+      messages.complete();
+    };
+
     // TODO Parse and verify
     connection.socket.on('message', message => messages.next(JSON.parse(message.toString())));
     connection.socket.on('error', error => messages.error(error));
-    connection.socket.on('close', x => logger.info({ x }, 'Socket closed'));
-    connection.on('close', y => logger.info({ y }, 'Connection closed'));
+    connection.socket.on('close', closeSocket);
+    connection.on('close', closeSocket);
 
     const piped = messages.pipe(tap(logmessages));
 

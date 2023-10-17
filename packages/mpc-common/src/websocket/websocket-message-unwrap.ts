@@ -48,7 +48,7 @@ type Logger = {
 
 export const shortenMessage = (message: any) => {
   if (typeof message === 'string' && message.length > 23) {
-    return `${message.slice(0, 24)}...+${message.length}`;
+    return `${message.slice(0, 24)}...+${message.length - 24}`;
   }
 
   if (typeof message === 'object' && message !== null) {

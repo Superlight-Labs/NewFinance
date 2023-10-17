@@ -153,7 +153,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       parentPath: 'm',
       hardened: true,
     }).map(({ share: pShare, peerShareId: pId }) => {
-      setPurpose({ share: pShare, peerShareId: pId, path: `m/84'` });
+      setPurpose({ share: pShare, peerShareId: pId, path: "m/84'" });
       return { share: pShare, peerShareId: pId };
     });
   };
@@ -175,10 +175,10 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       index: '0',
       peerShareId,
       share,
-      parentPath: `m/84'`,
+      parentPath: "m/84'",
       hardened: true,
     }).map(({ share: s, peerShareId: pId }) => {
-      setCoinType({ share: s, peerShareId: pId, path: `m/84'/0'` });
+      setCoinType({ share: s, peerShareId: pId, path: "m/84'/0'" });
       return { share: s, peerShareId: pId };
     });
   };

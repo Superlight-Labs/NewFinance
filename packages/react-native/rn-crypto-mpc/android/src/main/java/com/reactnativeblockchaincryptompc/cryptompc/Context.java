@@ -126,7 +126,6 @@ public class Context implements AutoCloseable {
     return out;
   }
 
-
   public static Context initGenerateEcdsaKey(int peer) throws MPCException {
     Context out = new Context();
     MPCException.check(Native.initGenerateEcdsaKey(peer, out));

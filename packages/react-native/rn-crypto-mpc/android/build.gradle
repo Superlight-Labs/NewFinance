@@ -68,9 +68,8 @@ repositories {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    //implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation 'com.facebook.react:react-android:+'
     implementation 'com.android.ndk.thirdparty:openssl:1.1.1l-beta-1'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
-    implementation 'com.facebook.react:react-android:+'
 }
