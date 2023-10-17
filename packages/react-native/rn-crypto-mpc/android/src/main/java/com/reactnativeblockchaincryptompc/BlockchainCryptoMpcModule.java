@@ -129,8 +129,8 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
   @ReactMethod
-  public void initSignEcdsa(String message, Promise promise) {
-    byte[] messageChars = stringToByteArray(message);
+  public void initSignEcdsa(ReadableArray message, Promise promise) {
+    byte[] messageChars = readableArrayToByteArray(message);
 
     try {
       stepManager.setContext(stepManager.getShare().initEcdsaSign(1, messageChars, true));
@@ -206,7 +206,7 @@ public class BlockchainCryptoMpcModule extends ReactContextBaseJavaModule {
     }
 
     try {
-      promise.resolve(rb.withType(Type.success).withSignature(byteArrayToString(stepManager.getContext().getDerResultEcdsaSign())).build());
+      promise.resolve(rb.withType(Type.success).withSignature(byteArrayToString(stepManager.getContext().getResultEcdsaSign())).build());
     } catch (MPCException e) {
       e.printStackTrace();
       promise.reject("MPC Error while getting Signature",e);

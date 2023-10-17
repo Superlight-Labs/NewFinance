@@ -118,11 +118,11 @@ public class Context implements AutoCloseable {
     return out;
   }
 
-  public byte[] getDerResultEcdsaSign() throws MPCException {
+  public byte[] getResultEcdsaSign() throws MPCException {
     Native.IntRef outLen = new Native.IntRef();
-    MPCException.check(Native.getDerResultEcdsaSign(handle, null, outLen));
+    MPCException.check(Native.getResultEcdsaSign(handle, null, outLen));
     byte[] out = new byte[outLen.value];
-    MPCException.check(Native.getDerResultEcdsaSign(handle, out, outLen));
+    MPCException.check(Native.getResultEcdsaSign(handle, out, outLen));
     return out;
   }
 

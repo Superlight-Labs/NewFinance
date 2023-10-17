@@ -311,7 +311,7 @@ MPCCRYPTO_API int MPCCrypto_initEcdsaSign(int peer, MPCCryptoShare *share_ptr, c
   return 0;
 }
 
-MPCCRYPTO_API int MPCCrypto_getDerResultEcdsaSign(MPCCryptoContext *context, uint8_t *signature, int *out_size)
+MPCCRYPTO_API int MPCCrypto_getResultEcdsaSign(MPCCryptoContext *context, uint8_t *signature, int *out_size)
 {
   error_t rv = 0;
 

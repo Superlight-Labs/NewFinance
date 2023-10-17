@@ -203,11 +203,11 @@ RCT_EXPORT_METHOD(getDerSignature:(RCTPromiseResolveBlock)resolve
     
 
     int sig_size = 0;
-    if ((rv = MPCCrypto_getDerResultEcdsaSign(context, nullptr, &sig_size)))
+    if ((rv = MPCCrypto_getResultEcdsaSign(context, nullptr, &sig_size)))
                 reject(@(rv).stringValue, @("MPC Error"), nil);
 
     std::vector<uint8_t> sig(sig_size);
-    if ((rv = MPCCrypto_getDerResultEcdsaSign(context, sig.data(), &sig_size)))
+    if ((rv = MPCCrypto_getResultEcdsaSign(context, sig.data(), &sig_size)))
                 reject(@(rv).stringValue, @("MPC Error"), nil);
 
     

@@ -525,13 +525,13 @@ JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_
   return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getDerResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size)
+JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getResultEcdsaSign(JNIEnv *env, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size)
 {
   error_t rv = 0;
   MPCCryptoContext *context = (MPCCryptoContext *)(uintptr_t)context_handle;
 
   ub::jni_out_buf_t out(env, j_out);
-  rv = MPCCrypto_getDerResultEcdsaSign(context, out.data, &out.size);
+  rv = MPCCrypto_getResultEcdsaSign(context, out.data, &out.size);
   if (j_out_size)
     set_int_ref(env, j_out_size, out.size);
   if (rv == 0)

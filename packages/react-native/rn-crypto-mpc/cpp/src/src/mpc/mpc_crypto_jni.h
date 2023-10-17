@@ -62,7 +62,7 @@ extern "C"
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getEcdsaPublic(JNIEnv *, jclass, jlong share_handle, jbyteArray j_out, jobject j_out_size);
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_initGenerateEcdsaKey(JNIEnv *, jclass, jint peer, jobject j_out_context);
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_initEcdsaSign(JNIEnv *, jclass, jint peer, jlong share_handle, jbyteArray j_in, jboolean refresh, jobject j_out_context);
-    JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getResultEcdsaSign(JNIEnv *, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size, jboolean toDer);
+    JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_getResultEcdsaSign(JNIEnv *, jclass, jlong context_handle, jbyteArray j_out, jobject j_out_size);
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_verifyEcdsa(JNIEnv *, jclass, jbyteArray j_pub_key, jbyteArray j_in, jbyteArray j_signature);
 
     JNIEXPORT jint JNICALL Java_com_reactnativeblockchaincryptompc_cryptompc_Native_initGenerateGenericSecret(JNIEnv *, jclass, jint peer, jint bits, jobject j_out_context);
