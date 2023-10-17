@@ -11,16 +11,14 @@ export const createMPCWebsocketHandlerWrapper =
       next: (val: ResultAsync<MPCWebsocketMessage<T>, WebsocketError>) => {
         val.match(
           data => {
-            setTimeout(() => {
-              logger.debug(
-                { data: shortenMessage({ ...data }) },
-                'Successfully sending data on websocket'
-              );
-              socket.send(JSON.stringify(data));
+            logger.debug(
+              { data: shortenMessage({ ...data }) },
+              'Successfully sending data on websocket'
+            );
+            socket.send(JSON.stringify(data));
 
-              data.type === 'success' &&
-                socket.close(1000, 'Successfully finished process with websocket');
-            }, 2000);
+            data.type === 'success' &&
+              socket.close(1000, 'Successfully finished process with websocket');
           },
           error => {
             logger.error({ error }, 'Failed to work on request');

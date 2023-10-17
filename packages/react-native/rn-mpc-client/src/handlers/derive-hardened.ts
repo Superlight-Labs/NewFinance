@@ -122,7 +122,7 @@ const onMessage = (
         output.next(okAsync({ ...wsMessage1, part: 1 }));
 
         //TODO: very bad! has to be replaced with a proper solution
-        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 1000);
+        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 1250);
       } else {
         output.next(okAsync({ type: 'inProgress', message: result.message }));
       }

@@ -21,7 +21,7 @@ const RecoveryPhraseDisplayComponent = ({ phrase }: Props) => {
   };
 
   return (
-    <View className=" flex h-full w-full">
+    <View className="flex w-full ">
       <View className="flex w-full flex-row items-center py-2">
         <View className="flex-1">
           <Text className="font-inter-medium">Recovery phrase</Text>
