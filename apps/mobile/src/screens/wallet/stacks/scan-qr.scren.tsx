@@ -31,7 +31,6 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
     try {
       const scan = bip21.decode(data);
 
-      logger.debug('SendTo', { sender, recipient: scan.address });
       navigation.navigate('SendTo', { sender, recipient: scan.address });
     } catch (e) {
       logger.warn({ e }, 'Invalid QR code');
