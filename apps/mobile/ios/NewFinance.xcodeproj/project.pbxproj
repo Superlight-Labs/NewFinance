@@ -39,11 +39,11 @@
 
 /* Begin PBXFileReference section */
 		002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* SuperlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperlightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* NewFinanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewFinanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SuperlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuperlightTests.m; sourceTree = "<group>"; };
 		03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Superlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Superlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* NewFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Superlight/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Superlight/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Superlight/Images.xcassets; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Superlight */ = {
+		13B07FAE1A68108700A75B9A /* NewFinance */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -124,7 +124,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Superlight;
+			name = NewFinance;
 			sourceTree = "<group>";
 		};
 		1E676F6CF712C188B0B3F7E0 /* SuperlightTests */ = {
@@ -166,7 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				CFD06DA42A7940B6001ACBF8 /* assets */,
-				13B07FAE1A68108700A75B9A /* Superlight */,
+				13B07FAE1A68108700A75B9A /* NewFinance */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* SuperlightTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -183,8 +183,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Superlight.app */,
-				00E356EE1AD99517003FC87E /* SuperlightTests.xctest */,
+				13B07F961A680F5B00A75B9A /* NewFinance.app */,
+				00E356EE1AD99517003FC87E /* NewFinanceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,9 +234,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* SuperlightTests */ = {
+		00E356ED1AD99517003FC87E /* NewFinanceTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SuperlightTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "NewFinanceTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				9556000FC835A3D0A37ADFA4 /* [Expo] Configure project */,
@@ -251,14 +251,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = SuperlightTests;
+			name = NewFinanceTests;
 			productName = SuperlightTests;
-			productReference = 00E356EE1AD99517003FC87E /* SuperlightTests.xctest */;
+			productReference = 00E356EE1AD99517003FC87E /* NewFinanceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Superlight */ = {
+		13B07F861A680F5B00A75B9A /* NewFinance */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Superlight" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NewFinance" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -274,9 +274,9 @@
 			);
 			dependencies = (
 			);
-			name = Superlight;
+			name = NewFinance;
 			productName = Superlight;
-			productReference = 13B07F961A680F5B00A75B9A /* Superlight.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* NewFinance.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -296,7 +296,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Superlight" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "NewFinance" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -309,8 +309,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Superlight */,
-				00E356ED1AD99517003FC87E /* SuperlightTests */,
+				13B07F861A680F5B00A75B9A /* NewFinance */,
+				00E356ED1AD99517003FC87E /* NewFinanceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -556,7 +556,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Superlight */;
+			target = 13B07F861A680F5B00A75B9A /* NewFinance */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -586,7 +586,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Superlight.app/Superlight";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NewFinance.app/NewFinance";
 			};
 			name = Debug;
 		};
@@ -611,7 +611,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Superlight.app/Superlight";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NewFinance.app/NewFinance";
 			};
 			name = Release;
 		};
@@ -625,7 +625,7 @@
 				DEVELOPMENT_TEAM = 33NTHR48GT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Superlight/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
+				INFOPLIST_KEY_CFBundleDisplayName = NewFinance;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -640,7 +640,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = me.superlight.Superlighttest;
-				PRODUCT_NAME = Superlight;
+				PRODUCT_NAME = NewFinance;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -660,7 +660,7 @@
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = 33NTHR48GT;
 				INFOPLIST_FILE = Superlight/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Superlight;
+				INFOPLIST_KEY_CFBundleDisplayName = NewFinance;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -676,7 +676,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = me.superlight.Superlighttest;
-				PRODUCT_NAME = Superlight;
+				PRODUCT_NAME = NewFinance;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -763,7 +763,8 @@
 					"-ld_classic",
 					"-Wl",
 					"-ld_classic",
-					"-Wl -ld_classic ",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -842,7 +843,8 @@
 					"-ld_classic",
 					"-Wl",
 					"-ld_classic",
-					"-Wl -ld_classic ",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -853,7 +855,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SuperlightTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "NewFinanceTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -862,7 +864,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Superlight" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NewFinance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -871,7 +873,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Superlight" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "NewFinance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

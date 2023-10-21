@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Superlight.xcodeproj">
+      location = "group:/Users/mathiasnahringbauer/Documents/NewFinance/Superlight/apps/mobile/ios/NewFinance.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
