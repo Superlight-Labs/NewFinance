@@ -17,14 +17,17 @@
 		32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D3E19221D74E8590752265 /* Inter-Regular.ttf */; };
 		32FEB25F587F7C10AB1697D1 /* libPods-Superlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */; };
 		5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */; };
+		5F1E2E4746304CBC97351573 /* IBMPlexSerif-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */; };
 		6592C7485FEF4BDA8EA4A865 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */; };
 		70C8491A07B872155AD22176 /* libPods-Superlight-SuperlightTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E810E9BABA4AB7BA20CE55C8 /* libPods-Superlight-SuperlightTests.a */; };
+		71C97141351242EC8268302C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB866012A4F472691C4F542 /* logo.png */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		843CE66A5ED90109A9D5DE55 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */; };
 		8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */; };
 		9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */; };
 		BE0FED711FA04793A393A36C /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */; };
 		CFD06DA52A7940B6001ACBF8 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CFD06DA42A7940B6001ACBF8 /* assets */; };
+		029551543A454A5B8CF9EB8B /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SuperlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuperlightTests.m; sourceTree = "<group>"; };
 		03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
+		0FB866012A4F472691C4F542 /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NewFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Superlight/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Superlight/AppDelegate.mm; sourceTree = "<group>"; };
@@ -53,6 +57,7 @@
 		1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Superlight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Regular.ttf"; path = "../assets/fonts/Manrope-Regular.ttf"; sourceTree = "<group>"; };
 		26D3E19221D74E8590752265 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
+		2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Medium.ttf"; path = "../assets/fonts/IBMPlexSerif-Medium.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
 		3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
@@ -67,7 +72,6 @@
 		B2A24E60FF2E4743AE1A34DF /* lines_4.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_4.png; path = ../assets/images/lines_4.png; sourceTree = "<group>"; };
 		CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Bold.ttf"; path = "../assets/fonts/Manrope-Bold.ttf"; sourceTree = "<group>"; };
 		CFD06DA42A7940B6001ACBF8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
-		D422B90EFC7945CCBFF2D46F /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
 		D8C740F384284231850614D3 /* lines_2.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_2.png; path = ../assets/images/lines_2.png; sourceTree = "<group>"; };
 		E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.release.xcconfig"; sourceTree = "<group>"; };
 		E6E0257A114043B4A54C83B7 /* lines_1.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_1.png; path = ../assets/images/lines_1.png; sourceTree = "<group>"; };
@@ -75,6 +79,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Medium.ttf"; path = "../assets/fonts/Manrope-Medium.ttf"; sourceTree = "<group>"; };
 		FC51D5329F0795FDCFB7B890 /* libPods-Superlight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Superlight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; name = "Manrope-SemiBold.ttf"; path = "../assets/fonts/Manrope-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,7 +207,9 @@
 				D8C740F384284231850614D3 /* lines_2.png */,
 				9CD4FE5492754BC7A570431F /* lines_3.png */,
 				B2A24E60FF2E4743AE1A34DF /* lines_4.png */,
-				D422B90EFC7945CCBFF2D46F /* logo.png */,
+				2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */,
+				0FB866012A4F472691C4F542 /* logo.png */,
+				2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -336,6 +343,9 @@
 				0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */,
 				11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */,
 				32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */,
+				5F1E2E4746304CBC97351573 /* IBMPlexSerif-Medium.ttf in Resources */,
+				71C97141351242EC8268302C /* logo.png in Resources */,
+				029551543A454A5B8CF9EB8B /* Manrope-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

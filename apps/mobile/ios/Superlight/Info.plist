@@ -42,7 +42,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use the microphone</string>
 	<key>UIAppFonts</key>
@@ -53,6 +53,8 @@
 		<string>Inter-Bold.ttf</string>
 		<string>Inter-Medium.ttf</string>
 		<string>Inter-Regular.ttf</string>
+		<string>IBMPlexSerif-Medium.ttf</string>
+		<string>Manrope-SemiBold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -5,27 +5,20 @@ import { Pressable, Text } from 'utils/wrappers/styled-react-native';
 type Props = {
   onPress: () => void;
   children: ReactNode;
-  shadow?: boolean;
   style?: string;
   disabled?: boolean;
 };
 
-const dropStyle = {
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 12 },
-  shadowOpacity: 0.5,
-  shadowRadius: 14,
-};
-
-const Button = ({ onPress, children, style, shadow, disabled = false }: Props) => {
+const Button = ({ onPress, children, style, disabled = false }: Props) => {
   const bg = disabled ? 'bg-[#606060]' : 'bg-black';
   return (
     <Pressable
       disabled={disabled}
       onPress={onPress}
-      style={shadow && !disabled && dropStyle}
-      className={`flex flex-row items-center justify-center rounded-full px-8 py-2 ${bg} ${style}`}>
-      <Text className="font-manrope-bold text-base text-white">{children}</Text>
+      className={`group flex flex-row items-center justify-center rounded bg-black px-8 py-3.5 transition-all active:bg-[#000000]  ${style}`}>
+      <Text className="group-isolate-active:text-red font-manrope text-sm font-semibold tracking-tight text-white">
+        {children}
+      </Text>
     </Pressable>
   );
 };

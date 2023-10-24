@@ -14,12 +14,7 @@ const Welcome = ({ navigation }: Props) => {
     <StyledView className="flex h-full w-full flex-col items-center justify-center pb-8">
       <WelcomeCarousel />
       <StyledView className="w-full px-4">
-        <Button
-          shadow
-          style="py-3 flex flex-row justify-center w-full"
-          onPress={() => navigation.navigate('Onboarding')}>
-          Get started
-        </Button>
+        <Button onPress={() => navigation.navigate('Onboarding')}>CREATE ACCOUNT</Button>
       </StyledView>
     </StyledView>
   );
