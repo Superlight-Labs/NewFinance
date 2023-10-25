@@ -20,7 +20,7 @@ const Welcome = ({ navigation }: Props) => {
       />
 
       <StyledView className="flex h-full flex-col items-stretch justify-between  pt-8">
-        <StyledView className="px-4">
+        <StyledView className="px-6">
           <StyledView className="w-ful flex flex-row items-center">
             <Image
               source={require('../../assets/images/logo_white.png')}
@@ -36,7 +36,7 @@ const Welcome = ({ navigation }: Props) => {
         <StyledView className="mx-[-1rem] max-h-[500px]">
           <WelcomeCarousel />
         </StyledView>
-        <StyledView className="px-4">
+        <StyledView className="px-6">
           <StyledView className="flex items-center py-4 opacity-50">
             <Text className="font-manrope text-sm font-semibold text-white">
               Regularly 4,99€/month - now for free

@@ -40,7 +40,7 @@ const Carousel = ({ children }: Props) => {
             );
           })}
         </ScrollView>
-        <View className="mx-4 mt-3 flex-row">
+        <View className="mx-6 mt-3 flex-row">
           {children.map((child, childIndex) => {
             const width = scrollX.interpolate({
               inputRange: [
