@@ -40,6 +40,7 @@ module.exports = {
       inter: ['Inter-Regular'],
       'inter-medium': ['Inter-Medium'],
       'inter-bold': ['Inter-Bold'],
+      ibm: ['IBMPlexSerif-Medium'],
     },
   },
   plugins: [],
