@@ -15,7 +15,7 @@ const Button = ({ onPress, children, style, disabled = false }: Props) => {
     <Pressable
       disabled={disabled}
       onPress={onPress}
-      className={`group flex flex-row items-center justify-center rounded bg-black px-8 py-3.5 transition-all active:bg-[#000000]  ${style}`}>
+      className={`group items-center justify-center rounded px-8 py-3.5 transition-all active:bg-[#000000] ${bg}  ${style}`}>
       <Text className="group-isolate-active:text-red font-manrope text-sm font-semibold tracking-tight text-white">
         {children}
       </Text>

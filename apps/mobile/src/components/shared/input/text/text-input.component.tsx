@@ -12,6 +12,7 @@ type Props = {
   autoCorrect?: boolean;
   keyboardType?: KeyboardType;
   inputMode?: InputModeOptions;
+  autoFocus?: boolean;
 };
 
 const Input = ({
@@ -24,11 +25,12 @@ const Input = ({
   disabled = false,
   keyboardType = 'default',
   inputMode = 'text',
+  autoFocus = false,
 }: Props) => {
   return (
     <TextInput
-      placeholderTextColor="#8D93A0"
-      className={`border-800 border-bfont-manrope-bold h-12 ${style}`}
+      placeholderTextColor="#91969D"
+      className={`border-1 h-12 border-b border-[#D4D4D5] font-manrope text-lg font-medium ${style}`}
       defaultValue={defaultValue}
       editable={!disabled}
       value={value}
@@ -38,6 +40,7 @@ const Input = ({
       autoCorrect={autoCorrect}
       keyboardType={keyboardType}
       inputMode={inputMode}
+      autoFocus={autoFocus}
     />
   );
 };

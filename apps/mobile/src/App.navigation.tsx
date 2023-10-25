@@ -12,7 +12,8 @@ import { RootStackParamList } from 'screens/main-navigation';
 import MenuStack from 'screens/menu/menu.stack';
 import CreateWallet from 'screens/onboarding/slides/create-wallet.screen';
 import ImportWallet from 'screens/onboarding/slides/import-wallet.screen';
-import OnboardingScreen from 'screens/onboarding/slides/onboarding.screen';
+import OnboardingEmailScreen from 'screens/onboarding/slides/onboarding-email.screen';
+import OnboardingScreen from 'screens/onboarding/slides/onboarding-name.screen';
 import ReviewCreate from 'screens/onboarding/slides/review-create.screen';
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import LoadingScreen from 'screens/shared/loading.screen';
@@ -131,6 +132,7 @@ const AppNavigation = () => {
                   <>
                     <Stack.Screen name="Welcome" component={Welcome} />
                     <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+                    <Stack.Screen name="OnboardingEmail" component={OnboardingEmailScreen} />
                   </>
                 )}
               </>

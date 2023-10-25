@@ -4,6 +4,7 @@ export type RootStackParamList = {
   Home: undefined;
   Wallet: { account: string };
   Onboarding: undefined;
+  OnboardingEmail: { username: string };
   SetupWallet: undefined;
   Menu: undefined;
   Import: undefined;
