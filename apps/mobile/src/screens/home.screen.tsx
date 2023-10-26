@@ -10,11 +10,13 @@ import { RefreshControl } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
-import { ScrollView } from 'utils/wrappers/styled-react-native';
+import { useGeneralState } from 'state/general.state';
+import { SafeAreaView, ScrollView } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
 const Home = ({ navigation }: Props) => {
+  const { showedAlphaNotice, showAlphaNotice } = useGeneralState();
   const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
   const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress, hasHydrated } =
@@ -29,6 +31,10 @@ const Home = ({ navigation }: Props) => {
         updateAll();
       });
     }
+    if (hasAddress() && !showedAlphaNotice) {
+      showAlphaNotice();
+      navigation.navigate('AlphaNotice');
+    }
   }, [hasHydrated]);
 
   const updateAll = () => {
@@ -42,27 +48,29 @@ const Home = ({ navigation }: Props) => {
   );
 
   return (
-    <LayoutComponent hideBack noPadding settingsNavigate={() => navigation.navigate('Menu')}>
-      <ScrollView className="h-full pl-8" refreshControl={refreshControl}>
-        <Title>Wallets</Title>
+    <SafeAreaView>
+      <LayoutComponent hideBack noPadding settingsNavigate={() => navigation.navigate('Menu')}>
+        <ScrollView className="h-full pl-8" refreshControl={refreshControl}>
+          <Title>Wallets</Title>
 
-        <Title style="mb-4">{getTotalBalance()} BTC</Title>
-        {loading || !hasAddress() ? (
-          <>
-            <LoadingWalletItem name={name} />
-          </>
-        ) : (
-          [...accounts].map(([key, _]) => (
-            <WalletMenuItem
-              key={key}
-              name={key}
-              balance={getAccountBalance(key)}
-              navigate={() => navigation.navigate('Wallet', { account: key })}
-            />
-          ))
-        )}
-      </ScrollView>
-    </LayoutComponent>
+          <Title style="mb-4">{getTotalBalance()} BTC</Title>
+          {loading || !hasAddress() ? (
+            <>
+              <LoadingWalletItem name={name} />
+            </>
+          ) : (
+            [...accounts].map(([key, _]) => (
+              <WalletMenuItem
+                key={key}
+                name={key}
+                balance={getAccountBalance(key)}
+                navigate={() => navigation.navigate('Wallet', { account: key })}
+              />
+            ))
+          )}
+        </ScrollView>
+      </LayoutComponent>
+    </SafeAreaView>
   );
 };
 

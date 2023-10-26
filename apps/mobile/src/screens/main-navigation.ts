@@ -10,4 +10,5 @@ export type RootStackParamList = {
   Import: undefined;
   Create: undefined;
   ReviewCreate: { withPhrase: boolean; phrase?: string };
+  AlphaNotice: undefined;
 };

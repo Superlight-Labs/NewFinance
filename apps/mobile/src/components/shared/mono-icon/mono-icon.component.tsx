@@ -73,4 +73,8 @@ export type IconName =
   | 'AtSign'
   | 'Loading'
   | 'ListRestart'
-  | 'Wallet';
+  | 'Wallet'
+  | 'Euro'
+  | 'Percent'
+  | 'Send'
+  | 'CheckCheck';

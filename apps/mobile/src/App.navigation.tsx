@@ -10,6 +10,7 @@ import { AppState } from 'react-native';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
 import MenuStack from 'screens/menu/menu.stack';
+import AlphaNoticeScreen from 'screens/onboarding/slides/alpha-notice.screen';
 import CreateWallet from 'screens/onboarding/slides/create-wallet.screen';
 import ImportWallet from 'screens/onboarding/slides/import-wallet.screen';
 import OnboardingEmailScreen from 'screens/onboarding/slides/onboarding-email.screen';
@@ -125,6 +126,15 @@ const AppNavigation = () => {
                         ...TransitionPresets.ModalPresentationIOS,
                       }}
                       component={WalletNavigation}
+                    />
+                    <Stack.Screen
+                      name="AlphaNotice"
+                      options={{
+                        presentation: 'modal',
+                        gestureEnabled: false,
+                        ...TransitionPresets.ModalPresentationIOS,
+                      }}
+                      component={AlphaNoticeScreen}
                     />
                     {derivedUntilLevel >= DerivedUntilLevel.MASTER && MenuStack({ Stack })}
                   </>
