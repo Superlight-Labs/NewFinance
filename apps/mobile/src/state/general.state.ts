@@ -7,6 +7,7 @@ export type GeneralState = {
   showedAlphaNotice: boolean;
   showAlphaNotice: () => void;
   setHasHydrated: (state: boolean) => void;
+  deleteGeneralState: () => void;
 };
 
 export const useGeneralState = create<GeneralState>()(
@@ -15,6 +16,7 @@ export const useGeneralState = create<GeneralState>()(
       hasHydrated: false,
       showedAlphaNotice: false,
       showAlphaNotice: () => set({ showedAlphaNotice: true }),
+      deleteGeneralState: () => set({ showedAlphaNotice: false }),
       setHasHydrated: (state: boolean) => {
         set({
           hasHydrated: state,
