@@ -115,27 +115,32 @@ const AppNavigation = () => {
                         {MenuStack({ Stack })}
                       </Stack.Group>
                     )}
-
-                    <Stack.Screen name="Home" component={Home} />
-                    <Stack.Screen
-                      name="Wallet"
-                      options={{
-                        cardStyle: { borderRadius: 32 },
-                        presentation: 'modal',
-                        gestureEnabled: true,
-                        ...TransitionPresets.ModalPresentationIOS,
-                      }}
-                      component={WalletNavigation}
-                    />
-                    <Stack.Screen
-                      name="AlphaNotice"
-                      options={{
-                        presentation: 'modal',
-                        gestureEnabled: false,
-                        ...TransitionPresets.ModalPresentationIOS,
-                      }}
-                      component={AlphaNoticeScreen}
-                    />
+                    {isAuthenticated ? (
+                      <>
+                        <Stack.Screen name="Home" component={Home} />
+                        <Stack.Screen
+                          name="Wallet"
+                          options={{
+                            cardStyle: { borderRadius: 32 },
+                            presentation: 'modal',
+                            gestureEnabled: true,
+                            ...TransitionPresets.ModalPresentationIOS,
+                          }}
+                          component={WalletNavigation}
+                        />
+                        <Stack.Screen
+                          name="AlphaNotice"
+                          options={{
+                            presentation: 'modal',
+                            gestureEnabled: false,
+                            ...TransitionPresets.ModalPresentationIOS,
+                          }}
+                          component={AlphaNoticeScreen}
+                        />
+                      </>
+                    ) : (
+                      <Stack.Screen name="Loading" component={LoadingScreen} />
+                    )}
                     {derivedUntilLevel >= DerivedUntilLevel.MASTER && MenuStack({ Stack })}
                   </>
                 ) : (
