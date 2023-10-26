@@ -8,7 +8,6 @@ import BackgroundService from 'react-native-background-actions';
 import { AppUser, useAuthState } from 'state/auth.state';
 import { ChangeIndex, useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
-import { useSnackbarState } from 'state/snackbar.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { publicKeyToBitcoinAddressP2WPKH } from 'utils/crypto/bitcoin-address';
 import { useFailableAction } from './useFailable';
@@ -101,7 +100,7 @@ type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
 const useDeriveSteps = (user: AppUser | undefined) => {
   const { network, saveAccount, saveAddress, accounts } = useBitcoinState();
 
-  const { setMessage } = useSnackbarState();
+  //const { setMessage } = useSnackbarState();
   const { deriveBip32, deriveBip32Hardened, deriveMasterPair } = useDerive();
   const {
     setCoinType,
@@ -128,7 +127,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
     }
     const { share: sShare, peerShareId: pId } = secretShare;
 
-    setMessage({ message: 'Setting up your wallet...', step: 1, total: 4, level: 'progress' });
+    //setMessage({ message: 'Setting up your wallet...', step: 1, total: 4, level: 'progress' });
 
     return deriveMasterPair(config, { share: sShare, peerShareId: pId }).map(
       ({ share: mShare, peerShareId }) => {
@@ -144,7 +143,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       return okAsync(purpose!);
     }
 
-    setMessage({ message: 'Creating Secure wallet...', step: 2, total: 4, level: 'progress' });
+    //setMessage({ message: 'Creating Secure wallet...', step: 2, total: 4, level: 'progress' });
 
     return deriveBip32Hardened(config, {
       index: '84',
@@ -164,12 +163,12 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       return okAsync(coinType!);
     }
 
-    setMessage({
+    /*setMessage({
       message: 'Introducing you to Bitcoin...',
       step: 3,
       total: 4,
       level: 'progress',
-    });
+    });*/
 
     return deriveBip32Hardened(config, {
       index: '0',
@@ -191,7 +190,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
 
     const path = `m/84'/0'/0'`;
 
-    setMessage({ message: 'Adding your account...', step: 4, total: 4, level: 'progress' });
+    //setMessage({ message: 'Adding your account...', step: 4, total: 4, level: 'progress' });
     return deriveBip32Hardened(config, {
       index: '0',
       peerShareId: ctShareId,
@@ -269,7 +268,7 @@ const useDeriveSteps = (user: AppUser | undefined) => {
       })
       .andThen(deriveAndSaveIndex)
       .map(val => {
-        setMessage({ message: 'Congrats! all done', level: 'success' });
+        //setMessage({ message: 'Congrats! all done', level: 'success' });
 
         setLevel(DerivedUntilLevel.COMPLETE);
         return val;
