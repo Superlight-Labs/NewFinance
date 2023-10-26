@@ -69,6 +69,7 @@ export type IconName =
   | 'Send'
   | 'Minimize2'
   | 'ChevronDown'
+  | 'ChevronRight'
   | 'CheckCircle'
   | 'AtSign'
   | 'Loading'
@@ -77,4 +78,7 @@ export type IconName =
   | 'Euro'
   | 'Percent'
   | 'Send'
+  | 'ArrowUp'
+  | 'ArrowDown'
+  | 'Dot'
   | 'CheckCheck';
