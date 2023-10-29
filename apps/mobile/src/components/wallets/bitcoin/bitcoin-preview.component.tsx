@@ -4,20 +4,15 @@ import Title from 'components/shared/title/title.component';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { formatCurrency } from 'utils/format/format';
-import { Image, Pressable, Text, View } from 'utils/wrappers/styled-react-native';
+import { Image, Text, View } from 'utils/wrappers/styled-react-native';
 import InteractiveLineChart from '../charts/interactivelinechart.component';
 
+import TimePeriodPicker from 'components/shared/picker/time-period-picker.component';
+import { DataItem, TimeFrame } from 'src/types/chart';
 import { bitcoinData1Y } from './historical-data/bitcoin-data-1Y';
 import { bitcoinDataMax } from './historical-data/bitcoin-data-max';
 
 type Props = {};
-
-type DataItem = {
-  x: string; // x Value of the chart (ex. Date)
-  y: number; // y Value of the cart (ex. Price)
-};
-
-type TimeFrame = 'T' | 'W' | 'M' | 'Y' | 'MAX';
 
 const bitcoinData = [
   { timeframe: 'T', data: bitcoinDataMax },
@@ -42,8 +37,8 @@ const BitcoinPreview = ({}: Props) => {
     return (value - start).toFixed(2);
   };
 
-  const isUp = (currentData: DataItem) => {
-    return currentTimeFrameData[0].y < currentData.y;
+  const isUp = (currentDataValue: DataItem) => {
+    return currentTimeFrameData[0].y < currentDataValue.y;
   };
 
   const prettifyDate = (date: string) => {
@@ -122,38 +117,7 @@ const BitcoinPreview = ({}: Props) => {
           onValueChange={value => setCurrentData(value)}
           onTouchRelease={() => setCurrentData(newData)}
         />
-        <View className="mt-2 flex-row justify-between px-6">
-          <Pressable
-            className="rounded-sm  px-5 py-1.5"
-            style={{ backgroundColor: currentTimeFrame === 'T' ? '#F4F5F5' : 'transparent' }}
-            onPress={() => changeTimeFrame('T')}>
-            <Text className="font-manrope text-xs font-semibold text-black">1T</Text>
-          </Pressable>
-          <Pressable
-            className="rounded-sm  px-5 py-1.5"
-            style={{ backgroundColor: currentTimeFrame === 'W' ? '#F4F5F5' : 'transparent' }}
-            onPress={() => changeTimeFrame('W')}>
-            <Text className="font-manrope text-xs font-semibold text-black">1W</Text>
-          </Pressable>
-          <Pressable
-            className="rounded-sm  px-5 py-1.5"
-            style={{ backgroundColor: currentTimeFrame === 'M' ? '#F4F5F5' : 'transparent' }}
-            onPress={() => changeTimeFrame('M')}>
-            <Text className="font-manrope text-xs font-semibold text-black">1M</Text>
-          </Pressable>
-          <Pressable
-            className="rounded-sm  px-5 py-1.5"
-            style={{ backgroundColor: currentTimeFrame === 'Y' ? '#F4F5F5' : 'transparent' }}
-            onPress={() => changeTimeFrame('Y')}>
-            <Text className="font-manrope text-xs font-semibold text-black">1Y</Text>
-          </Pressable>
-          <Pressable
-            className="rounded-sm  px-5 py-1.5"
-            style={{ backgroundColor: currentTimeFrame === 'MAX' ? '#F4F5F5' : 'transparent' }}
-            onPress={() => changeTimeFrame('MAX')}>
-            <Text className="font-manrope text-xs font-semibold text-black">MAX</Text>
-          </Pressable>
-        </View>
+        <TimePeriodPicker onValueChange={value => changeTimeFrame(value)} />
       </View>
     </View>
   );

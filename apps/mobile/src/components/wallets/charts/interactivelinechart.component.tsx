@@ -5,12 +5,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { Dimensions, PanResponder, View } from 'react-native';
 import { Circle, G, Line } from 'react-native-svg';
-import { LineChart } from 'react-native-svg-charts';
-
-type DataItem = {
-  x: string; // x Value of the chart (ex. Date)
-  y: number; // y Value of the cart (ex. Price)
-};
+// @ts-ignore
+import { LineChart } from 'components/shared/react-native-svg-charts/src';
+import { DataItem } from 'src/types/chart';
 
 type Props = {
   data: DataItem[]; // Ein Array von DataItem-Objekten
@@ -18,24 +15,50 @@ type Props = {
   onTouchRelease: () => void;
 };
 
+type TooltipProps = {
+  x: any;
+  y: any;
+  ticks: any;
+};
+
 const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) => {
   const [currentData, setCurrentData] = useState<DataItem[]>(data);
-  // Verwende useEffect, um auf Änderungen von data zu reagieren
+  const [prevValue, setPrevValue] = useState(0);
+  const [lastExecutionTime, setLastExecutionTime] = useState(0);
+  let size = useRef(currentData.length);
+  let [positionX, setPositionX] = useState(-1); // The currently selected X coordinate position
+
+  //update size for tooltip and data
   useEffect(() => {
-    // Hier kannst du auf die neueste Version von data zugreifen
-    // und alle notwendigen Aktionen durchführen.
     size.current = data.length;
     setCurrentData(data);
   }, [data]);
 
-  const apx = (size = 0) => {
+  const apx = (sizeValue = 0) => {
     let width = Dimensions.get('window').width;
-    return (width / 750) * size;
+    return (width / 750) * sizeValue;
   };
 
-  const convertToPercentage = (value: number, minValue: number, maxValue: number) => {
-    // Umrechnung in Prozentwert
-    const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
+  const isUp = (dataValue: DataItem[]) => {
+    return dataValue[0].y < dataValue[dataValue.length - 1].y;
+  };
+
+  //calc lowest y value of data
+  const lowestValueY = (dataValue: DataItem[]) => {
+    return dataValue.reduce((min, current) => (current.y < min ? current.y : min), dataValue[0].y);
+  };
+
+  //calc highest y value of data
+  const highestValueY = (dataValue: DataItem[]) => {
+    return dataValue.reduce((max, current) => (current.y > max ? current.y : max), dataValue[0].y);
+  };
+
+  //calc Y Position of horizontal Line
+  const calcYLinePosition = (dataValue: DataItem[]) => {
+    const percentage =
+      ((dataValue[0].y - lowestValueY(dataValue)) /
+        (highestValueY(dataValue) - lowestValueY(dataValue))) *
+      100;
 
     // Calculate based on chart hight (380)
     // 340 because 380 - 40 (bottom content inset)
@@ -43,23 +66,13 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
     return 340 - (320 / 100) * percentage;
   };
 
-  const isUp = (data: DataItem[]) => {
-    return data[0].y < data[data.length - 1].y;
-  };
-
-  let size = useRef(currentData.length);
-
-  let [positionX, setPositionX] = useState(-1); // The currently selected X coordinate position
-
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (_evt, _gestureState) => false,
-
     onStartShouldSetPanResponderCapture: (_evt, _gestureState) => false,
     onMoveShouldSetPanResponder: (_evt, _gestureState) => {
       // Schwellenwerte für horizontalen/vertikalen Unterschied einstellen
-      const horizontalThreshold = 7; // Passe dies an
-      const verticalThreshold = 10; // Passe dies an
-
+      const horizontalThreshold = 7;
+      const verticalThreshold = 10;
       return (
         Math.abs(_gestureState.dx) > horizontalThreshold &&
         Math.abs(_gestureState.dy) <= verticalThreshold
@@ -68,16 +81,14 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
     onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
       // Überprüfe, ob die horizontale Bewegung größer ist als die vertikale Bewegung
       // Schwellenwerte für horizontalen/vertikalen Unterschied einstellen
-      const horizontalThreshold = 7; // Passe dies an
-      const verticalThreshold = 10; // Passe dies an
-
+      const horizontalThreshold = 7;
+      const verticalThreshold = 10;
       return (
         Math.abs(gestureState.dx) > horizontalThreshold &&
         Math.abs(gestureState.dy) <= verticalThreshold
       );
     },
     onPanResponderTerminationRequest: (_evt, _gestureState) => true,
-
     onPanResponderGrant: (evt, _gestureState) => {
       updatePosition(evt.nativeEvent.locationX, currentData);
     },
@@ -90,13 +101,10 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
     },
   });
 
-  const [prevValue, setPrevValue] = useState(0);
-  const [lastExecutionTime, setLastExecutionTime] = useState(0);
-
-  const updatePosition = (x: number, data: DataItem[]) => {
+  const updatePosition = (x: number, dataValue: DataItem[]) => {
     const x0 = apx(0); // x0 position - 0
     const xN = apx(750); //xN position - 414
-    const xDistance = xN / (size.current - 1); // The width of each coordinate point
+    const xDistance = xN / size.current; // The width of each coordinate point
     if (x <= x0) {
       x = x0;
     }
@@ -108,34 +116,22 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
     if (value >= size.current - 1) {
       value = size.current - 1; // Out of chart range, automatic correction
     }
-    console.log('prevalue: ', prevValue);
-    if (prevValue != value) {
+    if (prevValue !== value) {
       if (Date.now() - lastExecutionTime >= 100) {
-        console.log(
-          'Date.now() ',
-          Date.now(),
-          ' - ',
-          lastExecutionTime,
-          ' ? >= 1000 ',
-          Date.now() - lastExecutionTime
-        );
         setLastExecutionTime(Date.now());
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
-        onValueChange(data[value]);
+        onValueChange(dataValue[value]);
       }
       // Speichere den aktuellen Wert von value als vorherigen Wert um eine Änderungen überprüfen zu können
       setPrevValue(Number(value));
-
-      setPositionX(Number(value));
+      setPositionX(Number(value)); // Change position of tooltip
     }
   };
 
-  const Tooltip = ({ x, y, ticks }) => {
+  const Tooltip = ({ x, y, ticks }: TooltipProps) => {
     if (positionX < 0) {
       return null;
     }
-
     return (
       <G x={x(positionX)} key="tooltip">
         <G x={x}>
@@ -151,14 +147,6 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
         </G>
       </G>
     );
-  };
-
-  const lowestValueY = (data: DataItem[]) => {
-    return data.reduce((min, current) => (current.y < min ? current.y : min), data[0].y);
-  };
-
-  const highestValueY = (data: DataItem[]) => {
-    return data.reduce((max, current) => (current.y > max ? current.y : max), data[0].y);
   };
 
   return (
@@ -181,7 +169,6 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
               height: 370,
               borderRadius: 10,
               zIndex: 1,
-              animationTimingFunction: 'ease',
             }}
             data={currentData.map(item => item.y)}
             svg={{
@@ -195,21 +182,14 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
             animationDuration={1000}>
             <Line
               x1={0}
-              y1={convertToPercentage(
-                currentData[0].y,
-                lowestValueY(currentData),
-                highestValueY(currentData)
-              )}
+              y1={calcYLinePosition(currentData)}
               x2={'110%'}
-              y2={convertToPercentage(
-                currentData[0].y,
-                lowestValueY(currentData),
-                highestValueY(currentData)
-              )}
+              y2={calcYLinePosition(currentData)}
               stroke={'#010001'}
               strokeWidth={2}
               strokeDasharray={'0.3,6'}
               strokeLinecap="round"
+              // @ts-ignore
               belowChart={true}
             />
             <Tooltip x={undefined} y={undefined} ticks={undefined} />
