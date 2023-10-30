@@ -7,6 +7,7 @@ import Snackbar from 'components/shared/snackbar/snackbar.component';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
+import Bitcoin from 'screens/bitcoin/bitcoin.component';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
 import MenuStack from 'screens/menu/menu.stack';
@@ -128,6 +129,7 @@ const AppNavigation = () => {
                           }}
                           component={WalletNavigation}
                         />
+                        <Stack.Screen name="Bitcoin" component={Bitcoin} />
                         <Stack.Screen
                           name="AlphaNotice"
                           options={{

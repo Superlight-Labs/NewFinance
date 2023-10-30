@@ -22,7 +22,7 @@ const Layout = ({
   const navigator = useNavigation();
   return (
     <View className={`flex-col bg-white ${style} `}>
-      <View className="my-4 flex-row px-4">
+      <View className="mb-5 mt-2 flex-row px-6">
         {!hideBack && (
           <Pressable
             className="flex w-12 items-start justify-start"
@@ -40,7 +40,7 @@ const Layout = ({
         )}
       </View>
 
-      <View className={` ${noPadding ? '' : 'p-4'}`}>{children}</View>
+      <View className={` ${noPadding ? '' : ''}`}>{children}</View>
     </View>
   );
 };

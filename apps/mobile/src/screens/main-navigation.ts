@@ -11,4 +11,5 @@ export type RootStackParamList = {
   Create: undefined;
   ReviewCreate: { withPhrase: boolean; phrase?: string };
   AlphaNotice: undefined;
+  Bitcoin: undefined;
 };

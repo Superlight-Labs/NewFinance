@@ -173,7 +173,7 @@ const Home = ({ navigation }: Props) => {
 
           <View className="my-12 ml-[-1.5rem] h-3 w-full bg-[#F6F6F8]"></View>
 
-          <BitcoinPreview />
+          <BitcoinPreview onPressHeader={() => navigation.navigate('Bitcoin')} />
         </ScrollView>
       </View>
     </SafeAreaView>
