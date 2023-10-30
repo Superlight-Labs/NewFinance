@@ -1,10 +1,10 @@
 import { Linking } from 'react-native';
 
 export const reportBugUrl =
-  'https://github.com/Superlight-Labs/Superlight/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=';
+  'https://github.com/Superlight-Labs/NewFinance/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=';
 
 export const createBugUrl = (error: unknown) =>
-  `https://github.com/Superlight-Labs/Superlight/issues/new?title=Error in superlight&body=Error: \n \`\`\`${JSON.stringify(
+  `https://github.com/Superlight-Labs/NewFinance/issues/new?title=Error in superlight&body=Error: \n \`\`\`${JSON.stringify(
     error
   )}\`\`\``;
 

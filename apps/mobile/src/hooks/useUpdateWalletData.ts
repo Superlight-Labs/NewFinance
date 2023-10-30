@@ -24,7 +24,7 @@ export const useUpdateWalletData = () => {
         network,
       };
 
-      // TODO: errors are not reflected in snackbar yet https://github.com/Superlight-Labs/Superlight/issues/44
+      // TODO: errors are not reflected in snackbar yet https://github.com/Superlight-Labs/NewFinance/issues/44
       backend
         .post<BlockchainResult<BitcoinBalance>>('/blockchain/balance', addrInfoRequest)
         .then(balances => {
