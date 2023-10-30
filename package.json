@@ -41,7 +41,7 @@
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
   "main": "index.js",
-  "repository": "https://github.com/Superlight-Labs/Superlight.git",
+  "repository": "https://github.com/Superlight-Labs/NewFinance.git",
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
   "volta": {
