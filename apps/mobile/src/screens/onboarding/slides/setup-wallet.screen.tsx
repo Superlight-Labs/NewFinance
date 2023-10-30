@@ -16,7 +16,7 @@ const SetupWallet = ({ navigation }: Props) => {
       <Title style="mb-4">Onboarding</Title>
 
       <Text className="my-8 font-inter">
-        Hello, welcome to Superlight. Next step is to create your wallet.
+        Hello, welcome to NewFinance. Next step is to create your wallet.
       </Text>
 
       <Button

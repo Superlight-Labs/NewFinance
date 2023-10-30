@@ -30,7 +30,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'Superlight' do
+target 'NewFinance' do
   use_expo_modules!
   post_integrate do |installer|
     begin
@@ -60,7 +60,7 @@ target 'Superlight' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'SuperlightTests' do
+  target 'NewFinanceTests' do
     inherit! :complete
     # Pods for testing
   end

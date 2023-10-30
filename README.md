@@ -13,11 +13,11 @@
 <br />
 <div align="center">
   <a href="https://www.superlight.me#gh-light-mode-only">
-    <img src="https://www.superlight.me/images/Logo-2.png#gh-light-mode-only" height="100px" alt="Superlight Logo" />
+    <img src="https://www.superlight.me/images/Logo-2.png#gh-light-mode-only" height="100px" alt="NewFinance Logo" />
   </a>
 
   <a href="https://www.superlight.me#gh-dark-mode-only">
-    <img src="https://www.superlight.me/images/Logo-3.png#gh-dark-mode-only" height="100px" alt="Superlight Logo" />
+    <img src="https://www.superlight.me/images/Logo-3.png#gh-dark-mode-only" height="100px" alt="NewFinance Logo" />
   </a>
 
  <h1 align="center">Superlight - Easy to use Bitcoin App</h1>
