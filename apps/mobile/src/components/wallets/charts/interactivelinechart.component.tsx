@@ -1,12 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useRef, useState } from 'react';
-// import * as React from 'react'
+import { LineChart } from '@superlight-labs/rn-svg-charts';
 import * as Haptics from 'expo-haptics';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, PanResponder, View } from 'react-native';
 import { Circle, G, Line } from 'react-native-svg';
-// @ts-ignore
-import { LineChart } from 'components/shared/react-native-svg-charts/src';
 import { DataItem } from 'src/types/chart';
 
 type Props = {

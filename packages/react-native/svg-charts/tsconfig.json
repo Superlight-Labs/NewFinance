@@ -1,0 +1,19 @@
+{
+  "extends": "@superlight-labs/tsconfig",
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["es6"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "types": [],
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "paths": {
+      "react-native": ["../react-native/index.d.ts"]
+    }
+  },
+  "files": ["index.d.ts"]
+}
