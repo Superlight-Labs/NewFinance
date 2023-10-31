@@ -11,6 +11,7 @@ type Props = {
   data: DataItem[]; // Ein Array von DataItem-Objekten
   onValueChange: (value: DataItem) => void;
   onTouchRelease: () => void;
+  height?: number;
 };
 
 type TooltipProps = {
@@ -19,7 +20,7 @@ type TooltipProps = {
   ticks: any;
 };
 
-const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) => {
+const InteractiveLineChart = ({ data, onValueChange, onTouchRelease, height = 380 }: Props) => {
   const [currentData, setCurrentData] = useState<DataItem[]>(data);
   const [prevValue, setPrevValue] = useState(0);
   const [lastExecutionTime, setLastExecutionTime] = useState(0);
@@ -61,7 +62,7 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
     // Calculate based on chart hight (380)
     // 340 because 380 - 40 (bottom content inset)
     // 320 because 380 - 40 - 20 (bottom + top content inset)
-    return 340 - (320 / 100) * percentage;
+    return height - 40 - ((height - 60) / 100) * percentage;
   };
 
   const panResponder = PanResponder.create({
@@ -157,14 +158,14 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease }: Props) =>
         style={{
           flexDirection: 'row',
           width: apx(750),
-          height: 380,
+          height: height,
           alignSelf: 'stretch',
         }}>
         <View style={{ flex: 1 }} {...panResponder.panHandlers}>
           <LineChart
             style={{
               flex: 1,
-              height: 370,
+              height: height,
               borderRadius: 10,
               zIndex: 1,
             }}

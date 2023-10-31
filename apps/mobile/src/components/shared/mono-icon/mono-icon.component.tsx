@@ -81,4 +81,8 @@ export type IconName =
   | 'ArrowUp'
   | 'ArrowDown'
   | 'Dot'
+  | 'ArrowUpFromDot'
+  | 'ArrowDownToDot'
+  | 'Wallet2'
+  | 'X'
   | 'CheckCheck';
