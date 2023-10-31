@@ -1,13 +1,7 @@
-import {
-  ScaleBand,
-  ScaleLinear,
-  ScaleLogarithmic,
-  ScalePower,
-  ScaleTime,
-} from "d3-scale";
-import { CurveFactory, Series } from "d3-shape";
-import * as React from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import { ScaleBand, ScaleLinear, ScaleLogarithmic, ScalePower, ScaleTime } from 'd3-scale';
+import { CurveFactory, Series } from 'd3-shape';
+import * as React from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import {
   CommonPathProps,
   LineProps,
@@ -15,7 +9,7 @@ import {
   PathProps,
   RadialGradientProps,
   TextProps,
-} from "react-native-svg";
+} from 'react-native-svg';
 
 export type ScaleType<Range, Output> =
   | ScaleLinear<Range, Output>
@@ -31,10 +25,7 @@ export interface AccessorFunctionProps<T> {
 export type ScaleFunction = () => ScaleType<any, any> | ScaleBand<any>;
 export type AccessorFunction<T, U> = (props: AccessorFunctionProps<T>) => U;
 export type SortFunction<T> = (a: T, b: T) => number;
-export type OffsetFunction = (
-  series: Series<any, any>,
-  order: number[]
-) => void;
+export type OffsetFunction = (series: Series<any, any>, order: number[]) => void;
 export type OrderFunction = (series: Series<any, any>) => number[];
 
 // Chart
@@ -100,9 +91,7 @@ export interface PieChartProps<T extends PieChartData> extends ChartProps<T> {
   valueAccessor?: AccessorFunction<T, number> | undefined;
 }
 
-export class PieChart<T extends PieChartData> extends React.PureComponent<
-  PieChartProps<T>
-> {}
+export class PieChart<T extends PieChartData> extends React.PureComponent<PieChartProps<T>> {}
 
 // Area Chart
 
@@ -136,9 +125,7 @@ export interface StackedAreaChartProps<T> extends ChartProps<T> {
   renderDecorator?: (() => {}) | undefined;
 }
 
-export class StackedAreaChart<T> extends React.PureComponent<
-  StackedAreaChartProps<T>
-> {
+export class StackedAreaChart<T> extends React.PureComponent<StackedAreaChartProps<T>> {
   static extractDataPoints<T>(
     data: T[],
     keys: ReadonlyArray<keyof T>,
@@ -166,18 +153,14 @@ export interface StackedBarChartProps<T> extends BarChartProps<T> {
   order?: OrderFunction | undefined;
   strokeColor?: string | undefined;
   renderGradient?:
-    | ((props: {
-        id: string;
-      }) => React.Component<LinearGradientProps | RadialGradientProps>)
+    | ((props: { id: string }) => React.Component<LinearGradientProps | RadialGradientProps>)
     | undefined;
   showGrid?: boolean | undefined;
   extras?: any[] | undefined;
   extra?: (() => {}) | undefined;
 }
 
-export class StackedBarChart<T> extends React.PureComponent<
-  StackedBarChartProps<T>
-> {
+export class StackedBarChart<T> extends React.PureComponent<StackedBarChartProps<T>> {
   static extractDataPoints<T>(
     data: T,
     keys: ReadonlyArray<keyof T>,
@@ -277,7 +260,7 @@ export namespace Decorators {
   export class Tooltip extends React.Component<TooltipProps> {}
 }
 
-export type GridDirection = "VERTICAL" | "HORIZONTAL" | "BOTH";
+export type GridDirection = 'VERTICAL' | 'HORIZONTAL' | 'BOTH';
 
 export interface GridProps<T> {
   direction?: GridDirection | undefined;
@@ -291,9 +274,9 @@ export interface GridProps<T> {
 // Export as Component despite it's FC.
 export class Grid<T> extends React.Component<GridProps<T>> {
   static Direction: {
-    VERTICAL: "VERTICAL";
-    HORIZONTAL: "HORIZONTAL";
-    BOTH: "BOTH";
+    VERTICAL: 'VERTICAL';
+    HORIZONTAL: 'HORIZONTAL';
+    BOTH: 'BOTH';
   };
 }
 
