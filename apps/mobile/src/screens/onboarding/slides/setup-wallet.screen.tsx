@@ -19,7 +19,7 @@ const SetupWallet = ({ navigation }: Props) => {
   const { user, isAuthenticated } = useAuthState();
 
   const [walletName] = useState('Main Wallet');
-  const [loading, setLoading] = useState(false);
+  const [_loading, setLoading] = useState(false);
   const createBitcoinWallet = useCreateBitcoinWallet(() => console.log('success'));
 
   const { perform } = useFailableAction();

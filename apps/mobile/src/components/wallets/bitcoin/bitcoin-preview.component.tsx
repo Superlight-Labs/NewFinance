@@ -69,9 +69,9 @@ const BitcoinPreview = ({ onPressHeader }: Props) => {
     return date;
   };
 
-  const pushNewestValue = (value: DataItem) => {
-    //Should push newest value change into data Array to update chart
-  };
+  // const pushNewestValue = (value: DataItem) => {
+  //Should push newest value change into data Array to update chart
+  // };
 
   const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
 
