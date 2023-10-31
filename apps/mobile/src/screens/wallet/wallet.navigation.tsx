@@ -2,6 +2,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import React from 'react';
 import { RootStackParamList } from 'screens/main-navigation';
 import Receive from 'screens/wallet/tabs/receive.screen';
 import Send from 'screens/wallet/tabs/send.screen';
@@ -23,7 +24,7 @@ const WalletNavigation = ({ route }: Props) => {
 
   return (
     <Tab.Navigator
-      screenOptions={{ tabBarStyle: { paddingBottom: 12 }, tabBarIndicator: () => null }}
+      screenOptions={{ tabBarStyle: { paddingBottom: 24 }, tabBarIndicator: () => null }}
       tabBarPosition="bottom"
       initialRouteName="Overview">
       <Tab.Screen
@@ -34,13 +35,13 @@ const WalletNavigation = ({ route }: Props) => {
           tabBarLabel: ({ focused }) => (
             <Text
               className={`${
-                focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'
-              } font-manrope-bold text-xs`}>
-              Recieve
+                focused ? 'text-[#1B1C21]' : 'text-[#CBCCCD]'
+              } pt-1 font-manrope-bold text-xs`}>
+              Receive
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <MonoIcon color={focused ? '#6986F8' : '#8D93A0'} iconName="ArrowDownCircle" />
+            <MonoIcon color={focused ? '#1B1C21' : '#CBCCCD'} iconName="ArrowDownToDot" />
           ),
         }}
         component={Receive}
@@ -52,13 +53,13 @@ const WalletNavigation = ({ route }: Props) => {
           tabBarLabel: ({ focused }) => (
             <Text
               className={`${
-                focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'
-              } font-manrope-bold text-xs`}>
-              Home
+                focused ? 'text-[#1B1C21]' : 'text-[#CBCCCD]'
+              } pt-1 font-manrope-bold text-xs`}>
+              Pocket
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <MonoIcon color={focused ? '#6986F8' : '#8D93A0'} iconName="Heart" />
+            <MonoIcon color={focused ? '#1B1C21' : '#CBCCCD'} iconName="Wallet2" />
           ),
         }}
         name="Overview"
@@ -71,13 +72,13 @@ const WalletNavigation = ({ route }: Props) => {
           tabBarLabel: ({ focused }) => (
             <Text
               className={`${
-                focused ? 'text-[#6986F8]' : 'text-[#8D93A0]'
-              } font-manrope-bold text-xs`}>
+                focused ? 'text-[#1B1C21]' : 'text-[#CBCCCD]'
+              } pt-1 font-manrope-bold text-xs`}>
               Send
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <MonoIcon color={focused ? '#6986F8' : '#8D93A0'} iconName="Send" />
+            <MonoIcon color={focused ? '#1B1C21' : '#CBCCCD'} iconName="ArrowUpFromDot" />
           ),
         }}
         name="Send"

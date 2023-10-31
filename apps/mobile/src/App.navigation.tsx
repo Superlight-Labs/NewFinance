@@ -122,7 +122,7 @@ const AppNavigation = () => {
                         <Stack.Screen
                           name="Wallet"
                           options={{
-                            cardStyle: { borderRadius: 32 },
+                            cardStyle: {},
                             presentation: 'modal',
                             gestureEnabled: true,
                             ...TransitionPresets.ModalPresentationIOS,
