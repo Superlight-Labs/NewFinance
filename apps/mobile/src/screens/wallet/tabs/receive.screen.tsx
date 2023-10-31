@@ -42,7 +42,7 @@ const Receive = ({ route }: Props) => {
         </Pressable>
 
         <Text className="mx-12 mt-auto text-center font-manrope-bold text-slate-400">
-          Other Superlight users can scan this QR Code to send you Bitcoin!
+          Other NewFinance users can scan this QR Code to send you Bitcoin!
         </Text>
       </View>
     </WalletLayout>

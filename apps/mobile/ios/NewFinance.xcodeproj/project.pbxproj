@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* SuperlightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SuperlightTests.m */; };
+		00E356F31AD99517003FC87E /* NewFinanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NewFinanceTests.m */; };
 		0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */; };
 		029551543A454A5B8CF9EB8B /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */; };
 		11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */; };
@@ -34,38 +34,38 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Superlight;
+			remoteInfo = NewFinance;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* NewFinanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewFinanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* SuperlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuperlightTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* NewFinanceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewFinanceTests.m; sourceTree = "<group>"; };
 		03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		0EC6944A95DCE59DB08F51CD /* libPods-NewFinance-NewFinanceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewFinance-NewFinanceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FB866012A4F472691C4F542 /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NewFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Superlight/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Superlight/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Superlight/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Superlight/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Superlight/main.m; sourceTree = "<group>"; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NewFinance/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = NewFinance/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NewFinance/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NewFinance/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NewFinance/main.m; sourceTree = "<group>"; };
 		21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Regular.ttf"; path = "../assets/fonts/Manrope-Regular.ttf"; sourceTree = "<group>"; };
 		26D3E19221D74E8590752265 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-SemiBold.ttf"; path = "../assets/fonts/Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
 		2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Medium.ttf"; path = "../assets/fonts/IBMPlexSerif-Medium.ttf"; sourceTree = "<group>"; };
 		3068570324B4275A56AA8CE2 /* Pods-NewFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.debug.xcconfig"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-NewFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.debug.xcconfig"; sourceTree = "<group>"; };
 		3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		4DC10951144A494B96A51724 /* Pods-NewFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.release.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.release.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-Superlight-appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-appTests.debug.xcconfig"; path = "Target Support Files/Pods-Superlight-appTests/Pods-Superlight-appTests.debug.xcconfig"; sourceTree = "<group>"; };
-		738C9690B7EA85AA87177E87 /* Pods-Superlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.debug.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Superlight/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-Superlight-appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-appTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-appTests/Pods-Superlight-appTests.release.xcconfig"; sourceTree = "<group>"; };
-		8E443CD86058416CC171C21D /* Pods-Superlight-SuperlightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.debug.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9171F8B77B2EBF4AAD38B811 /* Pods-Superlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight.release.xcconfig"; path = "Target Support Files/Pods-Superlight/Pods-Superlight.release.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-NewFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.release.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-NewFinance-appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-appTests.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance-appTests/Pods-NewFinance-appTests.debug.xcconfig"; sourceTree = "<group>"; };
+		738C9690B7EA85AA87177E87 /* Pods-NewFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NewFinance/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-NewFinance-appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-appTests.release.xcconfig"; path = "Target Support Files/Pods-NewFinance-appTests/Pods-NewFinance-appTests.release.xcconfig"; sourceTree = "<group>"; };
+		8E443CD86058416CC171C21D /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-NewFinanceTests.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance-NewFinanceTests/Pods-NewFinance-NewFinanceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9171F8B77B2EBF4AAD38B811 /* Pods-NewFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.release.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.release.xcconfig"; sourceTree = "<group>"; };
 		9CD4FE5492754BC7A570431F /* lines_3.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_3.png; path = ../assets/images/lines_3.png; sourceTree = "<group>"; };
 		B0EA41A5B05F3B76A538F714 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance-NewFinanceTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		B213217C6971325C63113C94 /* libPods-NewFinance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewFinance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +76,7 @@
 		CFD06DA42A7940B6001ACBF8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		D163C9782323DC3C6461EA37 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		D8C740F384284231850614D3 /* lines_2.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_2.png; path = ../assets/images/lines_2.png; sourceTree = "<group>"; };
-		E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Superlight-SuperlightTests.release.xcconfig"; path = "Target Support Files/Pods-Superlight-SuperlightTests/Pods-Superlight-SuperlightTests.release.xcconfig"; sourceTree = "<group>"; };
+		E106C76C9437E735DA760AED /* Pods-NewFinance-NewFinanceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-NewFinanceTests.release.xcconfig"; path = "Target Support Files/Pods-NewFinance-NewFinanceTests/Pods-NewFinance-NewFinanceTests.release.xcconfig"; sourceTree = "<group>"; };
 		E6E0257A114043B4A54C83B7 /* lines_1.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_1.png; path = ../assets/images/lines_1.png; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Medium.ttf"; path = "../assets/fonts/Manrope-Medium.ttf"; sourceTree = "<group>"; };
@@ -102,13 +102,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* SuperlightTests */ = {
+		00E356EF1AD99517003FC87E /* NewFinanceTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* SuperlightTests.m */,
+				00E356F21AD99517003FC87E /* NewFinanceTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = SuperlightTests;
+			path = NewFinanceTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -163,7 +163,7 @@
 				CFD06DA42A7940B6001ACBF8 /* assets */,
 				13B07FAE1A68108700A75B9A /* NewFinance */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* SuperlightTests */,
+				00E356EF1AD99517003FC87E /* NewFinanceTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -215,14 +215,14 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-Superlight.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-Superlight.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-Superlight-appTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-Superlight-appTests.release.xcconfig */,
-				738C9690B7EA85AA87177E87 /* Pods-Superlight.debug.xcconfig */,
-				9171F8B77B2EBF4AAD38B811 /* Pods-Superlight.release.xcconfig */,
-				8E443CD86058416CC171C21D /* Pods-Superlight-SuperlightTests.debug.xcconfig */,
-				E106C76C9437E735DA760AED /* Pods-Superlight-SuperlightTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-NewFinance.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-NewFinance.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-NewFinance-appTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-NewFinance-appTests.release.xcconfig */,
+				738C9690B7EA85AA87177E87 /* Pods-NewFinance.debug.xcconfig */,
+				9171F8B77B2EBF4AAD38B811 /* Pods-NewFinance.release.xcconfig */,
+				8E443CD86058416CC171C21D /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */,
+				E106C76C9437E735DA760AED /* Pods-NewFinance-NewFinanceTests.release.xcconfig */,
 				3068570324B4275A56AA8CE2 /* Pods-NewFinance.debug.xcconfig */,
 				4DC10951144A494B96A51724 /* Pods-NewFinance.release.xcconfig */,
 				C8439C673AE6BCEE7FDCFBDC /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */,
@@ -261,7 +261,7 @@
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
 			name = NewFinanceTests;
-			productName = SuperlightTests;
+			productName = NewFinanceTests;
 			productReference = 00E356EE1AD99517003FC87E /* NewFinanceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -284,7 +284,7 @@
 			dependencies = (
 			);
 			name = NewFinance;
-			productName = Superlight;
+			productName = NewFinance;
 			productReference = 13B07F961A680F5B00A75B9A /* NewFinance.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -546,7 +546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* SuperlightTests.m in Sources */,
+				00E356F31AD99517003FC87E /* NewFinanceTests.m in Sources */,
 				F3B93DA76583A451C7BE59E5 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,7 +581,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SuperlightTests/Info.plist;
+				INFOPLIST_FILE = NewFinanceTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -594,7 +594,7 @@
 					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.NewFinance.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NewFinance.app/NewFinance";
 			};
@@ -606,7 +606,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = SuperlightTests/Info.plist;
+				INFOPLIST_FILE = NewFinanceTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -619,7 +619,7 @@
 					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.NewFinance.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NewFinance.app/NewFinance";
 			};
@@ -634,7 +634,7 @@
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = 33NTHR48GT;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Superlight/Info.plist;
+				INFOPLIST_FILE = NewFinance/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NewFinance;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -648,8 +648,8 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = me.superlight.Superlighttest;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.NewFinance.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = me.NewFinance.NewFinancetest;
 				PRODUCT_NAME = NewFinance;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -669,7 +669,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = 33NTHR48GT;
-				INFOPLIST_FILE = Superlight/Info.plist;
+				INFOPLIST_FILE = NewFinance/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NewFinance;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -684,8 +684,8 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = "me.superlight.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = me.superlight.Superlighttest;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.NewFinance.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = me.NewFinance.NewFinancetest;
 				PRODUCT_NAME = NewFinance;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

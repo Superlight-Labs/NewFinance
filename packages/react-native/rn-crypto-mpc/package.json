@@ -27,11 +27,11 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Superlight-Labs/Superlight",
+  "repository": "https://github.com/Superlight-Labs/NewFinance",
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com> (https://github.com/lauhon)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Superlight-Labs/Superlight/issues"
+    "url": "https://github.com/Superlight-Labs/NewFinance/issues"
   },
   "homepage": "www.superlight.me/",
   "publishConfig": {

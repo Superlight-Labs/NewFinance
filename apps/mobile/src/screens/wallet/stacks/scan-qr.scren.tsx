@@ -54,7 +54,7 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
           <View className="flex-col items-center justify-center">
             <Text className="mt-24 font-manrope-bold text-slate-400">No access to camera</Text>
             <Text className="mt-6 text-center font-manrope-bold text-slate-400">
-              Please enable Superlight to use Camera in the Settings of your phone
+              Please enable NewFinance to use Camera in the Settings of your phone
             </Text>
           </View>
         )}

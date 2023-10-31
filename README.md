@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml">
-    <img src="https://github.com/Superlight-Labs/Superlight/actions/workflows/check-codebase.yml/badge.svg" alt="Codebase Status" />
+  <a href="https://github.com/Superlight-Labs/NewFinance/actions/workflows/check-codebase.yml">
+    <img src="https://github.com/Superlight-Labs/NewFinance/actions/workflows/check-codebase.yml/badge.svg" alt="Codebase Status" />
   </a>&nbsp;
-  <a href="https://github.com/Superlight-Labs/Superlight/actions/workflows/build-docker.yml">
-    <img src="https://github.com/Superlight-Labs/Superlight/actions/workflows/build-docker.yml/badge.svg" alt="Angular on npm" />
+  <a href="https://github.com/Superlight-Labs/NewFinance/actions/workflows/build-docker.yml">
+    <img src="https://github.com/Superlight-Labs/NewFinance/actions/workflows/build-docker.yml/badge.svg" alt="Angular on npm" />
   </a>&nbsp;
 </p>
 
@@ -13,11 +13,11 @@
 <br />
 <div align="center">
   <a href="https://www.superlight.me#gh-light-mode-only">
-    <img src="https://www.superlight.me/images/Logo-2.png#gh-light-mode-only" height="100px" alt="Superlight Logo" />
+    <img src="https://www.superlight.me/images/Logo-2.png#gh-light-mode-only" height="100px" alt="NewFinance Logo" />
   </a>
 
   <a href="https://www.superlight.me#gh-dark-mode-only">
-    <img src="https://www.superlight.me/images/Logo-3.png#gh-dark-mode-only" height="100px" alt="Superlight Logo" />
+    <img src="https://www.superlight.me/images/Logo-3.png#gh-dark-mode-only" height="100px" alt="NewFinance Logo" />
   </a>
 
  <h1 align="center">Superlight - Easy to use Bitcoin App</h1>
@@ -28,9 +28,9 @@
 
 Open Source Crypto-Wallet with focus on Bitcoin and Lightning, efficient Ramp on/off and self custody.
 <br />
-<a href="https://github.com/Superlight-Labs/Superlight/issues">Report Bug</a>
+<a href="https://github.com/Superlight-Labs/NewFinance/issues">Report Bug</a>
 ·
-<a href="https://github.com/Superlight-Labs/Superlight/discussions">Request Feature</a>
+<a href="https://github.com/Superlight-Labs/NewFinance/discussions">Request Feature</a>
 
  </p>
 </div>
@@ -83,7 +83,7 @@ The GNU Affero General Public License is designed specifically to ensure that, i
 
 ## 👋🏽 Contact
 
-Please feel free to [open Issues](https://github.com/Superlight-Labs/Superlight/issues) if you want to point out bugs or problems or [start a discussion](https://github.com/Superlight-Labs/Superlight/discussions) to request features or just get in touch with us.
+Please feel free to [open Issues](https://github.com/Superlight-Labs/NewFinance/issues) if you want to point out bugs or problems or [start a discussion](https://github.com/Superlight-Labs/NewFinance/discussions) to request features or just get in touch with us.
 
 Any input or additions to our community are highly appreciated!
 

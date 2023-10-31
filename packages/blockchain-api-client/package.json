@@ -3,7 +3,7 @@
   "license": "MIT",
   "main": "index.ts",
   "types": "index.ts",
-  "repository": "https://github.com/Superlight-Labs/Superlight",
+  "repository": "https://github.com/Superlight-Labs/NewFinance",
   "files": [
     "src",
     "index.ts"
