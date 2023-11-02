@@ -48,7 +48,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             }`}>
             <Text className="font-manrope text-base font-semibold">1. </Text>
             <TextInput
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full items-baseline pb-[2px] font-manrope text-base font-semibold"
               placeholder="Type in phrase"
               onChangeText={value => addWord(value, 0)}
               autoFocus={true}
@@ -62,7 +62,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">2. </Text>
             <TextInput
               ref={el => (inputRefs.current[1] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 1)}
               onFocus={() => setWordCount(1)}
             />
@@ -74,7 +74,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">3. </Text>
             <TextInput
               ref={el => (inputRefs.current[2] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 2)}
               onFocus={() => setWordCount(2)}
             />
@@ -86,7 +86,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">4. </Text>
             <TextInput
               ref={el => (inputRefs.current[3] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 3)}
               onFocus={() => setWordCount(3)}
             />
@@ -98,7 +98,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">5. </Text>
             <TextInput
               ref={el => (inputRefs.current[4] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 4)}
               onFocus={() => setWordCount(4)}
             />
@@ -110,7 +110,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">6. </Text>
             <TextInput
               ref={el => (inputRefs.current[5] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 5)}
               onFocus={() => setWordCount(5)}
             />
@@ -124,7 +124,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">7. </Text>
             <TextInput
               ref={el => (inputRefs.current[6] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 6)}
               onFocus={() => setWordCount(6)}
             />
@@ -136,7 +136,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">8. </Text>
             <TextInput
               ref={el => (inputRefs.current[7] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 7)}
               onFocus={() => setWordCount(7)}
             />
@@ -148,7 +148,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">9. </Text>
             <TextInput
               ref={el => (inputRefs.current[8] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 8)}
               onFocus={() => setWordCount(8)}
             />
@@ -160,7 +160,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">10. </Text>
             <TextInput
               ref={el => (inputRefs.current[9] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 9)}
               onFocus={() => setWordCount(9)}
             />
@@ -172,7 +172,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">11. </Text>
             <TextInput
               ref={el => (inputRefs.current[10] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 10)}
               onFocus={() => setWordCount(10)}
             />
@@ -184,7 +184,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
             <Text className="font-manrope text-base font-semibold">12. </Text>
             <TextInput
               ref={el => (inputRefs.current[11] = el)}
-              className="w-full font-manrope text-base font-semibold"
+              className="w-full pb-[2px] font-manrope text-base font-semibold"
               onChangeText={value => addWord(value, 11)}
               onFocus={() => setWordCount(11)}
             />

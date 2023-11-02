@@ -58,18 +58,6 @@ const OnboardingPhraseScreen = ({ navigation }: Props) => {
                   Seed phrase
                 </Text>
               </Pressable>
-              <Pressable
-                className="rounded-sm  px-5 py-1.5"
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{ backgroundColor: importOption === 'key' ? '#F4F5F5' : 'transparent' }}
-                onPress={() => setImportOption('key')}>
-                <Text
-                  className={`font-manrope text-xs font-semibold ${
-                    importOption === 'key' ? 'text-black' : 'text-[#969EA3]'
-                  }`}>
-                  Private key
-                </Text>
-              </Pressable>
             </View>
             <RecoveryPhraseInputComponent setPhrase={setPhrase} />
           </View>
