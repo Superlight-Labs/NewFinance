@@ -1,16 +1,16 @@
 import { API_URL } from '@env';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
+import ProgressBar from 'components/shared/loading/progress-bar.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { useFailableAction } from 'hooks/useFailable';
 import { useEffect, useState } from 'react';
-import { Animated } from 'react-native';
 import { RootStackParamList } from 'screens/main-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useDeriveState } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
 import { mnemonicToSeed } from 'utils/wrappers/bip32-neverthrow';
-import { AnimatedView, Image, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
+import { Image, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'SetupWallet'>;
 
@@ -25,6 +25,8 @@ const SetupWallet = ({ navigation }: Props) => {
   const { importGenericSecret } = useGenericSecret();
   const { setSecret, setName, deleteSeed } = useDeriveState();
   const { user } = useAuthState();
+
+  const [startTime] = useState<number>(Date.now());
 
   useEffect(() => {
     if (seed) {
@@ -60,7 +62,7 @@ const SetupWallet = ({ navigation }: Props) => {
         path: 'secret',
       });
       deleteSeed();
-      navigation.navigate('Home');
+      navigateToHome();
     });
   };
 
@@ -87,19 +89,15 @@ const SetupWallet = ({ navigation }: Props) => {
         share: result.share,
         path: 'secret',
       });
-      navigation.navigate('Home');
+      navigateToHome();
     });
   };
 
-  const [progress] = useState(new Animated.Value(0));
-
-  useEffect(() => {
-    Animated.timing(progress, {
-      toValue: 144,
-      duration: 15000,
-      useNativeDriver: false,
-    }).start();
-  }, []);
+  const navigateToHome = () => {
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 3000 - (Date.now() - startTime));
+  };
 
   return (
     <SafeAreaView>
@@ -119,14 +117,11 @@ const SetupWallet = ({ navigation }: Props) => {
             <View className="mr-2 flex flex-row items-center justify-around">
               <MonoIcon iconName="Loading" height={14} width={14} color="#d3d3da" />
             </View>
-            <Text className="text-center text-xs text-[#8E8D95]">Creating pocket...</Text>
+            <Text className="text-center text-xs text-[#8E8D95]">
+              {seed ? 'Importing pocket...' : 'Creating pocket...'}
+            </Text>
           </View>
-          <View className="h-1.5 w-36 overflow-hidden rounded-full border border-[#d3d3da] ">
-            <AnimatedView
-              style={{ width: progress }}
-              className="h-[100%] rounded-full rounded-r-none bg-[#d3d3da]"
-            />
-          </View>
+          <ProgressBar loadingTime={3000} />
         </View>
       </View>
     </SafeAreaView>
