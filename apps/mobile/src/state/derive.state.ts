@@ -14,11 +14,14 @@ export type DeriveState = {
   purpose: SharePair | undefined;
   coinType: SharePair | undefined;
   name: string;
+  seed: string | undefined;
   hasHydrated: boolean;
   derivedUntilLevel: DerivedUntilLevel;
   setHasHydrated: (state: boolean) => void;
   deleteBip32: () => void;
   setName: (name: string) => void;
+  setSeed: (seed: string) => void;
+  deleteSeed: () => void;
   setSecret: (data: SharePair) => void;
   setMaster: (data: SharePair) => void;
   setPurpose: (data: SharePair) => void;
@@ -35,6 +38,7 @@ export const useDeriveState = create<DeriveState>()(
       purpose: undefined,
       coinType: undefined,
       name: '',
+      seed: undefined,
       derivedUntilLevel: 0,
       setName: (name: string) => set(current => ({ ...current, name })),
       setSecret: (data: SharePair) =>
@@ -46,6 +50,8 @@ export const useDeriveState = create<DeriveState>()(
       setCoinType: (data: SharePair) =>
         set(current => ({ ...current, coinType: data, derivedUntilLevel: 4 })),
       deleteBip32: () => set(deleteBip32State),
+      setSeed: (seed: string) => set(current => ({ ...current, seed })),
+      deleteSeed: () => set({ seed: undefined }),
       setLevel: (level: DerivedUntilLevel) =>
         set(current => ({ ...current, derivedUntilLevel: level })),
       setHasHydrated: (state: boolean) => {
@@ -71,6 +77,7 @@ const deleteBip32State = (_: DeriveState) => {
     purpose: undefined,
     coinType: undefined,
     name: '',
+    seed: undefined,
     derivedUntilLevel: DerivedUntilLevel.NONE,
   } as DeriveState;
 };

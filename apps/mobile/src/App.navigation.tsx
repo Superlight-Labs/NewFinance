@@ -12,11 +12,9 @@ import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
 import MenuStack from 'screens/menu/menu.stack';
 import AlphaNoticeScreen from 'screens/onboarding/slides/alpha-notice.screen';
-import CreateWallet from 'screens/onboarding/slides/create-wallet.screen';
-import ImportWallet from 'screens/onboarding/slides/import-wallet.screen';
 import OnboardingEmailScreen from 'screens/onboarding/slides/onboarding-email.screen';
 import OnboardingScreen from 'screens/onboarding/slides/onboarding-name.screen';
-import ReviewCreate from 'screens/onboarding/slides/review-create.screen';
+import OnboardingPhraseScreen from 'screens/onboarding/slides/onboarding-phrase.screen';
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import LoadingScreen from 'screens/shared/loading.screen';
 import WalletNavigation from 'screens/wallet/wallet.navigation';
@@ -107,42 +105,41 @@ const AppNavigation = () => {
               <>
                 {hasKeysSetUp ? (
                   <>
-                    {derivedUntilLevel < DerivedUntilLevel.MASTER && (
-                      <Stack.Group>
-                        <Stack.Screen name="SetupWallet" component={SetupWallet} />
-                        <Stack.Screen name="Import" component={ImportWallet} />
-                        <Stack.Screen name="Create" component={CreateWallet} />
-                        <Stack.Screen name="ReviewCreate" component={ReviewCreate} />
-                        {MenuStack({ Stack })}
-                      </Stack.Group>
-                    )}
-                    {isAuthenticated ? (
-                      <>
-                        <Stack.Screen name="Home" component={Home} />
-                        <Stack.Screen
-                          name="Wallet"
-                          options={{
-                            cardStyle: {},
-                            presentation: 'modal',
-                            gestureEnabled: true,
-                            ...TransitionPresets.ModalPresentationIOS,
-                          }}
-                          component={WalletNavigation}
-                        />
-                        <Stack.Screen name="Bitcoin" component={Bitcoin} />
-                        <Stack.Screen
-                          name="AlphaNotice"
-                          options={{
-                            presentation: 'modal',
-                            gestureEnabled: false,
-                            ...TransitionPresets.ModalPresentationIOS,
-                          }}
-                          component={AlphaNoticeScreen}
-                        />
-                      </>
-                    ) : (
-                      <Stack.Screen name="Loading" component={LoadingScreen} />
-                    )}
+                    <>
+                      {isAuthenticated ? (
+                        <>
+                          {derivedUntilLevel < DerivedUntilLevel.MASTER && (
+                            <Stack.Group>
+                              <Stack.Screen name="SetupWallet" component={SetupWallet} />
+                              {MenuStack({ Stack })}
+                            </Stack.Group>
+                          )}
+                          <Stack.Screen name="Home" component={Home} />
+                          <Stack.Screen
+                            name="Wallet"
+                            options={{
+                              cardStyle: {},
+                              presentation: 'modal',
+                              gestureEnabled: true,
+                              ...TransitionPresets.ModalPresentationIOS,
+                            }}
+                            component={WalletNavigation}
+                          />
+                          <Stack.Screen name="Bitcoin" component={Bitcoin} />
+                          <Stack.Screen
+                            name="AlphaNotice"
+                            options={{
+                              presentation: 'modal',
+                              gestureEnabled: false,
+                              ...TransitionPresets.ModalPresentationIOS,
+                            }}
+                            component={AlphaNoticeScreen}
+                          />
+                        </>
+                      ) : (
+                        <Stack.Screen name="Loading" component={LoadingScreen} />
+                      )}
+                    </>
                     {derivedUntilLevel >= DerivedUntilLevel.MASTER && MenuStack({ Stack })}
                   </>
                 ) : (
@@ -150,6 +147,7 @@ const AppNavigation = () => {
                     <Stack.Screen name="Welcome" component={Welcome} />
                     <Stack.Screen name="Onboarding" component={OnboardingScreen} />
                     <Stack.Screen name="OnboardingEmail" component={OnboardingEmailScreen} />
+                    <Stack.Screen name="OnboardingPhrase" component={OnboardingPhraseScreen} />
                   </>
                 )}
               </>

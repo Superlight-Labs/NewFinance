@@ -20,6 +20,8 @@ const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 
 const OnboardingEmailScreen = ({ navigation, route }: Props) => {
   const [username] = useState(route.params.username);
+  const { withPhrase } = route.params;
+
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +35,6 @@ const OnboardingEmailScreen = ({ navigation, route }: Props) => {
     setLoading(true);
     Keyboard.dismiss();
     const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
-
     perform(createProfile(newDevicePublicKey, username, email), () => {
       setLoading(false);
     }).onSuccess(user => {
@@ -58,11 +59,21 @@ const OnboardingEmailScreen = ({ navigation, route }: Props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex h-full justify-between px-6 pt-3">
         <View>
-          <Pressable
-            className="flex w-12 items-start justify-start"
-            onPress={() => navigator.goBack()}>
-            <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
-          </Pressable>
+          <View className="flex-row justify-between">
+            <Pressable
+              className="flex w-12 items-start justify-start"
+              onPress={() => navigator.goBack()}>
+              <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
+            </Pressable>
+
+            {withPhrase && (
+              <View className="rounded-sm  bg-[#F4F5F5] px-5 py-1.5">
+                <Text className={'font-manrope text-xs font-semibold text-black'}>
+                  Seed phrase in use
+                </Text>
+              </View>
+            )}
+          </View>
           <View className="mt-8">
             <Text className="font-manrope text-3xl font-semibold">Email</Text>
             <Text className="mt-4 font-manrope text-xs font-semibold">

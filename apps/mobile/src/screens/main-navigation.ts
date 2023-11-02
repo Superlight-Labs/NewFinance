@@ -3,8 +3,9 @@ export type RootStackParamList = {
   Welcome: undefined;
   Home: undefined;
   Wallet: { account: string };
-  Onboarding: undefined;
-  OnboardingEmail: { username: string };
+  Onboarding: { withPhrase: boolean };
+  OnboardingEmail: { username: string; withPhrase: boolean };
+  OnboardingPhrase: undefined;
   SetupWallet: undefined;
   Menu: undefined;
   Import: undefined;

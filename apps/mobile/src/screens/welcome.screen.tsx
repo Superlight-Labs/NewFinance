@@ -42,8 +42,12 @@ const Welcome = ({ navigation }: Props) => {
               Regularly 4,99€/month - now for free
             </Text>
           </StyledView>
-          <Button onPress={() => navigation.navigate('Onboarding')}>CREATE ACCOUNT FOR FREE</Button>
-          <Pressable className="flex items-center justify-center py-4">
+          <Button onPress={() => navigation.navigate('Onboarding', { withPhrase: false })}>
+            CREATE ACCOUNT FOR FREE
+          </Button>
+          <Pressable
+            className="flex items-center justify-center py-4"
+            onPress={() => navigation.navigate('OnboardingPhrase')}>
             <Text className="font-manrope text-sm font-semibold text-white">
               Already have a bitcoin wallet?
             </Text>
