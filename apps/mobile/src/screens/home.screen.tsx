@@ -27,8 +27,6 @@ type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
 const Home = ({ navigation }: Props) => {
   const { user } = useAuthState();
-
-  const { showedAlphaNotice, showAlphaNotice } = useGeneralState();
   const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
   const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress, hasHydrated } =
@@ -36,6 +34,8 @@ const Home = ({ navigation }: Props) => {
   const { refreshing, update } = useUpdateWalletData();
 
   const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
+
+  const { showedAlphaNotice, showAlphaNotice } = useGeneralState();
 
   useEffect(() => {
     if (hasHydrated && loading) {

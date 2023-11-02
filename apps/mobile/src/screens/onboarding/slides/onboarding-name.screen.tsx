@@ -13,8 +13,9 @@ type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 
-const OnboardingScreen = ({ navigation }: Props) => {
+const OnboardingScreen = ({ navigation, route }: Props) => {
   const [username, setUsername] = useState('');
+  const { withPhrase } = route.params;
 
   const navigator = useNavigation();
 
@@ -25,18 +26,35 @@ const OnboardingScreen = ({ navigation }: Props) => {
     return false;
   };
 
+  const nextOnboardingStep = () => {
+    navigation.navigate('OnboardingEmail', {
+      username: username,
+      withPhrase: withPhrase,
+    });
+  };
+
   return (
     <SafeAreaView className="flex h-full justify-between">
       <StyledKeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex h-full justify-between px-6 pt-3">
         <View>
-          <Pressable
-            className="flex w-12 items-start justify-start"
-            onPress={() => navigator.goBack()}>
-            <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
-          </Pressable>
-          <View className="items-center justify-center text-center">
+          <View className="flex-row justify-between">
+            <Pressable
+              className="flex w-12 items-start justify-start"
+              onPress={() => navigator.goBack()}>
+              <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
+            </Pressable>
+
+            {withPhrase && (
+              <View className="rounded-sm  bg-[#F4F5F5] px-5 py-1.5">
+                <Text className={'font-manrope text-xs font-semibold text-black'}>
+                  Seed phrase in use
+                </Text>
+              </View>
+            )}
+          </View>
+          <View className="mt-6 items-center justify-center text-center">
             <Image
               source={require('../../../../assets/images/bg_onboarding.png')}
               resizeMode="contain"
@@ -66,9 +84,7 @@ const OnboardingScreen = ({ navigation }: Props) => {
           </View>
         </View>
         <View className="pb-4">
-          <ButtonComponent
-            disabled={isDisabled()}
-            onPress={() => navigation.navigate('OnboardingEmail', { username: username })}>
+          <ButtonComponent disabled={isDisabled()} onPress={nextOnboardingStep}>
             NEXT
           </ButtonComponent>
         </View>
