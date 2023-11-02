@@ -17,7 +17,7 @@ type Props = StackScreenProps<RootStackParamList, 'SetupWallet'>;
 const SetupWallet = ({ navigation }: Props) => {
   const { derivedUntilLevel, seed } = useDeriveState();
 
-  const [walletName] = useState('Main Wallet');
+  const [walletName] = useState('Main pocket');
   const [_loading, setLoading] = useState(false);
 
   const { perform } = useFailableAction();
