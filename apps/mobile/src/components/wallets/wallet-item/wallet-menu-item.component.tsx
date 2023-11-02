@@ -14,7 +14,7 @@ const WalletMenuItem = ({ name, balance, navigate }: Props) => {
           <Text className="mt-2 font-manrope-bold text-4xl text-white">$</Text>
         </View>
       </View>
-      <Text className="mt-2 font-manrope text-sm font-semibold">{name}Main pocket</Text>
+      <Text className="mt-2 font-manrope text-sm font-semibold">{name}</Text>
       <Text className="font-manrope text-sm font-medium text-grey">{balance} BTC</Text>
     </Pressable>
   );
