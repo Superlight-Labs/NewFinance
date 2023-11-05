@@ -1,3 +1,4 @@
+import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
@@ -15,7 +16,13 @@ const WalletMenuItem = ({ name, balance, navigate }: Props) => {
         </View>
       </View>
       <Text className="mt-2 font-manrope text-sm font-semibold">{name}</Text>
-      <Text className="font-manrope text-sm font-medium text-grey">{balance} BTC</Text>
+      <Text className="font-manrope text-sm font-medium text-grey">
+        <PriceTextComponent
+          style="font-manrope text-sm font-medium text-grey"
+          disabled={true}
+          bitcoinAmount={balance}
+        />
+      </Text>
     </Pressable>
   );
 };

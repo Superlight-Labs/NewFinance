@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import Title from 'components/shared/title/title.component';
 import BitcoinPreview from 'components/wallets/bitcoin/bitcoin-preview.component';
 import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-item.component';
@@ -82,7 +83,10 @@ const Home = ({ navigation }: Props) => {
           horizontal={false}>
           <View className="px-6">
             <Title>Total Balance</Title>
-            <Title style="">{getTotalBalance()} BTC</Title>
+            <PriceTextComponent
+              style="font-manrope-bold text-3xl text-black"
+              bitcoinAmount={getTotalBalance()}
+            />
 
             <View className="flex-row items-center">
               <MonoIcon iconName="ArrowDown" width={16} height={16} color={'#FF000F'} />

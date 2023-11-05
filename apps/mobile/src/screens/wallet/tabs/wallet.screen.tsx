@@ -12,6 +12,7 @@ import { uniqueTransactions } from 'utils/array';
 import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { WalletTabList } from '../wallet-navigation';
 
+import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import { bitcoinData1Y } from 'components/wallets/bitcoin/historical-data/bitcoin-data-1Y';
 import { useState } from 'react';
 
@@ -45,9 +46,7 @@ const Wallet = ({ navigation, route }: Props) => {
         contentContainerStyle={{ alignItems: 'center' }}
         className="flex h-full w-full flex-col bg-white pb-8">
         <Text className="mb-3 mt-16 font-manrope text-base font-semibold">Balance</Text>
-        <Text className="font-manrope text-[40px] font-bold leading-[42px]">
-          {getAccountBalance(account)},13819 BTC
-        </Text>
+        <PriceTextComponent bitcoinAmount={getAccountBalance(account)} />
         <View className="flex-row items-center">
           <MonoIcon iconName="ArrowDown" width={16} height={16} color={'#FF000F'} />
 

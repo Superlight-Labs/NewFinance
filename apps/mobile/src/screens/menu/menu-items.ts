@@ -24,7 +24,7 @@ type LinkItem = {
   screen: keyof MenuStackParamList;
 };
 
-const homePageUrl = 'https://www.superlight.me/';
+const homePageUrl = 'https://www.getnewfinance.com/';
 
 export const useMenuItems = () => {
   const { deleteLocalData: logout } = useDeleteLocalData();
@@ -43,6 +43,13 @@ export const useMenuItems = () => {
       type: 'link',
       icon: 'ChevronRight',
       screen: 'BitcoinSettings',
+    },
+    {
+      name: 'Currency',
+      subText: 'Change the standard displayed currency',
+      type: 'link',
+      icon: 'ChevronRight',
+      screen: 'CurrencySettings',
     },
   ];
 
