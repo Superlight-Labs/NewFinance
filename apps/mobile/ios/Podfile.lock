@@ -34,6 +34,8 @@ PODS:
     - React-NativeModulesApple
     - React-RCTAppDelegate
     - ReactCommon/turbomodule/core
+  - ExpoSharing (11.5.0):
+    - ExpoModulesCore
   - FBLazyVector (0.72.6)
   - FBReactNativeSpec (0.72.6):
     - RCT-Folly (= 2021.07.22.00)
@@ -567,6 +569,7 @@ DEPENDENCIES:
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+  - ExpoSharing (from `../node_modules/expo-sharing/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - Flipper (= 0.182.0)
@@ -688,6 +691,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-local-authentication/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
+  ExpoSharing:
+    :path: "../node_modules/expo-sharing/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -802,6 +807,7 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
   ExpoLocalAuthentication: bd9d9037a96a11ccc456e327ddb404df02da10ca
   ExpoModulesCore: 51cb2e7ab4c8da14be3f40b66d54c1781002e99d
+  ExpoSharing: 825b2b3fc919a2656f75def0069f584bbd6e359a
   FBLazyVector: 748c0ef74f2bf4b36cfcccf37916806940a64c32
   FBReactNativeSpec: 966f29e4e697de53a3b366355e8f57375c856ad9
   Flipper: 6edb735e6c3e332975d1b17956bcc584eccf5818
