@@ -39,7 +39,7 @@ const Numpad = ({ value, setValue, maxLength = 10, style = '' }: Props) => {
   };
 
   return (
-    <View className={`w-full flex-1 flex-row flex-wrap ${style}`}>
+    <View className={`w-full flex-row flex-wrap ${style}`}>
       {numbers.map(num => (
         <Key key={num} num={num} update={updateState} />
       ))}
@@ -57,7 +57,7 @@ const Key = ({ num, update }: { num: string; update: (num: string) => void }) =>
       className="flex flex-[0_0_33%] items-center p-4"
       key={num}
       onPress={() => update(num)}>
-      <Text className="text-2xl">{num}</Text>
+      <Text className="font-manrope text-2xl font-semibold">{num}</Text>
     </Pressable>
   );
 };
