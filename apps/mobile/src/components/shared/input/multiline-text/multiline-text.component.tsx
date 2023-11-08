@@ -10,6 +10,7 @@ type Props = {
   disabled?: boolean;
   keyboardType?: KeyboardType;
   maxLength?: number;
+  onPressIn?: () => void;
 };
 
 const MultilineText = ({
@@ -20,6 +21,7 @@ const MultilineText = ({
   keyboardType = 'default',
   disabled = false,
   maxLength = 1000,
+  onPressIn,
 }: Props) => {
   const bg = disabled ? 'bg-slate-100' : 'bg-slate-50';
 
@@ -30,6 +32,7 @@ const MultilineText = ({
       autoCapitalize="none"
       scrollEnabled
       multiline
+      onPressIn={onPressIn}
       autoCorrect={false}
       autoComplete="off"
       keyboardType={keyboardType}

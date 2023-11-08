@@ -14,9 +14,13 @@ const Send = ({ route }: Props) => {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="SendTo" initialParams={{ sender: external }} component={SendToScreen} />
+      <Stack.Screen
+        name="SendAmount"
+        initialParams={{ sender: external }}
+        component={SendAmountScreen}
+      />
+      <Stack.Screen name="SendTo" component={SendToScreen} />
       <Stack.Screen name="ScanQrCode" component={ScanQrScreen} />
-      <Stack.Screen name="SendAmount" component={SendAmountScreen} />
       <Stack.Screen name="SendReview" component={SendReviewScreen} />
     </Stack.Navigator>
   );

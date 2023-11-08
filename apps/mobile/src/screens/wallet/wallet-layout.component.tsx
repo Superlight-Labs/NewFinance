@@ -10,8 +10,10 @@ type Props = {
   children: ReactNode;
   leftHeader?: 'copy' | 'back' | 'none';
   address?: string;
-  rightHeader?: 'close' | 'none';
+  rightHeader?: 'close' | 'none' | 'empty';
+  middleHeader?: 'value' | 'none';
   style?: string;
+  value?: string;
 };
 
 const WalletLayout = ({
@@ -19,7 +21,9 @@ const WalletLayout = ({
   address = '',
   rightHeader = 'close',
   leftHeader = 'none',
+  middleHeader = 'none',
   style,
+  value,
 }: Props) => {
   const navigator = useNavigation();
 
@@ -33,8 +37,8 @@ const WalletLayout = ({
   };
 
   return (
-    <View className={`flex h-full w-full flex-col bg-white ${style}`}>
-      <View className="flex flex-row items-center px-4 py-6">
+    <View className={`flex h-full w-full flex-col bg-white px-4 ${style}`}>
+      <View className="flex flex-row items-center py-6">
         <>
           {leftHeader === 'copy' && (
             <Pressable className="flex flex-col items-center" onPress={copyToClipboard}>
@@ -57,11 +61,19 @@ const WalletLayout = ({
           )}
         </>
         <>
+          {middleHeader === 'value' && (
+            <Pressable className="ml-auto" onPress={navigator.goBack}>
+              <Text className="font-base font-manrope font-semibold">Send {value}</Text>
+            </Pressable>
+          )}
+        </>
+        <>
           {rightHeader === 'close' && (
             <Pressable className="ml-auto" onPress={() => navigator.navigate('Home' as never)}>
               <MonoIcon style="p-2" iconName="X" />
             </Pressable>
           )}
+          {rightHeader === 'empty' && <View className="ml-auto w-4" />}
         </>
       </View>
       {children}

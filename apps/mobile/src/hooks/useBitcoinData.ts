@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toSatoshi } from 'utils/crypto/bitcoin-value';
 
 const BITCOIN_API_URL =
   'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp%2Ceur%2Cusd%2Cchf&precision=2';
@@ -11,8 +12,10 @@ const useBitcoinPrice = (currency = '$') => {
     let timer: string | number | NodeJS.Timeout | undefined;
     let throttleTimer: string | number | NodeJS.Timeout | undefined;
 
-    if (currency === 'BTC' || currency === 'sats') {
+    if (currency === 'BTC') {
       setPrice(1);
+    } else if (currency === 'sats') {
+      setPrice(toSatoshi(1));
     } else {
       const fetchBitcoinPrice = async () => {
         try {

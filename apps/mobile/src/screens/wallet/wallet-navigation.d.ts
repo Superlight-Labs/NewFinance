@@ -8,7 +8,13 @@ export type WalletTabList = {
 };
 
 export type WalletStackList = {
-  SendTo: { sender: AddressInfo; recipient?: string };
+  SendTo: {
+    sender: AddressInfo;
+    recipient?: string;
+    amount: string;
+    rate: number;
+    currency: Currency;
+  };
   SendReview: {
     sender: AddressInfo;
     toAddress: string;
@@ -16,12 +22,10 @@ export type WalletStackList = {
     amount: string;
     rate: number;
     contact?: Contact;
+    currency: Currency;
   };
   SendAmount: {
     sender: AddressInfo;
-    toAddress: string;
-    note: string;
-    contact?: Contact & { new: boolean };
   };
   ScanQrCode: { sender: AddressInfo };
 };

@@ -1,5 +1,3 @@
-import { toSatoshi } from 'utils/crypto/bitcoin-value';
-
 export function formatCurrency(number: number, currency: Currency = '€') {
   // Überprüfe, ob die Eingabe eine gültige Zahl ist
   if (isNaN(number)) {
@@ -7,12 +5,7 @@ export function formatCurrency(number: number, currency: Currency = '€') {
   }
 
   if (currency === 'BTC') return number + ' ' + currency;
-  if (currency === 'sats') {
-    const formattedNumber = parseFloat(toSatoshi(number).toString()).toFixed(2);
-    const parts = formattedNumber.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return `${parts[0]} ` + currency;
-  }
+  if (currency === 'sats') return number.toFixed(0) + ' ' + currency;
 
   // Runde die Zahl auf zwei Dezimalstellen
   const formattedNumber = parseFloat(number.toString()).toFixed(2);

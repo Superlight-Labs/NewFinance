@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { Contact } from '@superlight-labs/api/src/repository/contact';
 import { useQuery } from '@tanstack/react-query';
 import validate from 'bitcoin-address-validation';
-import ButtonComponent from 'components/shared/input/button/button.component';
 import TextInputComponent from 'components/shared/input/text/text-input.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import ContactList from 'components/wallets/contacts/contact-list.component';
@@ -16,7 +15,7 @@ import { WalletStackList } from '../wallet-navigation';
 type Props = StackScreenProps<WalletStackList, 'SendTo'>;
 
 const SendToScreen = ({ navigation, route }: Props) => {
-  const { sender, recipient } = route.params;
+  const { sender, recipient, currency, amount } = route.params;
   const [toAddress, setToAddress] = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [addressValid, setAddressValid] = useState(false);
@@ -73,8 +72,13 @@ const SendToScreen = ({ navigation, route }: Props) => {
   }
 
   return (
-    <WalletLayout leftHeader="copy" address={sender.address}>
-      <View className="flex w-full flex-1 flex-col bg-white p-4 pt-12">
+    <WalletLayout
+      leftHeader="back"
+      middleHeader="value"
+      value={amount + ' ' + currency}
+      rightHeader="empty"
+      address={sender.address}>
+      <View className="flex w-full flex-1 flex-col bg-white pt-12">
         <View className="mb-4 flex flex-row border-b border-slate-200 pb-2">
           <Text className="top-0.5 mx-2 font-manrope-bold">To: </Text>
           <TextInputComponent
@@ -114,12 +118,6 @@ const SendToScreen = ({ navigation, route }: Props) => {
             lastInteractions={contacts}
           />
         }
-        <ButtonComponent
-          disabled={!addressValid || toAddress === sender.address}
-          style=" mt-auto mb-8 py-3"
-          onPress={onContinue}>
-          Continue
-        </ButtonComponent>
       </View>
     </WalletLayout>
   );
