@@ -6,7 +6,7 @@ import logger from '@superlight-labs/logger';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AppState } from 'react-native';
+import { AppState, StatusBar } from 'react-native';
 import Bitcoin from 'screens/bitcoin/bitcoin.component';
 import Home from 'screens/home.screen';
 import { RootStackParamList } from 'screens/main-navigation';
@@ -97,6 +97,9 @@ const AppNavigation = () => {
 
   return (
     <NavigationContainer>
+      <>
+        <StatusBar backgroundColor={'white'} barStyle={'dark-content'} translucent={false} />
+      </>
       <Stack.Navigator
         screenOptions={{ headerShown: false, cardStyle: { backgroundColor: 'white' } }}>
         <Stack.Group>
