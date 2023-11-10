@@ -61,7 +61,7 @@ const Home = ({ navigation }: Props) => {
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white">
       <View className="h-full pt-6">
         <Pressable
           onPress={() => navigation.navigate('Menu')}
