@@ -1,98 +1,61 @@
-/* eslint-disable react-native/no-inline-styles */
+import { RadioButtonItem } from 'components/shared/input/radio-button/radio-button';
+import RadioButtonGroupComponent from 'components/shared/input/radio-button/radio-button-group.component';
 import LayoutComponent from 'components/shared/layout/layout.component';
-import Title from 'components/shared/title/title.component';
-import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { useGeneralState } from 'state/general.state';
-import { SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
+import { SafeAreaView, ScrollView, Text } from 'utils/wrappers/styled-react-native';
+
+const items: RadioButtonItem[] = [
+  {
+    label: 'Bitcoin',
+    value: 'BTC',
+  },
+  {
+    label: 'Satoshis',
+    value: 'sats',
+  },
+  {
+    label: 'Euro',
+    value: '€',
+  },
+  {
+    label: 'US-Dollar',
+    value: '$',
+  },
+  {
+    label: 'British Pound',
+    value: '£',
+  },
+  {
+    label: 'Swiss franc',
+    value: 'CHF',
+  },
+];
 
 const CurrencySettings = () => {
   const { setCurrency, currency } = useGeneralState();
 
-  const [selectedValue, setSelectedValue] = useState(currency);
-
-  const handleRadioSelect = (value: Currency) => {
-    setSelectedValue(value);
+  const handleSelect = (value: Currency) => {
     setCurrency(value);
   };
 
   return (
-    <SafeAreaView>
-      <LayoutComponent noPadding={true}>
-        <View className="px-6">
-          <Title style="mb-8">Choose Currency</Title>
-          <View className="mb-4 flex w-full flex-col justify-between space-y-6 ">
-            <RadioButton
-              label="BTC"
-              selected={selectedValue === 'BTC'}
-              onSelect={() => handleRadioSelect('BTC')}
-            />
-            <RadioButton
-              label="Satoshis"
-              selected={selectedValue === 'sats'}
-              onSelect={() => handleRadioSelect('sats')}
-            />
-            <RadioButton
-              label="Euro"
-              selected={selectedValue === '€'}
-              onSelect={() => handleRadioSelect('€')}
-            />
-            <RadioButton
-              label="Dollar"
-              selected={selectedValue === '$'}
-              onSelect={() => handleRadioSelect('$')}
-            />
-            <RadioButton
-              label="British Pound"
-              selected={selectedValue === '£'}
-              onSelect={() => handleRadioSelect('£')}
-            />
-            <RadioButton
-              label="Swiss franc"
-              selected={selectedValue === 'CHF'}
-              onSelect={() => handleRadioSelect('CHF')}
-            />
-          </View>
-          <View>
-            <Text className="font-manrope text-xs font-medium text-[#636360]">
-              You can also change the currency displayed by clicking on the text of a currency
-              anywhere in the app.{' '}
-            </Text>
-          </View>
-        </View>
+    <SafeAreaView className="bg-white">
+      <LayoutComponent>
+        <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Local currency</Text>
+        <Text className="mb-3 font-manrope text-sm font-medium text-grey">
+          Change the displayed currency. It also can be changed by clicking on the currency anywhere
+          in the app.
+        </Text>
+        <ScrollView className="flex h-full pt-6 ">
+          <RadioButtonGroupComponent
+            items={items}
+            selected={items.find(item => item.value === currency)}
+            onSelectionChange={item => handleSelect(item.value)}
+          />
+        </ScrollView>
       </LayoutComponent>
     </SafeAreaView>
   );
 };
 
 export default CurrencySettings;
-
-const RadioButton = ({ label, selected, onSelect }) => (
-  <TouchableOpacity onPress={onSelect}>
-    <View className="w-full flex-row justify-between">
-      <Text className="font-manrope-semibold text-base text-black">{label}</Text>
-      <View
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: selected ? '#0AAFFF' : 'gray',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginLeft: 10, // Spacing between text and radio indicator
-        }}>
-        {selected && (
-          <View
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: 6,
-              backgroundColor: '#0AAFFF',
-            }}
-          />
-        )}
-      </View>
-    </View>
-  </TouchableOpacity>
-);

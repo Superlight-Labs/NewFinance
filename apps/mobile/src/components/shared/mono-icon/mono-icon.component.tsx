@@ -19,8 +19,8 @@ const MonoIcon = ({
   iconName,
   style,
   strokeWitdth = 2,
-  height = 24,
-  width = 24,
+  height = 20,
+  width = 20,
   color = 'black',
 }: Props) => {
   const FeatherIcon = getIcon(iconName);
