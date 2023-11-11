@@ -14,6 +14,11 @@ const BitcoinStack = () => {
           headerLargeTitle: true,
           headerShadowVisible: true,
           headerLargeTitleShadowVisible: false,
+          headerLargeTitleStyle: {
+            fontFamily: 'system',
+            fontWeight: '700',
+            fontSize: 32,
+          },
         }}>
         {() => (
           <SubStack.Navigator initialRouteName="Bitcoin" screenOptions={{ headerShown: false }}>

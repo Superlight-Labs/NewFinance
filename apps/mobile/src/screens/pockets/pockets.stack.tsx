@@ -18,6 +18,11 @@ const PocketsStack = () => {
           headerLargeTitle: true,
           headerShadowVisible: true,
           headerLargeTitleShadowVisible: false,
+          headerLargeTitleStyle: {
+            fontFamily: 'system',
+            fontWeight: '700',
+            fontSize: 32,
+          },
         }}>
         {() => (
           <SubStack.Navigator initialRouteName="Pockets" screenOptions={{ headerShown: false }}>
