@@ -1,8 +1,7 @@
 import { RadioButtonItem } from 'components/shared/input/radio-button/radio-button';
 import RadioButtonGroupComponent from 'components/shared/input/radio-button/radio-button-group.component';
-import LayoutComponent from 'components/shared/layout/layout.component';
 import { useGeneralState } from 'state/general.state';
-import { SafeAreaView, ScrollView, Text } from 'utils/wrappers/styled-react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 
 const items: RadioButtonItem[] = [
   {
@@ -40,7 +39,7 @@ const CurrencySettings = () => {
 
   return (
     <SafeAreaView className="bg-white">
-      <LayoutComponent>
+      <View className="px-6">
         <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Local currency</Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           Change the displayed currency. It also can be changed by clicking on the currency anywhere
@@ -53,7 +52,7 @@ const CurrencySettings = () => {
             onSelectionChange={item => handleSelect(item.value)}
           />
         </ScrollView>
-      </LayoutComponent>
+      </View>
     </SafeAreaView>
   );
 };

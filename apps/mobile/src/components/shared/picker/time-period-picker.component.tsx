@@ -16,7 +16,7 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
   };
 
   return (
-    <View className="mt-2 flex-row justify-between px-6">
+    <View className="mt-2 flex-row justify-between px-5">
       <Pressable
         className="rounded-sm  px-5 py-1.5"
         style={{ backgroundColor: currentTimeFrame === 'T' ? '#F4F5F5' : 'transparent' }}

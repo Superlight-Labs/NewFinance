@@ -1,29 +1,33 @@
-import { TransitionPresets } from '@react-navigation/stack';
-
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import logger from '@superlight-labs/logger';
+import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import Snackbar from 'components/shared/snackbar/snackbar.component';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState, StatusBar } from 'react-native';
-import Bitcoin from 'screens/bitcoin/bitcoin.component';
-import Home from 'screens/home.screen';
-import { RootStackParamList } from 'screens/main-navigation';
-import MenuStack from 'screens/menu/menu.stack';
+import HomeTabNavigation from 'screens/home.tab';
+import BackupSettings from 'screens/menu/pages/backup-settings.screen';
+import BitcoinSettings from 'screens/menu/pages/bitcoin-settings.screen';
+import CurrencySettings from 'screens/menu/pages/currency-settings.screen';
+import EmailSettings from 'screens/menu/pages/email-settings.screen';
+import ENSSettings from 'screens/menu/pages/ens-settings.screen';
+import SeedphraseSettings from 'screens/menu/pages/seedphrase-settings.screen';
+import TagSettings from 'screens/menu/pages/tag-settings.screen';
 import AlphaNoticeScreen from 'screens/onboarding/slides/alpha-notice.screen';
 import OnboardingEmailScreen from 'screens/onboarding/slides/onboarding-email.screen';
 import OnboardingScreen from 'screens/onboarding/slides/onboarding-name.screen';
 import OnboardingPhraseScreen from 'screens/onboarding/slides/onboarding-phrase.screen';
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
+import Welcome from 'screens/onboarding/welcome.screen';
 import LoadingScreen from 'screens/shared/loading.screen';
-import WalletNavigation from 'screens/wallet/wallet.navigation';
-import Welcome from 'screens/welcome.screen';
+import { RootStackParamList } from 'src/app-navigation';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
+import { Pressable } from 'utils/wrappers/styled-react-native';
 import { useAuthState } from './state/auth.state';
 import { useSnackbarState } from './state/snackbar.state';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export type RootStack = typeof Stack;
 
@@ -39,6 +43,23 @@ const AppNavigation = () => {
   const { hasHydrated: bipHydrated, derivedUntilLevel } = useDeriveState();
   const appState = useRef(AppState.currentState);
   const [latestAppStateChange, setLatestAppStateChange] = useState<'closed' | 'opened'>('closed');
+
+  const settingsScreensOptions = ({ navigation }: any) => ({
+    title: '',
+    headerLargeTitle: false,
+    headerShadowVisible: false,
+    headerShown: true,
+    // eslint-disable-next-line react/no-unstable-nested-components
+    headerLeft: () => (
+      <Pressable
+        onPress={() => {
+          navigation.navigate('Menu');
+        }}
+        className="ml-0.5">
+        <MonoIcon iconName="ArrowLeft" />
+      </Pressable>
+    ),
+  });
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -100,8 +121,7 @@ const AppNavigation = () => {
       <>
         <StatusBar backgroundColor={'white'} barStyle={'dark-content'} translucent={false} />
       </>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false, cardStyle: { backgroundColor: 'white' } }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Group>
           <>
             {bipHydrated && authHydrated ? (
@@ -114,36 +134,60 @@ const AppNavigation = () => {
                           {derivedUntilLevel < DerivedUntilLevel.MASTER && (
                             <Stack.Group>
                               <Stack.Screen name="SetupWallet" component={SetupWallet} />
-                              {MenuStack({ Stack })}
                             </Stack.Group>
                           )}
-                          <Stack.Screen name="Home" component={Home} />
                           <Stack.Screen
-                            name="Wallet"
-                            options={{
-                              cardStyle: {},
-                              presentation: 'modal',
-                              gestureEnabled: true,
-                              ...TransitionPresets.ModalPresentationIOS,
-                            }}
-                            component={WalletNavigation}
+                            name="HomeTab"
+                            component={HomeTabNavigation}
+                            options={{ headerShown: false }}
                           />
-                          <Stack.Screen name="Bitcoin" component={Bitcoin} />
                           <Stack.Screen
                             name="AlphaNotice"
-                            options={{
-                              presentation: 'modal',
-                              gestureEnabled: false,
-                              ...TransitionPresets.ModalPresentationIOS,
-                            }}
+                            options={{ presentation: 'modal' }}
                             component={AlphaNoticeScreen}
                           />
+                          <Stack.Group>
+                            <Stack.Screen
+                              name="BitcoinSettings"
+                              options={settingsScreensOptions}
+                              component={BitcoinSettings}
+                            />
+                            <Stack.Screen
+                              name="CurrencySettings"
+                              options={settingsScreensOptions}
+                              component={CurrencySettings}
+                            />
+                            <Stack.Screen
+                              name="BackupSettings"
+                              options={settingsScreensOptions}
+                              component={BackupSettings}
+                            />
+                            <Stack.Screen
+                              name="EmailSettings"
+                              options={settingsScreensOptions}
+                              component={EmailSettings}
+                            />
+                            <Stack.Screen
+                              name="ENSSettings"
+                              options={settingsScreensOptions}
+                              component={ENSSettings}
+                            />
+                            <Stack.Screen
+                              name="SeedphraseSettings"
+                              options={settingsScreensOptions}
+                              component={SeedphraseSettings}
+                            />
+                            <Stack.Screen
+                              name="TagSettings"
+                              options={settingsScreensOptions}
+                              component={TagSettings}
+                            />
+                          </Stack.Group>
                         </>
                       ) : (
                         <Stack.Screen name="Loading" component={LoadingScreen} />
                       )}
                     </>
-                    {derivedUntilLevel >= DerivedUntilLevel.MASTER && MenuStack({ Stack })}
                   </>
                 ) : (
                   <>

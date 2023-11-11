@@ -9,7 +9,7 @@ import { useFailableAction } from 'hooks/useFailable';
 import { styled } from 'nativewind';
 import { useCallback, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
-import { RootStackParamList } from 'screens/main-navigation';
+import { RootStackParamList } from 'src/app-navigation';
 import { useAuthState } from 'state/auth.state';
 import { constants } from 'utils/constants';
 import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';

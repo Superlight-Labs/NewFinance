@@ -69,7 +69,7 @@ const WalletLayout = ({
         </>
         <>
           {rightHeader === 'close' && (
-            <Pressable className="ml-auto" onPress={() => navigator.navigate('Home' as never)}>
+            <Pressable className="ml-auto" onPress={() => navigator.navigate('Pockets' as never)}>
               <MonoIcon style="p-2" iconName="X" />
             </Pressable>
           )}

@@ -3,7 +3,7 @@ import Button from 'components/shared/input/button/button.component';
 import WelcomeCarousel from 'components/welcome-screen/welcome-carousel.component';
 import { styled } from 'nativewind';
 import { View } from 'react-native';
-import { RootStackParamList } from 'screens/main-navigation';
+import { RootStackParamList } from 'src/app-navigation';
 import { Image, Pressable, SafeAreaView, Text } from 'utils/wrappers/styled-react-native';
 
 const StyledView = styled(View);
@@ -14,7 +14,7 @@ const Welcome = ({ navigation }: Props) => {
   return (
     <SafeAreaView className="">
       <Image
-        source={require('../../assets/images/bg_welcome.png')}
+        source={require('../../../assets/images/bg_welcome.png')}
         resizeMode="cover"
         className="absolute right-[-300px]"
       />
@@ -23,7 +23,7 @@ const Welcome = ({ navigation }: Props) => {
         <StyledView className="px-6">
           <StyledView className="w-ful flex flex-row items-center">
             <Image
-              source={require('../../assets/images/logo_white.png')}
+              source={require('../../../assets/images/logo_white.png')}
               resizeMode="contain"
               className="mr-1 h-6 w-6"
             />
