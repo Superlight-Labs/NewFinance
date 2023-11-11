@@ -5,12 +5,13 @@ import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-ite
 import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
-import { Image, Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
+import { TimeFrame } from 'src/types/chart';
+import { Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { PocketsStackParamList } from './pockets-navigation';
 
 type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
@@ -42,6 +43,45 @@ const Pockets = ({ navigation }: Props) => {
     <RefreshControl refreshing={refreshing} onRefresh={updateAll} />
   );
 
+  const isUp = (value: number) => {
+    return value > 0;
+  };
+
+  const calcPercentageChange = (start: number, value: number) => {
+    return ((value / start) * 100 - 100).toFixed(2);
+  };
+
+  const calcAbsoluteChange = (start: number, value: number) => {
+    return Math.abs(value - start).toFixed(2);
+  };
+
+  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
+
+  const prettifyDate = (date: string) => {
+    if (date.includes('/')) {
+      const dateParts = date.split('/');
+      return `${dateParts[1]}.${dateParts[0]}.${dateParts[2].slice(2, 4)}`;
+    }
+    switch (currentTimeFrame) {
+      case 'T': {
+        return 'Today';
+      }
+      case 'W': {
+        return 'Since 5 days';
+      }
+      case 'M': {
+        return 'Since 1 month';
+      }
+      case 'Y': {
+        return 'Since 1 year';
+      }
+      case 'MAX': {
+        return 'Since start';
+      }
+    }
+    return date;
+  };
+
   return (
     <ScrollView
       className="h-full bg-white"
@@ -51,16 +91,37 @@ const Pockets = ({ navigation }: Props) => {
       horizontal={false}>
       <View className="px-5">
         <PriceTextComponent
-          style="font-manrope-bold text-3xl text-black"
+          style="font-[system] text-[32px] font-[700] leading-[32px] text-black"
           bitcoinAmount={getTotalBalance()}
         />
 
         <View className="flex-row items-center">
-          <MonoIcon iconName="ArrowDown" width={16} height={16} color={'#FF000F'} />
+          {isUp(10) ? (
+            <MonoIcon
+              iconName="ChevronsUp"
+              width={16}
+              height={16}
+              strokeWitdth={3}
+              color={'#01DC0A'}
+            />
+          ) : (
+            <MonoIcon
+              iconName="ChevronsDown"
+              width={16}
+              height={16}
+              strokeWitdth={3}
+              color={'#FF3F32'}
+            />
+          )}
 
-          <Text className="text-red font-manrope text-sm font-semibold">4,12€ (0,12%)</Text>
+          <Text
+            className="font-manrope text-sm font-bold text-[#01DC0A]"
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{ color: isUp(10) ? '#01DC0A' : '#FF3F32' }}>
+            {calcAbsoluteChange(2, 10)}€ ({calcPercentageChange(3, 13)}%)
+          </Text>
           <MonoIcon iconName="Dot" width={15} height={15} color={'#8E8D95'} />
-          <Text className="font-manrope text-sm font-semibold text-grey">1 month</Text>
+          <Text className="font-manrope text-sm font-bold text-grey">{prettifyDate('T')}</Text>
         </View>
       </View>
       <View className="mb-4 mt-10 flex-row items-center justify-between px-5">
@@ -107,40 +168,6 @@ const Pockets = ({ navigation }: Props) => {
           ))
         )}
       </View>
-
-      <View className="my-12 ml-[-1.5rem] h-3 w-full bg-[#F6F6F8]"></View>
-
-      <Pressable className="mb-12 flex-row items-center justify-between px-5 active:opacity-70">
-        <View className="flex-row items-center ">
-          <Image
-            source={require('../../../assets/images/logo.png')}
-            resizeMode="contain"
-            className="mr-2 mt-0.5 h-6 w-6"
-          />
-          <Text className="font-manrope text-lg font-semibold">Card</Text>
-        </View>
-
-        <View className="flex-row">
-          <Text className=" font-manrope text-sm font-semibold text-[#0AAFFF]">Coming soon</Text>
-          <View className="mt-0.5">
-            <MonoIcon iconName="ChevronRight" width={18} height={18} />
-          </View>
-        </View>
-      </Pressable>
-
-      <Pressable className="flex-row items-center justify-between px-5 active:opacity-70">
-        <View className="flex-row items-center ">
-          <Text className="font-manrope text-lg font-semibold">Testing benefits</Text>
-        </View>
-
-        <View className="flex-row">
-          <View className="mt-0.5">
-            <MonoIcon iconName="ChevronRight" width={18} height={18} />
-          </View>
-        </View>
-      </Pressable>
-
-      <View className="my-12 ml-[-1.5rem] h-3 w-full bg-[#F6F6F8]"></View>
     </ScrollView>
   );
 };
