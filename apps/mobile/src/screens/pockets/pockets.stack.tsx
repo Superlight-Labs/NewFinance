@@ -14,7 +14,7 @@ const PocketsStack = () => {
       <Stack.Screen
         name="Pockets"
         options={{
-          title: 'Total Balance',
+          title: 'Balance',
           headerLargeTitle: true,
           headerShadowVisible: true,
           headerLargeTitleShadowVisible: false,
