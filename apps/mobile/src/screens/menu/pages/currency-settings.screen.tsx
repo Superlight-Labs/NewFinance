@@ -40,7 +40,9 @@ const CurrencySettings = () => {
   return (
     <SafeAreaView className="bg-white">
       <View className="px-6">
-        <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Local currency</Text>
+        <Text className="mb-2 mt-2 font-[system] text-[32px] font-[700] leading-[32px] text-black">
+          Local currency
+        </Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           Change the displayed currency. It also can be changed by clicking on the currency anywhere
           in the app.

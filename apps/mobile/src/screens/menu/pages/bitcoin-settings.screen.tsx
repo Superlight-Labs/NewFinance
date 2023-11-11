@@ -34,7 +34,9 @@ const BitcoinSettings = ({}: Props) => {
   return (
     <SafeAreaView className="bg-white">
       <View className="px-6">
-        <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Network</Text>
+        <Text className="mb-2 mt-2 font-[system] text-[32px] font-[700] leading-[32px] text-black">
+          Network
+        </Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           Mainnet will be available in the beta!
         </Text>
