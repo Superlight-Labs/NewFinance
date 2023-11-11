@@ -4,7 +4,9 @@ const PriceNotification = () => {
   return (
     <SafeAreaView className="bg-white">
       <View className="px-6">
-        <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Add price alarm</Text>
+        <Text className="mb-2 mt-2 font-[system] text-[32px] font-[700] leading-[32px] text-black">
+          Add price alarm
+        </Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           Get notified when the Bitcoin price reaches your set value.
         </Text>

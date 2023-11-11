@@ -4,7 +4,9 @@ const ENSSettings = () => {
   return (
     <SafeAreaView className="bg-white">
       <View className="px-6">
-        <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Bitcoin Name Service</Text>
+        <Text className="mb-2 mt-2 font-[system] text-[32px] font-[700] leading-[32px] text-black">
+          Bitcoin Name Service
+        </Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           You will have an unique bitcoin name to use instead of your address in the next version of
           the app.

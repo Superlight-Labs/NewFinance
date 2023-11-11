@@ -4,7 +4,9 @@ const EmailSettings = () => {
   return (
     <SafeAreaView className="bg-white">
       <View className="px-6">
-        <Text className="mb-2 mt-2 font-manrope text-4xl font-bold">Change email</Text>
+        <Text className="mb-2 mt-2 font-[system] text-[32px] font-[700] leading-[32px] text-black">
+          Change email
+        </Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           You have to confirm you new email if you change it.
         </Text>
