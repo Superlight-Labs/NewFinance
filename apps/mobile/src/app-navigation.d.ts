@@ -1,16 +1,22 @@
 export type RootStackParamList = {
   Loading: undefined;
   Welcome: undefined;
-  Home: undefined;
-  Wallet: { account: string };
+  HomeTab: undefined;
   Onboarding: { withPhrase: boolean };
   OnboardingEmail: { username: string; withPhrase: boolean };
   OnboardingPhrase: undefined;
   SetupWallet: undefined;
-  Menu: undefined;
   Import: undefined;
   Create: undefined;
   ReviewCreate: { withPhrase: boolean; phrase?: string };
   AlphaNotice: undefined;
-  Bitcoin: undefined;
+
+  MenuList: undefined;
+  BitcoinSettings: undefined;
+  CurrencySettings: undefined;
+  BackupSettings: undefined;
+  EmailSettings: undefined;
+  ENSSettings: undefined;
+  SeedphraseSettings: undefined;
+  TagSettings: undefined;
 };

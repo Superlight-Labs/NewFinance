@@ -5,7 +5,7 @@ import RecoveryPhraseInputComponent from 'components/wallets/create/recovery-phr
 import { styled } from 'nativewind';
 import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
-import { RootStackParamList } from 'screens/main-navigation';
+import { RootStackParamList } from 'src/app-navigation';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 

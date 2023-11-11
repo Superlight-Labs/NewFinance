@@ -1,10 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
-import Title from 'components/shared/title/title.component';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { formatCurrency } from 'utils/format/format';
-import { Image, Text, View } from 'utils/wrappers/styled-react-native';
+import { Text, View } from 'utils/wrappers/styled-react-native';
 import InteractiveLineChart from '../charts/interactivelinechart.component';
 
 import TimePeriodPicker from 'components/shared/picker/time-period-picker.component';
@@ -88,15 +87,14 @@ const BitcoinPreview = ({ onPressHeader }: Props) => {
   return (
     <View>
       <Pressable onPress={() => pressedHeader()}>
-        <View className="px-6">
-          <Image
+        <View className="px-5">
+          {/*<Image
             source={require('../../../../assets/images/icon_bitcoin.png')}
             resizeMode="contain"
             className="mb-2 h-8 w-8"
-          />
+  />*/}
 
           <View className="flex flex-row items-center justify-between">
-            <Title>Bitcoin</Title>
             {onPressHeader && (
               <MonoIcon iconName="ChevronRight" height={17} width={17} color="#91969D" />
             )}

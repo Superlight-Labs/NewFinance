@@ -85,4 +85,6 @@ export type IconName =
   | 'ArrowDownToDot'
   | 'Wallet2'
   | 'X'
+  | 'Bitcoin'
+  | 'Check'
   | 'CheckCheck';

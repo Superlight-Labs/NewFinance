@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import React from 'react';
-import { RootStackParamList } from 'screens/main-navigation';
+import { PocketsStackParamList } from 'screens/pockets/pockets-navigation';
 import Receive from 'screens/wallet/tabs/receive.screen';
 import Send from 'screens/wallet/tabs/send.screen';
 import Wallet from 'screens/wallet/tabs/wallet.screen';
@@ -13,9 +13,9 @@ import { Text } from 'utils/wrappers/styled-react-native';
 
 const Tab = createMaterialTopTabNavigator<WalletTabList>();
 
-type Props = StackScreenProps<RootStackParamList, 'Wallet'>;
+type Props = StackScreenProps<PocketsStackParamList, 'WalletTab'>;
 
-const WalletNavigation = ({ route }: Props) => {
+const WalletTabsNavigation = ({ route }: Props) => {
   const { getAccountAddresses } = useBitcoinState();
   const { account } = route.params;
 
@@ -88,4 +88,4 @@ const WalletNavigation = ({ route }: Props) => {
   );
 };
 
-export default WalletNavigation;
+export default WalletTabsNavigation;

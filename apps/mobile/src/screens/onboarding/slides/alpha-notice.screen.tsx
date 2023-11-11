@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
-import { RootStackParamList } from 'screens/main-navigation';
+import { RootStackParamList } from 'src/app-navigation';
 import { SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'AlphaNotice'>;

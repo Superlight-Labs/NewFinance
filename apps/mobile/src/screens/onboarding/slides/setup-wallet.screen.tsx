@@ -5,7 +5,7 @@ import ProgressBar from 'components/shared/loading/progress-bar.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { useFailableAction } from 'hooks/useFailable';
 import { useEffect, useState } from 'react';
-import { RootStackParamList } from 'screens/main-navigation';
+import { RootStackParamList } from 'src/app-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useDeriveState } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
@@ -95,7 +95,7 @@ const SetupWallet = ({ navigation }: Props) => {
 
   const navigateToHome = () => {
     setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.navigate('HomeTab');
     }, 3000 - (Date.now() - startTime));
   };
 
