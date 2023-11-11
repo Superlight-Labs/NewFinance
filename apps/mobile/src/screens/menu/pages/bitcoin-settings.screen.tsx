@@ -1,9 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { RadioButtonItem } from 'components/shared/input/radio-button/radio-button';
 import RadioButtonGroupComponent from 'components/shared/input/radio-button/radio-button-group.component';
+import { RootStackParamList } from 'src/app-navigation';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { SafeAreaView, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
-import { MenuStackParamList } from '../menu-navigation';
 
 const items: RadioButtonItem[] = [
   {
@@ -20,7 +20,7 @@ const items: RadioButtonItem[] = [
   },
 ];
 
-type Props = StackScreenProps<MenuStackParamList, 'BitcoinSettings'>;
+type Props = StackScreenProps<RootStackParamList, 'BitcoinSettings'>;
 
 const BitcoinSettings = ({}: Props) => {
   const { network, setNetwork } = useBitcoinState();

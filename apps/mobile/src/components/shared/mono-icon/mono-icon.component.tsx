@@ -89,4 +89,5 @@ export type IconName =
   | 'Check'
   | 'ChevronsUp'
   | 'ChevronsDown'
+  | 'BellRing'
   | 'CheckCheck';
