@@ -49,7 +49,7 @@ const Pockets = ({ navigation }: Props) => {
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       horizontal={false}>
-      <View className="px-6">
+      <View className="px-5">
         <PriceTextComponent
           style="font-manrope-bold text-3xl text-black"
           bitcoinAmount={getTotalBalance()}
@@ -63,13 +63,13 @@ const Pockets = ({ navigation }: Props) => {
           <Text className="font-manrope text-sm font-semibold text-grey">1 month</Text>
         </View>
       </View>
-      <View className="mb-4 mt-10 flex-row items-center justify-between px-6">
+      <View className="mb-4 mt-10 flex-row items-center justify-between px-5">
         <Text className="font-manrope text-base font-bold">Bitcoin pockets</Text>
         <Pressable className="active:opacity-70">
           <Text className=" font-manrope text-sm font-semibold">+ Add new pocket</Text>
         </Pressable>
       </View>
-      <View className="px-6">
+      <View className="px-5">
         {loading || !hasAddress() ? (
           <>
             <LoadingWalletItem name={name} />
@@ -85,13 +85,13 @@ const Pockets = ({ navigation }: Props) => {
           ))
         )}
       </View>
-      <View className="mb-4 mt-10 flex-row items-center justify-between px-6">
+      <View className="mb-4 mt-10 flex-row items-center justify-between px-5">
         <Text className="font-manrope text-base font-bold">Money pockets</Text>
         <Pressable className="active:opacity-70">
           <Text className=" font-manrope text-sm font-semibold">+ Add new pocket</Text>
         </Pressable>
       </View>
-      <View className="px-6">
+      <View className="px-5">
         {loading || !hasAddress() ? (
           <>
             <LoadingWalletItem name={name} />
@@ -110,7 +110,7 @@ const Pockets = ({ navigation }: Props) => {
 
       <View className="my-12 ml-[-1.5rem] h-3 w-full bg-[#F6F6F8]"></View>
 
-      <Pressable className="mb-12 flex-row items-center justify-between px-6 active:opacity-70">
+      <Pressable className="mb-12 flex-row items-center justify-between px-5 active:opacity-70">
         <View className="flex-row items-center ">
           <Image
             source={require('../../../assets/images/logo.png')}
@@ -128,7 +128,7 @@ const Pockets = ({ navigation }: Props) => {
         </View>
       </Pressable>
 
-      <Pressable className="flex-row items-center justify-between px-6 active:opacity-70">
+      <Pressable className="flex-row items-center justify-between px-5 active:opacity-70">
         <View className="flex-row items-center ">
           <Text className="font-manrope text-lg font-semibold">Testing benefits</Text>
         </View>

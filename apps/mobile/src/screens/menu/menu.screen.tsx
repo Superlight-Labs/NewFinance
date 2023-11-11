@@ -17,7 +17,7 @@ const Menu = ({ navigation }: Props) => {
 
   return (
     <ScrollView
-      className="bg-white px-6"
+      className="bg-white px-5"
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic">
       <View className="flex flex-row items-center">
