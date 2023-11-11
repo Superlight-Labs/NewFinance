@@ -7,13 +7,13 @@ import { Text, View } from 'utils/wrappers/styled-react-native';
 import InteractiveLineChart from '../charts/interactivelinechart.component';
 
 import TimePeriodPicker from 'components/shared/picker/time-period-picker.component';
-import { Pressable } from 'react-native';
 import { DataItem, TimeFrame } from 'src/types/chart';
 import { bitcoinData1Y } from './historical-data/bitcoin-data-1Y';
 import { bitcoinDataMax } from './historical-data/bitcoin-data-max';
 
 type Props = {
-  onPressHeader?: () => void;
+  onChartStart: () => void;
+  onChartRelease: () => void;
 };
 
 const bitcoinData = [
@@ -24,7 +24,7 @@ const bitcoinData = [
   { timeframe: 'MAX', data: bitcoinDataMax },
 ];
 
-const BitcoinPreview = ({ onPressHeader }: Props) => {
+const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
   const newData = { x: '', y: 32009.31 };
 
   const [currentTimeFrameData, setCurrentTimeFrameData] = useState<DataItem[]>(bitcoinData1Y);
@@ -80,27 +80,17 @@ const BitcoinPreview = ({ onPressHeader }: Props) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
-  const pressedHeader = () => {
-    if (onPressHeader) onPressHeader();
-  };
-
   return (
     <View>
-      <Pressable onPress={() => pressedHeader()}>
-        <View className="px-5">
+      <View>
+        <View className=" px-5">
           {/*<Image
             source={require('../../../../assets/images/icon_bitcoin.png')}
             resizeMode="contain"
             className="mb-2 h-8 w-8"
   />*/}
 
-          <View className="flex flex-row items-center justify-between">
-            {onPressHeader && (
-              <MonoIcon iconName="ChevronRight" height={17} width={17} color="#91969D" />
-            )}
-          </View>
-
-          <Text className="font-manrope text-3xl font-bold text-black">
+          <Text className="font-[system] text-[32px] font-[700] leading-[32px] text-black">
             {formatCurrency(currentData.y)}
           </Text>
 
@@ -112,23 +102,27 @@ const BitcoinPreview = ({ onPressHeader }: Props) => {
             )}
 
             <Text
-              className="font-manrope text-sm font-semibold text-[#01DC0A]"
+              className="font-manrope text-sm font-bold text-[#01DC0A]"
               style={{ color: isUp(currentData) ? '#01DC0A' : '#FF3F32' }}>
               {calcAbsoluteChange(currentTimeFrameData[0].y, currentData.y)}€ (
               {calcPercentageChange(currentTimeFrameData[0].y, currentData.y)}%)
             </Text>
             <MonoIcon iconName="Dot" width={15} height={15} color={'#8E8D95'} />
-            <Text className="font-manrope text-sm font-semibold text-grey">
+            <Text className="font-manrope text-sm font-bold text-grey">
               {prettifyDate(currentData.x)}
             </Text>
           </View>
         </View>
-      </Pressable>
-      <View className="mb-32 mt-6">
+      </View>
+      <View className="mb-32 mt-3">
         <InteractiveLineChart
           data={currentTimeFrameData}
           onValueChange={value => setCurrentData(value)}
-          onTouchRelease={() => setCurrentData(newData)}
+          onTouchStart={onChartStart}
+          onTouchRelease={() => {
+            setCurrentData(newData);
+            onChartRelease();
+          }}
         />
         <TimePeriodPicker onValueChange={value => changeTimeFrame(value)} />
       </View>

@@ -10,6 +10,7 @@ import { DataItem } from 'src/types/chart';
 type Props = {
   data: DataItem[]; // Ein Array von DataItem-Objekten
   onValueChange: (value: DataItem) => void;
+  onTouchStart: () => void;
   onTouchRelease: () => void;
   height?: number;
 };
@@ -20,7 +21,13 @@ type TooltipProps = {
   ticks: any;
 };
 
-const InteractiveLineChart = ({ data, onValueChange, onTouchRelease, height = 380 }: Props) => {
+const InteractiveLineChart = ({
+  data,
+  onValueChange,
+  onTouchStart,
+  onTouchRelease,
+  height = 380,
+}: Props) => {
   const [currentData, setCurrentData] = useState<DataItem[]>(data);
   const [prevValue, setPrevValue] = useState(0);
   const [lastExecutionTime, setLastExecutionTime] = useState(0);
@@ -71,7 +78,7 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease, height = 38
     onMoveShouldSetPanResponder: (_evt, _gestureState) => {
       // Schwellenwerte für horizontalen/vertikalen Unterschied einstellen
       const horizontalThreshold = 7;
-      const verticalThreshold = 10;
+      const verticalThreshold = 40;
       return (
         Math.abs(_gestureState.dx) > horizontalThreshold &&
         Math.abs(_gestureState.dy) <= verticalThreshold
@@ -81,22 +88,27 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease, height = 38
       // Überprüfe, ob die horizontale Bewegung größer ist als die vertikale Bewegung
       // Schwellenwerte für horizontalen/vertikalen Unterschied einstellen
       const horizontalThreshold = 7;
-      const verticalThreshold = 10;
+      const verticalThreshold = 40;
       return (
         Math.abs(gestureState.dx) > horizontalThreshold &&
         Math.abs(gestureState.dy) <= verticalThreshold
       );
     },
-    onPanResponderTerminationRequest: (_evt, _gestureState) => true,
     onPanResponderGrant: (evt, _gestureState) => {
       updatePosition(evt.nativeEvent.locationX, currentData);
     },
     onPanResponderMove: (evt, _gestureState) => {
+      onTouchStart();
       updatePosition(evt.nativeEvent.locationX, currentData);
     },
     onPanResponderRelease: () => {
       onTouchRelease();
       setPositionX(-1);
+    },
+    onPanResponderTerminationRequest: (evt, gestureState) => {
+      // Hier können Sie entscheiden, ob der PanResponder beendet werden soll
+      // Beispiel: verhindern Sie die Beendigung, wenn die Geste vertikal ist
+      return Math.abs(gestureState.dy) > 10;
     },
   });
 
@@ -116,10 +128,10 @@ const InteractiveLineChart = ({ data, onValueChange, onTouchRelease, height = 38
       value = size.current - 1; // Out of chart range, automatic correction
     }
     if (prevValue !== value) {
+      onValueChange(dataValue[value]);
       if (Date.now() - lastExecutionTime >= 100) {
         setLastExecutionTime(Date.now());
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        onValueChange(dataValue[value]);
       }
       // Speichere den aktuellen Wert von value als vorherigen Wert um eine Änderungen überprüfen zu können
       setPrevValue(Number(value));
