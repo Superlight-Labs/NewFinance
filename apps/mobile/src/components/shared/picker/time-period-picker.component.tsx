@@ -22,7 +22,7 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
         style={{ backgroundColor: currentTimeFrame === 'T' ? '#F4F5F5' : 'transparent' }}
         onPress={() => changeTimeFrame('T')}>
         <Text
-          className={`font-manrope text-xs font-semibold ${
+          className={`font-manrope text-xs font-bold ${
             currentTimeFrame === 'T' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1T
@@ -33,7 +33,7 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
         style={{ backgroundColor: currentTimeFrame === 'W' ? '#F4F5F5' : 'transparent' }}
         onPress={() => changeTimeFrame('W')}>
         <Text
-          className={`font-manrope text-xs font-semibold ${
+          className={`font-manrope text-xs font-bold ${
             currentTimeFrame === 'W' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1W
@@ -44,7 +44,7 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
         style={{ backgroundColor: currentTimeFrame === 'M' ? '#F4F5F5' : 'transparent' }}
         onPress={() => changeTimeFrame('M')}>
         <Text
-          className={`font-manrope text-xs font-semibold ${
+          className={`font-manrope text-xs font-bold ${
             currentTimeFrame === 'M' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1M
@@ -55,7 +55,7 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
         style={{ backgroundColor: currentTimeFrame === 'Y' ? '#F4F5F5' : 'transparent' }}
         onPress={() => changeTimeFrame('Y')}>
         <Text
-          className={`font-manrope text-xs font-semibold ${
+          className={`font-manrope text-xs font-bold ${
             currentTimeFrame === 'Y' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1Y
@@ -66,7 +66,7 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
         style={{ backgroundColor: currentTimeFrame === 'MAX' ? '#F4F5F5' : 'transparent' }}
         onPress={() => changeTimeFrame('MAX')}>
         <Text
-          className={`font-manrope text-xs font-semibold ${
+          className={`font-manrope text-xs font-bold ${
             currentTimeFrame === 'MAX' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           MAX

@@ -87,4 +87,6 @@ export type IconName =
   | 'X'
   | 'Bitcoin'
   | 'Check'
+  | 'ChevronsUp'
+  | 'ChevronsDown'
   | 'CheckCheck';

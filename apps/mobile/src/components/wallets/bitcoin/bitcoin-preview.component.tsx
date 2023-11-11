@@ -36,7 +36,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
   };
 
   const calcAbsoluteChange = (start: number, value: number) => {
-    return (value - start).toFixed(2);
+    return Math.abs(value - start).toFixed(2);
   };
 
   const isUp = (currentDataValue: DataItem) => {
@@ -96,9 +96,21 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
 
           <View className="flex-row items-center">
             {isUp(currentData) ? (
-              <MonoIcon iconName="ArrowUp" width={16} height={16} color={'#01DC0A'} />
+              <MonoIcon
+                iconName="ChevronsUp"
+                width={16}
+                height={16}
+                strokeWitdth={3}
+                color={'#01DC0A'}
+              />
             ) : (
-              <MonoIcon iconName="ArrowDown" width={16} height={16} color={'#FF3F32'} />
+              <MonoIcon
+                iconName="ChevronsDown"
+                width={16}
+                height={16}
+                strokeWitdth={3}
+                color={'#FF3F32'}
+              />
             )}
 
             <Text
