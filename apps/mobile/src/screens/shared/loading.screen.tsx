@@ -30,17 +30,17 @@ const LoadingScreen = () => {
   }, [login, logout]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-black">
       <View className="flex h-full justify-between px-4">
         <View className="mt-36 items-center">
-          <Text className="font-manrope text-3xl font-semibold">Welcome</Text>
+          <Text className="font-manrope text-3xl font-bold text-white">Welcome</Text>
           <View className="mt-8 flex flex-row items-center">
             <Image
-              source={require('../../../assets/images/logo.png')}
+              source={require('../../../assets/images/logo_white.png')}
               resizeMode="contain"
               className="mr-1 mt-0.5 h-4 w-4"
             />
-            <Text className="text-[#8E8D95]">@{user?.username}</Text>
+            <Text className="font-manrope font-bold text-white">@{user?.username}</Text>
           </View>
         </View>
         <View className="mb-6">
