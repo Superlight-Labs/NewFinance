@@ -3,6 +3,7 @@ import {
   Animated,
   Button as RNButton,
   Image as RNImage,
+  ImageBackground as RNImageBackground,
   Pressable as RNPressable,
   SafeAreaView as RNSafeAreaView,
   ScrollView as RNScrollView,
@@ -20,5 +21,17 @@ const SafeAreaView = styled(RNSafeAreaView);
 const View = styled(RNView);
 const Image = styled(RNImage);
 const AnimatedView = styled(Animated.View);
+const ImageBackground = styled(RNImageBackground);
 
-export { AnimatedView, Button, Image, Pressable, SafeAreaView, ScrollView, Text, TextInput, View };
+export {
+  AnimatedView,
+  Button,
+  Image,
+  ImageBackground,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+};

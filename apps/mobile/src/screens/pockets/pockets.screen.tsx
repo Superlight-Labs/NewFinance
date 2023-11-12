@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-item.component';
-import WalletMenuItem from 'components/wallets/wallet-item/wallet-menu-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { useEffect, useState } from 'react';
@@ -10,6 +9,7 @@ import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
+import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
 import { TimeFrame } from 'src/types/chart';
 import { Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { PocketsStackParamList } from './pockets-navigation';
@@ -124,13 +124,27 @@ const Pockets = ({ navigation }: Props) => {
           <Text className="font-manrope text-sm font-bold text-grey">{prettifyDate('T')}</Text>
         </View>
       </View>
-      <View className="mb-4 mt-10 flex-row items-center justify-between px-5">
-        <Text className="font-manrope text-base font-bold">Bitcoin pockets</Text>
-        <Pressable className="active:opacity-70">
-          <Text className=" font-manrope text-sm font-semibold">+ Add new pocket</Text>
-        </Pressable>
+
+      <View className="mt-8 px-4">
+        {loading || !hasAddress() ? (
+          <>
+            <LoadingWalletItem name={name} />
+          </>
+        ) : (
+          [...accounts].map(([key, _]) => (
+            <WalletMainItem
+              key={key}
+              name={key}
+              balance={getAccountBalance(key)}
+              navigate={() => navigation.navigate('WalletTab', { account: key })}
+            />
+          ))
+        )}
       </View>
-      <View className="px-5">
+
+      <View className="mx-5 mt-9 border-b-[1.5px] border-[#F6F7F8]" />
+
+      {/*<View className="mt-9 flex-row flex-wrap justify-between px-4">
         {loading || !hasAddress() ? (
           <>
             <LoadingWalletItem name={name} />
@@ -145,28 +159,20 @@ const Pockets = ({ navigation }: Props) => {
             />
           ))
         )}
-      </View>
-      <View className="mb-4 mt-10 flex-row items-center justify-between px-5">
-        <Text className="font-manrope text-base font-bold">Money pockets</Text>
-        <Pressable className="active:opacity-70">
-          <Text className=" font-manrope text-sm font-semibold">+ Add new pocket</Text>
+
+        <WalletMenuAdd navigate={() => {}} />
+          </View>*/}
+
+      <View className="mt-32 items-center justify-center">
+        <Text className="font-manrope-medium text-xs text-grey">Here are all you pockets.</Text>
+        <Text className=" font-manrope-medium text-xs text-grey">
+          Create as many pockets as you like.
+        </Text>
+        <Pressable className="mt-2 active:opacity-70">
+          <Text className="text-center font-manrope text-sm font-bold text-[#0AAFFF]">
+            Create pocket
+          </Text>
         </Pressable>
-      </View>
-      <View className="px-5">
-        {loading || !hasAddress() ? (
-          <>
-            <LoadingWalletItem name={name} />
-          </>
-        ) : (
-          [...accounts].map(([key, _]) => (
-            <WalletMenuItem
-              key={key}
-              name={key}
-              balance={getAccountBalance(key)}
-              navigate={() => navigation.navigate('WalletTab', { account: key })}
-            />
-          ))
-        )}
       </View>
     </ScrollView>
   );
