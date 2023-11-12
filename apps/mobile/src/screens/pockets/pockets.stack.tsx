@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import WalletTabsNavigation from 'screens/wallet/wallet.tab';
+import CreatePocket from './create/create-pocket.screen';
 import { PocketsStackParamList } from './pockets-navigation';
 import Pockets from './pockets.screen';
 
@@ -31,6 +32,11 @@ const PocketsStack = () => {
               name="WalletTab"
               options={{ presentation: 'modal' }}
               component={WalletTabsNavigation}
+            />
+            <SubStack.Screen
+              name="CreatePocket"
+              component={CreatePocket}
+              options={{ presentation: 'modal' }}
             />
             <SubStack.Screen name="SetupWallet" component={SetupWallet} />
           </SubStack.Navigator>
