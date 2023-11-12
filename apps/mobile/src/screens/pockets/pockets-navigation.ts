@@ -3,4 +3,6 @@ export type PocketsStackParamList = {
   WalletTab: { account: string };
 
   SetupWallet: undefined;
+
+  CreatePocket: undefined;
 };

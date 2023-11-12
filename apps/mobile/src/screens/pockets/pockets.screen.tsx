@@ -168,7 +168,9 @@ const Pockets = ({ navigation }: Props) => {
         <Text className=" font-manrope-medium text-xs text-grey">
           Create as many pockets as you like.
         </Text>
-        <Pressable className="mt-2 active:opacity-70">
+        <Pressable
+          className="mt-2 active:opacity-70"
+          onPress={() => navigation.navigate('CreatePocket')}>
           <Text className="text-center font-manrope text-sm font-bold text-[#0AAFFF]">
             Create pocket
           </Text>
