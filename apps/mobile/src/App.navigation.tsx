@@ -139,7 +139,10 @@ const AppNavigation = () => {
                           <Stack.Screen
                             name="HomeTab"
                             component={HomeTabNavigation}
-                            options={{ headerShown: false }}
+                            options={{
+                              headerShown: false,
+                              animation: 'fade',
+                            }}
                           />
                           <Stack.Screen
                             name="AlphaNotice"
@@ -185,7 +188,13 @@ const AppNavigation = () => {
                           </Stack.Group>
                         </>
                       ) : (
-                        <Stack.Screen name="Loading" component={LoadingScreen} />
+                        <Stack.Screen
+                          name="Loading"
+                          component={LoadingScreen}
+                          options={{
+                            animation: 'fade',
+                          }}
+                        />
                       )}
                     </>
                   </>
@@ -199,7 +208,13 @@ const AppNavigation = () => {
                 )}
               </>
             ) : (
-              <Stack.Screen name="Loading" component={LoadingScreen} />
+              <Stack.Screen
+                name="Loading"
+                component={LoadingScreen}
+                options={{
+                  animation: 'fade',
+                }}
+              />
             )}
           </>
         </Stack.Group>
