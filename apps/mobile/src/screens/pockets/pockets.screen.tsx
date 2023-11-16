@@ -82,6 +82,10 @@ const Pockets = ({ navigation }: Props) => {
     return date;
   };
 
+  const showPocket = () => {
+    navigation.navigate('CreatePocket');
+  };
+
   return (
     <ScrollView
       className="h-full bg-white"
@@ -136,7 +140,7 @@ const Pockets = ({ navigation }: Props) => {
               key={key}
               name={key}
               balance={getAccountBalance(key)}
-              navigate={() => navigation.navigate('WalletTab', { account: key })}
+              navigate={() => navigation.navigate('Wallet', { account: key })}
             />
           ))
         )}
@@ -168,9 +172,7 @@ const Pockets = ({ navigation }: Props) => {
         <Text className=" font-manrope-medium text-xs text-grey">
           Create as many pockets as you like.
         </Text>
-        <Pressable
-          className="mt-2 active:opacity-70"
-          onPress={() => navigation.navigate('CreatePocket')}>
+        <Pressable className="mt-2 active:opacity-70" onPress={showPocket}>
           <Text className="text-center font-manrope text-sm font-bold text-[#0AAFFF]">
             Create pocket
           </Text>

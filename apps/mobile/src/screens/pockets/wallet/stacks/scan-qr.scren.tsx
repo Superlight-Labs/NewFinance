@@ -5,11 +5,11 @@ import ButtonComponent from 'components/shared/input/button/button.component';
 import Title from 'components/shared/title/title.component';
 import { BarCodeEvent, BarCodeScanner, PermissionResponse } from 'expo-barcode-scanner';
 import { useEffect, useState } from 'react';
+import { SendStackList } from 'screens/pockets/pockets-navigation';
+import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { Text, View } from 'utils/wrappers/styled-react-native';
-import WalletLayout from '../wallet-layout.component';
-import { WalletStackList } from '../wallet-navigation';
 
-type Props = StackScreenProps<WalletStackList, 'ScanQrCode'>;
+type Props = StackScreenProps<SendStackList, 'ScanQrCode'>;
 
 const ScanQrScreen = ({ navigation, route }: Props) => {
   const { sender } = route.params;

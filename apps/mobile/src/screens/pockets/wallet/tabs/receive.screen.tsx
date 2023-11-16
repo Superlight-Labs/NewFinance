@@ -3,6 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 //import * as Sharing from 'expo-sharing';
+import { useEffect, useState } from 'react';
 import QRCodeStyled from 'react-native-qrcode-styled';
 import WalletLayout from 'screens/wallet/wallet-layout.component';
 import { useSnackbarState } from 'state/snackbar.state';
@@ -16,6 +17,20 @@ type Props = StackScreenProps<WalletTabList, 'Recieve'>;
 const Receive = ({ route }: Props) => {
   const { external } = route.params;
   const { setMessage } = useSnackbarState();
+
+  const [showQrCode, setShowQrCode] = useState(false);
+
+  useEffect(() => {
+    // Fügen Sie hier eine Verzögerung oder asynchrone Logik hinzu
+    const delayToShowQrCode = setTimeout(() => {
+      setShowQrCode(true);
+    }, 0);
+
+    return () => {
+      // Stellen Sie sicher, dass der Timer beim Entfernen der Komponente aufgeräumt wird
+      clearTimeout(delayToShowQrCode);
+    };
+  }, []);
 
   const copyToClipboard = () => {
     Clipboard.setString(external.address);
@@ -31,27 +46,29 @@ const Receive = ({ route }: Props) => {
     <WalletLayout>
       <View className="flex flex-1 flex-col  pb-8">
         <View className="flex items-center justify-center px-14">
-          <QRCodeStyled
-            data={`bitcoin:${external.address}`}
-            // eslint-disable-next-line react-native/no-inline-styles
-            padding={20}
-            innerEyesOptions={{
-              borderRadius: 8,
-              color: '#000',
-            }}
-            outerEyesOptions={{
-              borderRadius: 12,
-            }}
-            logo={{
-              href: require('../../../../assets/images/logo.png'),
-              padding: 12,
-              scale: 1.5,
-              width: 30,
-              height: 20,
-            }}
-            pieceSize={8}
-            pieceBorderRadius={4}
-          />
+          {showQrCode && (
+            <QRCodeStyled
+              data={`bitcoin:${external.address}`}
+              // eslint-disable-next-line react-native/no-inline-styles
+              padding={20}
+              innerEyesOptions={{
+                borderRadius: 8,
+                color: '#000',
+              }}
+              outerEyesOptions={{
+                borderRadius: 12,
+              }}
+              logo={{
+                href: require('../../../../assets/images/logo.png'),
+                padding: 12,
+                scale: 1.5,
+                width: 30,
+                height: 20,
+              }}
+              pieceSize={8}
+              pieceBorderRadius={4}
+            />
+          )}
           <Text className="text-center font-manrope text-xs font-medium text-[#636360]">
             Scan your QR-Code with a smartphone and get money sent directly.
           </Text>
