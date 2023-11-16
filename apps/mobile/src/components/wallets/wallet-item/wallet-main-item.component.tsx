@@ -5,12 +5,15 @@ import { Image, ImageBackground, Pressable, Text, View } from 'utils/wrappers/st
 type Props = {
   name: string;
   balance: number;
+  disabled?: boolean;
   navigate: () => void;
 };
 
-const WalletMainItem = ({ balance, navigate }: Props) => {
+const WalletMainItem = ({ balance, navigate, disabled = false }: Props) => {
   return (
-    <Pressable className="shadow-lg transition-all active:opacity-90" onPress={navigate}>
+    <Pressable
+      className={`shadow-lg transition-all   ${!disabled ? 'active:opacity-95' : ''}`}
+      onPress={navigate}>
       <ImageBackground
         source={require('../../../../assets/images/pockets/pocket_black.png')}
         resizeMode="contain"

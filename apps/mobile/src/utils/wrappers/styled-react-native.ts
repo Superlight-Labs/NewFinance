@@ -2,6 +2,7 @@ import { styled } from 'nativewind';
 import {
   Animated,
   Button as RNButton,
+  FlatList as RNFlatList,
   Image as RNImage,
   ImageBackground as RNImageBackground,
   Pressable as RNPressable,
@@ -22,10 +23,12 @@ const View = styled(RNView);
 const Image = styled(RNImage);
 const AnimatedView = styled(Animated.View);
 const ImageBackground = styled(RNImageBackground);
+const FlatList = styled(RNFlatList);
 
 export {
   AnimatedView,
   Button,
+  FlatList,
   Image,
   ImageBackground,
   Pressable,

@@ -1,15 +1,15 @@
 import { StackScreenProps, createStackNavigator } from '@react-navigation/stack';
+import { PocketsStackParamList, SendStackList } from 'screens/pockets/pockets-navigation';
 import ScanQrScreen from '../stacks/scan-qr.scren';
 import SendAmountScreen from '../stacks/send-amount.screen';
 import SendReviewScreen from '../stacks/send-review.screen';
 import SendToScreen from '../stacks/send-to.screen';
-import { WalletStackList, WalletTabList } from '../wallet-navigation';
 
-const Stack = createStackNavigator<WalletStackList>();
+const Stack = createStackNavigator<SendStackList>();
 
-type Props = StackScreenProps<WalletTabList, 'Send'>;
+type Props = StackScreenProps<PocketsStackParamList, 'Send'>;
 
-const Send = ({ route }: Props) => {
+const SendScreen = ({ route }: Props) => {
   const { external } = route.params;
 
   return (
@@ -26,4 +26,4 @@ const Send = ({ route }: Props) => {
   );
 };
 
-export default Send;
+export default SendScreen;
