@@ -10,6 +10,7 @@ import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
+import useBitcoinPrice from 'hooks/useBitcoinData';
 import { TimeFrame } from 'src/types/chart';
 import { Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { PocketsStackParamList } from './pockets-navigation';
@@ -22,8 +23,13 @@ const Pockets = ({ navigation }: Props) => {
   const { accounts, getAccountBalance, getTotalBalance, hasAddress, hasHydrated } =
     useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
+  const { updateBitcoinPrice } = useBitcoinPrice();
 
   const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
+
+  useEffect(() => {
+    updateBitcoinPrice();
+  }, []);
 
   useEffect(() => {
     if (hasHydrated && loading) {

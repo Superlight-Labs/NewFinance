@@ -25,7 +25,7 @@ const currencies: CurrencyData[] = [
 
 const PriceText = ({ bitcoinAmount = 0, style, disabled = false }: Props) => {
   const { currency, setCurrency } = useGeneralState();
-  const currentPrice = useBitcoinPrice(currency);
+  const { currentPrices } = useBitcoinPrice();
 
   const changeCurrency = () => {
     const currentIndex = currencies.findIndex(data => data.currency === currency);
@@ -40,7 +40,7 @@ const PriceText = ({ bitcoinAmount = 0, style, disabled = false }: Props) => {
       className="group transition-all active:opacity-70">
       <Text className={`font-manrope text-[40px] font-bold leading-[42px] text-black  ${style}`}>
         {formatCurrency(
-          bitcoinAmount * currentPrice.price,
+          bitcoinAmount * currentPrices[currency],
           currencies.find(data => data.currency === currency)!.currency
         )}
       </Text>
