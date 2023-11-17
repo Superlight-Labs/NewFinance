@@ -10,7 +10,8 @@ import RoundButtonComponent from 'components/shared/input/round-button/round-but
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import TransactionList from 'components/wallets/transactions/transaction-list.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
-import { useState } from 'react';
+import useBitcoinPrice from 'hooks/useBitcoinData';
+import { useEffect } from 'react';
 import { PocketsStackParamList } from 'screens/pockets/pockets-navigation';
 
 type Props = StackScreenProps<PocketsStackParamList, 'Wallet'>;
@@ -21,9 +22,13 @@ const Wallet = ({ navigation, route }: Props) => {
   const { getAccountBalance, getAccountTransactions } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
 
-  const [transactionsOffset, setTransactionsOffset] = useState<number>();
   const { getAccountAddresses } = useBitcoinState();
   const addresses = getAccountAddresses(account);
+  const { updateBitcoinPrice } = useBitcoinPrice();
+
+  useEffect(() => {
+    updateBitcoinPrice();
+  }, []);
 
   const {
     external,

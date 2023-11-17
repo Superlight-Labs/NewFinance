@@ -6,9 +6,11 @@ export type GeneralState = {
   hasHydrated: boolean;
   showedAlphaNotice: boolean;
   currency: Currency;
+  currentPrices: any;
   showAlphaNotice: () => void;
   setHasHydrated: (state: boolean) => void;
   setCurrency: (state: Currency) => void;
+  setCurrentPrices: (state: any) => void;
   deleteGeneralState: () => void;
 };
 
@@ -18,8 +20,10 @@ export const useGeneralState = create<GeneralState>()(
       hasHydrated: false,
       showedAlphaNotice: false,
       currency: 'BTC',
+      currentPrices: {},
       showAlphaNotice: () => set({ showedAlphaNotice: true }),
       setCurrency: currency => set({ currency: currency }),
+      setCurrentPrices: prices => set({ currentPrices: prices }),
       deleteGeneralState: () => set({ showedAlphaNotice: false }),
       setHasHydrated: (state: boolean) => {
         set({

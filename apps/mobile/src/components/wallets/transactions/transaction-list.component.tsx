@@ -27,7 +27,6 @@ const TransactionList = ({
           data={transactions}
           renderItem={({ item }: any) => {
             const help = item as AccountTransaction;
-            console.log('help:', help);
 
             return (
               <Transaction
