@@ -117,110 +117,112 @@ const AppNavigation = () => {
   ]);
 
   return (
-    <NavigationContainer>
-      <>
-        <StatusBar backgroundColor={'white'} barStyle={'dark-content'} translucent={false} />
-      </>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Group>
-          <>
-            {bipHydrated && authHydrated ? (
-              <>
-                {hasKeysSetUp ? (
-                  <>
+    <>
+      <NavigationContainer>
+        <>
+          <StatusBar backgroundColor={'white'} barStyle={'dark-content'} translucent={false} />
+        </>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Group>
+            <>
+              {bipHydrated && authHydrated ? (
+                <>
+                  {hasKeysSetUp ? (
                     <>
-                      {isAuthenticated ? (
-                        <>
-                          {derivedUntilLevel < DerivedUntilLevel.MASTER && (
+                      <>
+                        {isAuthenticated ? (
+                          <>
+                            {derivedUntilLevel < DerivedUntilLevel.MASTER && (
+                              <Stack.Group>
+                                <Stack.Screen name="SetupWallet" component={SetupWallet} />
+                              </Stack.Group>
+                            )}
+                            <Stack.Screen
+                              name="HomeTab"
+                              component={HomeTabNavigation}
+                              options={{
+                                headerShown: false,
+                                animation: 'fade',
+                              }}
+                            />
+                            <Stack.Screen
+                              name="AlphaNotice"
+                              options={{ presentation: 'modal' }}
+                              component={AlphaNoticeScreen}
+                            />
                             <Stack.Group>
-                              <Stack.Screen name="SetupWallet" component={SetupWallet} />
+                              <Stack.Screen
+                                name="BitcoinSettings"
+                                options={settingsScreensOptions}
+                                component={BitcoinSettings}
+                              />
+                              <Stack.Screen
+                                name="CurrencySettings"
+                                options={settingsScreensOptions}
+                                component={CurrencySettings}
+                              />
+                              <Stack.Screen
+                                name="BackupSettings"
+                                options={settingsScreensOptions}
+                                component={BackupSettings}
+                              />
+                              <Stack.Screen
+                                name="EmailSettings"
+                                options={settingsScreensOptions}
+                                component={EmailSettings}
+                              />
+                              <Stack.Screen
+                                name="ENSSettings"
+                                options={settingsScreensOptions}
+                                component={ENSSettings}
+                              />
+                              <Stack.Screen
+                                name="SeedphraseSettings"
+                                options={settingsScreensOptions}
+                                component={SeedphraseSettings}
+                              />
+                              <Stack.Screen
+                                name="TagSettings"
+                                options={settingsScreensOptions}
+                                component={TagSettings}
+                              />
                             </Stack.Group>
-                          )}
+                          </>
+                        ) : (
                           <Stack.Screen
-                            name="HomeTab"
-                            component={HomeTabNavigation}
+                            name="Loading"
+                            component={LoadingScreen}
                             options={{
-                              headerShown: false,
                               animation: 'fade',
                             }}
                           />
-                          <Stack.Screen
-                            name="AlphaNotice"
-                            options={{ presentation: 'modal' }}
-                            component={AlphaNoticeScreen}
-                          />
-                          <Stack.Group>
-                            <Stack.Screen
-                              name="BitcoinSettings"
-                              options={settingsScreensOptions}
-                              component={BitcoinSettings}
-                            />
-                            <Stack.Screen
-                              name="CurrencySettings"
-                              options={settingsScreensOptions}
-                              component={CurrencySettings}
-                            />
-                            <Stack.Screen
-                              name="BackupSettings"
-                              options={settingsScreensOptions}
-                              component={BackupSettings}
-                            />
-                            <Stack.Screen
-                              name="EmailSettings"
-                              options={settingsScreensOptions}
-                              component={EmailSettings}
-                            />
-                            <Stack.Screen
-                              name="ENSSettings"
-                              options={settingsScreensOptions}
-                              component={ENSSettings}
-                            />
-                            <Stack.Screen
-                              name="SeedphraseSettings"
-                              options={settingsScreensOptions}
-                              component={SeedphraseSettings}
-                            />
-                            <Stack.Screen
-                              name="TagSettings"
-                              options={settingsScreensOptions}
-                              component={TagSettings}
-                            />
-                          </Stack.Group>
-                        </>
-                      ) : (
-                        <Stack.Screen
-                          name="Loading"
-                          component={LoadingScreen}
-                          options={{
-                            animation: 'fade',
-                          }}
-                        />
-                      )}
+                        )}
+                      </>
                     </>
-                  </>
-                ) : (
-                  <>
-                    <Stack.Screen name="Welcome" component={Welcome} />
-                    <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-                    <Stack.Screen name="OnboardingEmail" component={OnboardingEmailScreen} />
-                    <Stack.Screen name="OnboardingPhrase" component={OnboardingPhraseScreen} />
-                  </>
-                )}
-              </>
-            ) : (
-              <Stack.Screen
-                name="Loading"
-                component={LoadingScreen}
-                options={{
-                  animation: 'fade',
-                }}
-              />
-            )}
-          </>
-        </Stack.Group>
-      </Stack.Navigator>
+                  ) : (
+                    <>
+                      <Stack.Screen name="Welcome" component={Welcome} />
+                      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+                      <Stack.Screen name="OnboardingEmail" component={OnboardingEmailScreen} />
+                      <Stack.Screen name="OnboardingPhrase" component={OnboardingPhraseScreen} />
+                    </>
+                  )}
+                </>
+              ) : (
+                <Stack.Screen
+                  name="Loading"
+                  component={LoadingScreen}
+                  options={{
+                    animation: 'fade',
+                  }}
+                />
+              )}
+            </>
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
       {message.level !== 'empty' && <Snackbar appMessage={message} />}
-    </NavigationContainer>
+    </>
   );
 };
 

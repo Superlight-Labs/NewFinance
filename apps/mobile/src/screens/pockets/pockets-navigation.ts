@@ -22,21 +22,24 @@ export type SendStackList = {
   SendTo: {
     sender: AddressInfo;
     recipient?: string;
-    amount: string;
-    rate: number;
+    amount: number;
     currency: Currency;
   };
   SendReview: {
     sender: AddressInfo;
     toAddress: string;
     note: string;
-    amount: string;
-    rate: number;
+    amount: number;
     contact?: Contact;
     currency: Currency;
   };
   SendAmount: {
     sender: AddressInfo;
   };
-  ScanQrCode: { sender: AddressInfo };
+  ScanQrCode: {
+    sender: AddressInfo;
+    recipient?: string;
+    amount: number;
+    currency: Currency;
+  };
 };

@@ -5,6 +5,7 @@ import {
   FlatList as RNFlatList,
   Image as RNImage,
   ImageBackground as RNImageBackground,
+  Modal as RNModal,
   Pressable as RNPressable,
   SafeAreaView as RNSafeAreaView,
   ScrollView as RNScrollView,
@@ -24,6 +25,7 @@ const Image = styled(RNImage);
 const AnimatedView = styled(Animated.View);
 const ImageBackground = styled(RNImageBackground);
 const FlatList = styled(RNFlatList);
+const Modal = styled(RNModal);
 
 export {
   AnimatedView,
@@ -31,6 +33,7 @@ export {
   FlatList,
   Image,
   ImageBackground,
+  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,

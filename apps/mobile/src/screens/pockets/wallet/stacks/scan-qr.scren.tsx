@@ -2,17 +2,16 @@ import { StackScreenProps } from '@react-navigation/stack';
 import logger from '@superlight-labs/logger';
 import bip21 from 'bip21';
 import ButtonComponent from 'components/shared/input/button/button.component';
-import Title from 'components/shared/title/title.component';
+import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { BarCodeEvent, BarCodeScanner, PermissionResponse } from 'expo-barcode-scanner';
 import { useEffect, useState } from 'react';
 import { SendStackList } from 'screens/pockets/pockets-navigation';
-import WalletLayout from 'screens/wallet/wallet-layout.component';
-import { Text, View } from 'utils/wrappers/styled-react-native';
+import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<SendStackList, 'ScanQrCode'>;
 
 const ScanQrScreen = ({ navigation, route }: Props) => {
-  const { sender } = route.params;
+  const { sender, currency, amount } = route.params;
   const [permission, setPermission] = useState<PermissionResponse | null>(null);
   const [scanned, setScanned] = useState(false);
 
@@ -31,48 +30,59 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
     try {
       const scan = bip21.decode(data);
 
-      navigation.navigate('SendTo', { sender, recipient: scan.address });
+      navigation.navigate('SendTo', { sender, recipient: scan.address, amount, currency });
     } catch (e) {
       logger.warn({ e }, 'Invalid QR code');
     }
   };
 
   return (
-    <WalletLayout leftHeader="back" rightHeader="none">
-      <View className="flex flex-1 items-center  pt-12">
-        <Title style="mb-4">Scan Bitcoin QR Code</Title>
+    <View className="h-full bg-white">
+      <View className="  pt-12">
         {permission === null && <Text>Requesting for camera permission</Text>}
         {permission?.status === 'denied' && permission.canAskAgain && (
           <View className="flex-col items-center justify-center">
-            <Text className="mt-24 font-manrope-bold text-slate-400">No access to camera</Text>
-            <ButtonComponent style="mx-12 mt-6 rounded-lg" onPress={getBarCodeScannerPermissions}>
+            <Text className="mt-24 font-manrope font-bold text-slate-400">No access to camera</Text>
+            <ButtonComponent style="mx-12 mt-6" onPress={getBarCodeScannerPermissions}>
               Tap to allow camera access
             </ButtonComponent>
           </View>
         )}
         {permission?.status === 'denied' && !permission.canAskAgain && (
           <View className="flex-col items-center justify-center">
-            <Text className="mt-24 font-manrope-bold text-slate-400">No access to camera</Text>
-            <Text className="mt-6 text-center font-manrope-bold text-slate-400">
+            <Text className="mt-24 font-manrope font-bold text-grey">No access to camera</Text>
+            <Text className="mt-6 text-center font-manrope font-bold text-grey">
               Please enable NewFinance to use Camera in the Settings of your phone
             </Text>
           </View>
         )}
         {permission?.granted && (
-          <View className="h-[50%] w-full">
+          <View className="absolute h-screen w-full rounded-lg bg-red-400">
             <BarCodeScanner
-              style={{ height: '100%', width: '100%' }}
-              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            />
+              style={{ width: '100%', height: '100%', position: 'absolute', borderRadius: 20 }}
+              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}>
+              <View className="mt-4 flex-row items-center justify-between px-5">
+                <View />
+                <Text className="font-manrope font-bold text-white">Scan QR Code</Text>
+                <Pressable onPress={() => navigation.pop()}>
+                  <MonoIcon color="#FFFFFF" iconName="X" />
+                </Pressable>
+              </View>
+              <View className="h-full w-full items-center justify-center p-12 pb-[50%]">
+                <View className="aspect-square w-full rounded-xl border-[2px] border-white"></View>
+                {scanned && (
+                  <ButtonComponent
+                    style=" m-12 absolute bottom-24"
+                    onPress={() => setScanned(false)}>
+                    Tap to Scan Again
+                  </ButtonComponent>
+                )}
+              </View>
+            </BarCodeScanner>
           </View>
         )}
-        {scanned && (
-          <ButtonComponent style=" m-12 rounded-lg" onPress={() => setScanned(false)}>
-            Tap to Scan Again
-          </ButtonComponent>
-        )}
       </View>
-    </WalletLayout>
+    </View>
   );
 };
 

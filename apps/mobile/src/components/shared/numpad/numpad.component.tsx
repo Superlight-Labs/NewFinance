@@ -54,7 +54,7 @@ const Numpad = ({ value, setValue, maxLength = 10, style = '' }: Props) => {
 const Key = ({ num, update }: { num: string; update: (num: string) => void }) => {
   return (
     <Pressable
-      className="flex flex-[0_0_33%] items-center p-4"
+      className="flex flex-[0_0_33%] items-center p-6"
       key={num}
       onPress={() => update(num)}>
       <Text className="font-manrope text-2xl font-semibold">{num}</Text>

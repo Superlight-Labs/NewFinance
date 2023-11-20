@@ -20,7 +20,7 @@ export const toBitcoin = (satoshi: number) => {
  */
 export const toSatoshi = (bitcoin: number) => {
   const bigBitcoin = new Big(bitcoin);
-  return Number(bigBitcoin.times(conversion));
+  return Math.floor(Number(bigBitcoin.times(conversion)));
 };
 
 export const safeBalance = (balance: BitcoinBalance | undefined) => {
