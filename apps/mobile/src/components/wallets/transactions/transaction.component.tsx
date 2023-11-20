@@ -2,7 +2,7 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import { AccountTransaction } from 'state/bitcoin.state';
 import { getPeerOfTransaction } from 'utils/crypto/bitcoin-transaction-utils';
-import { getNetValueFromTransaction, getTxFee } from 'utils/crypto/bitcoin-value';
+import { getNetValueFromTransaction, getTxFee, toBitcoin } from 'utils/crypto/bitcoin-value';
 import { shortenAddress } from 'utils/string';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
@@ -67,19 +67,19 @@ const Transaction = ({ onPress, transaction, address, changeAddress }: Props) =>
             <Text className="font-manrope-bold text-[13px] leading-[18px] text-[#01DC0A]">+</Text>
             <PriceTextComponent
               style="font-manrope-bold text-[13px] leading-[18px] text-[#01DC0A]"
-              bitcoinAmount={value / 1000000000}
+              bitcoinAmount={toBitcoin(value)}
             />
           </View>
         ) : (
           <View className="flex-col items-end">
             <PriceTextComponent
               style="font-manrope-bold text-[13px] leading-[18px] text-[#FF000F]"
-              bitcoinAmount={value / 1000000000}
+              bitcoinAmount={toBitcoin(value)}
             />
             <View className="mt-2 flex-row">
               <PriceTextComponent
                 style="font-manrope font-medium text-[13px] leading-[16px] text-grey"
-                bitcoinAmount={fee / 1000000000}
+                bitcoinAmount={toBitcoin(value)}
               />
               <Text className="font-manrope-medium text-[13px] leading-[16px] text-grey"> fee</Text>
             </View>
