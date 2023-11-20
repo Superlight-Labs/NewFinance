@@ -8,7 +8,7 @@ import CreatePocket from './create/create-pocket.screen';
 import { PocketsStackParamList } from './pockets-navigation';
 import Pockets from './pockets.screen';
 import TransactionDetailsScreen from './wallet/stacks/transaction-details.screen';
-import SendScreen from './wallet/tabs/send.screen';
+import SendStack from './wallet/tabs/send.stack';
 import Wallet from './wallet/tabs/wallet.screen';
 
 const Stack = createNativeStackNavigator();
@@ -72,7 +72,7 @@ const PocketsStack = ({ navigation }: Props) => {
             />
             <SubStack.Screen
               name="Send"
-              component={SendScreen}
+              component={SendStack}
               options={{
                 presentation: 'modal',
               }}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGeneralState } from 'state/general.state';
+import { toBitcoin } from 'utils/crypto/bitcoin-value';
 
 const BITCOIN_API_URL =
   'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp%2Ceur%2Cusd%2Cchf&precision=2';
@@ -8,6 +9,7 @@ const useBitcoinPrice = () => {
   const { currentPrices, setCurrentPrices } = useGeneralState();
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<number | null>(null);
+  const { currency } = useGeneralState();
 
   const fetchBitcoinPrice = async () => {
     try {
@@ -20,7 +22,7 @@ const useBitcoinPrice = () => {
         '£': data.bitcoin.gbp,
         CHF: data.bitcoin.chf,
         BTC: 1,
-        sats: 1,
+        sats: 100000000,
       });
       setLastUpdated(Date.now());
       setIsLoading(false);
@@ -38,11 +40,15 @@ const useBitcoinPrice = () => {
     }
   };
 
-  const getPrice = (currency: string) => {
-    return currentPrices[currency.toLowerCase()] || null;
+  const getPrice = (usedCurrency?: string) => {
+    return currentPrices[usedCurrency ? usedCurrency : currency.toLowerCase()] || null;
   };
 
-  return { currentPrices, isLoading, updateBitcoinPrice, getPrice };
+  const getPriceFromSatoshis = (sats: number) => {
+    return toBitcoin(sats) * currentPrices[currency.toLowerCase()];
+  };
+
+  return { currentPrices, isLoading, updateBitcoinPrice, getPrice, getPriceFromSatoshis };
 };
 
 export default useBitcoinPrice;

@@ -92,4 +92,6 @@ export type IconName =
   | 'BellRing'
   | 'ArrowRight'
   | 'Plus'
+  | 'ScanLine'
+  | 'Settings2'
   | 'CheckCheck';

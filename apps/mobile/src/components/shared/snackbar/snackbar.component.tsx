@@ -43,6 +43,7 @@ const Snackbar = ({ appMessage }: Props) => {
         bottom: 50,
         left: 10,
         right: 10,
+        zIndex: 100,
         transform: [
           { translateY: introAnim.interpolate({ inputRange: [0, 1], outputRange: [500, 0] }) },
         ],
