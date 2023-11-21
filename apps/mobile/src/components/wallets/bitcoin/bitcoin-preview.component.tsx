@@ -126,7 +126,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
           </View>
         </View>
       </View>
-      <View className="mb-32 mt-3">
+      <View className="mt-3">
         <InteractiveLineChart
           data={currentTimeFrameData}
           onValueChange={value => setCurrentData(value)}
