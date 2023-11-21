@@ -4,6 +4,8 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { Pressable } from 'utils/wrappers/styled-react-native';
 import { BitcoinStackParamList } from './bitcoin-navigation';
 import Bitcoin from './bitcoin.screen';
+import BuyBitcoinScreen from './pages/buy-bitcoin.screen';
+import SellBitcoinScreen from './pages/sell-bitcoin.screen';
 import PriceNotification from './price-notification.screen';
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +44,16 @@ const BitcoinStack = ({ navigation }: Props) => {
             <SubStack.Screen
               name="PriceNotification"
               component={PriceNotification}
+              options={{ presentation: 'modal' }}
+            />
+            <SubStack.Screen
+              name="BuyBitcoin"
+              component={BuyBitcoinScreen}
+              options={{ presentation: 'modal' }}
+            />
+            <SubStack.Screen
+              name="SellBitcoin"
+              component={SellBitcoinScreen}
               options={{ presentation: 'modal' }}
             />
           </SubStack.Navigator>
