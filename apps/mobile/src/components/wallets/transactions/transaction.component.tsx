@@ -79,7 +79,7 @@ const Transaction = ({ onPress, transaction, address, changeAddress }: Props) =>
             <View className="mt-2 flex-row">
               <PriceTextComponent
                 style="font-manrope font-medium text-[13px] leading-[16px] text-grey"
-                bitcoinAmount={toBitcoin(value)}
+                bitcoinAmount={toBitcoin(fee)}
               />
               <Text className="font-manrope-medium text-[13px] leading-[16px] text-grey"> fee</Text>
             </View>
