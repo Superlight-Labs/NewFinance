@@ -95,4 +95,7 @@ export type IconName =
   | 'ScanLine'
   | 'Settings2'
   | 'QrCode'
+  | 'Gift'
+  | 'CircleDot'
+  | 'Circle'
   | 'CheckCheck';
