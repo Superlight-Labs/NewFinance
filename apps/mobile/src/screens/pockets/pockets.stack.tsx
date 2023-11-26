@@ -8,6 +8,7 @@ import CreatePocket from './create/create-pocket.screen';
 import { PocketsStackParamList } from './pockets-navigation';
 import Pockets from './pockets.screen';
 import TransactionDetailsScreen from './wallet/stacks/transaction-details.screen';
+import ReceiveStack from './wallet/tabs/receive.screen';
 import SendStack from './wallet/tabs/send.stack';
 import Wallet from './wallet/tabs/wallet.screen';
 
@@ -73,6 +74,13 @@ const PocketsStack = ({ navigation }: Props) => {
             <SubStack.Screen
               name="Send"
               component={SendStack}
+              options={{
+                presentation: 'modal',
+              }}
+            />
+            <SubStack.Screen
+              name="Receive"
+              component={ReceiveStack}
               options={{
                 presentation: 'modal',
               }}

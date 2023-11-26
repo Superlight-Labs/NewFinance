@@ -5,20 +5,19 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 //import * as Sharing from 'expo-sharing';
 import { useEffect, useState } from 'react';
 import QRCodeStyled from 'react-native-qrcode-styled';
-import WalletLayout from 'screens/wallet/wallet-layout.component';
+import { PocketsStackParamList } from 'screens/pockets/pockets-navigation';
 import { useSnackbarState } from 'state/snackbar.state';
 import { shortenAddress } from 'utils/string';
-import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
+import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
-import { WalletTabList } from '../wallet-navigation';
+type Props = StackScreenProps<PocketsStackParamList, 'Receive'>;
 
-type Props = StackScreenProps<WalletTabList, 'Recieve'>;
-
-const Receive = ({ route }: Props) => {
+const ReceiveStack = ({ route }: Props) => {
   const { external } = route.params;
   const { setMessage } = useSnackbarState();
 
   const [showQrCode, setShowQrCode] = useState(false);
+  const [showFullAddress, setShowFullAddress] = useState<boolean>(false);
 
   useEffect(() => {
     // Fügen Sie hier eine Verzögerung oder asynchrone Logik hinzu
@@ -43,8 +42,8 @@ const Receive = ({ route }: Props) => {
   };
 
   return (
-    <WalletLayout>
-      <View className="flex flex-1 flex-col  pb-8">
+    <SafeAreaView className="h-full bg-white">
+      <View className="mt-12 flex flex-1 flex-col pb-8">
         <View className="flex items-center justify-center px-14">
           {showQrCode && (
             <QRCodeStyled
@@ -59,7 +58,7 @@ const Receive = ({ route }: Props) => {
                 borderRadius: 12,
               }}
               logo={{
-                href: require('../../../../assets/images/logo.png'),
+                href: require('../../../../../assets/images/logo.png'),
                 padding: 12,
                 scale: 1.5,
                 width: 30,
@@ -69,23 +68,25 @@ const Receive = ({ route }: Props) => {
               pieceBorderRadius={4}
             />
           )}
-          <Text className="text-center font-manrope text-xs font-medium text-[#636360]">
+          <Text className="mt-2 text-center font-manrope text-xs font-medium text-[#636360]">
             Scan your QR-Code with a smartphone and get money sent directly.
           </Text>
-          <Button style="bg-[#F0F6F2] max-w-44 mr-4 mt-6" onPress={shareAdress}>
-            <Text className="text-black">SHARE</Text>
+          <Button style="bg-[#F0F6F2] w-44 mt-6" onPress={shareAdress}>
+            <Text className=" text-black">SHARE</Text>
           </Button>
         </View>
-        <View className="mt-6 w-full border-t-[1px] border-[#F6F6F8] px-6 pt-6">
-          <Text className="font-manrope text-base font-bold">Receive</Text>
+        <View className="mx-5 mt-6 border-t-[1px] border-[#F6F6F8] pt-12">
+          <Text className="font-manrope text-lg font-bold">My address</Text>
           <Pressable
             onPress={copyToClipboard}
             className="mt-6 flex-row items-center justify-between">
             <View>
-              <Text className="font-manrope text-sm font-semibold text-[#8E8D92]">BTC</Text>
-              <Text className="font-manrope text-base font-semibold">
-                {shortenAddress(external.address)}
-              </Text>
+              <Text className="mb-0.5 font-manrope-semibold text-base">BTC</Text>
+              <Pressable onPress={() => setShowFullAddress(!showFullAddress)}>
+                <Text className="mt-0.5 rounded bg-[#F5F5F5] px-1.5 py-0.5 font-manrope-medium text-xs text-grey">
+                  {showFullAddress ? external.address : shortenAddress(external.address)}
+                </Text>
+              </Pressable>
             </View>
             <View className="flex-row items-center space-x-1">
               <MonoIcon width={16} height={16} iconName="Copy" color="#0AAFFF" />
@@ -94,8 +95,8 @@ const Receive = ({ route }: Props) => {
           </Pressable>
         </View>
       </View>
-    </WalletLayout>
+    </SafeAreaView>
   );
 };
 
-export default Receive;
+export default ReceiveStack;
