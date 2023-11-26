@@ -94,4 +94,5 @@ export type IconName =
   | 'Plus'
   | 'ScanLine'
   | 'Settings2'
+  | 'QrCode'
   | 'CheckCheck';

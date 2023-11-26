@@ -13,7 +13,7 @@ export type PocketsStackParamList = {
     transaction: AccountTransaction;
   };
 
-  Recieve: { external: AddressInfo };
+  Receive: { external: AddressInfo };
   Overview: { account: string };
   Send: { external: AddressInfo };
 };

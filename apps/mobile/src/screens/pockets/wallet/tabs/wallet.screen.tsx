@@ -53,15 +53,25 @@ const Wallet = ({ navigation, route }: Props) => {
             navigate={() => navigation.navigate('Wallet', { account: account })}
           />
         </View>
-        <View className="bg-transparent mt-10 flex w-full flex-row items-center px-5">
-          <View className="mr-5">
+        <View className="bg-transparent mt-10 flex flex-row items-center px-5">
+          <View className="mr-6 w-14">
             <RoundButtonComponent
               onPress={() => navigation.navigate('Send', { external: external })}
               iconName="Send">
-              Send money
+              Send
             </RoundButtonComponent>
           </View>
-          <View className="">
+          <View className="mr-6 w-16">
+            <RoundButtonComponent
+              style="bg-white border-[1px] border-[#E8E8E8]"
+              textStyle="text-black"
+              onPress={() => navigation.navigate('Receive', { external: external })}
+              iconName="QrCode"
+              iconColor="#000000">
+              Receive
+            </RoundButtonComponent>
+          </View>
+          <View className="w-16">
             <RoundButtonComponent
               style="bg-white border-[1px] border-[#E8E8E8]"
               textStyle="text-black"
