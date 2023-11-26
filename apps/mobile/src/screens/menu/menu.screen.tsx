@@ -35,12 +35,18 @@ const Menu = ({ navigation }: Props) => {
           bitcoinAmount={getTotalBalance()}
         />
       </View>
-      <Pressable className="mb-12 mt-6 rounded bg-[#F8F8F8] active:opacity-70">
+      <Pressable
+        onPress={() => navigation.navigate('InviteFriends')}
+        className="mb-12 mt-6 rounded bg-[#0AAFFF] active:opacity-70">
         <View className="flex-row items-center justify-between px-4 py-4">
-          <Text className="font-manrope text-xs font-bold">
-            Invite your friends. Get 30 € bonus.
-          </Text>
-          <MonoIcon height={14} width={14} iconName={'ChevronRight'} />
+          <View className="flex-row items-center">
+            <MonoIcon style="mb-0.5" iconName={'Gift'} color="#FFFFFF" />
+
+            <Text className=" ml-2 font-manrope text-xs font-bold text-white">
+              Invite your friends. Get 30 € bonus.
+            </Text>
+          </View>
+          <MonoIcon iconName={'ChevronRight'} color="#FFFFFF" />
         </View>
       </Pressable>
       <View className="">

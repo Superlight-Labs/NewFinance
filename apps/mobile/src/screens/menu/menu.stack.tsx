@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'utils/wrappers/styled-react-native';
 import { MenuStackParamList } from './menu-navigation';
 import Menu from './menu.screen';
+import InviteFriends from './pages/invite-friends.screen';
 
 const Stack = createNativeStackNavigator<MenuStackParamList>();
 
@@ -27,6 +28,11 @@ const MenuStack = () => {
           },
           headerLeft: () => <View />,
         }}
+      />
+      <Stack.Screen
+        name="InviteFriends"
+        component={InviteFriends}
+        options={{ headerShown: false, presentation: 'modal' }}
       />
     </Stack.Navigator>
   );
