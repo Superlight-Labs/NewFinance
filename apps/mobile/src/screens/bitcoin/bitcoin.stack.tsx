@@ -4,7 +4,7 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import { Pressable } from 'utils/wrappers/styled-react-native';
 import { BitcoinStackParamList } from './bitcoin-navigation';
 import Bitcoin from './bitcoin.screen';
-import BuyBitcoinScreen from './pages/buy-bitcoin.screen';
+import BuyBitcoinStack from './pages/buy-bitcoin.stack';
 import SellBitcoinScreen from './pages/sell-bitcoin.screen';
 import PriceNotification from './price-notification.screen';
 
@@ -47,8 +47,8 @@ const BitcoinStack = ({ navigation }: Props) => {
               options={{ presentation: 'modal' }}
             />
             <SubStack.Screen
-              name="BuyBitcoin"
-              component={BuyBitcoinScreen}
+              name="BuyBitcoinStack"
+              component={BuyBitcoinStack}
               options={{ presentation: 'modal' }}
             />
             <SubStack.Screen
