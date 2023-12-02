@@ -9,7 +9,7 @@ type Props = {
   navigate: () => void;
 };
 
-const WalletMainItem = ({ balance, navigate, disabled = false }: Props) => {
+const WalletMainItem = ({ name, balance, navigate, disabled = false }: Props) => {
   return (
     <Pressable
       className={`shadow-lg transition-all   ${!disabled ? 'active:opacity-95' : ''}`}
@@ -39,7 +39,7 @@ const WalletMainItem = ({ balance, navigate, disabled = false }: Props) => {
                 />
                 <Text className="font-manrope text-xs font-bold text-white">Bitcoin only</Text>
               </View>
-              <Text className="mt-1 font-manrope text-2xl font-bold text-white">Wallet</Text>
+              <Text className="mt-1 font-manrope text-2xl font-bold text-white">{name}</Text>
             </View>
             <PriceTextComponent
               style="font-manrope text-2xl font-bold text-white"
