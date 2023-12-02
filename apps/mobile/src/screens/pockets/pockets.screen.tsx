@@ -8,8 +8,8 @@ import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
-import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-item.component';
 import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
+import WalletItem from 'components/wallets/wallet-item/wallet-item.componen';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
 import WalletMenuAdd from 'components/wallets/wallet-item/wallet-menu-add.component';
 import useBitcoinPrice from 'hooks/useBitcoinData';
@@ -143,35 +143,26 @@ const Pockets = ({ navigation }: Props) => {
             <LoadingWalletMainItem />
           </>
         ) : (
-          [...accounts].map(([key, _]) => (
-            <WalletMainItem
-              key={key}
-              name={key}
-              balance={getAccountBalance(key)}
-              navigate={() => navigation.navigate('Wallet', { account: key })}
-            />
-          ))
+          <WalletMainItem
+            key={'Main pocket'}
+            name={'Main pocket'}
+            balance={getAccountBalance('Main pocket')}
+            navigate={() => navigation.navigate('Wallet', { account: 'Main pocket' })}
+          />
         )}
       </View>
 
       <View className="mx-5 mt-9 border-b-[1.5px] border-[#F6F7F8]" />
 
       {accounts.size > 1 ? (
-        <View className="mt-8 flex-row justify-between px-4">
-          {!loading || !hasAddress() ? (
-            <>
-              <LoadingWalletItem name="Holiday" />
-            </>
-          ) : (
-            [...accounts].map(([key, _]) => (
-              <WalletMainItem
-                key={key}
-                name={key}
-                balance={getAccountBalance(key)}
-                navigate={() => navigation.navigate('Wallet', { account: key })}
-              />
-            ))
-          )}
+        <View className="mb-8 mt-8 flex-row flex-wrap justify-between px-4">
+          {[...accounts].slice(1).map(([key, _]) => (
+            <WalletItem
+              navigate={() => navigation.navigate('Wallet', { account: key })}
+              name={key}
+            />
+          ))}
+
           <WalletMenuAdd navigate={showPocket} />
         </View>
       ) : (
