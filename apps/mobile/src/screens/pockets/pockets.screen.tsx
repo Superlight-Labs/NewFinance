@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
-import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-item.component';
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { useEffect, useState } from 'react';
@@ -9,6 +8,7 @@ import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
+import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
 import useBitcoinPrice from 'hooks/useBitcoinData';
 import { TimeFrame } from 'src/types/chart';
@@ -138,7 +138,7 @@ const Pockets = ({ navigation }: Props) => {
       <View className="mt-8 px-4">
         {loading || !hasAddress() ? (
           <>
-            <LoadingWalletItem name={name} />
+            <LoadingWalletMainItem />
           </>
         ) : (
           [...accounts].map(([key, _]) => (

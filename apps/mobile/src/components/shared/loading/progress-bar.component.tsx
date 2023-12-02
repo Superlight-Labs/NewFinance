@@ -4,9 +4,10 @@ import { AnimatedView, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   loadingTime?: number; //in milliseconds
+  style?: string;
 };
 
-const ProgressBar = ({ loadingTime = 3000 }: Props) => {
+const ProgressBar = ({ loadingTime = 3000, style }: Props) => {
   const progressAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const ProgressBar = ({ loadingTime = 3000 }: Props) => {
   }, [progressAnim, loadingTime]);
 
   return (
-    <View className="h-1.5 w-36 overflow-hidden rounded-full border border-[#d3d3da] ">
+    <View className={`h-1.5 w-36 overflow-hidden rounded-full border border-[#d3d3da]  ${style}`}>
       <AnimatedView
         style={{
           transform: [
