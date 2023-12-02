@@ -8,8 +8,10 @@ import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
+import LoadingWalletItem from 'components/wallets/wallet-item/loading-wallet-item.component';
 import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
+import WalletMenuAdd from 'components/wallets/wallet-item/wallet-menu-add.component';
 import useBitcoinPrice from 'hooks/useBitcoinData';
 import { TimeFrame } from 'src/types/chart';
 import { Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
@@ -154,36 +156,37 @@ const Pockets = ({ navigation }: Props) => {
 
       <View className="mx-5 mt-9 border-b-[1.5px] border-[#F6F7F8]" />
 
-      {/*<View className="mt-9 flex-row flex-wrap justify-between px-4">
-        {loading || !hasAddress() ? (
-          <>
-            <LoadingWalletItem name={name} />
-          </>
-        ) : (
-          [...accounts].map(([key, _]) => (
-            <WalletMenuItem
-              key={key}
-              name={key}
-              balance={getAccountBalance(key)}
-              navigate={() => navigation.navigate('WalletTab', { account: key })}
-            />
-          ))
-        )}
-
-        <WalletMenuAdd navigate={() => {}} />
-          </View>*/}
-
-      <View className="mt-32 items-center justify-center">
-        <Text className="font-manrope-medium text-xs text-grey">Here are all you pockets.</Text>
-        <Text className=" font-manrope-medium text-xs text-grey">
-          Create as many pockets as you like.
-        </Text>
-        <Pressable className="mt-2 active:opacity-70" onPress={showPocket}>
-          <Text className="text-center font-manrope text-sm font-bold text-[#0AAFFF]">
-            Create pocket
+      {accounts.size > 1 ? (
+        <View className="mt-8 flex-row justify-between px-4">
+          {!loading || !hasAddress() ? (
+            <>
+              <LoadingWalletItem name="Holiday" />
+            </>
+          ) : (
+            [...accounts].map(([key, _]) => (
+              <WalletMainItem
+                key={key}
+                name={key}
+                balance={getAccountBalance(key)}
+                navigate={() => navigation.navigate('Wallet', { account: key })}
+              />
+            ))
+          )}
+          <WalletMenuAdd navigate={showPocket} />
+        </View>
+      ) : (
+        <View className="mt-32 items-center justify-center">
+          <Text className="font-manrope-medium text-xs text-grey">Here are all you pockets.</Text>
+          <Text className=" font-manrope-medium text-xs text-grey">
+            Create as many pockets as you like.
           </Text>
-        </Pressable>
-      </View>
+          <Pressable className="mt-2 active:opacity-70" onPress={showPocket}>
+            <Text className="text-center font-manrope text-sm font-bold text-[#0AAFFF]">
+              Create pocket
+            </Text>
+          </Pressable>
+        </View>
+      )}
     </ScrollView>
   );
 };
