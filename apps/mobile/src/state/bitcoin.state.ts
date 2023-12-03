@@ -15,9 +15,10 @@ export enum ChangeIndex {
   CHANGE = 1,
 }
 
-type Account = {
+export type Account = {
   xPub: string;
   share: SharePair;
+  icon?: string;
 };
 
 export type AddressInfo = {
@@ -113,8 +114,11 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
         }),
       updateBalance: (balance: BitcoinBalance, account: string, address: string) =>
         set(state => {
+          console.log('inbound address: ', address);
           const accountAddresses = state.addresses.get(account);
+          console.log('acc addresses from ' + account + ': ', accountAddresses);
           const addressStore = getByAddress(accountAddresses, address);
+          console.log('addressStore: ', addressStore);
 
           if (!addressStore || !accountAddresses) throw new Error('Address not found');
 
@@ -213,6 +217,7 @@ const calculateAccountBalance = (
 ): number => {
   const accountAddresses = addresses.get(account);
   if (!accountAddresses) return 0;
+  console.log('account addresses found: ', accountAddresses);
 
   const balance = [...accountAddresses].reduce((acc, [_, address]) => {
     if (!address.balance) return acc;

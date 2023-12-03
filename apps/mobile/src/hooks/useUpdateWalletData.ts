@@ -11,6 +11,7 @@ export const useUpdateWalletData = () => {
   return {
     refreshing,
     update: (account: string) => {
+      console.log('should update account: ', account);
       setRefreshing(true);
       let loadBalance = true;
       let loadTransactions = true;
@@ -28,7 +29,14 @@ export const useUpdateWalletData = () => {
       backend
         .post<BlockchainResult<BitcoinBalance>>('/blockchain/balance', addrInfoRequest)
         .then(balances => {
+          console.log('balances: ', balances);
+          const entries = Object.entries(balances.data);
+          entries.forEach(([address, balance]) => {
+            console.log('inside foreach: ', balance, account, address);
+            updateBalance(balance, account, address);
+          });
           Object.entries(balances.data).forEach(([address, balance]) => {
+            console.log('update balanace with: ', balance, account, address);
             updateBalance(balance, account, address);
           });
           loadBalance = false;

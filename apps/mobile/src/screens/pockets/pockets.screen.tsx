@@ -9,7 +9,7 @@ import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
 import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
-import WalletItem from 'components/wallets/wallet-item/wallet-item.componen';
+import WalletItem from 'components/wallets/wallet-item/wallet-item.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
 import WalletMenuAdd from 'components/wallets/wallet-item/wallet-menu-add.component';
 import useBitcoinPrice from 'hooks/useBitcoinData';
@@ -24,6 +24,7 @@ const Pockets = ({ navigation }: Props) => {
   const { secret, derivedUntilLevel, name } = useDeriveState();
   const { accounts, getAccountBalance, getTotalBalance, hasAddress, hasHydrated } =
     useBitcoinState();
+  console.log('accounts: ', accounts);
   const { refreshing, update } = useUpdateWalletData();
   const { updateBitcoinPrice } = useBitcoinPrice();
 
@@ -160,6 +161,7 @@ const Pockets = ({ navigation }: Props) => {
             <WalletItem
               navigate={() => navigation.navigate('Wallet', { account: key })}
               name={key}
+              account={_}
             />
           ))}
 

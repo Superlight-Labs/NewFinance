@@ -31,22 +31,25 @@ export const useCreateBitcoinPocket = (name: string, naviagteBack: () => void) =
 
   const { deriveAndSaveAccount, deriveAddresses } = useDeriveSteps(user, name);
   const { coinType } = useDeriveState();
-  console.log('inside useCreateBitcoinPocket');
-  if (!coinType) return;
-  console.log('cointype is Set');
 
-  const deriveInBackground = async (onSuccessCb: () => void) => {
-    console.log('start deriving in background');
+  if (!coinType) return;
+
+  const deriveInBackground = async (onSuccessCb: () => void, icon: string) => {
     BackgroundService.on('expiration', () => {
       console.log('I am being closed :(');
     });
+
+    const shareResult = {
+      share: coinType.share,
+      peerShareId: coinType.peerShareId,
+    };
 
     const prom = (_: unknown) =>
       new Promise<void>(resolve => {
         const { onSuccess } = perform(
           deriveAndSaveAccount({
-            share: coinType.share,
-            peerShareId: coinType.peerShareId,
+            shareResult,
+            icon,
           }).andThen(deriveAddresses),
           naviagteBack
         );
@@ -61,7 +64,7 @@ export const useCreateBitcoinPocket = (name: string, naviagteBack: () => void) =
     return await BackgroundService.start(prom, options);
   };
 
-  const deriveInForeground = async (onSuccessCb: () => void) => {
+  const deriveInForeground = async (onSuccessCb: () => void, icon: string) => {
     BackgroundService.on('expiration', () => {
       console.log('I am being closed :(');
     });
@@ -69,11 +72,16 @@ export const useCreateBitcoinPocket = (name: string, naviagteBack: () => void) =
     const backgroundTask = async (taskData: any) => {
       logger.info({ taskData }, 'WTF');
 
+      const shareResult = {
+        share: coinType.share,
+        peerShareId: coinType.peerShareId,
+      };
+
       await new Promise<void>(resolve => {
         const { onSuccess } = perform(
           deriveAndSaveAccount({
-            share: coinType.share,
-            peerShareId: coinType.peerShareId,
+            shareResult,
+            icon,
           }).andThen(deriveAddresses),
           naviagteBack
         );
@@ -93,6 +101,11 @@ export const useCreateBitcoinPocket = (name: string, naviagteBack: () => void) =
 
 type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
 
+type ShareResultWithIcon = {
+  shareResult: ShareResult;
+  icon: string;
+};
+
 const useDeriveSteps = (user: AppUser | undefined, name: string) => {
   const { network, saveAccount, saveAddress, accounts } = useBitcoinState();
   const accountIndex = accounts.size;
@@ -107,19 +120,19 @@ const useDeriveSteps = (user: AppUser | undefined, name: string) => {
     sign: signWithDeviceKeyNoAuth({ userId: user.id, devicePublicKey: user.devicePublicKey }),
   };
 
-  const deriveAndSaveAccount = ({ share: cTShare, peerShareId: ctShareId }: ShareResult) => {
+  const deriveAndSaveAccount = ({ shareResult, icon = '⚡️' }: ShareResultWithIcon) => {
     const path = `m/84'/0'/${accountIndex}'`;
 
     //setMessage({ message: 'Adding your account...', step: 4, total: 4, level: 'progress' });
     return deriveBip32Hardened(config, {
       index: `${accountIndex}`,
-      peerShareId: ctShareId,
-      share: cTShare,
+      peerShareId: shareResult.peerShareId,
+      share: shareResult.share,
       parentPath: `m/84'/0'`,
       hardened: true,
     }).andThen(({ share, peerShareId }) => {
       return getXPubKey(share, network).map(key => {
-        saveAccount({ share: { share, peerShareId, path }, xPub: key.xPubKey }, name);
+        saveAccount({ share: { share, peerShareId, path }, xPub: key.xPubKey, icon }, name);
 
         return { share, peerShareId };
       });

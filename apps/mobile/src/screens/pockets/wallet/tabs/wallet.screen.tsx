@@ -24,6 +24,7 @@ const Wallet = ({ navigation, route }: Props) => {
 
   const { getAccountAddresses } = useBitcoinState();
   const addresses = getAccountAddresses(account);
+  console.log('addressed:', addresses);
   const { updateBitcoinPrice } = useBitcoinPrice();
 
   useEffect(() => {
@@ -34,6 +35,8 @@ const Wallet = ({ navigation, route }: Props) => {
     external,
     change: { address: changeAddress },
   } = addresses;
+
+  console.log('shown transact: ', getAccountTransactions(account));
 
   const transactions = uniqueTransactions(getAccountTransactions(account));
 
