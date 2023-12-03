@@ -1,4 +1,4 @@
-import { API_URL } from '@env';
+import { API_URL, HISTORY_URL } from '@env';
 import axios from 'axios';
 
 export const backend = axios.create({
@@ -6,5 +6,5 @@ export const backend = axios.create({
 });
 
 export const historyApi = axios.create({
-  baseURL: 'https://orca-app-an4qn.ondigitalocean.app/',
+  baseURL: HISTORY_URL,
 });
