@@ -9,12 +9,10 @@ import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
 import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
-import WalletItem from 'components/wallets/wallet-item/wallet-item.componen';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
-import WalletMenuAdd from 'components/wallets/wallet-item/wallet-menu-add.component';
 import useBitcoinPrice from 'hooks/useBitcoinData';
 import { TimeFrame } from 'src/types/chart';
-import { Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
+import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { PocketsStackParamList } from './pockets-navigation';
 
 type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
@@ -154,7 +152,8 @@ const Pockets = ({ navigation }: Props) => {
 
       <View className="mx-5 mt-9 border-b-[1.5px] border-[#F6F7F8]" />
 
-      {accounts.size > 1 ? (
+      {/* TODO - add this back in https://github.com/Superlight-Labs/NewFinance/issues/81 */}
+      {/* {accounts.size > 1 ? (
         <View className="mb-8 mt-8 flex-row flex-wrap justify-between px-4">
           {[...accounts].slice(1).map(([key, _]) => (
             <WalletItem
@@ -177,7 +176,7 @@ const Pockets = ({ navigation }: Props) => {
             </Text>
           </Pressable>
         </View>
-      )}
+      )} */}
     </ScrollView>
   );
 };
