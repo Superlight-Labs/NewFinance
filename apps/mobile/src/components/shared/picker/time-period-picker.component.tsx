@@ -8,7 +8,7 @@ type Props = {
 };
 
 const TimePeriodPicker = ({ onValueChange }: Props) => {
-  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
+  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('weekly');
 
   const changeTimeFrame = (timeFrame: TimeFrame) => {
     setCurrentTimeFrame(timeFrame);
@@ -19,55 +19,55 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
     <View className="mt-2 flex-row justify-between px-5">
       <Pressable
         className="rounded-sm  px-5 py-1.5"
-        style={{ backgroundColor: currentTimeFrame === 'T' ? '#F4F5F5' : 'transparent' }}
-        onPress={() => changeTimeFrame('T')}>
+        style={{ backgroundColor: currentTimeFrame === 'today' ? '#F4F5F5' : 'transparent' }}
+        onPress={() => changeTimeFrame('today')}>
         <Text
           className={`font-manrope text-xs font-bold ${
-            currentTimeFrame === 'T' ? 'text-black' : 'text-[#969EA3]'
+            currentTimeFrame === 'today' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1T
         </Text>
       </Pressable>
       <Pressable
         className="rounded-sm  px-5 py-1.5"
-        style={{ backgroundColor: currentTimeFrame === 'W' ? '#F4F5F5' : 'transparent' }}
-        onPress={() => changeTimeFrame('W')}>
+        style={{ backgroundColor: currentTimeFrame === 'weekly' ? '#F4F5F5' : 'transparent' }}
+        onPress={() => changeTimeFrame('weekly')}>
         <Text
           className={`font-manrope text-xs font-bold ${
-            currentTimeFrame === 'W' ? 'text-black' : 'text-[#969EA3]'
+            currentTimeFrame === 'weekly' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1W
         </Text>
       </Pressable>
       <Pressable
         className="rounded-sm  px-5 py-1.5"
-        style={{ backgroundColor: currentTimeFrame === 'M' ? '#F4F5F5' : 'transparent' }}
-        onPress={() => changeTimeFrame('M')}>
+        style={{ backgroundColor: currentTimeFrame === 'monthly' ? '#F4F5F5' : 'transparent' }}
+        onPress={() => changeTimeFrame('monthly')}>
         <Text
           className={`font-manrope text-xs font-bold ${
-            currentTimeFrame === 'M' ? 'text-black' : 'text-[#969EA3]'
+            currentTimeFrame === 'monthly' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1M
         </Text>
       </Pressable>
       <Pressable
         className="rounded-sm  px-5 py-1.5"
-        style={{ backgroundColor: currentTimeFrame === 'Y' ? '#F4F5F5' : 'transparent' }}
-        onPress={() => changeTimeFrame('Y')}>
+        style={{ backgroundColor: currentTimeFrame === 'year' ? '#F4F5F5' : 'transparent' }}
+        onPress={() => changeTimeFrame('year')}>
         <Text
           className={`font-manrope text-xs font-bold ${
-            currentTimeFrame === 'Y' ? 'text-black' : 'text-[#969EA3]'
+            currentTimeFrame === 'year' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           1Y
         </Text>
       </Pressable>
       <Pressable
         className="rounded-sm  px-5 py-1.5"
-        style={{ backgroundColor: currentTimeFrame === 'MAX' ? '#F4F5F5' : 'transparent' }}
-        onPress={() => changeTimeFrame('MAX')}>
+        style={{ backgroundColor: currentTimeFrame === 'total' ? '#F4F5F5' : 'transparent' }}
+        onPress={() => changeTimeFrame('total')}>
         <Text
           className={`font-manrope text-xs font-bold ${
-            currentTimeFrame === 'MAX' ? 'text-black' : 'text-[#969EA3]'
+            currentTimeFrame === 'total' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           MAX
         </Text>

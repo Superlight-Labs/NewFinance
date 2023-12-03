@@ -46,23 +46,29 @@ const InteractiveLineChart = ({
   };
 
   const isUp = (dataValue: DataItem[]) => {
-    return dataValue[0].y < dataValue[dataValue.length - 1].y;
+    return dataValue[0].value < dataValue[dataValue.length - 1].value;
   };
 
   //calc lowest y value of data
   const lowestValueY = (dataValue: DataItem[]) => {
-    return dataValue.reduce((min, current) => (current.y < min ? current.y : min), dataValue[0].y);
+    return dataValue.reduce(
+      (min, current) => (current.value < min ? current.value : min),
+      dataValue[0].value
+    );
   };
 
   //calc highest y value of data
   const highestValueY = (dataValue: DataItem[]) => {
-    return dataValue.reduce((max, current) => (current.y > max ? current.y : max), dataValue[0].y);
+    return dataValue.reduce(
+      (max, current) => (current.value > max ? current.value : max),
+      dataValue[0].value
+    );
   };
 
   //calc Y Position of horizontal Line
   const calcYLinePosition = (dataValue: DataItem[]) => {
     const percentage =
-      ((dataValue[0].y - lowestValueY(dataValue)) /
+      ((dataValue[0].value - lowestValueY(dataValue)) /
         (highestValueY(dataValue) - lowestValueY(dataValue))) *
       100;
 
@@ -149,7 +155,7 @@ const InteractiveLineChart = ({
           <Line y1={ticks[0]} y2={ticks[Number(ticks.length)]} stroke="#9399A1" strokeWidth={0.5} />
 
           <Circle
-            cy={y(currentData.map(item => item.y)[positionX])}
+            cy={y(currentData.map(item => item.value)[positionX])}
             r={apx(20 / 3)}
             stroke="#fff"
             strokeWidth={apx(2)}
@@ -181,7 +187,7 @@ const InteractiveLineChart = ({
               borderRadius: 10,
               zIndex: 1,
             }}
-            data={currentData.map(item => item.y)}
+            data={currentData.map(item => item.value)}
             svg={{
               stroke: isUp(currentData) ? '#01DC0A' : '#FD291D',
               strokeWidth: '2px',

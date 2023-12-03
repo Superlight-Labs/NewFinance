@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatCurrency } from 'utils/format/format';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import InteractiveLineChart from '../charts/interactivelinechart.component';
@@ -9,37 +9,65 @@ import InteractiveLineChart from '../charts/interactivelinechart.component';
 import { useQuery } from '@tanstack/react-query';
 import TimePeriodPicker from 'components/shared/picker/time-period-picker.component';
 import { DataItem, TimeFrame } from 'src/types/chart';
-import { historyApi } from 'utils/superlight-api';
-import { bitcoinData1Y } from './historical-data/bitcoin-data-1Y';
-import { bitcoinDataMax } from './historical-data/bitcoin-data-max';
+import { useBitcoinState } from 'state/bitcoin.state';
+import { backend, historyApi } from 'utils/superlight-api';
 
 type Props = {
   onChartStart: () => void;
   onChartRelease: () => void;
 };
 
-const bitcoinData = [
-  { timeframe: 'T', data: bitcoinDataMax },
-  { timeframe: 'W', data: bitcoinDataMax },
-  { timeframe: 'M', data: bitcoinDataMax },
-  { timeframe: 'Y', data: bitcoinData1Y },
-  { timeframe: 'MAX', data: bitcoinDataMax },
-];
-
 const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
-  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
+  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('weekly');
+  const { network } = useBitcoinState();
 
-  const { data: historyData, isLoading } = useQuery(
-    ['contact', currentTimeFrame],
-    () => historyApi.get<any>('/weekly').then(res => res.data),
+  const { data: historyData } = useQuery(
+    ['historyData', currentTimeFrame],
+    () => historyApi.get<DataItem[]>(`/${currentTimeFrame}`).then(res => res.data),
     { retry: false }
   );
 
-  const newData = { x: '', y: 32009.31 };
+  const { data: currentExchangeRate } = useQuery(
+    ['exchangeRate'],
+    () =>
+      backend
+        .post<any>('/blockchain/exchange-rate', {
+          network,
+        })
+        .then(res => res.data),
+    { retry: false, refetchInterval: 3000 }
+  );
 
-  const [currentTimeFrameData, setCurrentTimeFrameData] = useState<DataItem[]>(bitcoinData1Y);
+  const changeTimeFrame = (timeframe: TimeFrame) => {
+    setCurrentTimeFrame(timeframe);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
 
-  const [currentData, setCurrentData] = useState<DataItem>(newData);
+  useEffect(() => {
+    if (historyData !== undefined && historyData !== currentTimeFrameData) {
+      setCurrentTimeFrameData(historyData!);
+      if (currentExchangeRate !== undefined)
+        setselectedDataPoint({ date: '', value: currentExchangeRate.value });
+    }
+  }, [historyData]);
+
+  useEffect(() => {
+    if (currentExchangeRate !== undefined) {
+      setselectedDataPoint({ date: '', value: currentExchangeRate.value });
+    }
+  }, [currentExchangeRate]);
+
+  const [currentTimeFrameData, setCurrentTimeFrameData] = useState<DataItem[]>([
+    {
+      date: '01/01/2023',
+      value: 30000,
+    },
+  ]);
+
+  const [selectedDataPoint, setselectedDataPoint] = useState<DataItem>({
+    date: '',
+    value: 35000.0,
+  });
 
   const calcPercentageChange = (start: number, value: number) => {
     return ((value / start) * 100 - 100).toFixed(2);
@@ -49,8 +77,8 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
     return Math.abs(value - start).toFixed(2);
   };
 
-  const isUp = (currentDataValue: DataItem) => {
-    return currentTimeFrameData[0].y < currentDataValue.y;
+  const isUp = (selectedDataPointValue: DataItem) => {
+    return currentTimeFrameData[0].value < selectedDataPointValue.value;
   };
 
   const prettifyDate = (date: string) => {
@@ -59,33 +87,23 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
       return `${dateParts[1]}.${dateParts[0]}.${dateParts[2].slice(2, 4)}`;
     }
     switch (currentTimeFrame) {
-      case 'T': {
+      case 'today': {
         return 'Today';
       }
-      case 'W': {
+      case 'weekly': {
         return 'Since 5 days';
       }
-      case 'M': {
+      case 'monthly': {
         return 'Since 1 month';
       }
-      case 'Y': {
+      case 'year': {
         return 'Since 1 year';
       }
-      case 'MAX': {
+      case 'total': {
         return 'Since start';
       }
     }
     return date;
-  };
-
-  // const pushNewestValue = (value: DataItem) => {
-  //Should push newest value change into data Array to update chart
-  // };
-
-  const changeTimeFrame = (timeframe: TimeFrame) => {
-    setCurrentTimeFrame(timeframe);
-    setCurrentTimeFrameData(bitcoinData.find(item => item.timeframe === timeframe)!.data);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   return (
@@ -96,14 +114,14 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
             source={require('../../../../assets/images/icon_bitcoin.png')}
             resizeMode="contain"
             className="mb-2 h-8 w-8"
-  />*/}
+          />*/}
 
           <Text className="font-[system] text-[32px] font-[700] leading-[32px] text-black">
-            {formatCurrency(currentData.y)}
+            {formatCurrency(selectedDataPoint.value)}
           </Text>
 
           <View className="flex-row items-center">
-            {isUp(currentData) ? (
+            {isUp(selectedDataPoint) ? (
               <MonoIcon
                 iconName="ChevronsUp"
                 width={16}
@@ -123,13 +141,13 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
 
             <Text
               className="font-manrope text-sm font-bold text-[#01DC0A]"
-              style={{ color: isUp(currentData) ? '#01DC0A' : '#FF3F32' }}>
-              {calcAbsoluteChange(currentTimeFrameData[0].y, currentData.y)}€ (
-              {calcPercentageChange(currentTimeFrameData[0].y, currentData.y)}%)
+              style={{ color: isUp(selectedDataPoint) ? '#01DC0A' : '#FF3F32' }}>
+              {calcAbsoluteChange(currentTimeFrameData[0].value, selectedDataPoint.value)}€ (
+              {calcPercentageChange(currentTimeFrameData[0].value, selectedDataPoint.value)}%)
             </Text>
             <MonoIcon iconName="Dot" width={15} height={15} color={'#8E8D95'} />
             <Text className="font-manrope text-sm font-bold text-grey">
-              {prettifyDate(currentData.x)}
+              {prettifyDate(selectedDataPoint.date)}
             </Text>
           </View>
         </View>
@@ -137,13 +155,14 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
       <View className="mt-3">
         <InteractiveLineChart
           data={currentTimeFrameData}
-          onValueChange={value => setCurrentData(value)}
+          onValueChange={value => setselectedDataPoint(value)}
           onTouchStart={onChartStart}
           onTouchRelease={() => {
-            setCurrentData(newData);
+            setselectedDataPoint({ date: '', value: currentExchangeRate.value });
             onChartRelease();
           }}
         />
+
         <TimePeriodPicker onValueChange={value => changeTimeFrame(value)} />
       </View>
     </View>
