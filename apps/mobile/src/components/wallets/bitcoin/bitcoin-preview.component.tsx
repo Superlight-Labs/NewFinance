@@ -6,8 +6,10 @@ import { formatCurrency } from 'utils/format/format';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 import InteractiveLineChart from '../charts/interactivelinechart.component';
 
+import { useQuery } from '@tanstack/react-query';
 import TimePeriodPicker from 'components/shared/picker/time-period-picker.component';
 import { DataItem, TimeFrame } from 'src/types/chart';
+import { historyApi } from 'utils/superlight-api';
 import { bitcoinData1Y } from './historical-data/bitcoin-data-1Y';
 import { bitcoinDataMax } from './historical-data/bitcoin-data-max';
 
@@ -25,6 +27,14 @@ const bitcoinData = [
 ];
 
 const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
+  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
+
+  const { data: historyData, isLoading } = useQuery(
+    ['contact', currentTimeFrame],
+    () => historyApi.get<any>('/weekly').then(res => res.data),
+    { retry: false }
+  );
+
   const newData = { x: '', y: 32009.31 };
 
   const [currentTimeFrameData, setCurrentTimeFrameData] = useState<DataItem[]>(bitcoinData1Y);
@@ -71,8 +81,6 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
   // const pushNewestValue = (value: DataItem) => {
   //Should push newest value change into data Array to update chart
   // };
-
-  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
 
   const changeTimeFrame = (timeframe: TimeFrame) => {
     setCurrentTimeFrame(timeframe);
