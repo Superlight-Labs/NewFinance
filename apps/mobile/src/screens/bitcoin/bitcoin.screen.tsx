@@ -1,9 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
+import { useQuery } from '@tanstack/react-query';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import { useState } from 'react';
+import { DataItem } from 'src/types/chart';
 import { useBitcoinState } from 'state/bitcoin.state';
+import { backend, historyApi } from 'utils/superlight-api';
 import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import BitcoinPreview from '../../components/wallets/bitcoin/bitcoin-preview.component';
 import { BitcoinStackParamList } from './bitcoin-navigation';
@@ -11,7 +14,24 @@ import { BitcoinStackParamList } from './bitcoin-navigation';
 type Props = StackScreenProps<BitcoinStackParamList, 'Bitcoin'>;
 
 const Bitcoin = ({ navigation }: Props) => {
-  const { getTotalBalance } = useBitcoinState();
+  const { getTotalBalance, network, accounts } = useBitcoinState();
+
+  const { data: historyData } = useQuery(
+    ['historyData', 'today'],
+    () => historyApi.get<DataItem[]>(`/today`).then(res => res.data),
+    { retry: false }
+  );
+
+  const { data: currentExchangeRate } = useQuery(
+    ['exchangeRate'],
+    () =>
+      backend
+        .post<any>('/blockchain/exchange-rate', {
+          network,
+        })
+        .then(res => res.data),
+    { retry: false }
+  );
 
   const [scrollViewEnabled, setScrollViewEnabled] = useState<boolean>(true);
 
@@ -25,6 +45,24 @@ const Bitcoin = ({ navigation }: Props) => {
 
   const calcAbsoluteChange = (start: number, value: number) => {
     return Math.abs(value - start).toFixed(2);
+  };
+
+  const calcAbsoluteChange24H = () => {
+    const totalBalance = getTotalBalance();
+    console.log('rate: ', currentExchangeRate);
+    const percentage =
+      ((totalBalance * currentExchangeRate.value) / (totalBalance * historyData![0].value)) * 100 -
+      100;
+    return (percentage * totalBalance * currentExchangeRate.value) / 100;
+  };
+
+  const calcRelativeChange24H = () => {
+    const totalBalance = getTotalBalance();
+    console.log('rate: ', currentExchangeRate);
+    return (
+      ((totalBalance * currentExchangeRate.value) / (totalBalance * historyData![0].value)) * 100 -
+      100
+    );
   };
 
   return (
@@ -57,7 +95,10 @@ const Bitcoin = ({ navigation }: Props) => {
 
       <View className="mt-6 flex-row items-center justify-between px-5">
         <View className="">
-          <Text className="font-manrope font-bold ">1 pocket</Text>
+          {accounts.size === 1 && <Text className="font-manrope font-bold ">1 pocket</Text>}
+          {accounts.size > 1 && (
+            <Text className="font-manrope font-bold ">{accounts.size} pockets</Text>
+          )}
         </View>
         <View className="flex-col items-end">
           <PriceTextComponent
@@ -98,14 +139,15 @@ const Bitcoin = ({ navigation }: Props) => {
               className="font-manrope text-sm font-bold text-[#01DC0A]"
               // eslint-disable-next-line react-native/no-inline-styles
               style={{ color: isUp(10) ? '#01DC0A' : '#FF3F32' }}>
-              {calcAbsoluteChange(2, 10)}€ ({calcPercentageChange(3, 13)}%)
+              {0.0}€ ({calcPercentageChange(3, 13)}
+              %)
             </Text>
           </View>
         </View>
         <View className="flex-col">
           <Text className="mb-1 font-manrope text-xs font-bold text-grey">24H</Text>
           <View className="flex-row items-center">
-            {isUp(10) ? (
+            {isUp(calcRelativeChange24H()) ? (
               <MonoIcon
                 iconName="ChevronsUp"
                 width={16}
@@ -126,8 +168,15 @@ const Bitcoin = ({ navigation }: Props) => {
             <Text
               className="font-manrope text-sm font-bold text-[#01DC0A]"
               // eslint-disable-next-line react-native/no-inline-styles
-              style={{ color: isUp(10) ? '#01DC0A' : '#FF3F32' }}>
-              {calcAbsoluteChange(2, 10)}€ ({calcPercentageChange(3, 13)}%)
+              style={{ color: isUp(calcRelativeChange24H()) ? '#01DC0A' : '#FF3F32' }}>
+              {historyData !== undefined &&
+                currentExchangeRate !== undefined &&
+                calcAbsoluteChange24H().toFixed(2)}
+              € (
+              {historyData !== undefined &&
+                currentExchangeRate !== undefined &&
+                calcRelativeChange24H().toFixed(2)}
+              %)
             </Text>
           </View>
         </View>
