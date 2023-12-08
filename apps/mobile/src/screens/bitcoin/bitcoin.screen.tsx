@@ -7,7 +7,8 @@ import { useState } from 'react';
 import { DataItem } from 'src/types/chart';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { backend, historyApi } from 'utils/superlight-api';
-import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
+import { openWebsite } from 'utils/web-opener';
+import { Pressable, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import BitcoinPreview from '../../components/wallets/bitcoin/bitcoin-preview.component';
 import { BitcoinStackParamList } from './bitcoin-navigation';
 
@@ -56,7 +57,8 @@ const Bitcoin = ({ navigation }: Props) => {
     return (percentage * totalBalance * currentExchangeRate.value) / 100;
   };
 
-  const calcRelativeChange24H = () => {
+  const calcRelativeChange24H = (): number => {
+    if (currentExchangeRate === undefined || historyData === undefined) return 0;
     const totalBalance = getTotalBalance();
     console.log('rate: ', currentExchangeRate);
     return (
@@ -201,7 +203,16 @@ const Bitcoin = ({ navigation }: Props) => {
         </View>
       </View>
 
-      <View className="mx-5 mb-10 mt-6 border-b-[1.5px] border-[#F6F7F8]" />
+      <View className="mx-5 mb-6 mt-6 border-b-[1.5px] border-[#F6F7F8]" />
+
+      <Pressable
+        className="mb-6 flex-row items-center justify-end px-5 active:opacity-80"
+        onPress={() => openWebsite('https://www.coingecko.com')}>
+        <Text className="mr-1 font-manrope text-xs font-bold text-grey">
+          Data provided by CoinGecko
+        </Text>
+        <MonoIcon iconName="ExternalLink" width={14} height={14} />
+      </Pressable>
     </ScrollView>
   );
 };
