@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataItem } from 'src/types/chart';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { backend, historyApi } from 'utils/superlight-api';
@@ -15,11 +15,28 @@ import { BitcoinStackParamList } from './bitcoin-navigation';
 type Props = StackScreenProps<BitcoinStackParamList, 'Bitcoin'>;
 
 const Bitcoin = ({ navigation }: Props) => {
-  const { getTotalBalance, network, accounts } = useBitcoinState();
+  const { getTotalBalance, network, accounts, getAccountPerformance } = useBitcoinState();
+  const [accountPerformance, setAccountPerformance] = useState<any>({
+    percentage: 0,
+    absolute: 0,
+    average: 0,
+  });
 
   const { data: historyData } = useQuery(
     ['historyData', 'today'],
-    () => historyApi.get<DataItem[]>(`/today`).then(res => res.data),
+    () => historyApi.get<DataItem[]>('/today').then(res => res.data),
+    { retry: false }
+  );
+
+  const { data: historyData24H } = useQuery(
+    ['historyData', 'today'],
+    () => historyApi.get<DataItem[]>('/today').then(res => res.data),
+    { retry: false }
+  );
+
+  const { data: historyDataTotal } = useQuery(
+    ['historyData', 'total'],
+    () => historyApi.get<DataItem[]>('/total').then(res => res.data),
     { retry: false }
   );
 
@@ -34,35 +51,38 @@ const Bitcoin = ({ navigation }: Props) => {
     { retry: false }
   );
 
+  useEffect(() => {
+    console.log('historyData 24H: ', historyData24H);
+  }, [historyData24H]);
+
+  useEffect(() => {
+    if (historyDataTotal !== undefined && currentExchangeRate !== undefined)
+      setAccountPerformance(
+        getAccountPerformance('Main pocket', currentExchangeRate.value, historyDataTotal)
+      );
+  }, [historyDataTotal, currentExchangeRate]);
+
   const [scrollViewEnabled, setScrollViewEnabled] = useState<boolean>(true);
 
   const isUp = (value: number) => {
     return value > 0;
   };
 
-  const calcPercentageChange = (start: number, value: number) => {
-    return ((value / start) * 100 - 100).toFixed(2);
-  };
-
-  const calcAbsoluteChange = (start: number, value: number) => {
-    return Math.abs(value - start).toFixed(2);
-  };
-
   const calcAbsoluteChange24H = () => {
     const totalBalance = getTotalBalance();
-    console.log('rate: ', currentExchangeRate);
     const percentage =
-      ((totalBalance * currentExchangeRate.value) / (totalBalance * historyData![0].value)) * 100 -
+      ((totalBalance * currentExchangeRate.value) / (totalBalance * historyData24H![0].value)) *
+        100 -
       100;
     return (percentage * totalBalance * currentExchangeRate.value) / 100;
   };
 
   const calcRelativeChange24H = (): number => {
-    if (currentExchangeRate === undefined || historyData === undefined) return 0;
+    if (currentExchangeRate === undefined || historyData24H === undefined) return 0;
     const totalBalance = getTotalBalance();
-    console.log('rate: ', currentExchangeRate);
     return (
-      ((totalBalance * currentExchangeRate.value) / (totalBalance * historyData![0].value)) * 100 -
+      ((totalBalance * currentExchangeRate.value) / (totalBalance * historyData24H![0].value)) *
+        100 -
       100
     );
   };
@@ -114,12 +134,14 @@ const Bitcoin = ({ navigation }: Props) => {
       <View className="mt-10 flex-row items-center justify-between px-5">
         <View className="flex-col">
           <Text className="mb-1 font-manrope text-xs font-bold text-grey">BUY IN</Text>
-          <Text className="font-manrope text-sm font-bold">25.670,31€</Text>
+          <Text className="font-manrope text-sm font-bold">
+            {accountPerformance.average.toFixed(2)}€
+          </Text>
         </View>
         <View className="flex-col">
           <Text className="mb-1 font-manrope text-xs font-bold text-grey">PERFORMANCE</Text>
           <View className="flex-row items-center">
-            {isUp(10) ? (
+            {isUp(accountPerformance.absolute) ? (
               <MonoIcon
                 iconName="ChevronsUp"
                 width={16}
@@ -140,8 +162,8 @@ const Bitcoin = ({ navigation }: Props) => {
             <Text
               className="font-manrope text-sm font-bold text-[#01DC0A]"
               // eslint-disable-next-line react-native/no-inline-styles
-              style={{ color: isUp(10) ? '#01DC0A' : '#FF3F32' }}>
-              {0.0}€ ({calcPercentageChange(3, 13)}
+              style={{ color: isUp(accountPerformance.absolute) ? '#01DC0A' : '#FF3F32' }}>
+              {accountPerformance.absolute.toFixed(2)}€ ({accountPerformance.percentage.toFixed(2)}
               %)
             </Text>
           </View>
