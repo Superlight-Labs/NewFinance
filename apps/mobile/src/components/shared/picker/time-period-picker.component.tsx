@@ -63,11 +63,11 @@ const TimePeriodPicker = ({ onValueChange }: Props) => {
       </Pressable>
       <Pressable
         className="rounded-sm  px-5 py-1.5"
-        style={{ backgroundColor: currentTimeFrame === 'total' ? '#F4F5F5' : 'transparent' }}
-        onPress={() => changeTimeFrame('total')}>
+        style={{ backgroundColor: currentTimeFrame === 'total-graph' ? '#F4F5F5' : 'transparent' }}
+        onPress={() => changeTimeFrame('total-graph')}>
         <Text
           className={`font-manrope text-xs font-bold ${
-            currentTimeFrame === 'total' ? 'text-black' : 'text-[#969EA3]'
+            currentTimeFrame === 'total-graph' ? 'text-black' : 'text-[#969EA3]'
           }`}>
           MAX
         </Text>

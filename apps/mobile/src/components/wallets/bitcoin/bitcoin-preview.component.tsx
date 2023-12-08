@@ -93,7 +93,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
       const hours = date.getHours().toString().padStart(2, '0'); // Stunden
       const minutes = date.getMinutes().toString().padStart(2, '0'); // Minuten
 
-      if (currentTimeFrame === 'year' || currentTimeFrame === 'total')
+      if (currentTimeFrame === 'year' || currentTimeFrame === 'total-graph')
         return `${day}.${month}.${year}`;
       return `${day}.${month}.${year} ${hours}:${minutes}`;
     }
@@ -110,7 +110,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
       case 'year': {
         return 'Since 1 year';
       }
-      case 'total': {
+      case 'total-graph': {
         return 'Since start';
       }
     }
