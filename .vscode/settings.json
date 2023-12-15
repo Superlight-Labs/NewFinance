@@ -2,7 +2,7 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
   "cmake.sourceDirectory": "${workspaceFolder}/node_modules/react-native/ReactAndroid/src/main/jni/react/hermes/reactexecutor",
