@@ -11,13 +11,13 @@ import PriceNotification from './price-notification.screen';
 const Stack = createNativeStackNavigator();
 const SubStack = createNativeStackNavigator<BitcoinStackParamList>();
 
-type Props = StackScreenProps<BitcoinStackParamList, 'Bitcoin'>;
+type Props = StackScreenProps<BitcoinStackParamList, 'BitcoinStack'>;
 
 const BitcoinStack = ({ navigation }: Props) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Bitcoin"
+        name="BitcoinScreen"
         options={{
           headerLargeTitle: true,
           headerShadowVisible: true,

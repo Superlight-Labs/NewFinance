@@ -66,7 +66,7 @@ const SendScreen = ({ navigation, route }: Props) => {
               <Text
                 className="font-manrope text-[40px] font-bold leading-[46px]"
                 // eslint-disable-next-line react-native/no-inline-styles
-                style={{ lineHeight: '46px' }}>
+                style={{ lineHeight: 56 }}>
                 {currency}
               </Text>
             </Pressable>

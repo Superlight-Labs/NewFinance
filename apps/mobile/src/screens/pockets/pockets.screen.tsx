@@ -4,14 +4,13 @@ import PriceTextComponent from 'components/shared/price-text/price-text.componen
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { useEffect, useState } from 'react';
-import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
 import { useQuery } from '@tanstack/react-query';
 import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
-import useBitcoinPrice from 'hooks/useBitcoinData';
+import { RefreshControl } from 'react-native';
 import { DataItem, TimeFrame } from 'src/types/chart';
 import { backend, historyApi } from 'utils/superlight-api';
 import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
@@ -32,7 +31,6 @@ const Pockets = ({ navigation }: Props) => {
     getAccountPerformance,
   } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
-  const { updateBitcoinPrice } = useBitcoinPrice();
   const [accountPerformance, setAccountPerformance] = useState<any>({
     percentage: 0,
     absolute: 0,
@@ -66,14 +64,12 @@ const Pockets = ({ navigation }: Props) => {
   }, [historyDataTotal, currentExchangeRate]);
 
   useEffect(() => {
-    updateBitcoinPrice();
-  }, []);
-
-  useEffect(() => {
     if (hasHydrated && loading) {
       createBitcoinWallet(secret)(() => {
         updateAll();
       });
+    } else {
+      updateAll();
     }
   }, [hasHydrated]);
 
@@ -82,10 +78,6 @@ const Pockets = ({ navigation }: Props) => {
       update(key);
     }
   };
-
-  const refreshControl = loading ? undefined : (
-    <RefreshControl refreshing={refreshing} onRefresh={updateAll} />
-  );
 
   const isUp = (value: number) => {
     return value > 0;
@@ -118,15 +110,12 @@ const Pockets = ({ navigation }: Props) => {
     return date;
   };
 
-  //Currently not in release
-  /*const showPocket = () => {
-    navigation.navigate('CreatePocket');
-  };*/
-
   return (
     <ScrollView
       className="h-full bg-white"
-      refreshControl={refreshControl}
+      refreshControl={
+        !loading ? <RefreshControl refreshing={refreshing} onRefresh={updateAll} /> : undefined
+      }
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       horizontal={false}>

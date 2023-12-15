@@ -11,22 +11,27 @@ const items: RadioButtonItem[] = [
   {
     label: 'Satoshis',
     value: 'sats',
+    disabled: true,
   },
   {
     label: 'Euro',
     value: '€',
+    disabled: true,
   },
   {
     label: 'US-Dollar',
     value: '$',
+    disabled: true,
   },
   {
     label: 'British Pound',
     value: '£',
+    disabled: true,
   },
   {
     label: 'Swiss franc',
     value: 'CHF',
+    disabled: true,
   },
 ];
 
@@ -45,7 +50,8 @@ const CurrencySettings = () => {
         </Text>
         <Text className="mb-3 font-manrope text-sm font-medium text-grey">
           Change the displayed currency. It also can be changed by clicking on the currency anywhere
-          in the app.
+          in the app. {'\n'}
+          {'\n'}Available in future versions.
         </Text>
         <ScrollView className="flex h-full pt-6 ">
           <RadioButtonGroupComponent

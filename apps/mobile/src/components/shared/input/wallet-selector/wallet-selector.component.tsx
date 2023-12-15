@@ -13,18 +13,20 @@ type Props = {
 
 const WalletSelector = ({ disabled, onPress, style }: Props) => {
   const { accounts, getAccountBalance } = useBitcoinState();
+
   return (
     <>
-      {[...accounts].map(account => (
+      {[...accounts].map(([key, _]) => (
         <Pressable
+          key={key}
           disabled={disabled}
           onPress={onPress}
           className={`w-full flex-row items-center justify-between rounded border-[1px] border-[#eeeeee] px-6 py-3 ${style}`}>
           <View>
-            <Text className="font-manrope text-sm font-bold">{account[0]}</Text>
+            <Text className="font-manrope text-sm font-bold">{key}</Text>
             <PriceTextComponent
               style="font-manrope font-bold text-sm text-grey"
-              bitcoinAmount={getAccountBalance(account[0])}
+              bitcoinAmount={getAccountBalance(key)}
             />
           </View>
           <MonoIcon iconName="ChevronDown" />

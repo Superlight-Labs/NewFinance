@@ -24,8 +24,6 @@ const BuyBitcoinStack = () => {
 
   const stackOptions = ({}: any) => ({
     headerShown: false,
-    // eslint-disable-next-line react/no-unstable-nested-components
-    headerLeft: () => null,
   });
 
   return (

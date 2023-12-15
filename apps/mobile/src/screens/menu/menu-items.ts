@@ -96,13 +96,6 @@ export const useMenuItems = () => {
       icon: 'ChevronRight',
       screen: 'BackupSettings',
     },
-    {
-      name: 'Seed phrase',
-      subText: '**** **** **** ****',
-      type: 'link',
-      icon: 'ChevronRight',
-      screen: 'SeedphraseSettings',
-    },
   ];
 
   const serviceItems: MenuItem[] = [

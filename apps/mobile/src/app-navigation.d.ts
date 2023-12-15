@@ -10,13 +10,4 @@ export type RootStackParamList = {
   Create: undefined;
   ReviewCreate: { withPhrase: boolean; phrase?: string };
   AlphaNotice: undefined;
-
-  MenuList: undefined;
-  BitcoinSettings: undefined;
-  CurrencySettings: undefined;
-  BackupSettings: undefined;
-  EmailSettings: undefined;
-  ENSSettings: undefined;
-  SeedphraseSettings: undefined;
-  TagSettings: undefined;
 };

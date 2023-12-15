@@ -1,7 +1,6 @@
 import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
 import logger from '@superlight-labs/logger';
-import { shortenMessage } from '@superlight-labs/mpc-common';
 import { randomBytes } from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
@@ -14,7 +13,6 @@ import {
 const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void => {
   handlerResult.match(
     data => {
-      logger.debug({ message: shortenMessage(data) }, 'Successfully sending data');
       res.status(200).send(data);
     },
     error => {

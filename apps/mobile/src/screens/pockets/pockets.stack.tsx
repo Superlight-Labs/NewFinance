@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { StackScreenProps } from '@react-navigation/stack';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import React from 'react';
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import { Pressable } from 'utils/wrappers/styled-react-native';
 import CreatePocket from './create/create-pocket.screen';
@@ -15,9 +15,7 @@ import Wallet from './wallet/tabs/wallet.screen';
 const Stack = createNativeStackNavigator();
 const SubStack = createNativeStackNavigator<PocketsStackParamList>();
 
-type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
-
-const PocketsStack = ({ navigation: _ }: Props) => {
+const PocketsStack = () => {
   const substackScreensOptions = ({ navigation }: any) => ({
     title: 'Main Pocket',
     headerLargeTitle: true,
@@ -37,7 +35,7 @@ const PocketsStack = ({ navigation: _ }: Props) => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Pockets" options={{ headerShown: false }}>
+      <Stack.Screen name="PocketsStack" options={{ headerShown: false }}>
         {() => (
           <SubStack.Navigator initialRouteName="Pockets" screenOptions={{ headerShown: false }}>
             <SubStack.Screen

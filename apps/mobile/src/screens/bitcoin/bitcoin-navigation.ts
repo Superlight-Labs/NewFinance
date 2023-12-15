@@ -1,6 +1,7 @@
 export type BitcoinStackParamList = {
-  Bitcoin: undefined;
+  BitcoinStack: undefined;
   PriceNotification: undefined;
+  Bitcoin: undefined;
 
   BuyBitcoinStack: undefined;
   SellBitcoin: undefined;

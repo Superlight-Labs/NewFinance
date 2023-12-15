@@ -48,7 +48,6 @@ const SendStack = ({ navigation: _, route }: Props) => {
     headerLargeTitle: false,
     headerShadowVisible: false,
     headerShown: true,
-    headerLeft: () => null,
   });
 
   return (

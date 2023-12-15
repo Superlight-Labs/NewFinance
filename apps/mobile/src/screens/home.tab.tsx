@@ -75,7 +75,7 @@ const HomeTabNavigation = ({}: Props) => {
               />
             ),
           }}
-          name="Bitcoin"
+          name="BitcoinStack"
           component={BitcoinStack}
         />
         <Tab.Screen

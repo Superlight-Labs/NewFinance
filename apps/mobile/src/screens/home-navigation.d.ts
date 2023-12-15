@@ -1,6 +1,6 @@
 export type HomeTabList = {
   Home: undefined;
-  Bitcoin: undefined;
+  BitcoinStack: undefined;
   Profile: undefined;
 
   MenuStack: undefined;
