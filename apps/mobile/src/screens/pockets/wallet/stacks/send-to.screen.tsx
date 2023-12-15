@@ -10,11 +10,11 @@ import ContactList from 'components/wallets/contacts/contact-list.component';
 import { useDebounce } from 'hooks/useDebounced';
 import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native';
+import { SendStackList } from 'screens/pockets/pockets-navigation';
 import { backend } from 'utils/superlight-api';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
-import { WalletStackList } from '../wallet-navigation';
 
-type Props = StackScreenProps<WalletStackList, 'SendTo'>;
+type Props = StackScreenProps<SendStackList, 'SendTo'>;
 
 const SendToScreen = ({ navigation, route }: Props) => {
   const headerHeight = useHeaderHeight();

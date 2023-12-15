@@ -26,13 +26,14 @@ const options = {
 export const useCreateBitcoinPocket = (name: string, naviagteBack: () => void) => {
   const { perform } = useFailableAction();
   const { user } = useAuthState();
-  const { accounts } = useBitcoinState();
-  const accountIndex = accounts.size;
 
   const { deriveAndSaveAccount, deriveAddresses } = useDeriveSteps(user, name);
   const { coinType } = useDeriveState();
   console.log('inside useCreateBitcoinPocket');
-  if (!coinType) return;
+  if (!coinType) {
+    throw new Error('CoinType is not set');
+  }
+
   console.log('cointype is Set');
 
   const deriveInBackground = async (onSuccessCb: () => void) => {

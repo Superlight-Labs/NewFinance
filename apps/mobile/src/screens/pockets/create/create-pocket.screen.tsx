@@ -1,7 +1,6 @@
 import ButtonComponent from 'components/shared/input/button/button.component';
 import { useCreateBitcoinPocket } from 'hooks/useDeriveBitcoinPocket';
-import { useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
+import { SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 const CreatePocket = () => {
   const createBitcoinPocket = useCreateBitcoinPocket(
@@ -9,13 +8,7 @@ const CreatePocket = () => {
     () => {}
   );
 
-  const [loading, setLoading] = useState(false);
-
   const createPocket = () => {
-    generatePocket();
-  };
-
-  const generatePocket = () => {
     console.log('try creating pocket -------');
     createBitcoinPocket(() => {
       console.log('in creating pocket -------');
@@ -37,8 +30,6 @@ const CreatePocket = () => {
           }}>
           Create pocket
         </ButtonComponent>
-        {loading && <Text>Loading</Text>}
-        <ScrollView className="flex h-full pt-6 "></ScrollView>
       </View>
     </SafeAreaView>
   );

@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator<SendStackList>();
 
 type Props = StackScreenProps<PocketsStackParamList, 'Send'>;
 
-const SendStack = ({ navigation, route }: Props) => {
+const SendStack = ({ navigation: _, route }: Props) => {
   const { external } = route.params;
 
   const screensOptions = ({ navigation }: any) => ({
@@ -43,12 +43,11 @@ const SendStack = ({ navigation, route }: Props) => {
     ),
   });
 
-  const stackOptions = ({ navigation }: any) => ({
+  const stackOptions = ({ navigation: _ }: any) => ({
     title: 'Send',
     headerLargeTitle: false,
     headerShadowVisible: false,
     headerShown: true,
-    // eslint-disable-next-line react/no-unstable-nested-components
     headerLeft: () => null,
   });
 

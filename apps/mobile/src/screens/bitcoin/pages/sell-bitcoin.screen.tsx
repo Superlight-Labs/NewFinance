@@ -4,7 +4,7 @@ import { BitcoinStackParamList } from '../bitcoin-navigation';
 
 type Props = StackScreenProps<BitcoinStackParamList, 'SellBitcoin'>;
 
-const SellBitcoinScreen = ({ navigation }: Props) => {
+const SellBitcoinScreen = ({ navigation: _ }: Props) => {
   return (
     <SafeAreaView className="bg-white">
       <View className="px-6">

@@ -9,7 +9,7 @@ import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react
 
 type Props = StackScreenProps<PocketsStackParamList, 'TransactionDetails'>;
 
-const TransactionDetailsScreen = ({ navigation, route }: Props) => {
+const TransactionDetailsScreen = ({ navigation: _, route }: Props) => {
   const { transaction } = route.params;
   const [showMore, setShowMore] = useState<boolean>(false);
 

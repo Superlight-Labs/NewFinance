@@ -17,7 +17,7 @@ const SubStack = createNativeStackNavigator<PocketsStackParamList>();
 
 type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
 
-const PocketsStack = ({ navigation }: Props) => {
+const PocketsStack = ({ navigation: _ }: Props) => {
   const substackScreensOptions = ({ navigation }: any) => ({
     title: 'Main Pocket',
     headerLargeTitle: true,
