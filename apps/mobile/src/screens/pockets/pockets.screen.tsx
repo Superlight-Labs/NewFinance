@@ -8,10 +8,12 @@ import { RefreshControl } from 'react-native';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
+import { useQuery } from '@tanstack/react-query';
 import LoadingWalletMainItem from 'components/wallets/wallet-item/loading-wallet-main-item.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
 import useBitcoinPrice from 'hooks/useBitcoinData';
-import { TimeFrame } from 'src/types/chart';
+import { DataItem, TimeFrame } from 'src/types/chart';
+import { backend, historyApi } from 'utils/superlight-api';
 import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { PocketsStackParamList } from './pockets-navigation';
 
@@ -19,13 +21,49 @@ type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
 
 const Pockets = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
-  const { secret, derivedUntilLevel, name } = useDeriveState();
-  const { accounts, getAccountBalance, getTotalBalance, hasAddress, hasHydrated } =
-    useBitcoinState();
+  const { secret, derivedUntilLevel } = useDeriveState();
+  const {
+    accounts,
+    getAccountBalance,
+    getTotalBalance,
+    hasAddress,
+    network,
+    hasHydrated,
+    getAccountPerformance,
+  } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
   const { updateBitcoinPrice } = useBitcoinPrice();
+  const [accountPerformance, setAccountPerformance] = useState<any>({
+    percentage: 0,
+    absolute: 0,
+    average: 0,
+  });
 
   const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
+
+  const { data: currentExchangeRate } = useQuery(
+    ['exchangeRate'],
+    () =>
+      backend
+        .post<any>('/blockchain/exchange-rate', {
+          network,
+        })
+        .then(res => res.data),
+    { retry: false, refetchInterval: 30000 }
+  );
+
+  const { data: historyDataTotal } = useQuery(
+    ['historyData', 'total'],
+    () => historyApi.get<DataItem[]>('/total').then(res => res.data),
+    { retry: false }
+  );
+
+  useEffect(() => {
+    if (historyDataTotal !== undefined && currentExchangeRate !== undefined)
+      setAccountPerformance(
+        getAccountPerformance('Main pocket', currentExchangeRate.value, historyDataTotal)
+      );
+  }, [historyDataTotal, currentExchangeRate]);
 
   useEffect(() => {
     updateBitcoinPrice();
@@ -53,15 +91,7 @@ const Pockets = ({ navigation }: Props) => {
     return value > 0;
   };
 
-  const calcPercentageChange = (start: number, value: number) => {
-    return ((value / start) * 100 - 100).toFixed(2);
-  };
-
-  const calcAbsoluteChange = (start: number, value: number) => {
-    return Math.abs(value - start).toFixed(2);
-  };
-
-  const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('Y');
+  const [currentTimeFrame] = useState<TimeFrame>('total-graph');
 
   const prettifyDate = (date: string) => {
     if (date.includes('/')) {
@@ -69,28 +99,29 @@ const Pockets = ({ navigation }: Props) => {
       return `${dateParts[1]}.${dateParts[0]}.${dateParts[2].slice(2, 4)}`;
     }
     switch (currentTimeFrame) {
-      case 'T': {
+      case 'today': {
         return 'Today';
       }
-      case 'W': {
+      case 'weekly': {
         return 'Since 5 days';
       }
-      case 'M': {
+      case 'monthly': {
         return 'Since 1 month';
       }
-      case 'Y': {
+      case 'year': {
         return 'Since 1 year';
       }
-      case 'MAX': {
+      case 'total-graph': {
         return 'Since start';
       }
     }
     return date;
   };
 
-  const showPocket = () => {
+  //Currently not in release
+  /*const showPocket = () => {
     navigation.navigate('CreatePocket');
-  };
+  };*/
 
   return (
     <ScrollView
@@ -106,7 +137,7 @@ const Pockets = ({ navigation }: Props) => {
         />
 
         <View className="flex-row items-center">
-          {isUp(10) ? (
+          {isUp(accountPerformance.absolute) ? (
             <MonoIcon
               iconName="ChevronsUp"
               width={16}
@@ -127,11 +158,14 @@ const Pockets = ({ navigation }: Props) => {
           <Text
             className="font-manrope text-sm font-bold text-[#01DC0A]"
             // eslint-disable-next-line react-native/no-inline-styles
-            style={{ color: isUp(10) ? '#01DC0A' : '#FF3F32' }}>
-            {calcAbsoluteChange(2, 10)}€ ({calcPercentageChange(3, 13)}%)
+            style={{ color: isUp(accountPerformance.absolute) ? '#01DC0A' : '#FF3F32' }}>
+            {accountPerformance.absolute.toFixed(2)}€ ({accountPerformance.percentage.toFixed(2)}
+            %)
           </Text>
           <MonoIcon iconName="Dot" width={15} height={15} color={'#8E8D95'} />
-          <Text className="font-manrope text-sm font-bold text-grey">{prettifyDate('T')}</Text>
+          <Text className="font-manrope text-sm font-bold text-grey">
+            {prettifyDate('total-graph')}
+          </Text>
         </View>
       </View>
 

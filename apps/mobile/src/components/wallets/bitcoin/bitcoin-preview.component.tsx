@@ -35,7 +35,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
           network,
         })
         .then(res => res.data),
-    { retry: false, refetchInterval: 3000 }
+    { retry: false, refetchInterval: 15000 }
   );
 
   const changeTimeFrame = (timeframe: TimeFrame) => {
@@ -47,13 +47,13 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
     if (historyData !== undefined && historyData !== currentTimeFrameData) {
       setCurrentTimeFrameData(historyData!);
       if (currentExchangeRate !== undefined)
-        setselectedDataPoint({ date: '', value: currentExchangeRate.value });
+        setselectedDataPoint({ date: '', value: currentExchangeRate.value, time: '' });
     }
   }, [historyData]);
 
   useEffect(() => {
     if (currentExchangeRate !== undefined) {
-      setselectedDataPoint({ date: '', value: currentExchangeRate.value });
+      setselectedDataPoint({ date: '', value: currentExchangeRate.value, time: '' });
     }
   }, [currentExchangeRate]);
 
@@ -61,12 +61,14 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
     {
       date: '01/01/2023',
       value: 30000,
+      time: '2013-04-28T00:00:00.000Z',
     },
   ]);
 
   const [selectedDataPoint, setselectedDataPoint] = useState<DataItem>({
     date: '',
     value: 35000.0,
+    time: '2013-04-28T00:00:00.000Z',
   });
 
   const calcPercentageChange = (start: number, value: number) => {
@@ -81,17 +83,26 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
     return currentTimeFrameData[0].value < selectedDataPointValue.value;
   };
 
-  const prettifyDate = (date: string) => {
-    if (date.includes('/')) {
-      const dateParts = date.split('/');
-      return `${dateParts[1]}.${dateParts[0]}.${dateParts[2].slice(2, 4)}`;
+  const prettifyDate = (timestamp: string) => {
+    if (timestamp !== '') {
+      const date = new Date(timestamp);
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Monat (0-basiert)
+      const day = date.getDate().toString().padStart(2, '0'); // Tag
+      const year = date.getFullYear().toString().slice(-2); // Jahr (letzte zwei Ziffern)
+
+      const hours = date.getHours().toString().padStart(2, '0'); // Stunden
+      const minutes = date.getMinutes().toString().padStart(2, '0'); // Minuten
+
+      if (currentTimeFrame === 'year' || currentTimeFrame === 'total-graph')
+        return `${day}.${month}.${year}`;
+      return `${day}.${month}.${year} ${hours}:${minutes}`;
     }
     switch (currentTimeFrame) {
       case 'today': {
         return 'Today';
       }
       case 'weekly': {
-        return 'Since 5 days';
+        return 'Since 7 days';
       }
       case 'monthly': {
         return 'Since 1 month';
@@ -99,11 +110,11 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
       case 'year': {
         return 'Since 1 year';
       }
-      case 'total': {
+      case 'total-graph': {
         return 'Since start';
       }
     }
-    return date;
+    return timestamp;
   };
 
   return (
@@ -147,7 +158,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
             </Text>
             <MonoIcon iconName="Dot" width={15} height={15} color={'#8E8D95'} />
             <Text className="font-manrope text-sm font-bold text-grey">
-              {prettifyDate(selectedDataPoint.date)}
+              {prettifyDate(selectedDataPoint.time)}
             </Text>
           </View>
         </View>
@@ -158,7 +169,7 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
           onValueChange={value => setselectedDataPoint(value)}
           onTouchStart={onChartStart}
           onTouchRelease={() => {
-            setselectedDataPoint({ date: '', value: currentExchangeRate.value });
+            setselectedDataPoint({ date: '', value: currentExchangeRate.value, time: '' });
             onChartRelease();
           }}
         />
