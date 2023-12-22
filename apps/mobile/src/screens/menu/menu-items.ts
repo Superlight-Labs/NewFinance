@@ -32,7 +32,7 @@ type LinkItem = {
   screen: keyof MenuStackParamList;
 };
 
-const homePageUrl = 'https://www.getnewfinance.com/';
+const homePageUrl = 'https://www.getnewfinance.com';
 
 export const useMenuItems = () => {
   const { deleteLocalData: logout } = useDeleteLocalData();
@@ -112,6 +112,13 @@ export const useMenuItems = () => {
       type: 'action',
       icon: 'ExternalLink',
       onPress: () => openWebsite(homePageUrl + '/support'),
+    },
+    {
+      name: 'Privacy policy',
+      subText: 'Learn about how we treat your data',
+      type: 'action',
+      icon: 'ExternalLink',
+      onPress: () => openWebsite(homePageUrl + '/privacy'),
     },
     {
       name: 'Raise a bug',

@@ -21,11 +21,7 @@ export const useUpdateWalletData = () => {
     network,
   };
 
-  const {
-    data: balances,
-    isLoading: balancesLoading,
-    refetch: refetchBalance,
-  } = useQuery({
+  const { data: balances, refetch: refetchBalance } = useQuery({
     queryKey: ['bitcoin', 'balance', account],
     queryFn: () =>
       backend
@@ -34,11 +30,7 @@ export const useUpdateWalletData = () => {
     enabled: fetch,
   });
 
-  const {
-    data: transactions,
-    isLoading: transactionsLoading,
-    refetch: refetchTransactions,
-  } = useQuery({
+  const { data: transactions, refetch: refetchTransactions } = useQuery({
     queryKey: ['bitcoin', 'transactions', account],
     queryFn: () =>
       backend
@@ -49,17 +41,19 @@ export const useUpdateWalletData = () => {
 
   if (balances && transactions && request && account && fetch) {
     Object.entries(balances).forEach(([address, balance]) => {
+      if (isEmptyBalance(balance)) return;
+
       updateBalance(balance, account, address);
     });
 
     Object.entries(transactions).forEach(([address, newTransactions]) => {
+      if (newTransactions.length === 0) return;
+
       setTransactions(newTransactions, account, address);
     });
 
     setFetch(false);
   }
-
-  console.log({ balancesLoading, transactionsLoading, fetch });
 
   return {
     refreshing: fetch,
@@ -70,4 +64,8 @@ export const useUpdateWalletData = () => {
       refetchTransactions();
     },
   };
+};
+
+const isEmptyBalance = (balance: BitcoinBalance) => {
+  return balance.incoming === 0 && balance.outgoing === 0;
 };

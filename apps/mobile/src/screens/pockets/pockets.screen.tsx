@@ -68,10 +68,8 @@ const Pockets = ({ navigation }: Props) => {
       createBitcoinWallet(secret)(() => {
         updateAll();
       });
-    } else {
-      updateAll();
     }
-  }, [hasHydrated]);
+  }, [hasHydrated, loading]);
 
   const updateAll = () => {
     for (const [key, _] of accounts) {

@@ -35,7 +35,6 @@ export class BitcoinService {
   getBalance = async (address: string, provider: BitcoinProviderEnum): Promise<BitcoinBalance> => {
     const { mapper, fetcher } = this.factory.getProviderFunctions(provider);
 
-    console.log({ address, provider });
     const apiBalance = await fetcher.fetchBalance(address);
 
     return mapper.responseToBalance(apiBalance);
