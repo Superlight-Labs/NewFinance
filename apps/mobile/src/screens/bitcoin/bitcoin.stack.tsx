@@ -19,6 +19,7 @@ const BitcoinStack = ({ navigation }: Props) => {
       <Stack.Screen
         name="BitcoinScreen"
         options={{
+          title: 'Bitcoin',
           headerLargeTitle: true,
           headerShadowVisible: true,
           headerLargeTitleShadowVisible: false,

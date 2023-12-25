@@ -2,7 +2,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import Snackbar from 'components/shared/snackbar/snackbar.component';
 import { PocketsStackParamList, SendStackList } from 'screens/pockets/pockets-navigation';
+import { useSnackbarState } from 'state/snackbar.state';
 import { Pressable } from 'utils/wrappers/styled-react-native';
 import ScanQrScreen from '../stacks/scan-qr.scren';
 import SendAmountScreen from '../stacks/send-amount.screen';
@@ -15,6 +17,7 @@ type Props = StackScreenProps<PocketsStackParamList, 'Send'>;
 
 const SendStack = ({ navigation: _, route }: Props) => {
   const { external } = route.params;
+  const { message } = useSnackbarState();
 
   const screensOptions = ({ navigation }: any) => ({
     // eslint-disable-next-line react/no-unstable-nested-components
@@ -51,20 +54,23 @@ const SendStack = ({ navigation: _, route }: Props) => {
   });
 
   return (
-    <Stack.Navigator screenOptions={stackOptions}>
-      <Stack.Screen
-        name="SendAmount"
-        initialParams={{ sender: external }}
-        component={SendAmountScreen}
-      />
-      <Stack.Screen name="SendTo" component={SendToScreen} options={screensOptions} />
-      <Stack.Screen
-        name="ScanQrCode"
-        component={ScanQrScreen}
-        options={{ headerShown: false, presentation: 'modal' }}
-      />
-      <Stack.Screen name="SendReview" component={SendReviewScreen} options={noTitleOptions} />
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator screenOptions={stackOptions}>
+        <Stack.Screen
+          name="SendAmount"
+          initialParams={{ sender: external }}
+          component={SendAmountScreen}
+        />
+        <Stack.Screen name="SendTo" component={SendToScreen} options={screensOptions} />
+        <Stack.Screen
+          name="ScanQrCode"
+          component={ScanQrScreen}
+          options={{ headerShown: false, presentation: 'modal' }}
+        />
+        <Stack.Screen name="SendReview" component={SendReviewScreen} options={noTitleOptions} />
+      </Stack.Navigator>
+      {message.level !== 'empty' && <Snackbar appMessage={message} />}
+    </>
   );
 };
 
