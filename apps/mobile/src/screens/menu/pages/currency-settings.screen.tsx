@@ -45,7 +45,7 @@ const CurrencySettings = () => {
 
   return (
     <SafeAreaView className="bg-white">
-      <View className="px-6">
+      <View className="px-5">
         <Text className="mb-2 mt-2 font-[system] text-[32px] font-[700] leading-[32px] text-black">
           Local currency
         </Text>

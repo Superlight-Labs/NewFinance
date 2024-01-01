@@ -48,14 +48,14 @@ export const useMenuItems = () => {
     },
     {
       name: 'Tag',
-      subText: user?.username!,
+      subText: '@' + user?.username!,
       type: 'link',
       icon: 'ChevronRight',
       screen: 'TagSettings',
     },
     {
       name: 'ENS/BNS name',
-      subText: user?.username! + '@newfinance',
+      subText: 'Available soon',
       type: 'link',
       icon: 'ChevronRight',
       screen: 'ENSSettings',
