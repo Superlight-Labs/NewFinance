@@ -12,6 +12,7 @@ import OnboardingScreen from 'screens/onboarding/slides/onboarding-name.screen';
 import OnboardingPhraseScreen from 'screens/onboarding/slides/onboarding-phrase.screen';
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import Welcome from 'screens/onboarding/welcome.screen';
+import ComingSoonScreen from 'screens/shared/coming-soon.screen';
 import LoadingScreen from 'screens/shared/loading.screen';
 import { RootStackParamList } from 'src/app-navigation';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
@@ -123,6 +124,14 @@ const AppNavigation = () => {
                               name="AlphaNotice"
                               options={{ presentation: 'modal' }}
                               component={AlphaNoticeScreen}
+                            />
+                            <Stack.Screen
+                              name="ComingSoon"
+                              options={{
+                                presentation: 'containedTransparentModal',
+                                gestureEnabled: true,
+                              }}
+                              component={ComingSoonScreen}
                             />
                           </>
                         ) : (

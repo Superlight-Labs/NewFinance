@@ -66,7 +66,7 @@ const Wallet = ({ navigation, route }: Props) => {
           <RoundButtonComponent
             style="bg-white border-[1px] border-[#E8E8E8]"
             textStyle="text-black"
-            onPress={() => {} /*navigation.navigate()*/}
+            onPress={() => navigation.navigate('ComingSoon', { text: 'Add funds' })}
             iconName="Plus"
             iconColor="#000000">
             Add funds

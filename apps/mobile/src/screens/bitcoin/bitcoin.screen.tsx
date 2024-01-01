@@ -100,7 +100,7 @@ const Bitcoin = ({ navigation }: Props) => {
       />
       <View className="mt-12 flex w-full flex-row justify-between px-5">
         <ButtonComponent
-          onPress={() => navigation.navigate('SellBitcoin')}
+          onPress={() => navigation.navigate('ComingSoon', { text: 'Sell Bitcoin' })}
           style="bg-[#F0F6F2] flex-1 mr-1"
           textStyle="text-black">
           Sell

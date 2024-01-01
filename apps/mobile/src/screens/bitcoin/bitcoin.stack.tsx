@@ -32,7 +32,7 @@ const BitcoinStack = ({ navigation }: Props) => {
           headerRight: () => (
             <Pressable
               onPress={() => {
-                navigation.navigate('PriceNotification');
+                navigation.navigate('ComingSoon', { text: 'Price alarms' });
               }}
               className="ml-0.5">
               <MonoIcon iconName="BellRing" strokeWitdth={2.5} />
