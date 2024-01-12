@@ -52,10 +52,6 @@ const Bitcoin = ({ navigation }: Props) => {
   );
 
   useEffect(() => {
-    console.log('historyData 24H: ', historyData24H);
-  }, [historyData24H]);
-
-  useEffect(() => {
     if (historyDataTotal !== undefined && currentExchangeRate !== undefined)
       setAccountPerformance(
         getAccountPerformance('Main pocket', currentExchangeRate.value, historyDataTotal)

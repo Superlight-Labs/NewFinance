@@ -37,10 +37,11 @@ const MultilineText = ({
       autoComplete="off"
       keyboardType={keyboardType}
       placeholder={placeholder}
+      placeholderTextColor="#BFC3C1"
       onChangeText={setValue}
       value={value}
       maxLength={maxLength}
-      className={` border-slate-400 p-4 shadow-lg ${bg} ${style}`}
+      className={`border-slate-400 p-4 text-black shadow-lg ${bg} ${style}`}
     />
   );
 };

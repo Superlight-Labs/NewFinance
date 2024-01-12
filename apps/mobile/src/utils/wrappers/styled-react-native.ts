@@ -16,7 +16,7 @@ import {
 
 const ScrollView = styled(RNScrollView);
 const Text = styled(RNText, 'font-manrope text-base text-black');
-const TextInput = styled(RNTextInput, 'font-manrope');
+const TextInput = styled(RNTextInput, 'font-manrope text-black');
 const Button = styled(RNButton);
 const Pressable = styled(RNPressable);
 const SafeAreaView = styled(RNSafeAreaView);

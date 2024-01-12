@@ -81,6 +81,11 @@ const PocketsStack = () => {
               component={ReceiveStack}
               options={{
                 presentation: 'modal',
+
+                title: 'Recieve',
+                headerLargeTitle: false,
+                headerShadowVisible: false,
+                headerShown: true,
               }}
             />
             <SubStack.Screen name="SetupWallet" component={SetupWallet} />
