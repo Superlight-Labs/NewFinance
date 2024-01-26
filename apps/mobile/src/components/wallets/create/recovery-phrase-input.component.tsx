@@ -52,6 +52,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
                 className="w-full items-baseline font-manrope text-base font-semibold"
                 placeholder="Type in phrase"
                 placeholderTextColor="#BFC3C1"
+                ref={el => (inputRefs.current[num] = el)}
                 onChangeText={value => addWord(value, num)}
                 autoFocus={true}
                 onFocus={() => setWordCount(num)}
@@ -67,7 +68,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
               }`}>
               <Text className="font-manrope text-base font-semibold">{num + 1}. </Text>
               <TextInput
-                ref={el => (inputRefs.current[6] = el)}
+                ref={el => (inputRefs.current[num] = el)}
                 className="w-full font-manrope text-base font-semibold"
                 onChangeText={value => addWord(value, num)}
                 placeholder="Type in phrase"
