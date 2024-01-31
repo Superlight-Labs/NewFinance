@@ -6,6 +6,7 @@ import Snackbar from 'components/shared/snackbar/snackbar.component';
 import { PocketsStackParamList, SendStackList } from 'screens/pockets/pockets-navigation';
 import { useSnackbarState } from 'state/snackbar.state';
 import { Pressable } from 'utils/wrappers/styled-react-native';
+import ChooseFeesScreen from '../stacks/choose-fees.screen';
 import ScanQrScreen from '../stacks/scan-qr.scren';
 import SendAmountScreen from '../stacks/send-amount.screen';
 import SendReviewScreen from '../stacks/send-review.screen';
@@ -68,6 +69,15 @@ const SendStack = ({ navigation: _, route }: Props) => {
           options={{ headerShown: false, presentation: 'modal' }}
         />
         <Stack.Screen name="SendReview" component={SendReviewScreen} options={noTitleOptions} />
+        <Stack.Screen
+          name="ChooseFees"
+          options={{
+            presentation: 'containedTransparentModal',
+            gestureEnabled: true,
+            headerShown: false,
+          }}
+          component={ChooseFeesScreen}
+        />
       </Stack.Navigator>
       {message.level !== 'empty' && <Snackbar appMessage={message} />}
     </>

@@ -8,8 +8,6 @@ import { BroadcastTransaction, Fees } from '@superlight-labs/blockchain-api-clie
 import Big from 'big.js';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import { RadioButtonItem } from 'components/shared/input/radio-button/radio-button';
-import RadioButtonGroupComponent from 'components/shared/input/radio-button/radio-button-group.component';
-import TextInputComponent from 'components/shared/input/text/text-input.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import * as Haptics from 'expo-haptics';
@@ -17,36 +15,35 @@ import useBitcoinPrice from 'hooks/useBitcoinData';
 import { useCreateBitcoinTransaction } from 'hooks/useCreateBitcoinTransaction';
 import { useFailableAction } from 'hooks/useFailable';
 import { useCallback, useEffect, useState } from 'react';
-import { Switch, TouchableWithoutFeedback } from 'react-native';
+import { Switch } from 'react-native';
 import { SendStackList } from 'screens/pockets/pockets-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { shortenAddress } from 'utils/string';
 import { backend } from 'utils/superlight-api';
-import { Modal, Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
+import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<SendStackList, 'SendReview'>;
 
 const SendReviewScreen = ({
   navigation,
   route: {
-    params: { amount, toAddress, sender, contact, note, currency },
+    params: { amount, toAddress, sender, contact, note, currency, customFee },
   },
 }: Props) => {
   const { user } = useAuthState();
   const { network, addresses, getAccountBalance } = useBitcoinState();
-  const [fee, setFee] = useState(0);
-  const [customFee, setCustomFee] = useState('');
-  const [fees, setFees] = useState<RadioButtonItem[]>([{ label: '', value: 0 }]);
+  const [fee, setFee] = useState(customFee ? customFee : 0);
+  const [fees, setFees] = useState<RadioButtonItem[]>([{ label: '', value: 0, disabled: false }]);
   const { createTransaction } = useCreateBitcoinTransaction(sender.account);
   const { perform } = useFailableAction();
   const { setMessage } = useSnackbarState();
   const { getPrice } = useBitcoinPrice();
-  const [showFeesModal, setShowFeesModal] = useState(false);
 
   const balance = getAccountBalance(sender.account);
   const total = new Big(amount / getPrice(currency)).add(new Big(fee));
+  const amountInBitcoin = Number(new Big(amount / getPrice(currency)).toFixed(8));
 
   useEffect(() => {
     if (balance < total.toNumber())
@@ -58,6 +55,11 @@ const SendReviewScreen = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fee, amount]);
 
+  //set customFees
+  useEffect(() => {
+    setFee(customFee ? customFee : fees[0].value);
+  }, [customFee]);
+
   useEffect(() => {
     refreshFees();
   }, []);
@@ -67,37 +69,39 @@ const SendReviewScreen = ({
       .post<Fees>('/blockchain/fees', {
         network,
         from: [...(addresses.get(sender.account) || [])].map(([_, a]) => a.address),
-        to: [{ address: toAddress, value: amount }],
+        to: [{ address: toAddress, value: amountInBitcoin }],
       } as Partial<GetFeesRequest>)
       .then(fees => {
         if (fee === 0) {
           setFee(fees.data.medium);
-          setCustomFee((getPrice() * fees.data.medium).toFixed(2).toString());
+          //setCustomFee((getPrice() * fees.data.medium).toFixed(2).toString());
         }
         setFees([
           {
             label: 'Slow',
             text: '~' + (getPrice() * fees.data.slow).toFixed(2) + currency,
             value: fees.data.slow,
+            disabled: false,
           },
           {
             label: 'Medium',
             text: '~' + (getPrice() * fees.data.medium).toFixed(2) + currency,
             value: fees.data.medium,
+            disabled: false,
           },
           {
             label: 'Fast',
             text: '~' + (getPrice() * fees.data.fast).toFixed(2) + currency,
             value: fees.data.fast,
+            disabled: false,
           },
         ]);
-        console.log('fees: ', fees.data.slow);
       });
   };
 
   const createAndSendTransaction = useCallback(() => {
     setMessage({ level: 'progress', total: 1, step: 1, message: 'Processing Transaction' });
-    perform(createTransaction(amount, toAddress, fee)).onSuccess(trans => {
+    perform(createTransaction(amountInBitcoin, toAddress, fee)).onSuccess(trans => {
       backend.post('/transaction/create', {
         hash: trans.getId(),
         reciever: {
@@ -109,7 +113,7 @@ const SendReviewScreen = ({
           name: user?.username,
           userEmail: user?.email,
         },
-        amount: amount,
+        amount: amountInBitcoin,
         note,
       } as CreateTransactionRequest);
 
@@ -199,8 +203,14 @@ const SendReviewScreen = ({
             <View className="mt-4 flex-row items-center justify-between">
               <Text className="font-manrope text-xs font-bold text-grey">FEES</Text>
               <Pressable
-                className="flex-row items-center"
-                onPress={() => setShowFeesModal(!showFeesModal)}>
+                className="flex-row items-center rounded active:bg-[#0000000F]"
+                onPress={() =>
+                  navigation.navigate('ChooseFees', {
+                    fees: fees,
+                    currency: currency,
+                    currentFee: fee,
+                  })
+                }>
                 <PriceTextComponent
                   bitcoinAmount={fee}
                   disabled={true}
@@ -247,70 +257,6 @@ const SendReviewScreen = ({
           </ButtonComponent>
         </View>
       </View>
-      <Modal
-        className=""
-        animationType="fade"
-        transparent={true}
-        visible={showFeesModal}
-        onRequestClose={() => {
-          setShowFeesModal(false);
-        }}>
-        <TouchableWithoutFeedback onPress={() => setShowFeesModal(false)}>
-          <View className="absolute h-full w-full justify-end bg-[#000000A0]">
-            <View
-              className="w-full rounded-t-xl bg-white px-5 pb-12 pt-6"
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 4,
-                elevation: 5,
-              }}>
-              <View className="self-end">
-                <MonoIcon iconName="X" />
-              </View>
-              <Text className="font-[system] text-[32px] font-[700] leading-[32px] text-black">
-                Change fees
-              </Text>
-
-              <View className="flex ">
-                <View>
-                  <View className="mt-6 flex flex-row items-center border-b border-[#ECF2EF] pb-4">
-                    <Text className="flex items-center font-manrope font-bold text-grey">
-                      Custom:{' '}
-                    </Text>
-                    <TextInputComponent
-                      value={customFee}
-                      style="flex-1 border-0"
-                      placeHolder="0.00"
-                      onChangeText={value => setCustomFee(value)}
-                      onBlur={() => setFee(parseFloat(customFee) / getPrice())}
-                      autoFocus={false}
-                    />
-                    <Text className="flex items-center font-manrope font-bold text-grey">
-                      {currency}
-                    </Text>
-                  </View>
-                  <View>
-                    <RadioButtonGroupComponent
-                      items={fees}
-                      selected={fees.find(item => item.value === fee)}
-                      onSelectionChange={item => {
-                        setFee(item.value);
-                        setCustomFee((getPrice() * item.value).toFixed(2).toString());
-                      }}
-                    />
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
     </SafeAreaView>
   );
 };

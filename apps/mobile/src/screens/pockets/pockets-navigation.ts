@@ -1,4 +1,5 @@
 import { Contact } from '@superlight-labs/api/src/repository/contact';
+import { RadioButtonItem } from 'components/shared/input/radio-button/radio-button';
 import { AccountTransaction, AddressInfo } from 'state/bitcoin.state';
 
 export type PocketsStackParamList = {
@@ -32,6 +33,7 @@ export type SendStackList = {
     amount: number;
     contact?: Contact;
     currency: Currency;
+    customFee?: number;
   };
   SendAmount: {
     sender: AddressInfo;
@@ -42,4 +44,5 @@ export type SendStackList = {
     amount: number;
     currency: Currency;
   };
+  ChooseFees: { fees: RadioButtonItem[]; currency: Currency; currentFee: number };
 };

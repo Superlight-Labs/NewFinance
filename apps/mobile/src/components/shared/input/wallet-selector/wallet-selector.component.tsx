@@ -15,24 +15,42 @@ const WalletSelector = ({ disabled, onPress, style }: Props) => {
   const { accounts, getAccountBalance } = useBitcoinState();
 
   return (
-    <>
-      {[...accounts].map(([key, _]) => (
+    <View>
+      {disabled ? (
         <Pressable
-          key={key}
           disabled={disabled}
           onPress={onPress}
           className={`w-full flex-row items-center justify-between rounded border-[1px] border-[#eeeeee] px-6 py-3 ${style}`}>
           <View>
-            <Text className="font-manrope text-sm font-bold">{key}</Text>
-            <PriceTextComponent
-              style="font-manrope font-bold text-sm text-grey"
-              bitcoinAmount={getAccountBalance(key)}
-            />
+            <Text className="font-manrope text-sm font-bold">Main Pocket</Text>
+            <View className="flex-row">
+              <PriceTextComponent
+                style="font-manrope font-bold text-sm text-grey"
+                bitcoinAmount={getAccountBalance('Main pocket')}
+              />
+              <Text className="font-manrope text-sm font-bold text-grey"> available</Text>
+            </View>
           </View>
-          <MonoIcon iconName="ChevronDown" />
         </Pressable>
-      ))}
-    </>
+      ) : (
+        [...accounts].map(([key, _]) => (
+          <Pressable
+            key={key}
+            disabled={disabled}
+            onPress={onPress}
+            className={`w-full flex-row items-center justify-between rounded border-[1px] border-[#eeeeee] px-6 py-3 ${style}`}>
+            <View>
+              <Text className="font-manrope text-sm font-bold">{key}</Text>
+              <PriceTextComponent
+                style="font-manrope font-bold text-sm text-grey"
+                bitcoinAmount={getAccountBalance(key)}
+              />
+            </View>
+            {!disabled && <MonoIcon iconName="ChevronDown" />}
+          </Pressable>
+        ))
+      )}
+    </View>
   );
 };
 

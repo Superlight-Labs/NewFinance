@@ -9,7 +9,7 @@ import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import ContactList from 'components/wallets/contacts/contact-list.component';
 import { useDebounce } from 'hooks/useDebounced';
 import { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { SendStackList } from 'screens/pockets/pockets-navigation';
 import { backend } from 'utils/superlight-api';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
@@ -39,7 +39,9 @@ const SendToScreen = ({ navigation, route }: Props) => {
   );
 
   useEffect(() => {
-    navigation.setOptions({ title: 'Send ' + amount + currency });
+    if (currency !== 'BTC' && currency !== 'sats')
+      navigation.setOptions({ title: 'Send ' + amount.toFixed(2) + currency });
+    else navigation.setOptions({ title: 'Send ' + amount + ' ' + currency });
   }, []);
 
   useEffect(() => {
@@ -80,78 +82,72 @@ const SendToScreen = ({ navigation, route }: Props) => {
   }
 
   return (
-    <View className="h-full">
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{ flex: 1 }}>
-        <TouchableWithoutFeedback>
-          <View className="h-full flex-col justify-between bg-white px-5">
-            <View>
-              <View className="flex w-full flex-col pt-6">
-                <View className="flex flex-row items-center border-b border-[#ECF2EF] pb-4">
-                  <Text className="flex items-center font-manrope font-bold text-grey">To: </Text>
-                  <TextInputComponent
-                    value={recipientName}
-                    style="flex-1 border-0"
-                    placeHolder="Recipient's name"
-                    onChangeText={setRecipientName}
-                    autoCapitalize={true}
-                    autoFocus={true}
-                  />
-                </View>
-                <View className="mt-4 flex flex-row items-center border-b border-[#ECF2EF] pb-4">
-                  <Text className="flex items-center font-manrope font-bold text-grey">
-                    Address:{' '}
-                  </Text>
-                  <TextInputComponent
-                    value={toAddress}
-                    style="flex-1 border-0"
-                    placeHolder="Bitcoin address"
-                    onChangeText={addressChange}
-                  />
-                  <Pressable
-                    onPress={() => navigation.navigate('ScanQrCode', { sender, currency, amount })}>
-                    <MonoIcon style="ml-auto flex items-center bg-white w-8" iconName="ScanLine" />
-                  </Pressable>
-                </View>
-                <View className="mt-4 flex flex-row items-center border-b border-[#ECF2EF] pb-4">
-                  <Text className="flex items-center font-manrope font-bold text-grey">Note: </Text>
-                  <TextInputComponent
-                    value={note}
-                    style="flex-1 border-0"
-                    placeHolder="Add note"
-                    onChangeText={setNote}
-                  />
-                </View>
-              </View>
-
-              <View className="mt-6">
-                {
-                  <ContactList
-                    search={toAddress}
-                    onSelectContact={onSelectContact}
-                    lastInteractions={contacts}
-                  />
-                }
-              </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{ flex: 1 }}>
+      <View className="h-full flex-col justify-between bg-white px-5">
+        <View>
+          <View className="flex w-full flex-col pt-6">
+            <View className="flex flex-row items-center border-b border-[#ECF2EF] pb-4">
+              <Text className="flex items-center font-manrope font-bold text-grey">To: </Text>
+              <TextInputComponent
+                value={recipientName}
+                style="flex-1 border-0"
+                placeHolder="Recipient's name"
+                onChangeText={setRecipientName}
+                autoCapitalize={true}
+                autoFocus={true}
+              />
             </View>
-            <View style={{ marginBottom: headerHeight + 36 }}>
-              <ButtonComponent
-                disabled={
-                  recipientName.length === 0 ||
-                  toAddress.length === 0 ||
-                  note.length === 0 ||
-                  !addressValid
-                }
-                onPress={onContinue}>
-                Next
-              </ButtonComponent>
+            <View className="mt-4 flex flex-row items-center border-b border-[#ECF2EF] pb-4">
+              <Text className="flex items-center font-manrope font-bold text-grey">Address: </Text>
+              <TextInputComponent
+                value={toAddress}
+                style="flex-1 border-0"
+                placeHolder="Bitcoin address"
+                onChangeText={addressChange}
+              />
+              <Pressable
+                onPress={() => navigation.navigate('ScanQrCode', { sender, currency, amount })}>
+                <MonoIcon style="ml-auto flex items-center bg-white w-8" iconName="ScanLine" />
+              </Pressable>
+            </View>
+            <View className="mt-4 flex flex-row items-center border-b border-[#ECF2EF] pb-4">
+              <Text className="flex items-center font-manrope font-bold text-grey">Note: </Text>
+              <TextInputComponent
+                value={note}
+                style="flex-1 border-0"
+                placeHolder="Add note"
+                onChangeText={setNote}
+              />
             </View>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </View>
+
+          <View className="mt-6">
+            {
+              <ContactList
+                search={toAddress}
+                onSelectContact={onSelectContact}
+                lastInteractions={contacts}
+              />
+            }
+          </View>
+        </View>
+        <View style={{ marginBottom: headerHeight + 36 }}>
+          <ButtonComponent
+            disabled={
+              recipientName.length === 0 ||
+              toAddress.length === 0 ||
+              note.length === 0 ||
+              !addressValid
+            }
+            onPress={onContinue}>
+            Next
+          </ButtonComponent>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

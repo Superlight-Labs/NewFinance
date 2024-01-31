@@ -27,7 +27,7 @@ const ContactList = ({ lastInteractions, search, onSelectContact }: Props) => {
           )}
         </View>
       ) : (
-        <ScrollView className="mt-2">
+        <ScrollView className="mt-2" keyboardShouldPersistTaps="handled">
           {lastInteractions.map((contact, i) => (
             <Pressable key={contact.address + i} onPress={() => onSelectContact(contact)}>
               <ContactComponent contact={contact} />
