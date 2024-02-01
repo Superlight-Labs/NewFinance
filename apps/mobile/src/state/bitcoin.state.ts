@@ -50,7 +50,7 @@ type BitcoinActions = {
     account: string,
     bitcoinValue: number,
     historyPrices: any[]
-  ) => Performance | null;
+  ) => Performance;
   getAccountTransactions: (account: string) => AccountTransaction[];
   getAccExternalAddress: (account: string) => AddressInfo;
   getAccountAddresses: (account: string) => Addresses;
@@ -206,10 +206,12 @@ export type Addresses = {
 const calculateTotalBalance = (addresses: Map<string, Map<ChangeIndex, AddressInfo>>): number => {
   const addressesArr = [...addresses.entries()].map(([key, _]) => key);
 
-  return addressesArr.reduce(
+  const balance = addressesArr.reduce(
     (acc, account) => acc + calculateAccountBalance(addresses, account),
     0
   );
+
+  return balance;
 };
 
 /**
@@ -247,7 +249,7 @@ const calculateAccountPerformance = (
   account: string,
   currentBitcoinPrice: number,
   historyPrices: DataItem[]
-): Performance | null => {
+): Performance => {
   const accountAddresses = addresses.get(account);
 
   if (!accountAddresses) return { percentage: 0, absolute: 0, average: 0 };
@@ -304,11 +306,19 @@ const calculateAccountPerformance = (
     { percentage: 0, absolute: 0, average: 0, totalValue: 0 }
   );
 
+  const totalValueSum = externalPerformance.totalValue + changePerformance.totalValue;
+
+  const percentage =
+    totalValueSum === 0
+      ? 0
+      : ((externalPerformance.absolute + changePerformance.absolute) /
+          (totalValueSum * currentBitcoinPrice)) *
+        100;
+
+  console.log({ currentBitcoinPrice, percentage });
+
   return {
-    percentage:
-      ((externalPerformance.absolute + changePerformance.absolute) /
-        ((externalPerformance.totalValue + changePerformance.totalValue) * currentBitcoinPrice)) *
-      100,
+    percentage,
     absolute: externalPerformance.absolute + changePerformance.absolute,
     average: externalPerformance.average / externalPerformance.totalValue,
   };

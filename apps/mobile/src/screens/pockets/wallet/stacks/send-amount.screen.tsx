@@ -48,7 +48,7 @@ const SendScreen = ({ navigation, route }: Props) => {
         <View className="mt-16 flex flex-grow flex-col items-center ">
           <View className="flex w-full flex-row flex-wrap items-center justify-center space-x-1">
             <MultilineTextComponent
-              style="border-0 m-w-[100%] flex font-manrope text-[40px] font-bold leading-[1] shadow-none px-0 bg-white"
+              style="border-0 m-w-[100%]  flex font-manrope text-[40px] font-bold leading-[1] shadow-none px-0 bg-white"
               value={amount}
               keyboardType="numeric"
               maxLength={10}

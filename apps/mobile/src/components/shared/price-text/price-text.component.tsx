@@ -14,7 +14,7 @@ type Props = {
 
 const PriceText = ({ bitcoinAmount = 0, style, disabled = false }: Props) => {
   const { currency, setCurrency } = useGeneralState();
-  const { currentPrices } = useBitcoinPrice();
+  const { currentPrices, updateBitcoinPrice, isLoading } = useBitcoinPrice();
 
   const changeCurrency = () => {
     const enabledCurrencyItems = currencyItems.filter(item => item.disabled === false);
@@ -22,6 +22,8 @@ const PriceText = ({ bitcoinAmount = 0, style, disabled = false }: Props) => {
     const nextIndex = (currentIndex + 1) % enabledCurrencyItems.length;
     setCurrency(enabledCurrencyItems[nextIndex].value);
   };
+
+  if (!currentPrices[currency] && !isLoading) updateBitcoinPrice();
 
   return (
     <Pressable

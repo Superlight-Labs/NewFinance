@@ -10,12 +10,12 @@ const useBitcoinPrice = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<number | null>(null);
   const { currency } = useGeneralState();
-
   const fetchBitcoinPrice = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(BITCOIN_API_URL);
       const data = await response.json();
+
       setCurrentPrices({
         '€': data.bitcoin.eur,
         $: data.bitcoin.usd,

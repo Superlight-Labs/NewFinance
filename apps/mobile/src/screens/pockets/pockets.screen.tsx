@@ -4,7 +4,7 @@ import PriceTextComponent from 'components/shared/price-text/price-text.componen
 import { useCreateBitcoinWallet } from 'hooks/useDeriveBitcoinWallet';
 import { useUpdateWalletData } from 'hooks/useUpdateWalletData';
 import { useEffect, useState } from 'react';
-import { useBitcoinState } from 'state/bitcoin.state';
+import { Performance, useBitcoinState } from 'state/bitcoin.state';
 import { DerivedUntilLevel, useDeriveState } from 'state/derive.state';
 
 import { useQuery } from '@tanstack/react-query';
@@ -17,6 +17,12 @@ import { ScrollView, Text, View } from 'utils/wrappers/styled-react-native';
 import { PocketsStackParamList } from './pockets-navigation';
 
 type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
+
+const emptyPerformance = {
+  percentage: 0,
+  absolute: 0,
+  average: 0,
+};
 
 const Pockets = ({ navigation }: Props) => {
   const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
@@ -31,11 +37,7 @@ const Pockets = ({ navigation }: Props) => {
     getAccountPerformance,
   } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
-  const [accountPerformance, setAccountPerformance] = useState<any>({
-    percentage: 0,
-    absolute: 0,
-    average: 0,
-  });
+  const [accountPerformance, setAccountPerformance] = useState<Performance>(emptyPerformance);
 
   const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
 
