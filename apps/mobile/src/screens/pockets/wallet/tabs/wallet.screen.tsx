@@ -84,7 +84,11 @@ const Wallet = ({ navigation, route }: Props) => {
       <View>
         <TransactionList
           onItemPressed={transaction => {
-            navigation.navigate('TransactionDetails', { transaction: transaction });
+            navigation.navigate('TransactionDetails', {
+              transaction: transaction,
+              externalAddress: external.address,
+              changeAddress: changeAddress,
+            });
           }}
           loading={derivedUntilLevel < DerivedUntilLevel.COMPLETE}
           address={external.address}

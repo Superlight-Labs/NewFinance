@@ -22,7 +22,7 @@ const Transaction = ({ onPress, transaction, address, changeAddress }: Props) =>
 
   const getFormattedDate = (timeInEpoch: number) => {
     var date = new Date(0);
-    date.setUTCSeconds(timeInEpoch);
+    date.setUTCSeconds(Number(timeInEpoch.toString().slice(0, 10)));
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
 
@@ -74,7 +74,7 @@ const Transaction = ({ onPress, transaction, address, changeAddress }: Props) =>
           <View className="flex-col items-end">
             <PriceTextComponent
               style="font-manrope-bold text-[13px] leading-[18px] text-[#FF000F]"
-              bitcoinAmount={toBitcoin(value)}
+              bitcoinAmount={toBitcoin(value + fee)}
             />
             <View className="mt-2 flex-row">
               <PriceTextComponent

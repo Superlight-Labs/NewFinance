@@ -10,24 +10,17 @@ import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react
 type Props = StackScreenProps<PocketsStackParamList, 'TransactionDetails'>;
 
 const TransactionDetailsScreen = ({ navigation: _, route }: Props) => {
-  const { transaction } = route.params;
+  const { transaction, externalAddress, changeAddress } = route.params;
   const [showMore, setShowMore] = useState<boolean>(false);
 
-  const value = getNetValueFromTransaction(
-    transaction,
-    transaction.address.address,
-    transaction.address.address
-  );
-  const peer = getPeerOfTransaction(
-    transaction,
-    transaction.address.address,
-    transaction.address.address
-  );
+  const value = getNetValueFromTransaction(transaction, externalAddress, changeAddress);
+  const peer = getPeerOfTransaction(transaction, externalAddress, changeAddress);
   const fee = getTxFee(transaction);
+  const incoming = value > 0;
 
   const getFormattedDate = (timeInEpoch: number) => {
     var date = new Date(0);
-    date.setUTCSeconds(timeInEpoch);
+    date.setUTCSeconds(Number(timeInEpoch.toString().slice(0, 10)));
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
@@ -35,21 +28,21 @@ const TransactionDetailsScreen = ({ navigation: _, route }: Props) => {
     const minute = date.getHours();
     const seconds = date.getSeconds();
 
-    return `${day}.${month}.${year} ${minute}:${seconds}`;
+    return `${day}.${month}.${year} ${minute}:${seconds < 10 ? '0' + seconds : seconds}`;
   };
 
   return (
     <SafeAreaView className="h-full bg-white">
       <View className="px-5 pt-12">
         <Text className="font-[system] text-[32px] font-[700] leading-[32px] text-black">
-          {transaction.incomming ? 'Received' : 'Sent'}
+          {incoming ? 'Received' : 'Sent'}
         </Text>
         <Text className="font-manrope text-sm font-bold text-grey">
           {getFormattedDate(transaction.time)}
         </Text>
         <View className="mb-10 mt-6 border-b-[1.5px] border-[#F6F7F8]" />
         <View className="items-center">
-          {transaction.incomming ? (
+          {incoming ? (
             <View>
               <PriceTextComponent
                 style="text-center font-[system] text-[32px] font-[700] leading-[32px] text-[#01DC0A]"
@@ -63,7 +56,7 @@ const TransactionDetailsScreen = ({ navigation: _, route }: Props) => {
             <View>
               <PriceTextComponent
                 style="text-center font-[system] text-[32px] font-[700] leading-[32px] text-[#FF000F]"
-                bitcoinAmount={toBitcoin(value)}
+                bitcoinAmount={toBitcoin(value + fee)}
               />
               <Text className="font-manrope text-sm font-bold text-grey">
                 {toBitcoin(value)} BTC
@@ -76,7 +69,7 @@ const TransactionDetailsScreen = ({ navigation: _, route }: Props) => {
           <Text className="font-manrope text-lg font-bold">Overview</Text>
           <View className="mt-4 flex-row items-center justify-between">
             <Text className="font-manrope text-xs font-bold text-grey">
-              {transaction.incomming ? 'FROM' : 'TO'}
+              {incoming ? 'FROM' : 'TO'}
             </Text>
             <View className="items-end">
               <Text className="mt-0.5 rounded bg-[#F5F5F5] px-1.5 py-0.5 font-manrope-medium text-xs text-grey">
@@ -90,7 +83,7 @@ const TransactionDetailsScreen = ({ navigation: _, route }: Props) => {
               {getFormattedDate(transaction.time)}
             </Text>
           </View>
-          {!transaction.incomming && (
+          {!incoming && (
             <View className="mt-4 flex-row items-center justify-between">
               <Text className="font-manrope text-xs font-bold text-grey">NETWORK FEES</Text>
               <PriceTextComponent

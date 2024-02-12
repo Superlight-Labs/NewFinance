@@ -12,6 +12,8 @@ export type PocketsStackParamList = {
 
   TransactionDetails: {
     transaction: AccountTransaction;
+    externalAddress: string;
+    changeAddress: string;
   };
 
   Receive: { external: AddressInfo };
