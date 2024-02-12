@@ -159,7 +159,12 @@ const Bitcoin = ({ navigation }: Props) => {
               className="font-manrope text-sm font-bold text-[#01DC0A]"
               // eslint-disable-next-line react-native/no-inline-styles
               style={{ color: isUp(accountPerformance.absolute) ? '#01DC0A' : '#FF3F32' }}>
-              {accountPerformance.absolute.toFixed(2)}€ ({accountPerformance.percentage.toFixed(2)}
+              {currentExchangeRate !== undefined &&
+                (
+                  currentExchangeRate.value * getTotalBalance() -
+                  accountPerformance.absolute
+                ).toFixed(2)}
+              € ({accountPerformance.percentage.toFixed(2)}
               %)
             </Text>
           </View>

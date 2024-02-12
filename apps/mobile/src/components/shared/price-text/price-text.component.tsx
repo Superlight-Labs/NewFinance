@@ -1,5 +1,6 @@
 import useBitcoinPrice from 'hooks/useBitcoinData';
 import { styled } from 'nativewind';
+import { useEffect } from 'react';
 import { currencyItems } from 'screens/menu/pages/currency-settings.screen';
 import { useGeneralState } from 'state/general.state';
 import { toSatoshi } from 'utils/crypto/bitcoin-value';
@@ -23,7 +24,9 @@ const PriceText = ({ bitcoinAmount = 0, style, disabled = false }: Props) => {
     setCurrency(enabledCurrencyItems[nextIndex].value);
   };
 
-  if (!currentPrices[currency] && !isLoading) updateBitcoinPrice();
+  useEffect(() => {
+    updateBitcoinPrice();
+  }, []);
 
   return (
     <Pressable
