@@ -1,3 +1,4 @@
+import { PortalProvider } from '@gorhom/portal';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import logger from '@superlight-labs/logger';
@@ -92,7 +93,7 @@ const AppNavigation = () => {
   ]);
 
   return (
-    <>
+    <PortalProvider>
       <NavigationContainer>
         <>
           <StatusBar backgroundColor={'white'} barStyle={'dark-content'} translucent={false} />
@@ -168,7 +169,7 @@ const AppNavigation = () => {
         </Stack.Navigator>
       </NavigationContainer>
       {message.level !== 'empty' && <Snackbar appMessage={message} />}
-    </>
+    </PortalProvider>
   );
 };
 

@@ -15,14 +15,14 @@ import useBitcoinPrice from 'hooks/useBitcoinData';
 import { useCreateBitcoinTransaction } from 'hooks/useCreateBitcoinTransaction';
 import { useFailableAction } from 'hooks/useFailable';
 import { useCallback, useEffect, useState } from 'react';
-import { Switch } from 'react-native';
+import { ActivityIndicator, Switch } from 'react-native';
 import { SendStackList } from 'screens/pockets/pockets-navigation';
 import { useAuthState } from 'state/auth.state';
 import { useBitcoinState } from 'state/bitcoin.state';
 import { useSnackbarState } from 'state/snackbar.state';
 import { shortenAddress } from 'utils/string';
 import { backend } from 'utils/superlight-api';
-import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
+import { Modal, Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<SendStackList, 'SendReview'>;
 
@@ -40,6 +40,7 @@ const SendReviewScreen = ({
   const { perform } = useFailableAction();
   const { setMessage } = useSnackbarState();
   const { getPrice } = useBitcoinPrice();
+  const [transactionLoading, setTransactionLoading] = useState(false);
 
   const balance = getAccountBalance(sender.account);
   const total = new Big(amount / getPrice(currency)).add(new Big(fee));
@@ -100,6 +101,7 @@ const SendReviewScreen = ({
   };
 
   const createAndSendTransaction = useCallback(() => {
+    setTransactionLoading(true);
     setMessage({ level: 'progress', total: 1, step: 1, message: 'Processing Transaction' });
     perform(createTransaction(amountInBitcoin, toAddress, fee)).onSuccess(trans => {
       backend.post('/transaction/create', {
@@ -123,11 +125,13 @@ const SendReviewScreen = ({
           hash: trans.toHex(),
         } as Partial<BroadCastTransactionBody>)
         .then(_ => {
+          setTransactionLoading(false);
           setMessage({ level: 'success', message: 'Transaction sent successfully' });
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           navigation.getParent()?.goBack();
         })
         .catch(error => {
+          setTransactionLoading(false);
           setMessage({ level: 'error', error, message: 'Failed to send Transaction' });
         });
     });
@@ -257,6 +261,19 @@ const SendReviewScreen = ({
           </ButtonComponent>
         </View>
       </View>
+      <Modal
+        visible={transactionLoading}
+        animationType="fade"
+        className="opacity-20"
+        presentationStyle="overFullScreen"
+        transparent={true}>
+        <View className=" h-full w-full items-center justify-center bg-black opacity-50">
+          <ActivityIndicator />
+          <Text className="mt-3 font-manrope-medium text-sm text-white">
+            Processing transaction...
+          </Text>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
