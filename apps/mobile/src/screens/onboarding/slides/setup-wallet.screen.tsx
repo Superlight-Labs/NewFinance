@@ -23,7 +23,7 @@ const SetupWallet = ({ navigation }: Props) => {
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
   const { importGenericSecret } = useGenericSecret();
-  const { setSecret, setName, deleteSeed } = useDeriveState();
+  const { setSecret, setName /*, deleteSeed*/ } = useDeriveState();
   const { user } = useAuthState();
 
   const [startTime] = useState<number>(Date.now());
@@ -61,7 +61,9 @@ const SetupWallet = ({ navigation }: Props) => {
         share: result.share,
         path: 'secret',
       });
-      deleteSeed();
+      // Seed will not be deleted for now
+      // TODO: Don't save seed in state with launch of mainnet
+      //deleteSeed();
       navigateToHome();
     });
   };

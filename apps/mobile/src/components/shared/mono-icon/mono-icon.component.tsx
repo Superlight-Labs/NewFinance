@@ -98,4 +98,5 @@ export type IconName =
   | 'Gift'
   | 'CircleDot'
   | 'Circle'
-  | 'CheckCheck';
+  | 'CheckCheck'
+  | 'AlertTriangle';

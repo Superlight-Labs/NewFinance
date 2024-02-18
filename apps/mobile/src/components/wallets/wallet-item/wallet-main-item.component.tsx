@@ -1,4 +1,3 @@
-import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import PriceTextComponent from 'components/shared/price-text/price-text.component';
 import { Image, ImageBackground, Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
@@ -19,17 +18,7 @@ const WalletMainItem = ({ name, balance, navigate, disabled = false }: Props) =>
         resizeMode="contain"
         className="h-[192px] w-full">
         <View className="h-full flex-col justify-between px-5 py-6 pt-5">
-          <View className="items-end ">
-            <View className="h-10 w-10 items-center justify-center rounded-full bg-white">
-              <MonoIcon
-                color="#927A5F"
-                width={24}
-                height={24}
-                strokeWitdth={2.5}
-                iconName="Bitcoin"
-              />
-            </View>
-          </View>
+          <View />
           <View className="mt-2 w-full flex-row items-end justify-between">
             <View className="items-start">
               <View className="flex-row items-center rounded-sm bg-[#ffffff34] px-1.5 py-0.5 blur-lg">
