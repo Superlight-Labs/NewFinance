@@ -148,11 +148,7 @@ const Pockets = ({ navigation }: Props) => {
             className="font-manrope text-sm font-bold text-[#01DC0A]"
             // eslint-disable-next-line react-native/no-inline-styles
             style={{ color: isUp(accountPerformance.absolute) ? '#01DC0A' : '#FF3F32' }}>
-            {currentExchangeRate !== undefined &&
-              (currentExchangeRate.value * getTotalBalance() - accountPerformance.absolute).toFixed(
-                2
-              )}
-            € ({accountPerformance.percentage.toFixed(2)}
+            {accountPerformance.absolute.toFixed(2)}€ ({accountPerformance.percentage.toFixed(2)}
             %)
           </Text>
           <MonoIcon iconName="Dot" width={15} height={15} color={'#8E8D95'} />

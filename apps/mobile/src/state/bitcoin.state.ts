@@ -243,6 +243,11 @@ export type Performance = {
 /**
  *
  * @returns Accumulated value of Account in BTC
+ * how this works
+ * average -  the average buyIn of the owned bitcoin, only based on value received on the external address
+ *            (otherwise, if you also use changeAddress and SentAmount, the average buyIn would be near to the current bitcoin price because new transaction will settle with the current price)
+ * absolute - the absolute value change of the owned bitcoin
+ * percentage - the percentage value change of the owned bitcoin
  */
 const calculateAccountPerformance = (
   addresses: Map<string, Map<ChangeIndex, AddressInfo>>,
@@ -257,77 +262,51 @@ const calculateAccountPerformance = (
   const external = accountAddresses?.get(0)!;
   const change = accountAddresses?.get(1)!;
 
-  const externalPerformance = external?.transactions.reduce(
+  const buyInVars = external?.transactions.reduce(
     (value, transaction) => {
       const netValue = toBitcoin(
         getNetValueFromTransaction(transaction, external.address, change?.address)
       );
 
-      const valuesAtTransaction = historyPrices.find(
-        item => formatToUnixTimestamp(item.time) === roundToStartOfDay(transaction.time)
-      );
+      //for comparing with history prices - each of the timestamps have to be rounded to the start of the day
+      const valuesAtTransaction = historyPrices.find(historyPriceItem => {
+        return (
+          formatToUnixTimestampAndRoundToStartOfDay(historyPriceItem.time) ===
+          roundToStartOfDay(transaction.time)
+        );
+      });
 
       const priceAtTransaction = valuesAtTransaction ? valuesAtTransaction.value : 1;
 
       if (netValue > 0) {
         // Berechnungen für percentage, absolute und average
-        value.absolute += netValue * currentBitcoinPrice - netValue * priceAtTransaction;
-        value.average += netValue * priceAtTransaction;
-        value.totalValue += netValue;
+        value.totalValueEur += netValue * priceAtTransaction;
+        value.totalValueBtc += netValue;
       }
       return value;
     },
-    { percentage: 0, absolute: 0, average: 0, totalValue: 0 }
+    { totalValueBtc: 0, totalValueEur: 0 }
   );
+  const averageBuyIn = buyInVars.totalValueEur / buyInVars.totalValueBtc;
 
-  //copy for change address -----------------------------------
+  const percentageChange = (currentBitcoinPrice / averageBuyIn - 1) * 100;
 
-  const changePerformance = change?.transactions.reduce(
-    (value, transaction) => {
-      const netValue = toBitcoin(
-        getNetValueFromTransaction(transaction, external.address, change?.address)
-      );
-
-      const valuesAtTransaction = historyPrices.find(
-        item => formatToUnixTimestamp(item.time) === roundToStartOfDay(transaction.time)
-      );
-
-      const priceAtTransaction = valuesAtTransaction ? valuesAtTransaction.value : 1;
-
-      if (netValue > 0) {
-        // Berechnungen für percentage, absolute und average
-        value.absolute +=
-          netValue * currentBitcoinPrice - netValue * priceAtTransaction ? priceAtTransaction : 1;
-        value.average += netValue * priceAtTransaction;
-        value.totalValue += netValue;
-      }
-      return value;
-    },
-    { percentage: 0, absolute: 0, average: 0, totalValue: 0 }
-  );
-
-  const totalValueSum = externalPerformance.totalValue + changePerformance.totalValue;
-
-  const percentage =
-    totalValueSum === 0
-      ? 0
-      : ((externalPerformance.absolute + changePerformance.absolute) /
-          (totalValueSum * currentBitcoinPrice)) *
-        100;
-
-  console.log({ currentBitcoinPrice, percentage });
+  const absoluteChange = buyInVars.totalValueBtc * currentBitcoinPrice - buyInVars.totalValueEur;
 
   return {
-    percentage,
-    absolute: externalPerformance.absolute + changePerformance.absolute,
-    average: externalPerformance.average / externalPerformance.totalValue,
+    percentage: percentageChange,
+    absolute: absoluteChange,
+    average: averageBuyIn,
   };
 };
 
 // convert string with date to unix timestamp in milliseconds
-const formatToUnixTimestamp = (inputDate: string) => {
+const formatToUnixTimestampAndRoundToStartOfDay = (inputDate: string) => {
   const date = new Date(inputDate);
-  return Math.floor(date.getTime()); // Unix-Timestamp in Sekunden
+  const startOfDay = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)
+  );
+  return Math.floor(startOfDay.getTime()); // Unix-Timestamp in Sekunden
 };
 
 //convert timestamp to 0:00 of the same day
