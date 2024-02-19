@@ -46,6 +46,8 @@ const PriceText = ({ bitcoinAmount = 0, style, disabled = false }: Props) => {
           formatCurrency(
             currency === 'sats'
               ? toSatoshi(bitcoinAmount)
+              : currency === 'BTC'
+              ? bitcoinAmount
               : bitcoinAmount * currentExchangeRate.value,
             currencyItems.find(data => data.value === currency)!.value
           )}
