@@ -13,6 +13,7 @@ import {
   shortenMessage,
   websocketError,
 } from '@superlight-labs/mpc-common';
+import { HttpWebsocket } from '@superlight-labs/mpc-common/src/websocket/http-websocket';
 import axios from 'axios';
 import { Result, ResultAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
@@ -31,17 +32,13 @@ export type CreateWebsocketResult<T> = {
 export const listenToWebsocket = (
   input: Subject<MPCWebsocketMessage>,
   output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  ws: WebSocket
+  ws: HttpWebsocket
 ): void => {
-  ws.onmessage = ({ data }) => input.next(JSON.parse(data.toString()) as MPCWebsocketMessage);
-  ws.onerror = err => {
+  ws.onMessage(data => input.next(JSON.parse(data) as MPCWebsocketMessage));
+  ws.onError(err => {
     input.error(err);
     logger.error({ err }, 'Websocket error');
-  };
-  ws.onclose = err => {
-    if (err.code !== 1000) input.error(err);
-    else input.complete();
-  };
+  });
 
   wrapMPCWebsocketHandler(output, ws);
 };
@@ -56,39 +53,49 @@ export type CreateNonceResponse = {
   nonce: string;
 };
 
-export const createWebsocket = Result.fromThrowable(
+export const createRequestor = Result.fromThrowable(
   (config: WebsocketConfig) => {
     const { userId, devicePublicKey, signature } = config.signResult;
     const { baseUrl, socketEndpoint } = config.apiConfig;
 
-    const baseUrlWithoutProtocol = baseUrl.replace(/(^\w+:|^)\/\//, '');
-
     // TODO check if JWT makes sense here, this is a bit custom
-    try {
-      const ws = new WebSocket(
-        `${getProtocol()}://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
-        null,
-        {
-          headers: {
-            userid: userId,
-            devicepublickey: devicePublicKey,
-            signature,
-          },
-        }
-      );
 
-      return ws;
-    } catch (err) {
-      logger.error({ err }, "Couldn't create websocket");
-      throw err;
-    }
+    const backend = axios.create({
+      baseURL: baseUrl,
+      headers: {
+        userid: userId,
+        devicepublickey: devicePublicKey,
+        signature,
+      },
+    });
+
+    return new HttpWebsocket(backend);
+
+    // try {
+    //   const ws = new WebSocket(
+    //     `${getProtocol()}://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
+    //     null,
+    //     {
+    //       headers: {
+    //         userid: userId,
+    //         devicepublickey: devicePublicKey,
+    //         signature,
+    //       },
+    //     }
+    //   );
+
+    //   return ws;
+    // } catch (err) {
+    //   logger.error({ err }, "Couldn't create websocket");
+    //   throw err;
+    // }
   },
   err => websocketError(err, "Couldn't create websocket")
 );
 
 export const unwrapStartResult = <T>(
   startResult$: Observable<ResultAsync<T, WebsocketError>>,
-  ws: WebSocket
+  ws: HttpWebsocket
 ) => {
   return ResultAsync.fromPromise(firstValueFrom(startResult$), err =>
     other(err, 'Error while unwrapping start result')

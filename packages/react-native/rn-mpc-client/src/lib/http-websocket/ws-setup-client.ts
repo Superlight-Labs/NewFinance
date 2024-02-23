@@ -16,7 +16,7 @@ import { Subject, firstValueFrom, tap } from 'rxjs';
 import {
   Signer,
   createNonce,
-  createWebsocket,
+  createRequestor,
   listenToWebsocket,
   logIncommingMessages,
 } from './ws-common';
@@ -36,10 +36,9 @@ export const authWebsocketWithSetup =
 
     return createNonce(apiConfig.baseUrl)
       .andThen(sign)
-      .andThen(signResult => createWebsocket({ signResult, apiConfig }))
+      .andThen(signResult => createRequestor({ signResult, apiConfig }))
       .map(ws => {
-        ws.onopen = () =>
-          ws.send(JSON.stringify({ type: 'init', parameter: cleanInitParam(initParam) }));
+        ws.send(JSON.stringify({ type: 'init', parameter: cleanInitParam(initParam) }));
         return ws;
       })
       .map(ws => {

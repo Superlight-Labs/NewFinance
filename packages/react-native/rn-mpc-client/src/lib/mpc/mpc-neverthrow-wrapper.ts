@@ -1,7 +1,17 @@
-import { appError, indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
+import {
+  DeriveFrom,
+  SignWithShare,
+  appError,
+  indexToNumber,
+  mpcInternalError,
+} from '@superlight-labs/mpc-common';
 import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
-import { DeriveFrom, SignWithShare } from './mpc-types';
+
+export type ShareResult = {
+  share: string;
+  peerShareId: string;
+};
 
 export const initGenerateGenericSecret = () => {
   return ResultAsync.fromPromise(RnMpc.initGenerateGenericSecret(), err => mpcInternalError(err));

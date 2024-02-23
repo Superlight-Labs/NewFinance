@@ -11,8 +11,7 @@ import { reset } from '@superlight-labs/rn-crypto-mpc';
 import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
-import { initImportGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { ShareResult } from '../lib/mpc/mpc-types';
+import { ShareResult, initImportGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 
 export const startImportGenericSecret: MPCWebsocketStarterWithSetup<string, string> = ({
   output,

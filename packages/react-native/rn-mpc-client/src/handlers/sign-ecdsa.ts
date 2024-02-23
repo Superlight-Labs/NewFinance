@@ -3,6 +3,7 @@ import {
   MPCWebsocketHandlerWithSetup,
   MPCWebsocketMessage,
   MPCWebsocketStarterWithSetup,
+  SignWithShare,
   WebsocketError,
   mpcInternalError,
   other,
@@ -13,7 +14,6 @@ import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom, from, map, mergeMap } from 'rxjs';
 import { initSignEcdsa, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { SignWithShare } from '../lib/mpc/mpc-types';
 
 export const startSign: MPCWebsocketStarterWithSetup<SignWithShare, null> = ({
   output,

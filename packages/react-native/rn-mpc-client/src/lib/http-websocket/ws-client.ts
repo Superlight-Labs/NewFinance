@@ -12,7 +12,7 @@ import { Subject, tap } from 'rxjs';
 import {
   Signer,
   createNonce,
-  createWebsocket,
+  createRequestor,
   listenToWebsocket,
   logIncommingMessages,
   unwrapStartResult,
@@ -29,10 +29,10 @@ export const authWebsocket =
 
     return createNonce(apiConfig.baseUrl)
       .andThen(sign)
-      .andThen(signResult => createWebsocket({ signResult, apiConfig }))
+      .andThen(signResult => createRequestor({ signResult, apiConfig }))
       .map(ws => {
         const startResult$ = new Subject<ResultAsync<StartProduct, WebsocketError>>();
-        ws.onopen = () => startResult$.next(starter(ws));
+        startResult$.next(starter(ws));
         return { startResult$, ws };
       })
       .andThen(({ startResult$, ws }) => unwrapStartResult(startResult$, ws))

@@ -1,14 +1,15 @@
+import { DeriveFrom, SignWithShare } from '@superlight-labs/mpc-common';
 import { generateGenericSecret, startGenerateGenericSecret } from './src/handlers/create-secret';
 import { deriveBip32, startDerive } from './src/handlers/derive';
 import { deriveBip32WithSteps, startDeriveWithSteps } from './src/handlers/derive-hardened';
 import { importGenericSecret, startImportGenericSecret } from './src/handlers/import-secret';
 import { signEcdsa, startSign } from './src/handlers/sign-ecdsa';
-import { DeriveFrom, ShareResult, SignWithShare } from './src/lib/mpc/mpc-types';
-import { authWebsocket } from './src/lib/websocket/ws-client';
-import { Signer } from './src/lib/websocket/ws-common';
-import { authWebsocketWithSetup } from './src/lib/websocket/ws-setup-client';
+import { authWebsocket } from './src/lib/http-websocket/ws-client';
+import { Signer } from './src/lib/http-websocket/ws-common';
+import { authWebsocketWithSetup } from './src/lib/http-websocket/ws-setup-client';
+import { ShareResult } from './src/lib/mpc/mpc-neverthrow-wrapper';
 export { getPublicKey, getXPubKey } from './src/lib/mpc/mpc-neverthrow-wrapper';
-export type { SignWithShare, Signer };
+export type { Signer };
 
 export const useGenericSecret = () => ({
   generateGenericSecret: ({ baseUrl, sign }: ActionConfig) =>

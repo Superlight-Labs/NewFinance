@@ -1,5 +1,6 @@
 import logger from '@superlight-labs/logger';
 import {
+  DeriveFrom,
   MPCWebsocketHandlerWithSetup,
   MPCWebsocketMessage,
   MPCWebsocketStarterWithSetup,
@@ -13,8 +14,7 @@ import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Platform } from 'react-native';
 import { Observable, Subject, combineLatest, firstValueFrom, from, map, mergeMap } from 'rxjs';
-import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
+import { ShareResult, initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 
 // With Steps means that there are multiple steps necessary on client and server to create a keypair
 // Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
@@ -122,7 +122,7 @@ const onMessage = (
         output.next(okAsync({ ...wsMessage1, part: 1 }));
 
         //TODO: very bad! has to be replaced with a proper solution
-        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 1250);
+        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 10000);
       } else {
         output.next(okAsync({ type: 'inProgress', message: result.message }));
       }

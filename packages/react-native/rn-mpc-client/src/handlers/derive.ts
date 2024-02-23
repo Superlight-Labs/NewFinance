@@ -1,5 +1,6 @@
 import logger from '@superlight-labs/logger';
 import {
+  DeriveFrom,
   MPCWebsocketHandlerWithSetup,
   MPCWebsocketMessage,
   MPCWebsocketStarterWithSetup,
@@ -11,8 +12,7 @@ import { getResultDeriveBIP32, reset } from '@superlight-labs/rn-crypto-mpc';
 import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
-import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
+import { ShareResult, initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 
 // Without steps -> means, that the key can be fetched from the mpc context immediately on the server.
 // Client side it is necessary to step once with `step(null)`

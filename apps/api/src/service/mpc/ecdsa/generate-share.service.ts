@@ -1,43 +1,25 @@
 import { Context } from '@crypto-mpc';
 import { step } from '@lib/utils/crypto';
-import logger from '@superlight-labs/logger';
 import {
-    databaseError,
-    mpcInternalError,
-    MPCWebsocketMessage,
-    MPCWebsocketResult,
-    stepMessageError,
-    WebsocketError,
-    WebSocketOutput,
+  databaseError,
+  mpcInternalError,
+  MPCWebsocketMessage,
+  MPCWebsocketResult,
+  stepMessageError,
+  WebsocketError,
+  WebSocketOutput,
 } from '@superlight-labs/mpc-common';
+import { FastifyRequest } from 'fastify';
 import { errAsync, okAsync, ResultAsync } from 'neverthrow';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { createGenerateEcdsaKey } from '../mpc-context.service';
 
-export const generateEcdsaKey = (
-  user: User,
-  messages: Observable<MPCWebsocketMessage>
-): MPCWebsocketResult => {
+export const generateEcdsaKey = (req: FastifyRequest, user: User): MPCWebsocketResult => {
   const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
 
-  createGenerateEcdsaKey().match(
-    context => {
-      messages.subscribe({
-        next: message => onMessage(message, context, output, user),
-        error: err => {
-          logger.error({ err, user: user.id }, 'Error received from client on websocket');
-          context.free();
-        },
-        complete: () => {
-          logger.debug({ user: user.id }, 'Connection on Websocket closed');
-          context.free;
-        },
-      });
-    },
-    err => output.next(errAsync(err))
-  );
+  createGenerateEcdsaKey();
 
   return output;
 };

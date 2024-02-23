@@ -1,3 +1,4 @@
+import { Context } from '@crypto-mpc';
 import { notFound, other, RouteError } from '@lib/routes/rest/rest-error';
 import { client } from '@superlight-labs/database';
 import { CreateUserRequest } from 'src/routes/user.routes';
@@ -49,4 +50,26 @@ export const readUserKeyShareByPath = async (
     });
 
   return userWithKeyShares.keyShares[0];
+};
+
+export const updateDeriveContext = async (user: User, deriveContext: Context): Promise<boolean> => {
+  const updatedUser = await client.user.update({
+    where: { id_devicePublicKey: { id: user.id, devicePublicKey: user.devicePublicKey } },
+    data: { deriveContext: deriveContext.toBuffer().toString('hex') },
+  });
+
+  if (!updatedUser) throw other('Error while updating derive context');
+
+  return true;
+};
+
+export const deleteDeriveContext = async (user: User): Promise<boolean> => {
+  const updatedUser = await client.user.update({
+    where: { id_devicePublicKey: { id: user.id, devicePublicKey: user.devicePublicKey } },
+    data: { deriveContext: null },
+  });
+
+  if (!updatedUser) throw other('Error while deleting derive context');
+
+  return true;
 };

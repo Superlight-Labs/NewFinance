@@ -1,17 +1,6 @@
-export type DeriveConfig = {
-  peerShareId: string;
-  index: string;
-  hardened: boolean;
-  parentPath?: string;
-};
+import { DeriveFrom } from './schema';
 
-export type SignConfig = {
-  messageToSign: string;
-  encoding: BufferEncoding;
-  peerShareId: string;
-};
-
-export const buildPath = (deriveConfig: DeriveConfig) => {
+export const buildPath = (deriveConfig: DeriveFrom) => {
   const { parentPath, index, hardened } = deriveConfig;
 
   if (!parentPath && index === 'm') return 'm';

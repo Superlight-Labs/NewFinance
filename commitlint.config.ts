@@ -9,6 +9,7 @@ const scopes = [
   "rn-client",
   "ci",
   "docs",
+  "wip",
 ];
 
 export default {

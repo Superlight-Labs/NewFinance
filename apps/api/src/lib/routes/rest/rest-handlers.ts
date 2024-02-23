@@ -2,9 +2,12 @@ import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
 import logger from '@superlight-labs/logger';
 import { randomBytes } from 'crypto';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
+import { deleteDeriveContext, updateDeriveContext } from 'src/repository/user.repository';
 import {
   AuthenticatedRouteHandler,
+  MPCRouteHandler,
+  MPCRouteResult,
   NonceRouteHandler,
   RouteHandler,
   RouteResult,
@@ -21,6 +24,27 @@ const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void 
       res.status(statusCode).send({ error: errorMsg });
     }
   );
+};
+
+const wrapMpcContextHandler = (handlerResult: MPCRouteResult, res: FastifyReply): void => {
+  handlerResult
+    .map(res => {
+      if (!res.context) {
+        return deleteDeriveContext(res.user);
+      }
+
+      updateDeriveContext(res.user, res.context);
+    })
+    .match(
+      _ => {
+        res.status(200).send({ ok: true });
+      },
+      error => {
+        logger.error({ error }, 'Failed to work on request');
+        const { statusCode, errorMsg } = mapRouteError(error);
+        res.status(statusCode).send({ error: errorMsg });
+      }
+    );
 };
 
 export const route = <T>(handler: RouteHandler<T>) => {
@@ -71,6 +95,17 @@ export const authenticatedRoute = <T>(handler: AuthenticatedRouteHandler<T>) => 
     const authResult = authenticate(req);
 
     wrapHandler(
+      authResult.andThen(user => handler(req, user)),
+      res
+    );
+  };
+};
+
+export const mpcContextRoute = <T extends RouteGenericInterface>(handler: MPCRouteHandler<T>) => {
+  return (req: FastifyRequest<T>, res: FastifyReply) => {
+    const authResult = authenticate(req);
+
+    wrapMpcContextHandler(
       authResult.andThen(user => handler(req, user)),
       res
     );

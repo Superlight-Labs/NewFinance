@@ -1,5 +1,6 @@
 import logger from '@superlight-labs/logger';
 import {
+  HttpWebsocket,
   MPCWebsocketHandler,
   MPCWebsocketMessage,
   WebsocketError,
@@ -11,10 +12,11 @@ import { reset } from '@superlight-labs/rn-crypto-mpc';
 import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { Observable, Subject, firstValueFrom } from 'rxjs';
-import { initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { ShareResult } from '../lib/mpc/mpc-types';
+import { ShareResult, initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 
-export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, WebsocketError> => {
+export const startGenerateGenericSecret = (
+  ws: HttpWebsocket
+): ResultAsync<string, WebsocketError> => {
   return initGenerateGenericSecret()
     .andThen(_ => step(null))
     .andThen((stepMsg: StepResult) => {

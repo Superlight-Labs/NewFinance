@@ -33,7 +33,7 @@ export const createServer = async (client: PrismaClient) => {
   });
 
   server.register(underPressure, {
-    maxHeapUsedBytes: 500 * 1000000,
+    maxHeapUsedBytes: 500 * 1024 * 1024,
     // maxRssBytes: 500 * 1000000,
     retryAfter: 10000,
     pressureHandler: (req, rep, type, value) => {

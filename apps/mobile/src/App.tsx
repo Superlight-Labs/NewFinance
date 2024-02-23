@@ -8,6 +8,7 @@
 import logger from '@superlight-labs/logger';
 import 'react-native-gesture-handler';
 
+import { API_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useDeleteLocalData } from 'hooks/useDeleteLocalData';
@@ -17,8 +18,10 @@ import AppNavigation from './App.navigation';
 
 if (__DEV__) {
   import('./../ReactotronConfig').then(() => logger.info('Reactotron Configured'));
-  console.log = reactotron.log!;
+  // console.log = reactotron.log!;
 }
+
+console.log({ API_URL });
 
 function App(): JSX.Element {
   const { deleteLocalData: logout } = useDeleteLocalData();

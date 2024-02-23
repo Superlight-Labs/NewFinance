@@ -2,8 +2,8 @@ import {
   createMPCWebsocketHandlerWrapper,
   shortenMessage,
 } from './src/websocket/websocket-message-unwrap';
+export * from 'src/schema';
 export { buildPath, indexToNumber } from './src/actions';
-export type { DeriveConfig, SignConfig } from './src/actions';
 export {
   apiError,
   appError,
@@ -17,6 +17,8 @@ export {
   websocketError,
 } from './src/error';
 export type { AppError, WebsocketError } from './src/error';
+export { deriveFromSchema, importHexSchema, signWithShareSchema } from './src/schema';
+export type { DeriveFrom, ImportHexSchema, SignWithShare } from './src/schema';
 export type {
   ApiConfig,
   MpcWebsocketHandlerWrapper,
@@ -31,6 +33,7 @@ export type {
   MPCWebsocketStarterWithSetup,
   StarterWithSetupParams,
 } from './src/websocket/handler';
+export { HttpWebsocket, HttpWebsocketClient } from './src/websocket/http-websocket/client';
 export type { SignResult } from './src/websocket/results';
 export type {
   MPCWebscocketInit,
