@@ -43,7 +43,7 @@ const PocketsStack = () => {
               component={Pockets}
               options={{
                 headerShown: true,
-                title: 'Balance',
+                title: 'Pockets',
                 headerLargeTitle: true,
                 headerShadowVisible: true,
                 headerLargeTitleShadowVisible: false,

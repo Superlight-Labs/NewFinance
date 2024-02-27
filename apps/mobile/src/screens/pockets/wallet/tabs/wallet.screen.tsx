@@ -38,21 +38,21 @@ const Wallet = ({ navigation, route }: Props) => {
       <View className="mt-3 w-full px-4">
         <WalletMainItem
           key={account}
-          name={account}
+          account={account}
           disabled={true}
           balance={getAccountBalance(account)}
           navigate={() => navigation.navigate('Wallet', { account: account })}
         />
       </View>
-      <View className="bg-transparent mt-10 flex flex-row items-center px-5">
-        <View className="mr-6 w-14">
+      <View className="bg-transparent mt-10 flex flex-row items-center justify-center px-5">
+        <View className="mr-16 w-14">
           <RoundButtonComponent
             onPress={() => navigation.navigate('Send', { external: external })}
             iconName="Send">
             Send
           </RoundButtonComponent>
         </View>
-        <View className="mr-6 w-16">
+        <View className="mr-16 w-16">
           <RoundButtonComponent
             style="bg-white border-[1px] border-[#E8E8E8]"
             textStyle="text-black"

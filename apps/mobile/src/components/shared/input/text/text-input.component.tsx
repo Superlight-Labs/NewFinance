@@ -32,7 +32,7 @@ const Input = ({
   autoFocus = false,
 }: Props) => {
   return (
-    <View className="flex-">
+    <View className="flex-1">
       <TextInput
         placeholderTextColor="#BFC3C1"
         className={`border-1 border-b border-[#D4D4D5] py-0 font-manrope text-base font-semibold leading-[22px] text-black ${style}`}

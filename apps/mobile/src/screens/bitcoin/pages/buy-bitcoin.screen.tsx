@@ -74,6 +74,15 @@ const BuyBitcoinScreen = ({ navigation }: Props) => {
               value={amount}
               onChangeText={setAmount}
             />
+            <View className="absolute right-0 flex-row items-center justify-center rounded bg-[#F5F5F5] px-1 py-1">
+              <Pressable className="items-center rounded bg-white px-3 py-1">
+                <Text className="font-manrope text-sm font-semibold text-[#008249]">
+                  {currency}
+                </Text>
+              </Pressable>
+            </View>
+            {/*
+            //For later release
             <View className="absolute right-0 w-24 flex-row items-center justify-center rounded bg-[#F5F5F5] px-1 py-1">
               <Pressable className="w-1/2 items-center rounded-sm px-1.5">
                 <Text className="font-manrope text-sm font-semibold">BTC</Text>
@@ -83,7 +92,7 @@ const BuyBitcoinScreen = ({ navigation }: Props) => {
                   {currency}
                 </Text>
               </Pressable>
-            </View>
+            </View>*/}
           </View>
           <View className="mt-4 flex-row">
             <Pressable
