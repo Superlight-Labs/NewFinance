@@ -9,11 +9,12 @@ type MpcContextResult = {
   user: User;
   context?: Context;
   message?: string;
+  peerShareId?: string;
 };
 
 type RouteResult<T> = ResultAsync<T, RouteError | WebsocketError>;
-
 type RouteHandler<T> = (req: FastifyRequest) => RouteResult<T>;
+
 type AuthenticatedRouteHandler<T> = (req: FastifyRequest, user: User) => RouteResult<T>;
 type NonceRouteHandler<T> = (req: FastifyRequest, nonce: string) => RouteResult<T>;
 

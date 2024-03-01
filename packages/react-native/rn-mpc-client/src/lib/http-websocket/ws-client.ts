@@ -1,45 +1,50 @@
+import { AppError, MPCWebsocketStarter, mapWebsocketToAppError } from '@superlight-labs/mpc-common';
 import {
-  ApiConfig,
-  AppError,
-  HandlerParams,
-  MPCWebsocketMessage,
-  MPCWebsocketStarter,
-  WebsocketError,
-  mapWebsocketToAppError,
-} from '@superlight-labs/mpc-common';
+  MPCWebsocketHandler,
+  MPCWebsocketStarterWithSetup,
+} from '@superlight-labs/mpc-common/src/websocket/handler';
 import { ResultAsync } from 'neverthrow';
-import { Subject, tap } from 'rxjs';
-import {
-  Signer,
-  createNonce,
-  createRequestor,
-  listenToWebsocket,
-  logIncommingMessages,
-  unwrapStartResult,
-} from './ws-common';
+import { Signer, createNonce, createRequestor } from './ws-common';
 
 export const authWebsocket =
-  (apiConfig: ApiConfig, sign: Signer) =>
-  <Result = string, StartProduct = string>(
-    starter: MPCWebsocketStarter<StartProduct>,
-    handleMessages: (params: HandlerParams<StartProduct>) => ResultAsync<Result, WebsocketError>
+  (baseUrl: string, sign: Signer) =>
+  <Result = string, StartResult = string>(
+    initContext: MPCWebsocketStarter<StartResult>,
+    handleStepping: MPCWebsocketHandler<StartResult, Result>
   ): ResultAsync<Result, AppError> => {
-    const input = new Subject<MPCWebsocketMessage>();
-    const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-
-    return createNonce(apiConfig.baseUrl)
+    return createNonce(baseUrl)
       .andThen(sign)
-      .andThen(signResult => createRequestor({ signResult, apiConfig }))
-      .map(ws => {
-        const startResult$ = new Subject<ResultAsync<StartProduct, WebsocketError>>();
-        startResult$.next(starter(ws));
-        return { startResult$, ws };
-      })
-      .andThen(({ startResult$, ws }) => unwrapStartResult(startResult$, ws))
-      .map(({ startResult, ws }) => {
-        listenToWebsocket(input, output, ws);
-        return { input: input.pipe(tap(logIncommingMessages)), startResult, output };
-      })
-      .andThen(handleMessages)
+      .andThen(signResult => createRequestor({ signResult, baseUrl }))
+      .andThen(initContext)
+      .andThen(handleStepping)
       .mapErr(err => mapWebsocketToAppError(err));
   };
+
+export const authWebsocketWithSetup =
+  <InitParam = string, StartResult = string>(baseUrl: string, sign: Signer, initParam: InitParam) =>
+  <Result>(
+    initContext: MPCWebsocketStarterWithSetup<InitParam, StartResult>,
+    handleStepping: MPCWebsocketHandler<StartResult, Result>
+  ): ResultAsync<Result, AppError> => {
+    return createNonce(baseUrl)
+      .andThen(sign)
+      .andThen(signResult => createRequestor({ signResult, baseUrl }))
+      .andThen(axios => initContext({ axios, initParam: initParam }))
+      .andThen(handleStepping)
+      .mapErr(mapWebsocketToAppError);
+  };
+
+// For convenience we allow the init parameter to contain sensitive data like the share value
+// we have to remove all sensitive data before sending it
+export const cleanInitParam = <T>(initParam: T) => {
+  if (typeof initParam === 'string') {
+    return initParam;
+  }
+
+  const parameter = { ...initParam };
+  if (typeof parameter === 'object' && parameter && 'share' in parameter) {
+    delete parameter.share;
+  }
+
+  return parameter;
+};

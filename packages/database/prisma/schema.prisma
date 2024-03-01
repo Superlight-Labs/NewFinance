@@ -19,7 +19,7 @@ model User {
     createdAt       DateTime          @default(now())
     updatedAt       DateTime          @updatedAt
     ExternalAddress ExternalAddress[]
-    deriveContext   String?
+    deriveContext   Bytes?
 
     @@unique([id, devicePublicKey])
 }

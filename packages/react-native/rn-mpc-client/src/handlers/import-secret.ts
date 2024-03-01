@@ -76,5 +76,5 @@ const onMessage = (message: MPCWebsocketMessage, peerShareId$: Subject<string>) 
     return;
   }
 
-  peerShareId$.error(websocketError('No peerShareId received'));
+  peerShareId$.error(websocketError('No peerShareId received after secret import'));
 };

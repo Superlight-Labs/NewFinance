@@ -54,3 +54,7 @@ export const getPublicKey = (share: string) => {
 export const step = (message: string | null) => {
   return ResultAsync.fromPromise(RnMpc.step(message), err => mpcInternalError(err));
 };
+
+export const getResultDeriveBIP32 = (context: string) => {
+  return ResultAsync.fromPromise(RnMpc.getResultDeriveBIP32(context), err => mpcInternalError(err));
+};

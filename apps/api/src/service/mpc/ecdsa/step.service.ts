@@ -1,30 +1,23 @@
 import { Context } from '@crypto-mpc';
 import { MPCRouteResult } from '@lib/routes/rest/rest-types';
 import { step } from '@lib/utils/crypto';
-import { Static, Type } from '@sinclair/typebox';
 import { mpcInternalError, other } from '@superlight-labs/mpc-common';
+import { OnSuccess, StepRequest } from '@superlight-labs/mpc-common/src/schema';
 import { errAsync, okAsync } from 'neverthrow';
 import { User } from 'src/repository/user';
-import { OnSuccess, SuccessHandler } from './step-success.handler';
-
-export const stepSchema = Type.Object({
-  message: Type.String(),
-  onSuccess: Type.Enum(OnSuccess),
-});
-
-export type StepRequest = Static<typeof stepSchema>;
+import { SuccessHandler } from './step-success.handler';
 
 export const handleStep = (req: StepRequest, user: User): MPCRouteResult => {
   if (!user.deriveContext) {
-    return errAsync(other('User has no derive context', 'User has no derive context'));
+    return errAsync(other('User has no derive context'));
   }
-  const context = Context.fromBuffer(Buffer.from(user.deriveContext, 'hex'));
+  const context = Context.fromBuffer(user.deriveContext);
 
-  return performSetp(req.message, context, user, req.onSuccess);
+  return performSetp(Buffer.from(req.message), context, user, req.onSuccess);
 };
 
 const performSetp = (
-  message: string,
+  message: Buffer,
   context: Context,
   user: User,
   onSuccess: OnSuccess

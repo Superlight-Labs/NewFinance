@@ -7,13 +7,14 @@ import {
   importHexSchema,
   signWithShareSchema,
 } from '@superlight-labs/mpc-common';
+import { DeriveRequest, StepRequest, stepSchema } from '@superlight-labs/mpc-common/src/schema';
 import { FastifyInstance } from 'fastify';
 import {
   deriveWithoutStepping,
   initDeriveProcess,
 } from 'src/service/mpc/ecdsa/derive-bip-32.service';
 import { initSignProcess } from 'src/service/mpc/ecdsa/signature.service';
-import { StepRequest, handleStep, stepSchema } from 'src/service/mpc/ecdsa/step.service';
+import { handleStep } from 'src/service/mpc/ecdsa/step.service';
 import {
   createGenerateEcdsaKey,
   createGenerateGenericSecretContext,
@@ -26,7 +27,7 @@ const route = '/mpc/ecdsa';
 
 const registerMcpRoutes = (server: FastifyInstance) => {
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/step',
       { schema: { body: stepSchema } },
       mpcContextRoute((req, user) => handleStep(req.body as StepRequest, user))
@@ -34,7 +35,7 @@ const registerMcpRoutes = (server: FastifyInstance) => {
   });
 
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/generate-generic-secret',
       mpcContextRoute((_, user) =>
         createGenerateGenericSecretContext().asyncMap(context => Promise.resolve({ context, user }))
@@ -43,7 +44,7 @@ const registerMcpRoutes = (server: FastifyInstance) => {
   });
 
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/import-generic-secret',
       { schema: { body: importHexSchema } },
       mpcContextRoute((req, user) =>
@@ -63,12 +64,15 @@ const registerMcpRoutes = (server: FastifyInstance) => {
   // Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
   // which is non-hardened, but via multiple steps
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/derive/stepping',
       { schema: { body: deriveFromSchema } },
       mpcContextRoute((req, user) =>
         // TODO: we might need the rest of the result of initDerive, not just the context - in that case use your brain
-        initDeriveProcess(req.body as DeriveFrom, user.id).map(({ context }) => ({ context, user }))
+        initDeriveProcess(req.body as DeriveRequest, user.id).map(({ context }) => ({
+          context,
+          user,
+        }))
       )
     );
   });
@@ -76,7 +80,7 @@ const registerMcpRoutes = (server: FastifyInstance) => {
   // Without steps means, that the key can be fetched from the mpc context immediately on the server.
   // Client side it is necessary to step once with `step(null)`
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/derive/no-steps',
       { schema: { body: deriveFromSchema } },
 
@@ -89,7 +93,7 @@ const registerMcpRoutes = (server: FastifyInstance) => {
   });
 
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/generateEcdsa',
       mpcContextRoute((_, user) =>
         createGenerateEcdsaKey().asyncMap(context => Promise.resolve({ context, user }))
@@ -98,7 +102,7 @@ const registerMcpRoutes = (server: FastifyInstance) => {
   });
 
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/sign',
       {
         schema: {

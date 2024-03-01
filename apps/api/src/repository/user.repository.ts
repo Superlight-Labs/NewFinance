@@ -52,15 +52,13 @@ export const readUserKeyShareByPath = async (
   return userWithKeyShares.keyShares[0];
 };
 
-export const updateDeriveContext = async (user: User, deriveContext: Context): Promise<boolean> => {
+export const updateDeriveContext = async (user: User, deriveContext: Context): Promise<User> => {
   const updatedUser = await client.user.update({
     where: { id_devicePublicKey: { id: user.id, devicePublicKey: user.devicePublicKey } },
-    data: { deriveContext: deriveContext.toBuffer().toString('hex') },
+    data: { deriveContext: deriveContext.toBuffer() },
   });
 
-  if (!updatedUser) throw other('Error while updating derive context');
-
-  return true;
+  return updatedUser as any as User;
 };
 
 export const deleteDeriveContext = async (user: User): Promise<boolean> => {

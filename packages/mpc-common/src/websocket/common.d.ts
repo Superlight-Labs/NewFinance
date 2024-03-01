@@ -9,9 +9,7 @@ export type MpcWebsocketHandlerWrapper = <T>(
   socket: any
 ) => void;
 
-export type ApiConfig = { baseUrl: string; socketEndpoint: string };
-
 export type WebsocketConfig = {
-  apiConfig: ApiConfig;
+  baseUrl: string;
   signResult: SignResult;
 };

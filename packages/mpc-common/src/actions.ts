@@ -1,6 +1,6 @@
-import { DeriveFrom } from './schema';
+import { DeriveRequest } from './schema';
 
-export const buildPath = (deriveConfig: DeriveFrom) => {
+export const buildPath = (deriveConfig: DeriveRequest) => {
   const { parentPath, index, hardened } = deriveConfig;
 
   if (!parentPath && index === 'm') return 'm';

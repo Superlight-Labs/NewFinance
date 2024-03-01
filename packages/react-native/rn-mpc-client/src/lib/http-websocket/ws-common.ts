@@ -1,7 +1,6 @@
 import logger from '@superlight-labs/logger';
 import {
   AppError,
-  MPCWebsocketMessage,
   MpcWebsocketHandlerWrapper,
   SignResult,
   WebsocketConfig,
@@ -10,13 +9,11 @@ import {
   createMPCWebsocketHandlerWrapper,
   mapWebsocketToAppError,
   other,
-  shortenMessage,
   websocketError,
 } from '@superlight-labs/mpc-common';
-import { HttpWebsocket } from '@superlight-labs/mpc-common/src/websocket/http-websocket';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Result, ResultAsync } from 'neverthrow';
-import { Observable, Subject, firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
 export type RawData = string | ArrayBufferLike | Blob | ArrayBufferView;
 export type Signer = (nonce: string) => ResultAsync<SignResult, AppError>;
@@ -27,20 +24,6 @@ export const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
 export type CreateWebsocketResult<T> = {
   startResult$: Observable<ResultAsync<T, WebsocketError>>;
   ws: WebSocket;
-};
-
-export const listenToWebsocket = (
-  input: Subject<MPCWebsocketMessage>,
-  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  ws: HttpWebsocket
-): void => {
-  ws.onMessage(data => input.next(JSON.parse(data) as MPCWebsocketMessage));
-  ws.onError(err => {
-    input.error(err);
-    logger.error({ err }, 'Websocket error');
-  });
-
-  wrapMPCWebsocketHandler(output, ws);
 };
 
 export const createNonce = (apiUrl: string): ResultAsync<string, AppError> => {
@@ -56,7 +39,7 @@ export type CreateNonceResponse = {
 export const createRequestor = Result.fromThrowable(
   (config: WebsocketConfig) => {
     const { userId, devicePublicKey, signature } = config.signResult;
-    const { baseUrl, socketEndpoint } = config.apiConfig;
+    const { baseUrl } = config;
 
     // TODO check if JWT makes sense here, this is a bit custom
 
@@ -69,50 +52,22 @@ export const createRequestor = Result.fromThrowable(
       },
     });
 
-    return new HttpWebsocket(backend);
-
-    // try {
-    //   const ws = new WebSocket(
-    //     `${getProtocol()}://${baseUrlWithoutProtocol}/mpc/ecdsa/${socketEndpoint}`,
-    //     null,
-    //     {
-    //       headers: {
-    //         userid: userId,
-    //         devicepublickey: devicePublicKey,
-    //         signature,
-    //       },
-    //     }
-    //   );
-
-    //   return ws;
-    // } catch (err) {
-    //   logger.error({ err }, "Couldn't create websocket");
-    //   throw err;
-    // }
+    return backend;
   },
   err => websocketError(err, "Couldn't create websocket")
 );
 
 export const unwrapStartResult = <T>(
   startResult$: Observable<ResultAsync<T, WebsocketError>>,
-  ws: HttpWebsocket
+  axios: AxiosInstance
 ) => {
   return ResultAsync.fromPromise(firstValueFrom(startResult$), err =>
     other(err, 'Error while unwrapping start result')
-  ).map(startResult => ({ startResult, ws }));
+  ).map(startResult => ({ startResult, axios }));
 };
 
-export const logIncommingMessages = {
-  next: (message: MPCWebsocketMessage) =>
-    logger.debug({ data: shortenMessage(message) }, 'Received message on websocket'),
-  error: (err: unknown) => logger.error({ err }, 'Error recieved on websocket'),
-  complete: () => logger.debug('Connection on Websocket closed - general'),
-};
-
-const getProtocol = () => {
-  if (__DEV__) {
-    return 'ws';
-  } else {
-    return 'wss';
-  }
+export type ApiStepResult = {
+  ok: boolean;
+  peerShareId?: string;
+  message?: string;
 };

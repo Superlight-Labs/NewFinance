@@ -1,19 +1,19 @@
 import { DeriveFrom, SignWithShare } from '@superlight-labs/mpc-common';
+import { SuccessfulStep } from '@superlight-labs/rn-crypto-mpc/src/types';
 import { generateGenericSecret, startGenerateGenericSecret } from './src/handlers/create-secret';
 import { deriveBip32, startDerive } from './src/handlers/derive';
 import { deriveBip32WithSteps, startDeriveWithSteps } from './src/handlers/derive-hardened';
 import { importGenericSecret, startImportGenericSecret } from './src/handlers/import-secret';
 import { signEcdsa, startSign } from './src/handlers/sign-ecdsa';
-import { authWebsocket } from './src/lib/http-websocket/ws-client';
+import { authWebsocket, authWebsocketWithSetup } from './src/lib/http-websocket/ws-client';
 import { Signer } from './src/lib/http-websocket/ws-common';
-import { authWebsocketWithSetup } from './src/lib/http-websocket/ws-setup-client';
 import { ShareResult } from './src/lib/mpc/mpc-neverthrow-wrapper';
 export { getPublicKey, getXPubKey } from './src/lib/mpc/mpc-neverthrow-wrapper';
 export type { Signer };
 
 export const useGenericSecret = () => ({
   generateGenericSecret: ({ baseUrl, sign }: ActionConfig) =>
-    authWebsocket({ baseUrl, socketEndpoint: 'generate-generic-secret' }, sign)<ShareResult>(
+    authWebsocket(baseUrl, sign)<ShareResult, SuccessfulStep>(
       startGenerateGenericSecret,
       generateGenericSecret
     ),
@@ -27,7 +27,7 @@ export const useGenericSecret = () => ({
 
 export const useDerive = () => ({
   deriveMasterPair: ({ baseUrl, sign }: ActionConfig, deriveConfig: DeriveMaster) =>
-    authWebsocketWithSetup<DeriveFrom, null>({ baseUrl, socketEndpoint: 'derive/stepping' }, sign, {
+    authWebsocketWithSetup<DeriveFrom, SuccessfulStep>(baseUrl, sign, {
       ...deriveConfig,
       hardened: false,
       index: 'm',
