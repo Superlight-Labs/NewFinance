@@ -1,7 +1,9 @@
 import { Context } from '@crypto-mpc';
+import { other } from '@lib/routes/rest/rest-error';
 import logger from '@superlight-labs/logger';
-import { shortenMessage } from '@superlight-labs/mpc-common';
 import { createVerify } from 'crypto';
+import { Result } from 'neverthrow';
+import { User } from 'src/repository/user';
 import { buildPubKey } from './auth';
 
 type StepResult =
@@ -27,16 +29,14 @@ export const verifySignature = (publicKey: string, message: string, signature: s
   );
 };
 
-export const step = (message: string, context: Context): StepResult => {
+export const step = (message: Buffer, context: Context): StepResult => {
   logger.debug(
-    { message: shortenMessage(message) },
+    { messageLn: message.length },
     'Received message from client and stepping in context'
   );
 
-  const inBuff = Buffer.from(message, 'base64');
-
   try {
-    const outBuff = context.step(inBuff);
+    const outBuff = context.step(message);
 
     if (context.isFinished()) {
       return { type: 'success' };
@@ -51,3 +51,14 @@ export const step = (message: string, context: Context): StepResult => {
     return { type: 'error', error };
   }
 };
+
+export const getMpcContext = Result.fromThrowable(
+  (user: User) => {
+    if (!user.deriveContext) {
+      throw new Error('User does not have a derive context');
+    }
+
+    return Context.fromBuffer(user.deriveContext);
+  },
+  e => other('Error while creating mpc context object for user', e)
+);

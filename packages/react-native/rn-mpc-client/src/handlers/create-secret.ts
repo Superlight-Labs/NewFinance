@@ -1,20 +1,22 @@
 import logger from '@superlight-labs/logger';
 import {
-  MPCWebsocketHandler,
-  MPCWebsocketMessage,
+  OnSuccess,
+  ShareResult,
   WebsocketError,
-  mapWebsocketToAppError,
   mpcInternalError,
-  websocketError,
 } from '@superlight-labs/mpc-common';
+import { mpcApiError } from '@superlight-labs/mpc-common/src/error';
+import { MPCStarterResult } from '@superlight-labs/mpc-common/src/websocket/handler';
 import { reset } from '@superlight-labs/rn-crypto-mpc';
-import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
+import { StepResult, SuccessfulStep } from '@superlight-labs/rn-crypto-mpc/src/types';
+import { AxiosInstance } from 'axios';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { Observable, Subject, firstValueFrom } from 'rxjs';
+import { ApiStepResult } from '../lib/http-websocket/ws-common';
 import { initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { ShareResult } from '../lib/mpc/mpc-types';
 
-export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, WebsocketError> => {
+export const startGenerateGenericSecret = (
+  axios: AxiosInstance
+): ResultAsync<{ res: SuccessfulStep; axios: AxiosInstance }, WebsocketError> => {
   return initGenerateGenericSecret()
     .andThen(_ => step(null))
     .andThen((stepMsg: StepResult) => {
@@ -28,55 +30,28 @@ export const startGenerateGenericSecret = (ws: WebSocket): ResultAsync<string, W
         return errAsync(mpcInternalError('No share received'));
       }
 
-      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
-
-      ws.send(JSON.stringify(wsMessage));
-
-      return okAsync(stepMsg.keyShare);
-    });
+      return okAsync({ res: stepMsg, axios });
+    })
+    .andThen(res =>
+      ResultAsync.fromPromise(axios.post('/mpc/ecdsa/generate-generic-secret', undefined), err =>
+        mpcApiError(err, "Error while starting 'generate-generic' in api")
+      ).map(_ => res)
+    );
 };
 
-export const generateGenericSecret: MPCWebsocketHandler<ShareResult, string> = ({
-  input,
-  startResult,
-  output: _,
-}) => {
-  const peerShareId$ = new Subject<string>();
-
-  listenToWebSocket(input, peerShareId$);
-
-  const peerShareIdResult = ResultAsync.fromPromise(firstValueFrom(peerShareId$), err =>
-    mapWebsocketToAppError(err)
-  );
-
-  return ResultAsync.combine([startResult, peerShareIdResult])
-    .map(([share, peerShareId]) => ({
-      share,
-      peerShareId,
-    }))
-    .mapErr(mapWebsocketToAppError);
-};
-
-const listenToWebSocket = (
-  input: Observable<MPCWebsocketMessage>,
-  peerShareId$: Subject<string>
-) => {
-  input.subscribe({
-    next: message => onMessage(message, peerShareId$),
-    error: err => {
-      logger.error({ err }, 'Error received from server on websocket');
-      peerShareId$.error(err);
-      reset();
-    },
+export const generateGenericSecret = ({
+  res,
+  axios,
+}: MPCStarterResult<SuccessfulStep>): ResultAsync<ShareResult, WebsocketError> =>
+  ResultAsync.fromPromise(
+    axios.post<ApiStepResult>('/mpc/ecdsa/step', {
+      message: res.message,
+      onSuccess: OnSuccess.SaveKeyShare,
+    }),
+    err => mpcApiError(err, 'Error while stepping in API')
+  ).andThen(stepRes => {
+    if (stepRes.data.peerShareId) {
+      return okAsync({ share: res.keyShare, peerShareId: stepRes.data.peerShareId });
+    }
+    return errAsync(mpcInternalError('No peerShareId received after generate-generic-secret'));
   });
-};
-
-const onMessage = (message: MPCWebsocketMessage, peerShareId$: Subject<string>) => {
-  // TODO validate structure of message
-  if (message && message.type === 'success') {
-    peerShareId$.next(message.result);
-    return;
-  }
-
-  peerShareId$.error(websocketError('No peerShareId received'));
-};

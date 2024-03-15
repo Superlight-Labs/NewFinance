@@ -15,5 +15,6 @@ services:
       - "3306"
     volumes:
       - superlight-dev-db:/var/lib/mysql
+    command: --max_allowed_packet=500M
 volumes:
   superlight-dev-db:

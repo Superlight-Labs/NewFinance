@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register --transpile-only index.ts",
     "lint": "eslint \"./src/**/*.ts\"",
-    "dev": "ts-node-dev --respawn -r tsconfig-paths/register --watch --exit-child --transpile-only ./index.ts | pino-pretty"
+    "dev": "ts-node-dev --inspect --respawn -r tsconfig-paths/register --watch --exit-child --transpile-only ./index.ts | pino-pretty"
   },
   "volta": {
     "node": "16.20.0",

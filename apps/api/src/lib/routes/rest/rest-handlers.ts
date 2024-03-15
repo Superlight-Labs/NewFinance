@@ -1,10 +1,16 @@
 import { invalidAuthRequest, mapRouteError } from '@lib/routes/rest/rest-error';
 import { authenticate, isNonceValid } from '@lib/utils/auth';
 import logger from '@superlight-labs/logger';
+import { databaseError } from '@superlight-labs/mpc-common';
 import { randomBytes } from 'crypto';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
+import { ResultAsync } from 'neverthrow';
+import { deleteDeriveContext, updateDeriveContext } from 'src/repository/user.repository';
+import { mapPrismaError } from 'src/service/prisma.service';
 import {
   AuthenticatedRouteHandler,
+  MPCRouteHandler,
+  MPCRouteResult,
   NonceRouteHandler,
   RouteHandler,
   RouteResult,
@@ -23,10 +29,36 @@ const wrapHandler = <T>(handlerResult: RouteResult<T>, res: FastifyReply): void 
   );
 };
 
+const wrapMpcContextHandler = (handlerResult: MPCRouteResult, res: FastifyReply): void => {
+  handlerResult
+    .andThen(res => {
+      if (!res.context) {
+        return ResultAsync.fromPromise(deleteDeriveContext(res.user), err =>
+          mapPrismaError('Error while deleting context', err)
+        ).map(_ => res);
+      }
+
+      return ResultAsync.fromPromise(updateDeriveContext(res.user, res.context), err =>
+        databaseError(err, 'Error while updateing context')
+      ).map(_ => {
+        return res;
+      });
+    })
+    .match(
+      ({ peerShareId, message, context, signDone }) => {
+        context?.free();
+        res.status(200).send({ ok: true, peerShareId, message, signDone });
+      },
+      error => {
+        logger.error({ error }, 'Failed to work on request');
+        const { statusCode, errorMsg } = mapRouteError(error);
+        res.status(statusCode).send({ error: errorMsg });
+      }
+    );
+};
+
 export const route = <T>(handler: RouteHandler<T>) => {
   return (req: FastifyRequest, res: FastifyReply) => {
-    // const sessionMgr = new SessionManager(req);
-
     wrapHandler(handler(req), res);
   };
 };
@@ -71,6 +103,17 @@ export const authenticatedRoute = <T>(handler: AuthenticatedRouteHandler<T>) => 
     const authResult = authenticate(req);
 
     wrapHandler(
+      authResult.andThen(user => handler(req, user)),
+      res
+    );
+  };
+};
+
+export const mpcContextRoute = <T extends RouteGenericInterface>(handler: MPCRouteHandler<T>) => {
+  return (req: FastifyRequest<T>, res: FastifyReply) => {
+    const authResult = authenticate(req);
+
+    wrapMpcContextHandler(
       authResult.andThen(user => handler(req, user)),
       res
     );
