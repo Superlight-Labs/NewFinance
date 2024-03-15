@@ -1,5 +1,10 @@
 import logger from '@superlight-labs/logger';
-import { OnSuccess, WebsocketError, mpcInternalError } from '@superlight-labs/mpc-common';
+import {
+  OnSuccess,
+  ShareResult,
+  WebsocketError,
+  mpcInternalError,
+} from '@superlight-labs/mpc-common';
 import { mpcApiError } from '@superlight-labs/mpc-common/src/error';
 import { MPCStarterResult } from '@superlight-labs/mpc-common/src/websocket/handler';
 import { reset } from '@superlight-labs/rn-crypto-mpc';
@@ -7,7 +12,7 @@ import { StepResult, SuccessfulStep } from '@superlight-labs/rn-crypto-mpc/src/t
 import { AxiosInstance } from 'axios';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { ApiStepResult } from '../lib/http-websocket/ws-common';
-import { ShareResult, initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
+import { initGenerateGenericSecret, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 
 export const startGenerateGenericSecret = (
   axios: AxiosInstance

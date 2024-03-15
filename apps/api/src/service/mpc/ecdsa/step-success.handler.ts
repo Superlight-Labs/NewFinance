@@ -8,7 +8,7 @@ import { User } from 'src/repository/user';
 import { getNewShare } from '../mpc-context.service';
 
 type SuccessHandler = {
-  [key in OnSuccess]: (context: Context, user: User) => MPCRouteResult;
+  [key in OnSuccess]: (context: Context, user: User, path?: string) => MPCRouteResult;
 };
 
 export const SuccessHandler: SuccessHandler = {
@@ -18,10 +18,10 @@ export const SuccessHandler: SuccessHandler = {
 
     return resultAsyncSaveKeyShare(user, keyShare, 'secret');
   },
-  extractAndSaveNewShare: (context: Context, user: User) => {
+  extractAndSaveNewShare: (context: Context, user: User, path?: string) => {
     return getNewShare(context).asyncAndThen(share => {
       context.free();
-      return resultAsyncSaveKeyShare(user, share, 'context');
+      return resultAsyncSaveKeyShare(user, share, path ?? 'MISSING-PATH');
     });
   },
 };

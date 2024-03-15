@@ -19,6 +19,12 @@ export type SuccessfulStep = {
 export type InProgressStep = {
   message: number[];
   type: 'inProgress';
+  initParam: DeriveFrom;
+};
+
+export type NoStepDeriveResult = {
+  peerShareId: string;
+  context: string;
 };
 
 export type PublicKeyResult = MPCSuccess & {

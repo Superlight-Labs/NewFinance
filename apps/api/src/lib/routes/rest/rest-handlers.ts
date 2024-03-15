@@ -43,7 +43,8 @@ const wrapMpcContextHandler = (handlerResult: MPCRouteResult, res: FastifyReply)
       ).map(_ => res);
     })
     .match(
-      ({ peerShareId, message }) => {
+      ({ peerShareId, message, context }) => {
+        context?.free();
         res.status(200).send({ ok: true, peerShareId, message });
       },
       error => {

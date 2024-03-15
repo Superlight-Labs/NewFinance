@@ -8,11 +8,6 @@ import {
 import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
 
-export type ShareResult = {
-  share: string;
-  peerShareId: string;
-};
-
 export const initGenerateGenericSecret = () => {
   return ResultAsync.fromPromise(RnMpc.initGenerateGenericSecret(), err => mpcInternalError(err));
 };

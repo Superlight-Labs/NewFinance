@@ -13,14 +13,15 @@ export const handleStep = (req: StepRequest, user: User): MPCRouteResult => {
   }
   const context = Context.fromBuffer(user.deriveContext);
 
-  return performSetp(Buffer.from(req.message), context, user, req.onSuccess);
+  return performSetp(Buffer.from(req.message), context, user, req.onSuccess, req.path);
 };
 
 const performSetp = (
   message: Buffer,
   context: Context,
   user: User,
-  onSuccess: OnSuccess
+  onSuccess: OnSuccess,
+  path?: string
 ): MPCRouteResult => {
   const stepOutput = step(message, context);
 
@@ -33,7 +34,7 @@ const performSetp = (
   }
 
   if (stepOutput.type === 'success') {
-    return SuccessHandler[onSuccess](context, user);
+    return SuccessHandler[onSuccess](context, user, path);
   }
 
   if (stepOutput.type === 'error') {

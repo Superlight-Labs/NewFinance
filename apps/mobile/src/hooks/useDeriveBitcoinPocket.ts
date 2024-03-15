@@ -1,7 +1,7 @@
 import { API_URL } from '@env';
 import logger from '@superlight-labs/logger';
+import { ShareResult } from '@superlight-labs/mpc-common';
 import { getXPubKey, useDerive } from '@superlight-labs/rn-mpc-client';
-import { ShareResult } from '@superlight-labs/rn-mpc-client/src/lib/mpc/mpc-neverthrow-wrapper';
 import { Platform } from 'react-native';
 import BackgroundService from 'react-native-background-actions';
 import { AppUser, useAuthState } from 'state/auth.state';

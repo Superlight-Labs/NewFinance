@@ -14,7 +14,7 @@ export const deriveFromSchema = Type.Object({
 
 export type DeriveRequest = Static<typeof deriveFromSchema>;
 
-export type DeriveFrom = DeriveRequest & { share: string };
+export type DeriveFrom = DeriveRequest;
 
 export const signWithShareSchema = Type.Object({
   share: Type.String(),
@@ -37,6 +37,12 @@ export enum OnSuccess {
 export const stepSchema = Type.Object({
   message: Type.Array(Type.Number()),
   onSuccess: Type.Enum(OnSuccess),
+  path: Type.Optional(Type.String()),
 });
 
 export type StepRequest = Static<typeof stepSchema>;
+
+export type ShareResult = {
+  share: string;
+  peerShareId: string;
+};

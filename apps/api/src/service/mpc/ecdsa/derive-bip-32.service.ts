@@ -3,7 +3,7 @@ import {
   buildPath,
   databaseError,
   DeriveRequest,
-  MPCWebsocketMessage,
+  ShareResult,
   WebsocketError,
 } from '@superlight-labs/mpc-common';
 import { ResultAsync } from 'neverthrow';
@@ -48,9 +48,9 @@ const setupContext = (
 export const deriveWithoutStepping = (deriveContext: DeriveContext, user: User) => {
   return getResultDeriveBIP32(deriveContext.context)
     .asyncAndThen(share => saveDerivedShare(user, share, deriveContext))
-    .map(_ => {
+    .map(({ peerShareId }) => {
       deriveContext.context.free();
-      return { user };
+      return { user, peerShareId };
     });
 };
 
@@ -58,12 +58,12 @@ const saveDerivedShare = (
   user: User,
   share: string,
   deriveContext: DeriveContext
-): ResultAsync<MPCWebsocketMessage, WebsocketError> => {
+): ResultAsync<ShareResult, WebsocketError> => {
   const { parent, deriveConfig } = deriveContext;
 
   return ResultAsync.fromPromise(saveShareBasedOnPath(user, share, parent, deriveConfig), err =>
     databaseError(err, 'Error while saving derived Keyshare to DB')
-  ).map(keyShare => ({ type: 'success', result: keyShare.id }));
+  ).map(keyShare => ({ share: '', peerShareId: keyShare.id }));
 };
 
 type DeriveContext = {
