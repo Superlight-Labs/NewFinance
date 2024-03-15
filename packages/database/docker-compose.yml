@@ -1,20 +1,16 @@
 version: "3.8"
 services:
   db:
-    platform: linux/x86_64
-    image: mysql:5.7
-    restart: on-failure
+    image: postgres:14.1-alpine
+    restart: always
     environment:
-      MYSQL_DATABASE: "superlight"
-      MYSQL_USER: "user"
-      MYSQL_PASSWORD: "password"
-      MYSQL_ROOT_PASSWORD: "password"
+      - POSTGRES_DATABASE=superlight
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - "3306:3306"
-    expose:
-      - "3306"
+      - "5432:5432"
     volumes:
-      - superlight-dev-db:/var/lib/mysql
-    command: --max_allowed_packet=500M
+      - db:/var/lib/postgresql/data
 volumes:
-  superlight-dev-db:
+  db:
+    driver: local

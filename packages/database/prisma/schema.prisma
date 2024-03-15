@@ -1,13 +1,13 @@
 datasource db {
-    provider = "mysql"
+    provider = "postgresql"
     url      = env("DB_URL")
 
     relationMode = "prisma"
 }
 
 generator client {
-    provider   = "prisma-client-js"
-    engineType = "binary"
+    provider = "prisma-client-js"
+    // engineType = "binary"
 }
 
 model User {
