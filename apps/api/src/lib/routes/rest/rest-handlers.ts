@@ -40,12 +40,14 @@ const wrapMpcContextHandler = (handlerResult: MPCRouteResult, res: FastifyReply)
 
       return ResultAsync.fromPromise(updateDeriveContext(res.user, res.context), err =>
         databaseError(err, 'Error while updateing context')
-      ).map(_ => res);
+      ).map(_ => {
+        return res;
+      });
     })
     .match(
-      ({ peerShareId, message, context }) => {
+      ({ peerShareId, message, context, signDone }) => {
         context?.free();
-        res.status(200).send({ ok: true, peerShareId, message });
+        res.status(200).send({ ok: true, peerShareId, message, signDone });
       },
       error => {
         logger.error({ error }, 'Failed to work on request');

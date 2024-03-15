@@ -1,4 +1,4 @@
-import { DeriveFrom, ShareResult, SignWithShare } from '@superlight-labs/mpc-common';
+import { DeriveFrom, ShareResult } from '@superlight-labs/mpc-common';
 import {
   InProgressStep,
   NoStepDeriveResult,
@@ -11,6 +11,7 @@ import { importGenericSecret, startImportGenericSecret } from './src/handlers/im
 import { signEcdsa, startSign } from './src/handlers/sign-ecdsa';
 import { authWebsocket, authWebsocketWithSetup } from './src/lib/http-websocket/ws-client';
 import { Signer } from './src/lib/http-websocket/ws-common';
+import { InitDeriveFrom, InitSign } from './src/lib/mpc/mpc-neverthrow-wrapper';
 export { getPublicKey, getXPubKey } from './src/lib/mpc/mpc-neverthrow-wrapper';
 export type { Signer };
 
@@ -21,7 +22,7 @@ export const useGenericSecret = () => ({
       generateGenericSecret
     ),
   importGenericSecret: ({ baseUrl, sign }: ActionConfig, hexSeed: string) =>
-    authWebsocketWithSetup(
+    authWebsocketWithSetup<string, SuccessfulStep>(
       baseUrl,
       sign,
       hexSeed
@@ -30,26 +31,30 @@ export const useGenericSecret = () => ({
 
 export const useDerive = () => ({
   deriveMasterPair: ({ baseUrl, sign }: ActionConfig, deriveConfig: DeriveMaster) =>
-    authWebsocketWithSetup<DeriveFrom, InProgressStep>(baseUrl, sign, {
+    authWebsocketWithSetup<InitDeriveFrom, InProgressStep<DeriveFrom>>(baseUrl, sign, {
       ...deriveConfig,
       hardened: false,
       index: 'm',
     })<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
-  deriveBip32: ({ baseUrl, sign }: ActionConfig, deriveConfig: DeriveFrom) =>
-    authWebsocketWithSetup<DeriveFrom, NoStepDeriveResult>(baseUrl, sign, {
+  deriveBip32: ({ baseUrl, sign }: ActionConfig, deriveConfig: InitDeriveFrom) =>
+    authWebsocketWithSetup<InitDeriveFrom, NoStepDeriveResult>(baseUrl, sign, {
       ...deriveConfig,
       hardened: false,
     })<ShareResult>(startDerive, deriveBip32),
-  deriveBip32Hardened: ({ baseUrl, sign }: ActionConfig, deriveConfig: DeriveFrom) =>
-    authWebsocketWithSetup<DeriveFrom, InProgressStep>(baseUrl, sign, {
+  deriveBip32Hardened: ({ baseUrl, sign }: ActionConfig, deriveConfig: InitDeriveFrom) =>
+    authWebsocketWithSetup<InitDeriveFrom, InProgressStep<DeriveFrom>>(baseUrl, sign, {
       ...deriveConfig,
       hardened: true,
     })<ShareResult>(startDeriveWithSteps, deriveBip32WithSteps),
 });
 
 export const useSignEcdsa = () => ({
-  signEcdsa: ({ baseUrl, sign }: ActionConfig, signConfig: SignWithShare) =>
-    authWebsocketWithSetup<SignWithShare, null>(baseUrl, sign, signConfig)(startSign, signEcdsa),
+  signEcdsa: ({ baseUrl, sign }: ActionConfig, signConfig: InitSign) =>
+    authWebsocketWithSetup<InitSign, InProgressStep<undefined>>(
+      baseUrl,
+      sign,
+      signConfig
+    )(startSign, signEcdsa),
 });
 
 type ActionConfig = {

@@ -1,5 +1,4 @@
 import {
-  DeriveFrom,
   MPCWebsocketHandlerWithSetup,
   MPCWebsocketStarterWithSetup,
   ShareResult,
@@ -11,12 +10,12 @@ import { NoStepDeriveResult, StepResult } from '@superlight-labs/rn-crypto-mpc/s
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { cleanInitParam } from '../lib/http-websocket/ws-client';
 import { ApiStepResult } from '../lib/http-websocket/ws-common';
-import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
+import { InitDeriveFrom, initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
 
 // Without steps -> means, that the key can be fetched from the mpc context immediately on the server.
 // Client side it is necessary to step once with `step(null)`
 
-export const startDerive: MPCWebsocketStarterWithSetup<DeriveFrom, NoStepDeriveResult> = ({
+export const startDerive: MPCWebsocketStarterWithSetup<InitDeriveFrom, NoStepDeriveResult> = ({
   axios,
   initParam,
 }) => {

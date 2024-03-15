@@ -18,14 +18,18 @@ export const initImportGenericSecret = (hexSecret: string) => {
   );
 };
 
-export const initDeriveBip32 = (deriveFrom: DeriveFrom, hardened: boolean) => {
+export type InitDeriveFrom = DeriveFrom & { share: string };
+
+export const initDeriveBip32 = (deriveFrom: InitDeriveFrom, hardened: boolean) => {
   return ResultAsync.fromPromise(
     RnMpc.initDeriveBIP32(deriveFrom.share, indexToNumber(deriveFrom.index), hardened),
     err => mpcInternalError(err, 'Error while creating derive context')
   );
 };
 
-export const initSignEcdsa = (signConfig: SignWithShare) => {
+export type InitSign = SignWithShare & { share: string };
+
+export const initSignEcdsa = (signConfig: InitSign) => {
   const { share, messageToSign, encoding } = signConfig;
 
   return ResultAsync.fromPromise(
@@ -52,4 +56,8 @@ export const step = (message: string | null) => {
 
 export const getResultDeriveBIP32 = (context: string) => {
   return ResultAsync.fromPromise(RnMpc.getResultDeriveBIP32(context), err => mpcInternalError(err));
+};
+
+export const getResultSignEcdsa = (context: string) => {
+  return ResultAsync.fromPromise(RnMpc.getDerSignature(context), err => mpcInternalError(err));
 };

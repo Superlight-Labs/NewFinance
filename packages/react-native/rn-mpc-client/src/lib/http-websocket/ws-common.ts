@@ -70,4 +70,5 @@ export type ApiStepResult = {
   ok: boolean;
   peerShareId?: string;
   message?: string;
+  signDone?: boolean;
 };

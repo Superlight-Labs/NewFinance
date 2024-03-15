@@ -2,7 +2,7 @@ import { Context } from '@crypto-mpc';
 import { MPCRouteResult } from '@lib/routes/rest/rest-types';
 import { databaseError } from '@superlight-labs/mpc-common';
 import { OnSuccess } from '@superlight-labs/mpc-common/src/schema';
-import { ResultAsync } from 'neverthrow';
+import { ResultAsync, okAsync } from 'neverthrow';
 import { saveKeyShare } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { getNewShare } from '../mpc-context.service';
@@ -23,6 +23,10 @@ export const SuccessHandler: SuccessHandler = {
       context.free();
       return resultAsyncSaveKeyShare(user, share, path ?? 'MISSING-PATH');
     });
+  },
+  sign: (context: Context, user: User) => {
+    context.free();
+    return okAsync({ user, signDone: true });
   },
 };
 

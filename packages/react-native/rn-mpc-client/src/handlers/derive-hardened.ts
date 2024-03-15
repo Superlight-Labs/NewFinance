@@ -16,15 +16,20 @@ import { AxiosInstance } from 'axios';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
 import { cleanInitParam } from '../lib/http-websocket/ws-client';
 import { ApiStepResult } from '../lib/http-websocket/ws-common';
-import { getResultDeriveBIP32, initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
+import {
+  InitDeriveFrom,
+  getResultDeriveBIP32,
+  initDeriveBip32,
+  step,
+} from '../lib/mpc/mpc-neverthrow-wrapper';
 
 // With Steps means that there are multiple steps necessary on client and server to create a keypair
 // Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
 // which is non-hardened, but via multiple steps
-export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<DeriveFrom, InProgressStep> = ({
-  axios,
-  initParam,
-}) => {
+export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<
+  InitDeriveFrom,
+  InProgressStep<DeriveFrom>
+> = ({ axios, initParam }) => {
   return initDeriveBip32(initParam, initParam.hardened)
     .andThen(_ => step(null))
     .andThen((stepMsg: StepResult) => {
@@ -50,7 +55,7 @@ export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<DeriveFrom, InPr
 export const deriveBip32WithSteps = ({
   res,
   axios,
-}: MPCStarterResult<InProgressStep>): ResultAsync<ShareResult, WebsocketError> => {
+}: MPCStarterResult<InProgressStep<DeriveFrom>>): ResultAsync<ShareResult, WebsocketError> => {
   return stepLoop(axios, res.message, res.initParam);
 };
 

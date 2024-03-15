@@ -16,10 +16,10 @@ export type SuccessfulStep = {
   message: number[];
 };
 
-export type InProgressStep = {
+export type InProgressStep<T> = {
   message: number[];
   type: 'inProgress';
-  initParam: DeriveFrom;
+  initParam: T;
 };
 
 export type NoStepDeriveResult = {

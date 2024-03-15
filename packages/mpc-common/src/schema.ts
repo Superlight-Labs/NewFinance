@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox';
 
-enum EncondingEnum {
+export enum EncondingEnum {
   HEX = 'hex',
   BASE64 = 'base64',
 }
@@ -17,7 +17,6 @@ export type DeriveRequest = Static<typeof deriveFromSchema>;
 export type DeriveFrom = DeriveRequest;
 
 export const signWithShareSchema = Type.Object({
-  share: Type.String(),
   peerShareId: Type.String(),
   messageToSign: Type.String(),
   encoding: Type.Enum(EncondingEnum),
@@ -32,6 +31,7 @@ export type ImportHexSchema = Static<typeof importHexSchema>;
 export enum OnSuccess {
   SaveKeyShare = 'saveKeyShare',
   ExtractAndSaveNewShare = 'extractAndSaveNewShare',
+  Sign = 'sign',
 }
 
 export const stepSchema = Type.Object({

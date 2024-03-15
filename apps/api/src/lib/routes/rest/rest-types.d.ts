@@ -10,6 +10,7 @@ type MpcContextResult = {
   context?: Context;
   message?: string;
   peerShareId?: string;
+  signDone?: boolean;
 };
 
 type RouteResult<T> = ResultAsync<T, RouteError | WebsocketError>;

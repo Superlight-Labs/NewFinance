@@ -38,6 +38,7 @@ const performSetp = (
   }
 
   if (stepOutput.type === 'error') {
+    context.free();
     return errAsync(mpcInternalError(stepOutput.error, 'Error while stepping in context'));
   }
 
