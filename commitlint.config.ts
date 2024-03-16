@@ -10,6 +10,7 @@ const scopes = [
   "ci",
   "docs",
   "wip",
+  "deps",
 ];
 
 export default {
