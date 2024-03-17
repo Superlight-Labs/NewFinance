@@ -28,6 +28,11 @@ const Pockets = ({ navigation }: Props) => {
   console.log({ deriveHydrated, bitcoinHydrated });
 
   useEffect(() => {
+    if (!bitcoinHydrated && deriveHydrated) {
+      console.log('!!! DIFF IN STATE HYDRATION. Try to uncomment line bellow !!!');
+      // setHasHydrated(true);
+    }
+
     if (bitcoinHydrated && loading) {
       console.log('create bitcoin wallet');
       createBitcoinWallet(secret)(() => {

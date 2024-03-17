@@ -1,13 +1,11 @@
 import { wordlist } from '@scure/bip39/wordlists/english';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard } from 'react-native';
+import { Keyboard } from 'react-native';
 import { ScrollView, TextInput, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   setPhrase: (phrase: string) => void;
 };
-
-const screenWidth = Dimensions.get('window').width;
 
 const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
   const [selected, setSelected] = useState<string[]>(['', '', '', '', '', '', '', '', '', '', '']);
@@ -48,7 +46,7 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
 
   const scrollToCenter = (index: number) => {
     const offset = (index + 1) * 170 - 122;
-    scrollViewRef.current.scrollTo({ x: offset, animated: true });
+    scrollViewRef.current?.scrollTo({ x: offset, animated: true });
   };
 
   return (
@@ -62,7 +60,9 @@ const RecoveryPhraseInputComponent = ({ setPhrase }: Props) => {
       snapToAlignment={'center'}>
       <View className="w-[170px]" />
       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(num => (
-        <View className="mx-[10px] h-14 w-[150px] justify-center rounded-lg border-2 border-[#F5F5F5] px-3">
+        <View
+          key={'seed-workd-view-' + num}
+          className="mx-[10px] h-14 w-[150px] justify-center rounded-lg border-2 border-[#F5F5F5] px-3">
           <TextInput
             className="font-manrope text-3xl font-semibold text-black"
             placeholder="Word"

@@ -39,6 +39,7 @@ const SetupWallet = ({ navigation, route }: Props) => {
   const { importGenericSecret } = useGenericSecret();
   const { setSecret, setName /*, deleteSeed*/ } = useDeriveState();
   const { user } = useAuthState();
+  const [started, setStarted] = useState(false);
 
   const getStarted = useCallback(async () => {
     if (!user) {
@@ -57,6 +58,9 @@ const SetupWallet = ({ navigation, route }: Props) => {
   }, [navigation, registerUser, createProfile, username, email, perform, setLoading]);
 
   const createWallet = (user: AppUser) => {
+    setStarted(true);
+    if (started) return;
+
     console.log('should create wallet');
     if (seed) {
       startImportWallet(user);
@@ -67,9 +71,10 @@ const SetupWallet = ({ navigation, route }: Props) => {
 
   //Generate a wallet with a seed phrase by user
   const startImportWallet = (user: AppUser) => {
-    console.log('import new wallet');
+    // If we have already started, we don't want to start again
 
     if (!seed || !user || derivedUntilLevel > 1) return;
+    console.log('import new wallet');
 
     // Only executed if use decides to use a seed phrase
     // We do this because the `mnemonicToSeed` function is very slow and blocks the UI thread
