@@ -1,5 +1,5 @@
 import { styled } from 'nativewind';
-import { InputModeOptions, KeyboardType } from 'react-native';
+import { InputModeOptions } from 'react-native';
 import { TextInput, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
@@ -8,11 +8,12 @@ type Props = {
   value: string;
   defaultValue?: string;
   style?: string;
+  containerStyle?: string;
   disabled?: boolean;
   placeHolder?: string;
   autoCorrect?: boolean;
   autoCapitalize?: boolean;
-  keyboardType?: KeyboardType;
+  textContentType?: any;
   inputMode?: InputModeOptions;
   autoFocus?: boolean;
 };
@@ -22,30 +23,31 @@ const Input = ({
   onBlur,
   value,
   style,
+  containerStyle,
   placeHolder,
   defaultValue,
   autoCorrect = false,
   autoCapitalize = false,
   disabled = false,
-  keyboardType = 'default',
+  textContentType = 'none',
   inputMode = 'text',
   autoFocus = false,
 }: Props) => {
   return (
-    <View className="flex-1">
+    <View className={`flex-1 ${containerStyle}`}>
       <TextInput
         placeholderTextColor="#BFC3C1"
-        className={`border-1 border-b border-[#D4D4D5] py-0 font-manrope text-base font-semibold leading-[22px] text-black ${style}`}
+        className={`border-1 border-b border-[#D4D4D5] py-0 font-manrope text-base font-semibold text-black ${style}`}
         defaultValue={defaultValue}
         editable={!disabled}
         value={value}
         placeholder={placeHolder}
-        textAlignVertical={'top'}
+        textAlignVertical={'bottom'}
         onChangeText={onChangeText}
         onBlur={onBlur}
         autoCapitalize={autoCapitalize ? 'words' : 'none'}
         autoCorrect={autoCorrect}
-        keyboardType={keyboardType}
+        textContentType={textContentType}
         inputMode={inputMode}
         autoFocus={autoFocus}
         enablesReturnKeyAutomatically={true}

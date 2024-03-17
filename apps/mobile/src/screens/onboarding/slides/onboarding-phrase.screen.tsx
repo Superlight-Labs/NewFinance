@@ -33,40 +33,46 @@ const OnboardingPhraseScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <SafeAreaView className="flex h-full justify-between">
+    <SafeAreaView className="flex h-full justify-between bg-white">
       <StyledKeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex h-full justify-between px-6 pt-3">
+        className="flex h-full justify-between pt-3">
         <View>
-          <Pressable
-            className="flex w-12 items-start justify-start"
-            onPress={() => navigation.goBack()}>
-            <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
-          </Pressable>
-          <View className="mt-8">
-            <Text className="font-manrope text-3xl font-semibold">Import Wallet</Text>
-            <View className="mt-6 flex-row justify-start">
-              <Pressable
-                className="mr-2  rounded-sm px-5 py-1.5"
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{ backgroundColor: importOption === 'phrase' ? '#F4F5F5' : 'transparent' }}
-                onPress={() => setImportOption('phrase')}>
-                <Text
-                  className={`font-manrope text-xs font-semibold ${
-                    importOption === 'phrase' ? 'text-black' : 'text-[#969EA3]'
-                  }`}>
-                  Seed phrase
-                </Text>
-              </Pressable>
+          <View className="flex-row justify-between px-6">
+            <Pressable
+              className="flex w-12 items-start justify-start"
+              onPress={() => navigation.goBack()}>
+              <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
+            </Pressable>
+          </View>
+
+          <View className="mt-8 items-center justify-center text-center">
+            <Text className="text-center font-manrope text-2xl font-semibold">
+              Enter your recovery phrase
+            </Text>
+            <Text className="mt-4 px-12 text-center font-manrope text-base font-semibold text-[#8E8D95]">
+              Your recovery phrase will be used to import your wallet.
+            </Text>
+            <View className="mt-8 flex h-14 w-full">
+              <RecoveryPhraseInputComponent setPhrase={setPhrase} />
             </View>
-            <RecoveryPhraseInputComponent setPhrase={setPhrase} />
+            <Pressable onPress={() => navigation.navigate('PhraseLimitations')}>
+              <Text className="mt-6 px-12 text-center font-manrope-semibold text-sm text-[#CECECE]">
+                By using your own recovery phrase our security mechanics have limitations.
+                <Text className="px-12 text-center font-manrope-semibold text-sm text-[#0AAFFF]">
+                  {' '}
+                  Check out why
+                </Text>
+              </Text>
+            </Pressable>
           </View>
         </View>
-        <View className="pb-4">
+        <View className="px-6 pb-4">
           <ButtonComponent
+            style="bg-[#0AAFFF]"
             disabled={seedPhrase.split(' ').length !== 12}
             onPress={() => nextOnboardingStep()}>
-            NEXT
+            Continue
           </ButtonComponent>
         </View>
       </StyledKeyboardAvoidingView>

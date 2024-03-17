@@ -1,59 +1,88 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
-import WelcomeCarousel from 'components/welcome-screen/welcome-carousel.component';
-import { styled } from 'nativewind';
-import { View } from 'react-native';
 import { RootStackParamList } from 'src/app-navigation';
-import { Image, Pressable, SafeAreaView, Text } from 'utils/wrappers/styled-react-native';
+import { openWebsite } from 'utils/web-opener';
+import { Image, Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
-const StyledView = styled(View);
+const homePageUrl = 'https://www.getnewfinance.com';
 
 type Props = StackScreenProps<RootStackParamList, 'Welcome'>;
 
 const Welcome = ({ navigation }: Props) => {
   return (
-    <SafeAreaView className="">
+    <SafeAreaView className="bg-white">
       <Image
         source={require('../../../assets/images/bg_welcome.png')}
         resizeMode="cover"
-        className="absolute right-[-300px]"
+        className="absolute h-1/3 w-full"
       />
 
-      <StyledView className="flex h-full flex-col items-stretch justify-between  pt-8">
-        <StyledView className="px-6">
-          <StyledView className="w-ful flex flex-row items-center">
-            <Image
-              source={require('../../../assets/images/logo_white.png')}
-              resizeMode="contain"
-              className="mr-1 h-6 w-6"
-            />
-            <Text className="font-manrope text-xl font-semibold text-white">NewFinance</Text>
-          </StyledView>
-          <Text className="ml-8 mt-[-4] font-manrope text-xs font-semibold text-white">
-            Alpha Version
-          </Text>
-        </StyledView>
-        <StyledView className="mx-[-1rem] max-h-[500px]">
-          <WelcomeCarousel />
-        </StyledView>
-        <StyledView className="px-6">
-          <StyledView className="flex items-center py-4 opacity-50">
-            <Text className="font-manrope text-sm font-semibold text-white">
-              Regularly 4,99€/month - now for free
+      <View className="flex h-full flex-col items-stretch justify-between  px-6 pt-8">
+        <View className="h-24"></View>
+        <View className="flex flex-row items-center justify-between">
+          <View>
+            <View className="w-ful mb-2 flex flex-row items-center">
+              <Image
+                source={require('../../../assets/images/logo.png')}
+                resizeMode="contain"
+                className="mr-1 h-3 w-3"
+              />
+              <Text className="font-manrope text-base font-semibold text-black">NewFinance</Text>
+              <View className="ml-1 mt-[-12px] rounded bg-[#0AAFFF] p-0.5">
+                <Text className=" font-manrope text-xs font-semibold text-black">Alpha</Text>
+              </View>
+            </View>
+
+            <Text className="font-manrope text-[28px] font-semibold leading-[32px]">
+              Make your money{'\n'}saver than ever
             </Text>
-          </StyledView>
-          <Button onPress={() => navigation.navigate('Onboarding', { withPhrase: false })}>
-            CREATE ACCOUNT FOR FREE
+          </View>
+          <View className="flex-1 items-end">
+            <Image
+              source={require('../../../assets/images/btc_welcome.png')}
+              resizeMode="contain"
+              className="mt-4 max-h-32 w-28 "
+            />
+          </View>
+        </View>
+        <View className="mb-3">
+          <Button
+            style="bg-[#0AAFFF]"
+            onPress={() => navigation.navigate('Onboarding', { withPhrase: false })}>
+            Create a new wallet
           </Button>
           <Pressable
-            className="flex items-center justify-center py-4"
+            className="flex items-center justify-center py-6"
             onPress={() => navigation.navigate('OnboardingPhrase')}>
-            <Text className="font-manrope text-sm font-semibold text-white">
-              Already have a bitcoin wallet?
+            <Text className="font-manrope text-base font-semibold text-black">
+              Add an existing wallet
             </Text>
           </Pressable>
-        </StyledView>
-      </StyledView>
+          <View className="mt-3 px-12">
+            <Text className="text-center font-manrope text-xs font-semibold text-[#8E8D95]">
+              By continuing, I agree to the
+              <Pressable
+                className="mt-[-3px]"
+                onPress={() => openWebsite(homePageUrl + '/privacy')}>
+                <Text className="text-center font-manrope text-xs font-semibold text-[#0AAFFF]">
+                  {' '}
+                  Terms of Service{' '}
+                </Text>
+              </Pressable>
+              and consent to the
+              <Pressable
+                className="mt-[-3px]"
+                onPress={() => openWebsite(homePageUrl + '/privacy')}>
+                <Text className="text-center font-manrope text-xs font-semibold text-[#0AAFFF]">
+                  {' '}
+                  Privacy Policy{' '}
+                </Text>
+              </Pressable>
+              .
+            </Text>
+          </View>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };

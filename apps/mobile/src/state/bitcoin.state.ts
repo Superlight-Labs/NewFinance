@@ -294,9 +294,9 @@ const calculateAccountPerformance = (
   const absoluteChange = buyInVars.totalValueBtc * currentBitcoinPrice - buyInVars.totalValueEur;
 
   return {
-    percentage: percentageChange,
-    absolute: absoluteChange,
-    average: averageBuyIn,
+    percentage: isNaN(percentageChange) ? 0 : percentageChange,
+    absolute: isNaN(absoluteChange) ? 0 : absoluteChange,
+    average: isNaN(averageBuyIn) ? 0 : averageBuyIn,
   };
 };
 

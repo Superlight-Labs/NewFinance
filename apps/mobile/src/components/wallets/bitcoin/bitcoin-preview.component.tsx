@@ -15,9 +15,10 @@ import { backend, historyApi } from 'utils/superlight-api';
 type Props = {
   onChartStart: () => void;
   onChartRelease: () => void;
+  isCurrentChartUp: (up: boolean) => void;
 };
 
-const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
+const BitcoinPreview = ({ onChartStart, onChartRelease, isCurrentChartUp }: Props) => {
   const [currentTimeFrame, setCurrentTimeFrame] = useState<TimeFrame>('weekly');
   const { network } = useBitcoinState();
 
@@ -40,12 +41,14 @@ const BitcoinPreview = ({ onChartStart, onChartRelease }: Props) => {
 
   const changeTimeFrame = (timeframe: TimeFrame) => {
     setCurrentTimeFrame(timeframe);
+
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   useEffect(() => {
     if (historyData !== undefined && historyData !== currentTimeFrameData) {
       setCurrentTimeFrameData(historyData!);
+      isCurrentChartUp(historyData[0].value < historyData[historyData.length - 1].value);
       if (currentExchangeRate !== undefined)
         setselectedDataPoint({ date: '', value: currentExchangeRate.value, time: '' });
     }

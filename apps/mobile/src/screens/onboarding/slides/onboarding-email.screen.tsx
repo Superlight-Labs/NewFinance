@@ -1,17 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { generateKeyPair } from '@superlight-labs/rn-secure-encryption-module';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import TextInputComponent from 'components/shared/input/text/text-input.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
-import { useCreateAuth } from 'hooks/useCreateAuth';
-import { useFailableAction } from 'hooks/useFailable';
 import { styled } from 'nativewind';
-import { useCallback, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
+import { useState } from 'react';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { RootStackParamList } from 'src/app-navigation';
-import { useAuthState } from 'state/auth.state';
-import { constants } from 'utils/constants';
 import { Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'OnboardingEmail'>;
@@ -23,25 +18,16 @@ const OnboardingEmailScreen = ({ navigation, route }: Props) => {
   const { withPhrase } = route.params;
 
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const navigator = useNavigation();
 
-  const createProfile = useCreateAuth();
-  const { registerUser } = useAuthState();
-  const { perform } = useFailableAction();
-
-  const getStarted = useCallback(async () => {
-    setLoading(true);
-    Keyboard.dismiss();
-    const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
-    perform(createProfile(newDevicePublicKey, username, email), () => {
-      setLoading(false);
-    }).onSuccess(user => {
-      registerUser(user);
-      setLoading(false);
+  const nextOnboardingStep = () => {
+    navigation.navigate('SetupWallet', {
+      username: username,
+      email: email,
+      withPhrase: withPhrase,
     });
-  }, [navigation, registerUser, createProfile, username, email, perform, setLoading]);
+  };
 
   const isDisabled = () => {
     if (email.length < 3) return true;
@@ -57,32 +43,30 @@ const OnboardingEmailScreen = ({ navigation, route }: Props) => {
     <SafeAreaView className="flex h-full justify-between">
       <StyledKeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex h-full justify-between px-6 pt-3">
+        className="flex h-full justify-between pt-3">
         <View>
-          <View className="flex-row justify-between">
+          <View className="flex-row justify-between px-6">
             <Pressable
               className="flex w-12 items-start justify-start"
               onPress={() => navigator.goBack()}>
               <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
             </Pressable>
-
-            {withPhrase && (
-              <View className="rounded-sm  bg-[#F4F5F5] px-5 py-1.5">
-                <Text className={'font-manrope text-xs font-semibold text-black'}>
-                  Seed phrase in use
-                </Text>
-              </View>
-            )}
           </View>
-          <View className="mt-8">
-            <Text className="font-manrope text-3xl font-semibold">Email</Text>
-            <Text className="mt-4 font-manrope text-xs font-semibold">
-              We need this to verify your account.
+
+          <View className="mt-8 items-center justify-center text-center">
+            <Text className="text-center font-manrope text-2xl font-semibold">
+              Enter your E-mail
             </Text>
-            <View className="mt-8 flex flex-row border-b border-[#D4D4D5]">
+            <Text className="mt-4 text-center font-manrope text-base font-semibold text-[#8E8D95]">
+              We need this to verify you.
+            </Text>
+            <View className="mt-8 flex-row items-center">
               <TextInputComponent
-                style="text-center border-0 "
-                placeHolder="Enter your e-mail"
+                containerStyle="flex-none"
+                style="text-center border-b-0 text-2xl"
+                placeHolder="mail@newfinance.com"
+                textContentType={'emailAddress'}
+                inputMode="email"
                 value={email}
                 onChangeText={setEmail}
                 autoFocus={true}
@@ -90,9 +74,12 @@ const OnboardingEmailScreen = ({ navigation, route }: Props) => {
             </View>
           </View>
         </View>
-        <View className="pb-4">
-          <ButtonComponent disabled={isDisabled() || loading} onPress={getStarted}>
-            NEXT
+        <View className="px-6 pb-4">
+          <ButtonComponent
+            style="bg-[#0AAFFF]"
+            disabled={isDisabled()}
+            onPress={nextOnboardingStep}>
+            Next
           </ButtonComponent>
         </View>
       </StyledKeyboardAvoidingView>

@@ -21,6 +21,7 @@ const Bitcoin = ({ navigation }: Props) => {
     absolute: 0,
     average: 0,
   });
+  const [isChartUp, setIsChartUp] = useState<boolean>(true);
 
   const { data: historyData } = useQuery(
     ['historyData', 'today'],
@@ -93,114 +94,121 @@ const Bitcoin = ({ navigation }: Props) => {
       <BitcoinPreview
         onChartStart={() => setScrollViewEnabled(false)}
         onChartRelease={() => setScrollViewEnabled(true)}
+        isCurrentChartUp={up => setIsChartUp(up)}
       />
       <View className="mt-12 flex w-full flex-row justify-between px-5">
         <ButtonComponent
           onPress={() => navigation.navigate('ComingSoon', { text: 'Sell Bitcoin' })}
-          style="bg-[#F0F6F2] flex-1 mr-1"
+          style={`flex-1  mr-1 ${isChartUp ? 'bg-[#F0F6F2]' : 'bg-[#F6F0F0]'}`}
           textStyle="text-black">
           Sell
         </ButtonComponent>
 
         <ButtonComponent
           onPress={() => navigation.navigate('BuyBitcoinStack')}
-          style="flex-1 bg-[#51DC78] ml-1">
+          style={`flex-1  ml-1 ${isChartUp ? 'bg-[#51DC78]' : 'bg-[#DC5151]'}`}>
           Buy
         </ButtonComponent>
       </View>
+      {getTotalBalance() > 0 && (
+        <View>
+          <Text className="mx-5 mt-12 font-manrope text-lg font-bold">You own</Text>
 
-      <Text className="mx-5 mt-12 font-manrope text-lg font-bold">You own</Text>
-
-      <View className="mt-6 flex-row items-center justify-between px-5">
-        <View className="">
-          {accounts.size === 1 && <Text className="font-manrope font-bold ">1 pocket</Text>}
-          {accounts.size > 1 && (
-            <Text className="font-manrope font-bold ">{accounts.size} pockets</Text>
-          )}
-        </View>
-        <View className="flex-col items-end">
-          <PriceTextComponent
-            bitcoinAmount={getTotalBalance()}
-            style="font-manrope font-bold text-lg"
-          />
-          <Text className="font-manrope text-sm font-bold text-grey">{getTotalBalance()} BTC</Text>
-        </View>
-      </View>
-
-      <View className="mt-10 flex-row items-center justify-between px-5">
-        <View className="flex-col">
-          <Text className="mb-1 font-manrope text-xs font-bold text-grey">BUY IN</Text>
-          <Text className="font-manrope text-sm font-bold">
-            {accountPerformance.average.toFixed(2)}€
-          </Text>
-        </View>
-        <View className="flex-col">
-          <Text className="mb-1 font-manrope text-xs font-bold text-grey">PERFORMANCE</Text>
-          <View className="flex-row items-center">
-            {isUp(accountPerformance.absolute) ? (
-              <MonoIcon
-                iconName="ChevronsUp"
-                width={16}
-                height={16}
-                strokeWitdth={3}
-                color={'#01DC0A'}
+          <View className="mt-6 flex-row items-center justify-between px-5">
+            <View className="">
+              {accounts.size === 1 && <Text className="font-manrope font-bold ">1 pocket</Text>}
+              {accounts.size > 1 && (
+                <Text className="font-manrope font-bold ">{accounts.size} pockets</Text>
+              )}
+            </View>
+            <View className="flex-col items-end">
+              <PriceTextComponent
+                bitcoinAmount={getTotalBalance()}
+                style="font-manrope font-bold text-lg"
               />
-            ) : (
-              <MonoIcon
-                iconName="ChevronsDown"
-                width={16}
-                height={16}
-                strokeWitdth={3}
-                color={'#FF3F32'}
-              />
-            )}
+              <Text className="font-manrope text-sm font-bold text-grey">
+                {getTotalBalance()} BTC
+              </Text>
+            </View>
+          </View>
 
-            <Text
-              className="font-manrope text-sm font-bold text-[#01DC0A]"
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{ color: isUp(accountPerformance.absolute) ? '#01DC0A' : '#FF3F32' }}>
-              {accountPerformance.absolute.toFixed(2)} € ({accountPerformance.percentage.toFixed(2)}
-              %)
-            </Text>
+          <View className="mt-10 flex-row items-center justify-between px-5">
+            <View className="flex-col">
+              <Text className="mb-1 font-manrope text-xs font-bold text-grey">BUY IN</Text>
+              <Text className="font-manrope text-sm font-bold">
+                {accountPerformance.average.toFixed(2)}€
+              </Text>
+            </View>
+            <View className="flex-col">
+              <Text className="mb-1 font-manrope text-xs font-bold text-grey">PERFORMANCE</Text>
+              <View className="flex-row items-center">
+                {isUp(accountPerformance.absolute) ? (
+                  <MonoIcon
+                    iconName="ChevronsUp"
+                    width={16}
+                    height={16}
+                    strokeWitdth={3}
+                    color={'#01DC0A'}
+                  />
+                ) : (
+                  <MonoIcon
+                    iconName="ChevronsDown"
+                    width={16}
+                    height={16}
+                    strokeWitdth={3}
+                    color={'#FF3F32'}
+                  />
+                )}
+
+                <Text
+                  className="font-manrope text-sm font-bold text-[#01DC0A]"
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  style={{ color: isUp(accountPerformance.absolute) ? '#01DC0A' : '#FF3F32' }}>
+                  {accountPerformance.absolute.toFixed(2)} € (
+                  {accountPerformance.percentage.toFixed(2)}
+                  %)
+                </Text>
+              </View>
+            </View>
+            <View className="flex-col">
+              <Text className="mb-1 font-manrope text-xs font-bold text-grey">24H</Text>
+              <View className="flex-row items-center">
+                {isUp(calcRelativeChange24H()) ? (
+                  <MonoIcon
+                    iconName="ChevronsUp"
+                    width={16}
+                    height={16}
+                    strokeWitdth={3}
+                    color={'#01DC0A'}
+                  />
+                ) : (
+                  <MonoIcon
+                    iconName="ChevronsDown"
+                    width={16}
+                    height={16}
+                    strokeWitdth={3}
+                    color={'#FF3F32'}
+                  />
+                )}
+
+                <Text
+                  className="font-manrope text-sm font-bold text-[#01DC0A]"
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  style={{ color: isUp(calcRelativeChange24H()) ? '#01DC0A' : '#FF3F32' }}>
+                  {historyData !== undefined &&
+                    currentExchangeRate !== undefined &&
+                    calcAbsoluteChange24H().toFixed(2)}
+                  € (
+                  {historyData !== undefined &&
+                    currentExchangeRate !== undefined &&
+                    calcRelativeChange24H().toFixed(2)}
+                  %)
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
-        <View className="flex-col">
-          <Text className="mb-1 font-manrope text-xs font-bold text-grey">24H</Text>
-          <View className="flex-row items-center">
-            {isUp(calcRelativeChange24H()) ? (
-              <MonoIcon
-                iconName="ChevronsUp"
-                width={16}
-                height={16}
-                strokeWitdth={3}
-                color={'#01DC0A'}
-              />
-            ) : (
-              <MonoIcon
-                iconName="ChevronsDown"
-                width={16}
-                height={16}
-                strokeWitdth={3}
-                color={'#FF3F32'}
-              />
-            )}
-
-            <Text
-              className="font-manrope text-sm font-bold text-[#01DC0A]"
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{ color: isUp(calcRelativeChange24H()) ? '#01DC0A' : '#FF3F32' }}>
-              {historyData !== undefined &&
-                currentExchangeRate !== undefined &&
-                calcAbsoluteChange24H().toFixed(2)}
-              € (
-              {historyData !== undefined &&
-                currentExchangeRate !== undefined &&
-                calcRelativeChange24H().toFixed(2)}
-              %)
-            </Text>
-          </View>
-        </View>
-      </View>
+      )}
 
       <View className="mx-5 mt-6 border-b-[1.5px] border-[#F6F7F8]" />
 

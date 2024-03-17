@@ -45,37 +45,24 @@ const OnboardingScreen = ({ navigation, route }: Props) => {
               onPress={() => navigator.goBack()}>
               <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
             </Pressable>
-
-            {withPhrase && (
-              <View className="rounded-sm  bg-[#F4F5F5] px-5 py-1.5">
-                <Text className={'font-manrope text-xs font-semibold text-black'}>
-                  Seed phrase in use
-                </Text>
-              </View>
-            )}
           </View>
-          <View className="mt-6 items-center justify-center text-center">
-            <Image
-              source={require('../../../../assets/images/bg_onboarding.png')}
-              resizeMode="contain"
-              className=" h-48 w-1/2"
-            />
-            <Text className="text-center font-manrope text-3xl font-semibold">
-              Say Goodbye to
-              {'\n'} legacy finance
+          <View className="mt-8 items-center justify-center text-center">
+            <Text className="text-center font-manrope text-2xl font-semibold">
+              Choose your username
             </Text>
-            <Text className="mt-8 text-center font-manrope text-xs font-semibold">
-              Choose your NewFinance tag
+            <Text className="mt-4 text-center font-manrope text-base font-semibold text-[#8E8D95]">
+              This is your unique tag that anyone can send{'\n'}Bitcoin to using NewFinance.
             </Text>
-            <View className="mt-8 flex flex-row items-center border-b border-[#D4D4D5]">
+            <View className="mt-8 flex-row items-center">
               <Image
                 source={require('../../../../assets/images/logo.png')}
                 resizeMode="contain"
-                className=" ml-2 mt-2 h-4 w-4"
+                className=" h-4 w-4"
               />
               <TextInputComponent
-                style="text-center px-2 border-0 "
-                placeHolder="@newUser921"
+                containerStyle="flex-none"
+                style="text-center px-2 border-b-0 text-3xl"
+                placeHolder="username"
                 value={username}
                 onChangeText={setUsername}
                 autoFocus={true}
@@ -84,8 +71,11 @@ const OnboardingScreen = ({ navigation, route }: Props) => {
           </View>
         </View>
         <View className="pb-4">
-          <ButtonComponent disabled={isDisabled()} onPress={nextOnboardingStep}>
-            NEXT
+          <ButtonComponent
+            style="bg-[#0AAFFF]"
+            disabled={isDisabled()}
+            onPress={nextOnboardingStep}>
+            Next
           </ButtonComponent>
         </View>
       </StyledKeyboardAvoidingView>

@@ -1,24 +1,38 @@
 import { API_URL } from '@env';
+import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useGenericSecret } from '@superlight-labs/rn-mpc-client';
-import ProgressBar from 'components/shared/loading/progress-bar.component';
+import { generateKeyPair } from '@superlight-labs/rn-secure-encryption-module';
+import ButtonComponent from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import { useCreateAuth } from 'hooks/useCreateAuth';
 import { useFailableAction } from 'hooks/useFailable';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { RootStackParamList } from 'src/app-navigation';
-import { useAuthState } from 'state/auth.state';
+import { AppUser, useAuthState } from 'state/auth.state';
 import { useDeriveState } from 'state/derive.state';
 import { signWithDeviceKeyNoAuth } from 'utils/auth';
+import { constants } from 'utils/constants';
 import { mnemonicToSeed } from 'utils/wrappers/bip32-neverthrow';
-import { Image, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
+import { Image, Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'SetupWallet'>;
 
-const SetupWallet = ({ navigation }: Props) => {
+const SetupWallet = ({ navigation, route }: Props) => {
+  const [username] = useState(route.params.username);
+  const [email] = useState(route.params.email);
+  const [withPhrase] = useState(route.params.withPhrase);
+
   const { derivedUntilLevel, seed } = useDeriveState();
 
   const [walletName] = useState('Main pocket');
   const [_loading, setLoading] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(false);
+
+  const createProfile = useCreateAuth();
+  const { registerUser } = useAuthState();
+
+  const navigator = useNavigation();
 
   const { perform } = useFailableAction();
   const { generateGenericSecret } = useGenericSecret();
@@ -26,18 +40,35 @@ const SetupWallet = ({ navigation }: Props) => {
   const { setSecret, setName /*, deleteSeed*/ } = useDeriveState();
   const { user } = useAuthState();
 
-  const [startTime] = useState<number>(Date.now());
-
-  useEffect(() => {
-    if (seed) {
-      startImportWallet();
+  const getStarted = useCallback(async () => {
+    if (!user) {
+      setLoadingAuth(true);
+      const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
+      perform(createProfile(newDevicePublicKey, username, email), () => {
+        setLoadingAuth(false);
+      }).onSuccess(userData => {
+        registerUser(userData);
+        setLoadingAuth(false);
+        createWallet(userData);
+      });
     } else {
-      startGenerateWallet();
+      createWallet(user);
     }
-  }, []);
+  }, [navigation, registerUser, createProfile, username, email, perform, setLoading]);
+
+  const createWallet = (user: AppUser) => {
+    console.log('should create wallet');
+    if (seed) {
+      startImportWallet(user);
+    } else {
+      startGenerateWallet(user);
+    }
+  };
 
   //Generate a wallet with a seed phrase by user
-  const startImportWallet = () => {
+  const startImportWallet = (user: AppUser) => {
+    console.log('import new wallet');
+
     if (!seed || !user || derivedUntilLevel > 1) return;
 
     // Only executed if use decides to use a seed phrase
@@ -64,12 +95,13 @@ const SetupWallet = ({ navigation }: Props) => {
       // Seed will not be deleted for now
       // TODO: Don't save seed in state with launch of mainnet
       //deleteSeed();
-      navigateToHome();
+      //navigateToHome();
     });
   };
 
   //Generate a new wallet without a seed phrase in use
-  const startGenerateWallet = () => {
+  const startGenerateWallet = async (user: AppUser) => {
+    console.log('generate new wallet');
     if (!user) {
       navigation.navigate('Welcome');
       return;
@@ -91,39 +123,55 @@ const SetupWallet = ({ navigation }: Props) => {
         share: result.share,
         path: 'secret',
       });
-      navigateToHome();
+      console.log('level secret set: ', derivedUntilLevel);
     });
   };
 
+  useEffect(() => {
+    if (derivedUntilLevel == 1) navigateToHome();
+    //if (derivedUntilLevel >= 2) navigateToHome();
+  }, [derivedUntilLevel]);
+
   const navigateToHome = () => {
-    setTimeout(() => {
-      navigation.navigate('HomeTab');
-    }, 3000 - (Date.now() - startTime));
+    navigation.navigate('HomeTab');
   };
 
   return (
     <SafeAreaView>
-      <View className="h-full items-center justify-center ">
-        <Text className="font-manrope text-3xl font-semibold">Welcome</Text>
-
-        <View className="mt-8 flex flex-row items-center">
-          <Image
-            source={require('../../../../assets/images/logo.png')}
-            resizeMode="contain"
-            className="mr-1 mt-0.5 h-4 w-4"
-          />
-          <Text className="text-[#8E8D95]">@{user?.username}</Text>
-        </View>
-        <View className="mt-96 ">
-          <View className="mb-2 flex flex-row items-center justify-center">
-            <View className="mr-2 flex flex-row items-center justify-around">
+      <View className="h-full px-6 pt-3">
+        <Pressable
+          className="flex w-12 items-start justify-start"
+          onPress={() => navigator.goBack()}>
+          <MonoIcon style="flex -ml-0.5" iconName="ArrowLeft" />
+        </Pressable>
+        <View className="flex-1 items-center justify-center">
+          <View className="mt-8 flex flex-row items-center">
+            <Image
+              source={require('../../../../assets/images/logo.png')}
+              resizeMode="contain"
+              className="mr-2 mt-1 h-4 w-4"
+            />
+            <Text className="font-manrope text-lg font-semibold text-black">{username}</Text>
+          </View>
+          <View className="mt-3 flex-row">
+            <Text className="font-manrope text-4xl font-semibold">€ 0</Text>
+            <Text className="font-manrope text-4xl font-semibold text-[#CECECE]">.00</Text>
+            <View className="mb-1.5 ml-2 flex flex-row items-center justify-around">
               <MonoIcon iconName="Loading" height={14} width={14} color="#d3d3da" />
             </View>
-            <Text className="text-center text-xs text-[#8E8D95]">
-              {seed ? 'Importing pocket...' : 'Creating pocket...'}
-            </Text>
           </View>
-          <ProgressBar loadingTime={3000} />
+        </View>
+        <View className="mt-32 flex-1 items-center text-center">
+          <Text className="font-manrope text-2xl font-semibold">Welcome to NewFinance</Text>
+          <Text className="mt-3 text-center font-manrope text-sm font-medium text-[#8E8D95]">
+            This is your new and safe way to buy, sell and hold Bitcoin. Finishing creating your
+            wallet to hold your Bitcoin with the safest technology.
+          </Text>
+        </View>
+        <View className="pb-4">
+          <ButtonComponent iconName="Lock" style="bg-[#0AAFFF]" onPress={() => getStarted()}>
+            {withPhrase ? "Let's import your wallet" : "Let's create your safe wallet"}
+          </ButtonComponent>
         </View>
       </View>
     </SafeAreaView>

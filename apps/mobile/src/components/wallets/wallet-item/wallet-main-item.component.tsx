@@ -32,7 +32,7 @@ const WalletMainItem = ({ account, balance, navigate, disabled = false }: Props)
   const [accountPerformance, setAccountPerformance] = useState<Performance>(emptyPerformance);
 
   const isUp = (value: number) => {
-    return value > 0;
+    return value >= 0;
   };
 
   const addresses = getAccountAddresses(account);

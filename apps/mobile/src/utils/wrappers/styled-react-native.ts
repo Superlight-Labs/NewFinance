@@ -11,6 +11,8 @@ import {
   ScrollView as RNScrollView,
   Text as RNText,
   TextInput as RNTextInput,
+  TouchableHighlight as RNTouchableHighlight,
+  TouchableOpacity as RNTouchableOpacity,
   View as RNView,
 } from 'react-native';
 
@@ -26,6 +28,8 @@ const AnimatedView = styled(Animated.View);
 const ImageBackground = styled(RNImageBackground);
 const FlatList = styled(RNFlatList);
 const Modal = styled(RNModal);
+const TouchableOpacity = styled(RNTouchableOpacity);
+const TouchableHighlight = styled(RNTouchableHighlight);
 
 export {
   AnimatedView,
@@ -39,5 +43,7 @@ export {
   ScrollView,
   Text,
   TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
   View,
 };

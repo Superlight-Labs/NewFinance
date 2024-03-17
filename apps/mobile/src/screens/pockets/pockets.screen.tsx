@@ -14,20 +14,27 @@ import { PocketsStackParamList } from './pockets-navigation';
 type Props = StackScreenProps<PocketsStackParamList, 'Pockets'>;
 
 const Pockets = ({ navigation }: Props) => {
-  const createBitcoinWallet = useCreateBitcoinWallet(() => navigation.navigate('SetupWallet'));
-  const { secret, derivedUntilLevel } = useDeriveState();
-  const { accounts, getAccountBalance, hasAddress, hasHydrated } = useBitcoinState();
+  const createBitcoinWallet = useCreateBitcoinWallet(() => {});
+  const { secret, derivedUntilLevel, hasHydrated: deriveHydrated } = useDeriveState();
+  const {
+    accounts,
+    getAccountBalance,
+    hasAddress,
+    hasHydrated: bitcoinHydrated,
+  } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
 
   const loading = derivedUntilLevel < DerivedUntilLevel.COMPLETE;
+  console.log({ deriveHydrated, bitcoinHydrated });
 
   useEffect(() => {
-    if (hasHydrated && loading) {
+    if (bitcoinHydrated && loading) {
+      console.log('create bitcoin wallet');
       createBitcoinWallet(secret)(() => {
         updateAll();
       });
     }
-  }, [hasHydrated, loading]);
+  }, [bitcoinHydrated, deriveHydrated, loading]);
 
   const updateAll = () => {
     for (const [key, _] of accounts) {

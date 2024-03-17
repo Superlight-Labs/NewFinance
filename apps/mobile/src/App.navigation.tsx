@@ -11,6 +11,7 @@ import AlphaNoticeScreen from 'screens/onboarding/slides/alpha-notice.screen';
 import OnboardingEmailScreen from 'screens/onboarding/slides/onboarding-email.screen';
 import OnboardingScreen from 'screens/onboarding/slides/onboarding-name.screen';
 import OnboardingPhraseScreen from 'screens/onboarding/slides/onboarding-phrase.screen';
+import PhraseLimitationsScreen from 'screens/onboarding/slides/phrase-limitations.screen';
 import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import Welcome from 'screens/onboarding/welcome.screen';
 import ComingSoonScreen from 'screens/shared/coming-soon.screen';
@@ -103,48 +104,41 @@ const AppNavigation = () => {
             <>
               {bipHydrated && authHydrated ? (
                 <>
-                  {hasKeysSetUp ? (
+                  {hasKeysSetUp && derivedUntilLevel >= DerivedUntilLevel.SECRET ? (
                     <>
-                      <>
-                        {isAuthenticated ? (
-                          <>
-                            {derivedUntilLevel < DerivedUntilLevel.MASTER && (
-                              <Stack.Group>
-                                <Stack.Screen name="SetupWallet" component={SetupWallet} />
-                              </Stack.Group>
-                            )}
-                            <Stack.Screen
-                              name="HomeTab"
-                              component={HomeTabNavigation}
-                              options={{
-                                headerShown: false,
-                                animation: 'fade',
-                              }}
-                            />
-                            <Stack.Screen
-                              name="AlphaNotice"
-                              options={{ presentation: 'modal' }}
-                              component={AlphaNoticeScreen}
-                            />
-                            <Stack.Screen
-                              name="ComingSoon"
-                              options={{
-                                presentation: 'containedTransparentModal',
-                                gestureEnabled: true,
-                              }}
-                              component={ComingSoonScreen}
-                            />
-                          </>
-                        ) : (
+                      {isAuthenticated ? (
+                        <>
                           <Stack.Screen
-                            name="Loading"
-                            component={LoadingScreen}
+                            name="HomeTab"
+                            component={HomeTabNavigation}
                             options={{
+                              headerShown: false,
                               animation: 'fade',
                             }}
                           />
-                        )}
-                      </>
+                          <Stack.Screen
+                            name="AlphaNotice"
+                            options={{ presentation: 'modal' }}
+                            component={AlphaNoticeScreen}
+                          />
+                          <Stack.Screen
+                            name="ComingSoon"
+                            options={{
+                              presentation: 'containedTransparentModal',
+                              gestureEnabled: true,
+                            }}
+                            component={ComingSoonScreen}
+                          />
+                        </>
+                      ) : (
+                        <Stack.Screen
+                          name="Loading"
+                          component={LoadingScreen}
+                          options={{
+                            animation: 'fade',
+                          }}
+                        />
+                      )}
                     </>
                   ) : (
                     <>
@@ -152,6 +146,12 @@ const AppNavigation = () => {
                       <Stack.Screen name="Onboarding" component={OnboardingScreen} />
                       <Stack.Screen name="OnboardingEmail" component={OnboardingEmailScreen} />
                       <Stack.Screen name="OnboardingPhrase" component={OnboardingPhraseScreen} />
+                      <Stack.Screen
+                        name="PhraseLimitations"
+                        component={PhraseLimitationsScreen}
+                        options={{ presentation: 'modal' }}
+                      />
+                      <Stack.Screen name="SetupWallet" component={SetupWallet} />
                     </>
                   )}
                 </>
