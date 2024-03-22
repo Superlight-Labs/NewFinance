@@ -3,7 +3,7 @@
    version="1.0">
    <FileRef
       location="group:NewFinance.xcodeproj">
-</FileRef>
+   </FileRef>
    <FileRef
       location="group:Pods/Pods.xcodeproj">
    </FileRef>

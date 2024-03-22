@@ -203,7 +203,7 @@ class Context {
     }
   }
 
-  static fromBuffer(buffer) {
+  static fromBuffer(buffer): Context {
     const contextPtrPtr = alloc(native.VoidPtrPtr);
     const type = buffer.readUInt8();
     native.checkAndThrowError(

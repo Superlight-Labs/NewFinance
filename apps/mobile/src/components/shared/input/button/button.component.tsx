@@ -1,32 +1,70 @@
+import MonoIcon, { IconName } from 'components/shared/mono-icon/mono-icon.component';
+import * as Haptics from 'expo-haptics';
 import { styled } from 'nativewind';
 import { ReactNode } from 'react';
-import { Pressable, Text } from 'utils/wrappers/styled-react-native';
+import { Text, TouchableOpacity, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
   onPress: () => void;
   children: ReactNode;
-  shadow?: boolean;
   style?: string;
+  textStyle?: string;
   disabled?: boolean;
+  haptic?: boolean;
+  iconName?: IconName;
 };
 
-const dropStyle = {
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 12 },
-  shadowOpacity: 0.5,
-  shadowRadius: 14,
-};
+const Button = ({
+  onPress,
+  children,
+  style,
+  textStyle,
+  iconName,
+  disabled = false,
+  haptic = true,
+}: Props) => {
+  const bg = disabled ? 'opacity-50' : 'opacity-100';
 
-const Button = ({ onPress, children, style, shadow, disabled = false }: Props) => {
-  const bg = disabled ? 'bg-[#606060]' : 'bg-black';
+  const pressWithHaptic = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    onPress();
+  };
   return (
-    <Pressable
+    <TouchableOpacity
       disabled={disabled}
-      onPress={onPress}
-      style={shadow && !disabled && dropStyle}
-      className={`flex flex-row items-center justify-center rounded-full px-8 py-2 ${bg} ${style}`}>
-      <Text className="font-manrope-bold text-base text-white">{children}</Text>
-    </Pressable>
+      activeOpacity={0.7}
+      onPress={haptic ? pressWithHaptic : onPress}
+      className={`group flex-row items-center  rounded px-2 py-3.5 transition-all active:opacity-70 ${
+        iconName ? 'justify-between' : 'justify-center'
+      } ${bg}  ${style}`}>
+      <View
+        className={`group flex-row items-center ${
+          iconName ? 'justify-between' : 'justify-center'
+        } `}>
+        {iconName && (
+          <View className="flex-row items-center">
+            <View className="mr-2 aspect-square items-center justify-center rounded-full bg-[#FFFFFF33] p-1.5">
+              <MonoIcon iconName={iconName} color="white" strokeWitdth={2.5} width={14} />
+            </View>
+            <Text
+              className={`group-isolate-active:text-red font-manrope text-base font-bold text-white ${textStyle}`}>
+              {children}
+            </Text>
+          </View>
+        )}
+        {!iconName && (
+          <Text
+            className={`group-isolate-active:text-red font-manrope text-base font-bold text-white ${textStyle}`}>
+            {children}
+          </Text>
+        )}
+        {iconName && (
+          <View className="aspect-square items-center justify-center p-1.5">
+            <MonoIcon iconName={'ArrowRight'} color="white" strokeWitdth={2.5} width={18} />
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
 

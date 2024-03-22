@@ -12,18 +12,20 @@ name: monkfish-app
 region: fra
 services:
   - envs:
-      - key: TATUM_TEST_TOKEN
-        scope: RUN_AND_BUILD_TIME
-        type: SECRET
-        value:
-      - key: DB_URL
-        scope: RUN_AND_BUILD_TIME
-        type: SECRET
-        value:
       - key: COOKIE_SECRET
         scope: RUN_AND_BUILD_TIME
         type: SECRET
-        value:
+        value: EV[1:ybc5wxxMiPx+0h8+2YMJ0Aa6/DjdaILq:Naha2mOVsf6RDISXqIzVFqAnHhQ/yGUAQRRhL4ZTLGeEOC/kPsFeBg==]
+      - key: DB_URL
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: EV[1:bzsJQux/3bs5HJPX3JggEG9+9H2tWLta:oKzTkHhk3UWKKMDbYoTpvMh6AIt+TfT9IOaCzEZo77QpIfUWbHO8RDndKVktef9KjgUldgQOFja9cTH6VkcRaT3sS4RghzaRTjFU5nNIKFJKMiOVnWCUj6eZX2kOR7Xwk3kKxoyMD4lvaPDt4/8Q8deOwoqXo9ZhmPwPFfn46dWx13NGO4//rFDmBZKPG1lJN7dgn+aFPOLqaucZY3M=]
+      - key: TATUM_TEST_TOKEN
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: EV[1:Ay1eIkCjg5sxOcvYOzqkLhICtDZx2cIq:UoSM/ZvrtDg0htieqtmBGpWf6jv+UP5M7vKQx1choy2+1rGuRIMsjMjeYjHsDhBGA7YXxA==]
+      - key: TATUM_MAIN_TOKEN
+        scope: RUN_AND_BUILD_TIME
       - key: API_HOST
         scope: RUN_AND_BUILD_TIME
         value: 0.0.0.0
@@ -43,5 +45,5 @@ services:
       repository: superlight-api
       tag: latest
     instance_count: 1
-    instance_size_slug: basic-xs
+    instance_size_slug: basic-xxs
     name: superlight-superlight-api

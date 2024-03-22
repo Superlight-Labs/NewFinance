@@ -20,7 +20,7 @@ declare module 'fastify' {
 }
 
 export const createServer = async (client: PrismaClient) => {
-  const server = fastify({ logger }).withTypeProvider<TypeBoxTypeProvider>();
+  const server = fastify({ logger, bodyLimit: 300e6 }).withTypeProvider<TypeBoxTypeProvider>();
 
   logger.info({ config }, 'Started up server with config');
 
@@ -33,7 +33,7 @@ export const createServer = async (client: PrismaClient) => {
   });
 
   server.register(underPressure, {
-    maxHeapUsedBytes: 500 * 1000000,
+    maxHeapUsedBytes: 1024 * 1024 * 1024,
     // maxRssBytes: 500 * 1000000,
     retryAfter: 10000,
     pressureHandler: (req, rep, type, value) => {

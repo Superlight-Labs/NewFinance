@@ -1,52 +1,62 @@
-import { authenticate } from '@lib/utils/auth';
-import { DeriveConfig, SignConfig } from '@superlight-labs/mpc-common';
+import { mpcContextRoute } from '@lib/routes/rest/rest-handlers';
+import {
+  DeriveFrom,
+  ImportHexSchema,
+  SignWithShare,
+  deriveFromSchema,
+  importHexSchema,
+  signWithShareSchema,
+} from '@superlight-labs/mpc-common';
+import { DeriveRequest, StepRequest, stepSchema } from '@superlight-labs/mpc-common/src/schema';
 import { FastifyInstance } from 'fastify';
 import {
-  deriveBip32WithSteps,
-  deriveBip32WithoutStepping,
+  deriveWithoutStepping,
+  initDeriveProcess,
 } from 'src/service/mpc/ecdsa/derive-bip-32.service';
+import { initSignProcess } from 'src/service/mpc/ecdsa/signature.service';
+import { handleStep } from 'src/service/mpc/ecdsa/step.service';
 import {
-  generateGenericSecret,
-  importGenericSecret,
-} from 'src/service/mpc/ecdsa/generic-secret.service';
-import { signWithEcdsaKey } from 'src/service/mpc/ecdsa/signature.service';
-import { websocketRoute } from '../lib/routes/websocket/websocket-handlers';
-import { generateEcdsaKey } from '../service/mpc/ecdsa/generate-share.service';
-import { websocketRouteWithInitParameter } from './../lib/routes/websocket/websocket-handlers';
+  createGenerateEcdsaKey,
+  createGenerateGenericSecretContext,
+  createImportGenericSecretContext,
+} from 'src/service/mpc/mpc-context.service';
 
 export type ActionStatus = 'Init' | 'Stepping';
 
 const route = '/mpc/ecdsa';
 
-const registerMcpRoutes = (server: FastifyInstance): void => {
-  server.register(async function plugin(privatePlugin, opts) {
-    privatePlugin.addHook('onRequest', async req => {
-      const userResult = await authenticate(req);
-
-      // TODO this error is actually not picked up by client
-      if (userResult.isErr()) throw userResult.error;
-
-      req.user = userResult.value;
-    });
-
-    registerPrivateMpcRoutes(privatePlugin);
-  });
-};
-
-const registerPrivateMpcRoutes = (server: FastifyInstance) => {
+const registerMcpRoutes = (server: FastifyInstance) => {
   server.register(async function (server) {
-    server.get(
-      route + '/generate-generic-secret',
-      { websocket: true },
-      websocketRoute(generateGenericSecret)
+    server.post(
+      route + '/step',
+      { schema: { body: stepSchema } },
+      mpcContextRoute((req, user) => handleStep(req.body as StepRequest, user))
     );
   });
 
   server.register(async function (server) {
-    server.get(
+    server.post(
+      route + '/generate-generic-secret',
+      mpcContextRoute((_, user) =>
+        createGenerateGenericSecretContext().asyncMap(context => Promise.resolve({ context, user }))
+      )
+    );
+  });
+
+  server.register(async function (server) {
+    server.post(
       route + '/import-generic-secret',
-      { websocket: true },
-      websocketRouteWithInitParameter(importGenericSecret)
+      { schema: { body: importHexSchema } },
+      mpcContextRoute((req, user) =>
+        createImportGenericSecretContext(
+          Buffer.from((req.body as ImportHexSchema).hexSeed, 'hex')
+        ).asyncMap(context =>
+          Promise.resolve({
+            context,
+            user,
+          })
+        )
+      )
     );
   });
 
@@ -54,32 +64,54 @@ const registerPrivateMpcRoutes = (server: FastifyInstance) => {
   // Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
   // which is non-hardened, but via multiple steps
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/derive/stepping',
-      { websocket: true },
-      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32WithSteps)
+      { schema: { body: deriveFromSchema } },
+      mpcContextRoute((req, user) =>
+        // TODO: we might need the rest of the result of initDerive, not just the context - in that case use your brain
+        initDeriveProcess(req.body as DeriveRequest, user.id).map(({ context }) => ({
+          context,
+          user,
+        }))
+      )
     );
   });
 
   // Without steps means, that the key can be fetched from the mpc context immediately on the server.
   // Client side it is necessary to step once with `step(null)`
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/derive/no-steps',
-      { websocket: true },
-      websocketRouteWithInitParameter<string, DeriveConfig>(deriveBip32WithoutStepping)
+      { schema: { body: deriveFromSchema } },
+
+      mpcContextRoute((req, user) =>
+        initDeriveProcess(req.body as DeriveFrom, user.id).andThen(deriveContext =>
+          deriveWithoutStepping(deriveContext, user)
+        )
+      )
     );
   });
 
   server.register(async function (server) {
-    server.get(route + '/generateEcdsa', { websocket: true }, websocketRoute(generateEcdsaKey));
+    server.post(
+      route + '/generateEcdsa',
+      mpcContextRoute((_, user) =>
+        createGenerateEcdsaKey().asyncMap(context => Promise.resolve({ context, user }))
+      )
+    );
   });
 
   server.register(async function (server) {
-    server.get(
+    server.post(
       route + '/sign',
-      { websocket: true },
-      websocketRouteWithInitParameter<void, SignConfig>(signWithEcdsaKey)
+      {
+        schema: {
+          body: signWithShareSchema,
+        },
+      },
+      mpcContextRoute((req, user) =>
+        initSignProcess(req.body as SignWithShare, user.id).map(context => ({ context, user }))
+      )
     );
   });
 };

@@ -12,9 +12,10 @@ const Carousel = ({ children }: Props) => {
   const { width: windowWidth } = useWindowDimensions();
 
   return (
-    <SafeAreaView className="flex w-full flex-1 flex-col items-center justify-center">
-      <View className="flex-1 items-center justify-center">
+    <SafeAreaView className="flex w-full flex-col ">
+      <View className="">
         <ScrollView
+          className="  pt-12"
           horizontal={true}
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -33,13 +34,13 @@ const Carousel = ({ children }: Props) => {
           scrollEventThrottle={1}>
           {children.map((child, childIndex) => {
             return (
-              <View className="w-[100vw] bg-white p-12" key={childIndex}>
+              <View className="w-[100vw]  p-0" key={childIndex}>
                 {child}
               </View>
             );
           })}
         </ScrollView>
-        <View className="flex-row items-center justify-center">
+        <View className="mx-6 mt-3 flex-row">
           {children.map((child, childIndex) => {
             const width = scrollX.interpolate({
               inputRange: [
@@ -47,15 +48,24 @@ const Carousel = ({ children }: Props) => {
                 windowWidth * childIndex,
                 windowWidth * (childIndex + 1),
               ],
-              outputRange: [16, 32, 16],
+              outputRange: [22, 44, 22],
+              extrapolate: 'clamp',
+            });
+            const opacity = scrollX.interpolate({
+              inputRange: [
+                windowWidth * (childIndex - 1),
+                windowWidth * childIndex,
+                windowWidth * (childIndex + 1),
+              ],
+              outputRange: [0.5, 1, 0.5],
               extrapolate: 'clamp',
             });
 
             return (
               <AnimatedView
                 key={childIndex}
-                style={{ width }}
-                className="mx-1 my-4 h-4 w-4 rounded-full bg-black"
+                style={{ width, opacity }}
+                className="mx-[3px] my-4 h-[2px] w-4 rounded-full bg-white"
               />
             );
           })}

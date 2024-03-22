@@ -4,11 +4,11 @@ services:
   api:
     # Needed to run image on Mac M1
     # platform: linux/x86_64
-    image: superlight/superlight-api:latest
+    # image: superlight/superlight-api:latest
     # In case you want to build locally, replace "image:"" with this
-    # build:
-    #   context: .
-    #   dockerfile: ./apps/api/Dockerfile
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
     ports:
       - ${API_PORT}:${API_PORT}
     environment:

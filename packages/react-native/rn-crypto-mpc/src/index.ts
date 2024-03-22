@@ -63,7 +63,17 @@ export function initSignEcdsa(message: Uint8Array, share: string): Promise<MPCSu
 }
 
 export async function step(messageIn: string | null): Promise<StepResult> {
-  const res = await BlockchainCryptoMpc.step(messageIn);
+  const res = (await BlockchainCryptoMpc.step(messageIn)) as StepResult & { message: string };
+
+  if (res.type === 'inProgress' || res.type === 'success') {
+    console.log(res.message.length);
+
+    return {
+      ...res,
+      message: [...new Uint8Array(Buffer.from(res.message, 'base64'))],
+    };
+  }
+
   return res;
 }
 

@@ -1,29 +1,35 @@
-import logger from '@superlight-labs/logger';
 import {
-  MPCWebsocketHandlerWithSetup,
-  MPCWebsocketMessage,
+  DeriveFrom,
   MPCWebsocketStarterWithSetup,
+  OnSuccess,
+  ShareResult,
   WebsocketError,
+  buildPath,
   mpcInternalError,
-  other,
   websocketError,
 } from '@superlight-labs/mpc-common';
-import { getResultDeriveBIP32, reset } from '@superlight-labs/rn-crypto-mpc';
-import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
+import { mpcApiError } from '@superlight-labs/mpc-common/src/error';
+import { MPCStarterResult } from '@superlight-labs/mpc-common/src/websocket/handler';
+import { reset } from '@superlight-labs/rn-crypto-mpc';
+import { InProgressStep, StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
+import { AxiosInstance } from 'axios';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { Platform } from 'react-native';
-import { Observable, Subject, combineLatest, firstValueFrom, from, map, mergeMap } from 'rxjs';
-import { initDeriveBip32, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { DeriveFrom, ShareResult } from '../lib/mpc/mpc-types';
+import { cleanInitParam } from '../lib/http-websocket/ws-client';
+import { ApiStepResult } from '../lib/http-websocket/ws-common';
+import {
+  InitDeriveFrom,
+  getResultDeriveBIP32,
+  initDeriveBip32,
+  step,
+} from '../lib/mpc/mpc-neverthrow-wrapper';
 
 // With Steps means that there are multiple steps necessary on client and server to create a keypair
 // Usually used for hardened key derivation. One exception is the derivation of the master key from the seed shared,
 // which is non-hardened, but via multiple steps
-export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<DeriveFrom, null> = ({
-  output,
-  input,
-  initParam,
-}) => {
+export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<
+  InitDeriveFrom,
+  InProgressStep<DeriveFrom>
+> = ({ axios, initParam }) => {
   return initDeriveBip32(initParam, initParam.hardened)
     .andThen(_ => step(null))
     .andThen((stepMsg: StepResult) => {
@@ -31,109 +37,68 @@ export const startDeriveWithSteps: MPCWebsocketStarterWithSetup<DeriveFrom, null
         reset();
         return errAsync(mpcInternalError(stepMsg.error));
       }
+      if (stepMsg.type === 'success') {
+        reset();
+        return errAsync(mpcInternalError('Unexpected success message received'));
+      }
 
-      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
-      output.next(okAsync(wsMessage));
-
-      return okAsync({ startResult: okAsync(null), input, output });
-    });
+      return okAsync({ res: { ...stepMsg, initParam }, axios });
+    })
+    .andThen(res =>
+      ResultAsync.fromPromise(
+        axios.post('/mpc/ecdsa/derive/stepping', cleanInitParam(initParam)),
+        err => mpcApiError(err, "Error while starting 'derive/stepping' in api")
+      ).map(_ => res)
+    );
 };
 
-export const deriveBip32WithSteps: MPCWebsocketHandlerWithSetup<ShareResult, null> = ({
-  input,
-  output,
-  startResult: _,
-}) => {
-  const { peerShareId$, context$ } = {
-    peerShareId$: new Subject<string>(),
-    context$: new Subject<string>(),
-  };
+export const deriveBip32WithSteps = ({
+  res,
+  axios,
+}: MPCStarterResult<InProgressStep<DeriveFrom>>): ResultAsync<ShareResult, WebsocketError> => {
+  return stepLoop(axios, res.message, res.initParam);
+};
 
-  listenToWebSocket(input, output, { peerShareId$, context$ });
-
+const stepLoop = (
+  axios: AxiosInstance,
+  lastClientMessage: number[],
+  initParam: DeriveFrom,
+  share?: string
+): ResultAsync<ShareResult, WebsocketError> => {
+  // Stepping with last message that was sent to client
   return ResultAsync.fromPromise(
-    firstValueFrom(
-      combineLatest({
-        peerShareId: peerShareId$,
-        share: context$.pipe(
-          mergeMap(context => from(getResultDeriveBIP32(context))),
-          map(shareResult => shareResult.keyShare)
-        ),
-      })
-    ),
-    err => other(err, 'Failed to derive Keys')
-  );
-};
+    axios.post<ApiStepResult>('/mpc/ecdsa/step', {
+      message: lastClientMessage,
+      onSuccess: OnSuccess.ExtractAndSaveNewShare,
+      path: buildPath(initParam),
+    }),
+    err => mpcApiError(err, 'Error while stepping in API')
+    // Evaluate the result from api step
+  ).andThen(response => {
+    if (response.data.peerShareId) {
+      if (!share) {
+        return errAsync(mpcInternalError('No share received'));
+      }
 
-const listenToWebSocket = (
-  input: Observable<MPCWebsocketMessage>,
-  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  result: DeriveResult
-) => {
-  input.subscribe({
-    next: message => onMessage(message, output, result),
-    error: err => {
-      logger.error({ err }, 'Error received from server on websocket');
-      result.context$.error(err);
-      reset();
-    },
+      return okAsync({ share, peerShareId: response.data.peerShareId });
+    }
+
+    if (response.data.message) {
+      return step(response.data.message).andThen(result => {
+        if (result.type === 'error') {
+          return errAsync(websocketError(result.error));
+        }
+
+        if (result.type === 'success') {
+          return getResultDeriveBIP32(result.context).andThen(deriveResult =>
+            stepLoop(axios, result.message, initParam, deriveResult.keyShare)
+          );
+        }
+
+        return stepLoop(axios, result.message, initParam);
+      });
+    }
+
+    return errAsync(mpcInternalError('No peerShareId, or message received'));
   });
-};
-
-const onMessage = (
-  message: MPCWebsocketMessage<string>,
-  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  { peerShareId$, context$ }: DeriveResult
-) => {
-  // TODO validate structure of message
-  if (message && message.type === 'success') {
-    peerShareId$.next(message.result);
-    return;
-  }
-
-  if (message.type !== 'inProgress') {
-    output.next(errAsync(websocketError('Unexpected message received from server')));
-    return;
-  }
-
-  step(message.message).match(
-    result => {
-      if (result.type === 'error') {
-        output.next(errAsync(websocketError(result.error)));
-        return;
-      }
-
-      if (result.type === 'success') {
-        context$.next(result.context);
-      }
-
-      if (Platform.OS === 'android' && result.message.length > 10000000) {
-        const half = Math.floor(result.message.length / 2);
-
-        const wsMessage1: MPCWebsocketMessage = {
-          type: 'inProgress',
-          message: result.message.slice(0, half),
-        };
-        const wsMessage2: MPCWebsocketMessage = {
-          type: 'inProgress',
-          message: result.message.slice(half),
-        };
-
-        output.next(okAsync({ ...wsMessage1, part: 1 }));
-
-        //TODO: very bad! has to be replaced with a proper solution
-        setTimeout(() => output.next(okAsync({ ...wsMessage2, part: 2 })), 1250);
-      } else {
-        output.next(okAsync({ type: 'inProgress', message: result.message }));
-      }
-    },
-    err => output.next(errAsync(websocketError(err)))
-  );
-
-  return;
-};
-
-type DeriveResult = {
-  peerShareId$: Subject<string>;
-  context$: Subject<string>;
 };

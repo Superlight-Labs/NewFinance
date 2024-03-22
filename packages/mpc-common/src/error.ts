@@ -35,31 +35,31 @@ export const mapWebsocketToApiError = (err: any): HttpError => {
     switch (err.type) {
       case 'MpcInternalError': {
         return {
-          statusCode: 1011,
+          statusCode: 500,
           errorMsg: 'Error while performing cryptographic operation',
         };
       }
       case 'Other': {
         return {
-          statusCode: 1011,
+          statusCode: 500,
           errorMsg: 'Ups, something went wrong. Please try again later',
         };
       }
       case 'StepMessageError': {
         return {
-          statusCode: 1011,
+          statusCode: 500,
           errorMsg: err.context || 'Error while performing cryptographic operation',
         };
       }
       case 'WebsocketError': {
         return {
-          statusCode: 1011,
+          statusCode: 500,
           errorMsg: err.context || 'Error while performing cryptographic operation',
         };
       }
       case 'DatabaseError': {
         return {
-          statusCode: 1011,
+          statusCode: 500,
           errorMsg: err.context || 'Error while performing cryptographic operation',
         };
       }
@@ -67,7 +67,7 @@ export const mapWebsocketToApiError = (err: any): HttpError => {
   }
 
   return {
-    statusCode: 1011,
+    statusCode: 500,
     errorMsg: 'Ups, something went wrong. Please try again later',
   };
 };
@@ -138,7 +138,7 @@ export const stepMessageError = (context?: string): WebsocketError => ({
   context,
 });
 
-export const websocketError = (error: unknown, context?: string): WebsocketError => ({
+export const mpcApiError = (error: unknown, context?: string): WebsocketError => ({
   type: ErrorTypes.WebsocketError,
   error,
   context,

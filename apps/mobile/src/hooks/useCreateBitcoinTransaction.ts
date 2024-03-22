@@ -1,5 +1,5 @@
 import { API_URL } from '@env';
-import { AppError, appError } from '@superlight-labs/mpc-common';
+import { AppError, EncondingEnum, appError } from '@superlight-labs/mpc-common';
 import { useSignEcdsa } from '@superlight-labs/rn-mpc-client';
 import { Psbt, SignerAsync, Transaction } from 'der-bitcoinjs-lib';
 import { Result, ResultAsync, errAsync } from 'neverthrow';
@@ -115,7 +115,7 @@ const useBitcoinSigner = () => {
           perform(
             signEcdsa(config, {
               messageToSign: hash.toString('base64'),
-              encoding: 'base64',
+              encoding: EncondingEnum.BASE64,
               share: share.share,
               peerShareId: share.peerShareId,
             })

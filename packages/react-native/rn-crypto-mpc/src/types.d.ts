@@ -7,18 +7,25 @@ export type MPCSuccess = {
   type: 'success';
 };
 
-export type StepResult =
-  | { type: 'error'; error?: unknown }
-  | {
-      type: 'success';
-      keyShare: string;
-      context: string;
-      message: string;
-    }
-  | {
-      message: string;
-      type: 'inProgress';
-    };
+export type StepResult = { type: 'error'; error?: unknown } | SuccessfulStep | InProgressStep;
+
+export type SuccessfulStep = {
+  type: 'success';
+  keyShare: string;
+  context: string;
+  message: number[];
+};
+
+export type InProgressStep<T> = {
+  message: number[];
+  type: 'inProgress';
+  initParam: T;
+};
+
+export type NoStepDeriveResult = {
+  peerShareId: string;
+  context: string;
+};
 
 export type PublicKeyResult = MPCSuccess & {
   publicKey: string;

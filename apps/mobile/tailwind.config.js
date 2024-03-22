@@ -9,6 +9,8 @@ module.exports = {
     colors: {
       white: '#ffffff',
       black: '#000000',
+      grey: '#8E8D95',
+      red: '#FF000F',
       slate: {
         50: '#F8FAFC',
         100: '#F8F8F8',
@@ -35,10 +37,12 @@ module.exports = {
     fontFamily: {
       manrope: ['Manrope-Regular'],
       'manrope-medium': ['Manrope-Medium'],
+      'manrope-semibold': ['Manrope-SemiBold'],
       'manrope-bold': ['Manrope-Bold'],
       inter: ['Inter-Regular'],
       'inter-medium': ['Inter-Medium'],
       'inter-bold': ['Inter-Bold'],
+      ibm: ['IBMPlexSerif-Medium'],
     },
   },
   plugins: [],

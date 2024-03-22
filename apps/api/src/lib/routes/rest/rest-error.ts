@@ -1,7 +1,8 @@
+import { WebsocketError, mapWebsocketToApiError } from '@superlight-labs/mpc-common/src/error';
 import { ResultAsync } from 'neverthrow';
 import { HttpError } from '../types';
 
-export const mapRouteError = (err: RouteError): HttpError => {
+export const mapRouteError = (err: RouteError | WebsocketError): HttpError => {
   switch (err.type) {
     case 'InvalidAuthentication': {
       return {
@@ -62,10 +63,7 @@ export const mapRouteError = (err: RouteError): HttpError => {
     }
 
     default: {
-      return {
-        statusCode: 500,
-        errorMsg: 'An Internal Error Occurred :(',
-      };
+      return mapWebsocketToApiError(err);
     }
   }
 };

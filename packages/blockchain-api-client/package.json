@@ -18,6 +18,7 @@
     "node": ">=10"
   },
   "scripts": {
+    "build": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "name": "@superlight-labs/blockchain-api-client",

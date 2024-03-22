@@ -12,27 +12,22 @@ type Props = {
 
 const ContactList = ({ lastInteractions, search, onSelectContact }: Props) => {
   return (
-    <View className="mt-2 flex w-full flex-1 flex-col px-2 pb-4">
-      <View className="mb-4 flex w-full flex-row justify-between ">
-        <Text className="font-inter-medium">Last interactions</Text>
-        {/* <MonoIcon color="#5BB5A2" iconName="Search" /> */}
-      </View>
-
+    <View className="flex-colpb-4 flex w-full">
       {lastInteractions.length === 0 ? (
-        <View className="flex flex-1 items-center justify-center">
-          <MonoIcon color="#8D93A0" iconName="UserX" />
+        <View className="flex-row">
+          <MonoIcon color="#8D93A0" iconName="UserX" style="mr-2" />
           {search === '' ? (
-            <Text className="text-center font-manrope-bold text-slate-400">
-              Looks like you dont have any interactions yet
+            <Text className="font-manrope text-sm font-semibold text-grey">
+              Looks like you don't have any interactions yet
             </Text>
           ) : (
-            <Text className="text-center font-manrope-bold text-slate-400">
+            <Text className="font-manrope text-sm font-semibold text-grey">
               No Addresses like "{shortenAddress(search)}" found in your contacts
             </Text>
           )}
         </View>
       ) : (
-        <ScrollView className="mt-2">
+        <ScrollView className="mt-2" keyboardShouldPersistTaps="handled">
           {lastInteractions.map((contact, i) => (
             <Pressable key={contact.address + i} onPress={() => onSelectContact(contact)}>
               <ContactComponent contact={contact} />

@@ -1,6 +1,6 @@
 export type TatumBalance = {
-  incoming: number;
-  outgoing: number;
+  incoming: string;
+  outgoing: string;
 };
 
 export interface TatumTransaction {
