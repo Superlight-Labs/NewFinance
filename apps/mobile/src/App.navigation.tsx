@@ -81,10 +81,18 @@ const AppNavigation = () => {
       logout();
     }
 
-    if (latestAppStateChange === 'opened' && !isAuthenticated && hasKeysSetUp && authHydrated) {
+    // Authenticate locally if the app was opened and the user is not authenticated and has complete setup
+    if (
+      derivedUntilLevel === DerivedUntilLevel.COMPLETE &&
+      latestAppStateChange === 'opened' &&
+      !isAuthenticated &&
+      hasKeysSetUp &&
+      authHydrated
+    ) {
       authenticateLocally();
     }
   }, [
+    derivedUntilLevel,
     latestAppStateChange,
     authHydrated,
     isAuthenticated,
@@ -106,7 +114,8 @@ const AppNavigation = () => {
                 <>
                   {hasKeysSetUp && derivedUntilLevel >= DerivedUntilLevel.SECRET ? (
                     <>
-                      {isAuthenticated ? (
+                      {/* Only require authentication if setup is complete */}
+                      {derivedUntilLevel < DerivedUntilLevel.COMPLETE || isAuthenticated ? (
                         <>
                           <Stack.Screen
                             name="HomeTab"

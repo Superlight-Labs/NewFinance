@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteKeyPair } from '@superlight-labs/rn-secure-encryption-module';
 import { useAuthState } from 'state/auth.state';
 import { useBitcoinState } from 'state/bitcoin.state';
@@ -18,6 +19,8 @@ export const useDeleteLocalData = () => {
       deleteBitcoin();
       deleteGeneralState();
       deleteKeyPair(constants.deviceKeyName);
+
+      AsyncStorage.getAllKeys().then(AsyncStorage.multiRemove);
     },
   };
 };

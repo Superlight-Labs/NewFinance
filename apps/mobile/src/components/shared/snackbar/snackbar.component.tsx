@@ -19,7 +19,7 @@ const Snackbar = ({ appMessage }: Props) => {
   useEffect(() => {
     setTimeout(() => {
       close();
-    }, 7000);
+    }, 15000);
   }, []);
 
   const close = () => {

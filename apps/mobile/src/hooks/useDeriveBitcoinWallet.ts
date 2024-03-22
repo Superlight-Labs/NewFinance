@@ -3,7 +3,6 @@ import logger from '@superlight-labs/logger';
 import { ShareResult } from '@superlight-labs/mpc-common';
 import { getXPubKey, useDerive } from '@superlight-labs/rn-mpc-client';
 import { okAsync } from 'neverthrow';
-import { Platform } from 'react-native';
 import BackgroundService from 'react-native-background-actions';
 import { AppUser, useAuthState } from 'state/auth.state';
 import { ChangeIndex, useBitcoinState } from 'state/bitcoin.state';
@@ -36,7 +35,7 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
     deriveAddresses,
   } = useDeriveSteps(user);
 
-  const deriveInBackground =
+  const _deriveInBackground =
     (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
       BackgroundService.on('expiration', () => {
         console.log('I am being closed :(');
@@ -92,7 +91,7 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
     };
 
   // TODO: get Background tasks working on both platforms
-  return Platform.OS === 'ios' ? deriveInBackground : deriveInForeground;
+  return deriveInForeground;
 };
 
 type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
@@ -100,7 +99,6 @@ type AccountShareResult = ShareResult & { changeIndex: ChangeIndex };
 const useDeriveSteps = (user: AppUser | undefined) => {
   const { network, saveAccount, saveAddress, accounts } = useBitcoinState();
 
-  //const { setMessage } = useSnackbarState();
   const { deriveBip32, deriveBip32Hardened, deriveMasterPair } = useDerive();
   const {
     setCoinType,
