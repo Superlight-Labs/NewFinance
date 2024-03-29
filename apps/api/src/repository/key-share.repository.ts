@@ -1,7 +1,7 @@
 import constants from '@lib/constants';
 import { notFound, other, RouteError } from '@lib/routes/rest/rest-error';
 import { client } from '@superlight-labs/database';
-import { buildPath, DeriveConfig } from '@superlight-labs/mpc-common';
+import { buildPath, DeriveFrom } from '@superlight-labs/mpc-common';
 import { MpcKeyShare } from './key-share';
 import { User } from './user';
 
@@ -47,7 +47,7 @@ export const saveShareBasedOnPath = (
   user: User,
   share: string,
   parent: MpcKeyShare,
-  deriveConfig: DeriveConfig
+  deriveConfig: DeriveFrom
 ): Promise<MpcKeyShare> => {
   const path = buildPath(deriveConfig);
 

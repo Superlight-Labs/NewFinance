@@ -9,22 +9,23 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NewFinanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NewFinanceTests.m */; };
 		0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */; };
-		0D6FED552E2D44905DB2D7F8 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */; };
+		029551543A454A5B8CF9EB8B /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */; };
 		11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D3E19221D74E8590752265 /* Inter-Regular.ttf */; };
-		32FEB25F587F7C10AB1697D1 /* libPods-NewFinance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC51D5329F0795FDCFB7B890 /* libPods-NewFinance.a */; };
-		5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */; };
+		44D3D9B2AFDE28F1651A7ACB /* libPods-NewFinance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B213217C6971325C63113C94 /* libPods-NewFinance.a */; };
+		5F1E2E4746304CBC97351573 /* IBMPlexSerif-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */; };
 		6592C7485FEF4BDA8EA4A865 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */; };
-		70C8491A07B872155AD22176 /* libPods-NewFinance-NewFinanceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E810E9BABA4AB7BA20CE55C8 /* libPods-NewFinance-NewFinanceTests.a */; };
+		71C97141351242EC8268302C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB866012A4F472691C4F542 /* logo.png */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		843CE66A5ED90109A9D5DE55 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */; };
 		8909586346F1446FBC7F38F7 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */; };
-		9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */; };
 		BE0FED711FA04793A393A36C /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */; };
 		CFD06DA52A7940B6001ACBF8 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CFD06DA42A7940B6001ACBF8 /* assets */; };
+		D9A855B9FC5D6DF9075DD711 /* libPods-NewFinance-NewFinanceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC6944A95DCE59DB08F51CD /* libPods-NewFinance-NewFinanceTests.a */; };
+		DD3EB47A631E6C1529CDE707 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D163C9782323DC3C6461EA37 /* ExpoModulesProvider.swift */; };
+		F3B93DA76583A451C7BE59E5 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EA41A5B05F3B76A538F714 /* ExpoModulesProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,23 +39,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* NewFinanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewFinanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* NewFinanceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewFinanceTests.m; sourceTree = "<group>"; };
 		03696E94CD0E4DB8BB0B5AB7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
+		0EC6944A95DCE59DB08F51CD /* libPods-NewFinance-NewFinanceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewFinance-NewFinanceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FB866012A4F472691C4F542 /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NewFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NewFinance/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = NewFinance/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NewFinance/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NewFinance/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NewFinance/main.m; sourceTree = "<group>"; };
-		1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance-NewFinanceTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		21D4CA8ACE174FDCA9598D1F /* Manrope-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Regular.ttf"; path = "../assets/fonts/Manrope-Regular.ttf"; sourceTree = "<group>"; };
 		26D3E19221D74E8590752265 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
+		2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-SemiBold.ttf"; path = "../assets/fonts/Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
+		2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Medium.ttf"; path = "../assets/fonts/IBMPlexSerif-Medium.ttf"; sourceTree = "<group>"; };
+		3068570324B4275A56AA8CE2 /* Pods-NewFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.debug.xcconfig"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-NewFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.debug.xcconfig"; sourceTree = "<group>"; };
 		3D43D931A1C7422A873CB75B /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		4DC10951144A494B96A51724 /* Pods-NewFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.release.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.release.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-NewFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.release.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-NewFinance-appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-appTests.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance-appTests/Pods-NewFinance-appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		738C9690B7EA85AA87177E87 /* Pods-NewFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.debug.xcconfig"; sourceTree = "<group>"; };
@@ -62,19 +66,20 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-NewFinance-appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-appTests.release.xcconfig"; path = "Target Support Files/Pods-NewFinance-appTests/Pods-NewFinance-appTests.release.xcconfig"; sourceTree = "<group>"; };
 		8E443CD86058416CC171C21D /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-NewFinanceTests.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance-NewFinanceTests/Pods-NewFinance-NewFinanceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9171F8B77B2EBF4AAD38B811 /* Pods-NewFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance.release.xcconfig"; path = "Target Support Files/Pods-NewFinance/Pods-NewFinance.release.xcconfig"; sourceTree = "<group>"; };
-		98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance-appTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		9CD4FE5492754BC7A570431F /* lines_3.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_3.png; path = ../assets/images/lines_3.png; sourceTree = "<group>"; };
+		B0EA41A5B05F3B76A538F714 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance-NewFinanceTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		B213217C6971325C63113C94 /* libPods-NewFinance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewFinance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A24E60FF2E4743AE1A34DF /* lines_4.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_4.png; path = ../assets/images/lines_4.png; sourceTree = "<group>"; };
+		C14A3A12BE3BC56B8F7C003E /* Pods-NewFinance-NewFinanceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-NewFinanceTests.release.xcconfig"; path = "Target Support Files/Pods-NewFinance-NewFinanceTests/Pods-NewFinance-NewFinanceTests.release.xcconfig"; sourceTree = "<group>"; };
+		C8439C673AE6BCEE7FDCFBDC /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-NewFinanceTests.debug.xcconfig"; path = "Target Support Files/Pods-NewFinance-NewFinanceTests/Pods-NewFinance-NewFinanceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CF90E6F5E18444DB80ACA389 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Bold.ttf"; path = "../assets/fonts/Manrope-Bold.ttf"; sourceTree = "<group>"; };
 		CFD06DA42A7940B6001ACBF8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
-		D422B90EFC7945CCBFF2D46F /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
+		D163C9782323DC3C6461EA37 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewFinance/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		D8C740F384284231850614D3 /* lines_2.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_2.png; path = ../assets/images/lines_2.png; sourceTree = "<group>"; };
 		E106C76C9437E735DA760AED /* Pods-NewFinance-NewFinanceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewFinance-NewFinanceTests.release.xcconfig"; path = "Target Support Files/Pods-NewFinance-NewFinanceTests/Pods-NewFinance-NewFinanceTests.release.xcconfig"; sourceTree = "<group>"; };
 		E6E0257A114043B4A54C83B7 /* lines_1.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lines_1.png; path = ../assets/images/lines_1.png; sourceTree = "<group>"; };
-		E810E9BABA4AB7BA20CE55C8 /* libPods-NewFinance-NewFinanceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewFinance-NewFinanceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F08E3A02C91D4C128BD059C6 /* Manrope-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Manrope-Medium.ttf"; path = "../assets/fonts/Manrope-Medium.ttf"; sourceTree = "<group>"; };
-		FC51D5329F0795FDCFB7B890 /* libPods-NewFinance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewFinance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70C8491A07B872155AD22176 /* libPods-NewFinance-NewFinanceTests.a in Frameworks */,
+				D9A855B9FC5D6DF9075DD711 /* libPods-NewFinance-NewFinanceTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32FEB25F587F7C10AB1697D1 /* libPods-NewFinance.a in Frameworks */,
+				44D3D9B2AFDE28F1651A7ACB /* libPods-NewFinance.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,30 +132,20 @@
 			name = NewFinance;
 			sourceTree = "<group>";
 		};
-		1E676F6CF712C188B0B3F7E0 /* NewFinanceTests */ = {
-			isa = PBXGroup;
-			children = (
-				98EE0A596452B594DB83D18E /* ExpoModulesProvider.swift */,
-				1A836CD5941D60854A8EF793 /* ExpoModulesProvider.swift */,
-			);
-			name = NewFinanceTests;
-			sourceTree = "<group>";
-		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				FC51D5329F0795FDCFB7B890 /* libPods-NewFinance.a */,
-				E810E9BABA4AB7BA20CE55C8 /* libPods-NewFinance-NewFinanceTests.a */,
+				B213217C6971325C63113C94 /* libPods-NewFinance.a */,
+				0EC6944A95DCE59DB08F51CD /* libPods-NewFinance-NewFinanceTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6AB1F3E8C9F2523595D5CB0D /* NewFinance */ = {
+		62CA04D1E2B33E18C42C7E09 /* NewFinance */ = {
 			isa = PBXGroup;
 			children = (
-				1DCEB20A208E2BA9B3512CD3 /* ExpoModulesProvider.swift */,
-				002007F0D7865D85912CB008 /* ExpoModulesProvider.swift */,
+				D163C9782323DC3C6461EA37 /* ExpoModulesProvider.swift */,
 			);
 			name = NewFinance;
 			sourceTree = "<group>";
@@ -202,9 +197,19 @@
 				D8C740F384284231850614D3 /* lines_2.png */,
 				9CD4FE5492754BC7A570431F /* lines_3.png */,
 				B2A24E60FF2E4743AE1A34DF /* lines_4.png */,
-				D422B90EFC7945CCBFF2D46F /* logo.png */,
+				2F1172DE3EDA4B9EBF915ABA /* IBMPlexSerif-Medium.ttf */,
+				0FB866012A4F472691C4F542 /* logo.png */,
+				2C0EDA358C964F8F8B60C4C0 /* Manrope-SemiBold.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		A02809052AF12C8153D32A63 /* NewFinanceTests */ = {
+			isa = PBXGroup;
+			children = (
+				B0EA41A5B05F3B76A538F714 /* ExpoModulesProvider.swift */,
+			);
+			name = NewFinanceTests;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -218,6 +223,10 @@
 				9171F8B77B2EBF4AAD38B811 /* Pods-NewFinance.release.xcconfig */,
 				8E443CD86058416CC171C21D /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */,
 				E106C76C9437E735DA760AED /* Pods-NewFinance-NewFinanceTests.release.xcconfig */,
+				3068570324B4275A56AA8CE2 /* Pods-NewFinance.debug.xcconfig */,
+				4DC10951144A494B96A51724 /* Pods-NewFinance.release.xcconfig */,
+				C8439C673AE6BCEE7FDCFBDC /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */,
+				C14A3A12BE3BC56B8F7C003E /* Pods-NewFinance-NewFinanceTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -225,8 +234,8 @@
 		E92DC9AA5CFC10DB407E5E15 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				6AB1F3E8C9F2523595D5CB0D /* NewFinance */,
-				1E676F6CF712C188B0B3F7E0 /* NewFinanceTests */,
+				62CA04D1E2B33E18C42C7E09 /* NewFinance */,
+				A02809052AF12C8153D32A63 /* NewFinanceTests */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -336,6 +345,9 @@
 				0264C8B579B240AE93F0DEF2 /* Inter-Bold.ttf in Resources */,
 				11BCB591E2B1445CB5A2EBD9 /* Inter-Medium.ttf in Resources */,
 				32154BA1B34945699A06CF8C /* Inter-Regular.ttf in Resources */,
+				5F1E2E4746304CBC97351573 /* IBMPlexSerif-Medium.ttf in Resources */,
+				71C97141351242EC8268302C /* logo.png in Resources */,
+				029551543A454A5B8CF9EB8B /* Manrope-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,8 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* NewFinanceTests.m in Sources */,
-				5B343AC290C05FF152087780 /* ExpoModulesProvider.swift in Sources */,
-				843CE66A5ED90109A9D5DE55 /* ExpoModulesProvider.swift in Sources */,
+				F3B93DA76583A451C7BE59E5 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,8 +557,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				0D6FED552E2D44905DB2D7F8 /* ExpoModulesProvider.swift in Sources */,
-				9C1BE90F5B3BA00E499DC053 /* ExpoModulesProvider.swift in Sources */,
+				DD3EB47A631E6C1529CDE707 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,7 +574,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E443CD86058416CC171C21D /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */;
+			baseConfigurationReference = C8439C673AE6BCEE7FDCFBDC /* Pods-NewFinance-NewFinanceTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -592,7 +602,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E106C76C9437E735DA760AED /* Pods-NewFinance-NewFinanceTests.release.xcconfig */;
+			baseConfigurationReference = C14A3A12BE3BC56B8F7C003E /* Pods-NewFinance-NewFinanceTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -617,7 +627,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 738C9690B7EA85AA87177E87 /* Pods-NewFinance.debug.xcconfig */;
+			baseConfigurationReference = 3068570324B4275A56AA8CE2 /* Pods-NewFinance.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -653,7 +663,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9171F8B77B2EBF4AAD38B811 /* Pods-NewFinance.release.xcconfig */;
+			baseConfigurationReference = 4DC10951144A494B96A51724 /* Pods-NewFinance.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

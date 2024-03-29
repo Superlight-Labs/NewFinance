@@ -1,13 +1,13 @@
 datasource db {
-    provider = "mysql"
+    provider = "postgresql"
     url      = env("DB_URL")
 
     relationMode = "prisma"
 }
 
 generator client {
-    provider   = "prisma-client-js"
-    engineType = "binary"
+    provider = "prisma-client-js"
+    // engineType = "binary"
 }
 
 model User {
@@ -19,6 +19,7 @@ model User {
     createdAt       DateTime          @default(now())
     updatedAt       DateTime          @updatedAt
     ExternalAddress ExternalAddress[]
+    deriveContext   Bytes?
 
     @@unique([id, devicePublicKey])
 }
@@ -26,7 +27,7 @@ model User {
 model ExternalAddress {
     address              String        @id
     name                 String?
-    user                 User?         @relation(fields: [userEmail], references: [email])
+    user                 User?         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
     userEmail            String?
     createdAt            DateTime      @default(now())
     updatedAt            DateTime      @updatedAt
@@ -55,7 +56,7 @@ model MpcKeyShare {
     path  String
     value String @db.VarChar(2000)
 
-    user                User   @relation("KeySharesForUser", fields: [userId, userDevicePublicKey], references: [id, devicePublicKey])
+    user                User   @relation("KeySharesForUser", fields: [userId, userDevicePublicKey], references: [id, devicePublicKey], onDelete: Cascade)
     userId              String
     userDevicePublicKey String
 

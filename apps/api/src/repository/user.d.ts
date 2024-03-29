@@ -6,6 +6,7 @@ export interface User {
   keyShares: MpcKeyShare[];
   username: string;
   email: string;
+  deriveContext: Buffer | null;
 }
 
 export interface CreateUserResponse {

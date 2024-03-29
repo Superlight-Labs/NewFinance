@@ -1,4 +1,6 @@
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import PriceTextComponent from 'components/shared/price-text/price-text.component';
+import { ActivityIndicator } from 'react-native';
 import { Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
@@ -7,14 +9,24 @@ type Props = {
 
 const LoadingWalletItem = ({ name }: Props) => {
   return (
-    <View className="w-[45rvw]">
-      <View className="flex h-[40vw] w-[40vw] items-center justify-center rounded-xl bg-blue-100">
-        <View className="flex h-14 w-14 items-center justify-center rounded-md bg-blue-400">
-          <MonoIcon height={32} width={32} strokeWitdth={4} iconName="Loading" color="white" />
+    <View className="mb-4 flex aspect-[1] h-56 w-[48%]  justify-between rounded-md bg-[#F8F8F8] px-5 py-5">
+      <View className="flex-row justify-between ">
+        <View className="h-10 w-10 items-center justify-center rounded-full bg-white">
+          <ActivityIndicator />
         </View>
       </View>
-      <Text className="mt-3 font-inter-medium">{name}</Text>
-      <Text className="text-gray-500 font-inter">0 BTC</Text>
+      <View className="flex-row items-end justify-between">
+        <View>
+          <Text className="font-manrope text-base font-bold">{name}</Text>
+          <PriceTextComponent
+            bitcoinAmount={0}
+            style="font-manrope text-base font-bold text-[#636360]"
+          />
+        </View>
+        <View>
+          <MonoIcon iconName="ArrowRight" />
+        </View>
+      </View>
     </View>
   );
 };

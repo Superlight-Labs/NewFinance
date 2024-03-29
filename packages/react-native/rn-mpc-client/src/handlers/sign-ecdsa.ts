@@ -1,23 +1,31 @@
-import logger from '@superlight-labs/logger';
 import {
   MPCWebsocketHandlerWithSetup,
-  MPCWebsocketMessage,
   MPCWebsocketStarterWithSetup,
+  OnSuccess,
   WebsocketError,
   mpcInternalError,
-  other,
   websocketError,
 } from '@superlight-labs/mpc-common';
-import { getDerSignature, reset } from '@superlight-labs/rn-crypto-mpc';
-import { StepResult } from '@superlight-labs/rn-crypto-mpc/src/types';
+import { mpcApiError } from '@superlight-labs/mpc-common/src/error';
+import { reset } from '@superlight-labs/rn-crypto-mpc';
+import {
+  InProgressStep,
+  SignatureResult,
+  StepResult,
+} from '@superlight-labs/rn-crypto-mpc/src/types';
+import { AxiosInstance } from 'axios';
 import { ResultAsync, errAsync, okAsync } from 'neverthrow';
-import { Observable, Subject, firstValueFrom, from, map, mergeMap } from 'rxjs';
-import { initSignEcdsa, step } from '../lib/mpc/mpc-neverthrow-wrapper';
-import { SignWithShare } from '../lib/mpc/mpc-types';
+import { cleanInitParam } from '../lib/http-websocket/ws-client';
+import { ApiStepResult } from '../lib/http-websocket/ws-common';
+import {
+  InitSign,
+  getResultSignEcdsa,
+  initSignEcdsa,
+  step,
+} from '../lib/mpc/mpc-neverthrow-wrapper';
 
-export const startSign: MPCWebsocketStarterWithSetup<SignWithShare, null> = ({
-  output,
-  input,
+export const startSign: MPCWebsocketStarterWithSetup<InitSign, InProgressStep<undefined>> = ({
+  axios,
   initParam,
 }) => {
   return initSignEcdsa(initParam)
@@ -28,74 +36,59 @@ export const startSign: MPCWebsocketStarterWithSetup<SignWithShare, null> = ({
         return errAsync(mpcInternalError(stepMsg.error));
       }
 
-      const wsMessage: MPCWebsocketMessage = { type: 'inProgress', message: stepMsg.message };
-      output.next(okAsync(wsMessage));
-
-      return okAsync({ startResult: okAsync(null), input, output });
-    });
+      return okAsync({ res: stepMsg, axios });
+    })
+    .andThen(res =>
+      ResultAsync.fromPromise(axios.post('/mpc/ecdsa/sign', cleanInitParam(initParam)), err =>
+        mpcApiError(err, "Error while starting 'derive/stepping' in api")
+      ).map(_ => res)
+    );
 };
 
-export const signEcdsa: MPCWebsocketHandlerWithSetup<string, null> = ({
-  input,
-  output,
-  startResult: _,
+export const signEcdsa: MPCWebsocketHandlerWithSetup<string, InProgressStep<undefined>> = ({
+  res,
+  axios,
 }) => {
-  const context$ = new Subject<string>();
+  return stepLoop(axios, res.message);
+};
 
-  listenToWebSocket(input, output, context$);
-
+const stepLoop = (
+  axios: AxiosInstance,
+  lastClientMessage: number[],
+  signResult?: SignatureResult
+): ResultAsync<string, WebsocketError> => {
+  // Stepping with last message that was sent to client
   return ResultAsync.fromPromise(
-    firstValueFrom(
-      context$.pipe(
-        mergeMap(context => from(getDerSignature(context))),
-        map(shareResult => shareResult.signature)
-      )
-    ),
-    err => other(err, 'Failed to sign with Keys')
-  );
-};
+    axios.post<ApiStepResult>('/mpc/ecdsa/step', {
+      message: lastClientMessage,
+      onSuccess: OnSuccess.Sign,
+    }),
+    err => mpcApiError(err, 'Error while stepping in API')
+    // Evaluate the result from api step
+  ).andThen(response => {
+    if (response.data.signDone) {
+      if (!signResult) {
+        return errAsync(mpcInternalError('No signature received'));
+      }
+      return okAsync(signResult.signature);
+    }
 
-const listenToWebSocket = (
-  input: Observable<MPCWebsocketMessage>,
-  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  context$: Subject<string>
-) => {
-  input.subscribe({
-    next: message => onMessage(message, output, context$),
-    error: err => {
-      logger.error({ err }, 'Error received from server on websocket');
-      context$.error(err);
-      reset();
-    },
+    if (response.data.message) {
+      return step(response.data.message).andThen(result => {
+        if (result.type === 'error') {
+          return errAsync(websocketError(result.error));
+        }
+
+        if (result.type === 'success') {
+          return getResultSignEcdsa(result.context).andThen(signResult =>
+            stepLoop(axios, result.message, signResult)
+          );
+        }
+
+        return stepLoop(axios, result.message);
+      });
+    }
+
+    return errAsync(mpcInternalError('No peerShareId, or message received'));
   });
-};
-
-const onMessage = (
-  message: MPCWebsocketMessage<string>,
-  output: Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>,
-  context$: Subject<string>
-) => {
-  // TODO validate structure of message
-  if (message.type !== 'inProgress') {
-    output.next(errAsync(websocketError('Unexpected message received from server')));
-    return;
-  }
-
-  step(message.message).match(
-    result => {
-      if (result.type === 'error') {
-        output.next(errAsync(websocketError(result.error)));
-        return;
-      }
-
-      if (result.type === 'success') {
-        context$.next(result.context);
-      }
-
-      output.next(okAsync({ type: 'inProgress', message: result.message }));
-    },
-    err => output.next(errAsync(websocketError(err)))
-  );
-
-  return;
 };

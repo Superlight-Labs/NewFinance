@@ -1,92 +1,23 @@
 import { Context } from '@crypto-mpc';
-import { step } from '@lib/utils/crypto';
-import logger from '@superlight-labs/logger';
 import {
   buildPath,
   databaseError,
-  DeriveConfig,
-  mpcInternalError,
-  MPCWebscocketInit,
-  MPCWebsocketMessage,
-  MPCWebsocketResult,
-  stepMessageError,
+  DeriveRequest,
+  ShareResult,
   WebsocketError,
-  WebSocketOutput,
 } from '@superlight-labs/mpc-common';
-import { errAsync, okAsync, ResultAsync } from 'neverthrow';
-import { Observable, Subject } from 'rxjs';
+import { ResultAsync } from 'neverthrow';
 import { MpcKeyShare } from 'src/repository/key-share';
 import { readKeyShareByPath, saveShareBasedOnPath } from 'src/repository/key-share.repository';
 import { User } from 'src/repository/user';
 import { deleteKeyShare, getKeyShare } from 'src/service/data/key-share.service';
 import {
   createDeriveBIP32Context,
-  getNewShare,
   getResultDeriveBIP32,
 } from 'src/service/mpc/mpc-context.service';
 
-type OnDeriveStep = (
-  deriveContext: DeriveContext,
-  message: MPCWebsocketMessage | undefined,
-  user: User,
-  output: WebSocketOutput
-) => void;
-
-const deriveBIP32 =
-  (stepFn: OnDeriveStep) =>
-  (
-    user: User,
-    inputStream: Observable<MPCWebsocketMessage>,
-    initParameter: MPCWebscocketInit<DeriveConfig>
-  ): MPCWebsocketResult => {
-    const output = new Subject<ResultAsync<MPCWebsocketMessage, WebsocketError>>();
-
-    initDeriveProcess(initParameter.parameter, user.id).match(
-      deriveContext => {
-        const { context } = deriveContext;
-
-        let msg = {
-          first: '',
-          second: '',
-        };
-
-        inputStream.subscribe({
-          next: input => {
-            if (input.type !== 'inProgress' || (input as any).part === undefined) {
-              stepFn(deriveContext, input, user, output);
-              return;
-            }
-
-            if ((input as any).part === 1) {
-              msg.first = input.message;
-            }
-
-            if ((input as any).part === 2) {
-              msg.second = input.message;
-            }
-
-            if (msg.first !== '' && msg.second !== '') {
-              stepFn(deriveContext, { ...input, message: msg.first + msg.second }, user, output);
-            }
-          },
-          error: err => {
-            logger.error({ err, user: user.id }, 'Error received from client on websocket');
-            context.free();
-          },
-          complete: () => {
-            logger.info({ user: user.id }, 'Connection on Websocket closed');
-            context.free();
-          },
-        });
-      },
-      err => output.next(errAsync(err))
-    );
-
-    return output;
-  };
-
-const initDeriveProcess = (
-  deriveConfig: DeriveConfig,
+export const initDeriveProcess = (
+  deriveConfig: DeriveRequest,
   userId: string
 ): ResultAsync<DeriveContext, WebsocketError> => {
   const path = buildPath(deriveConfig);
@@ -104,7 +35,7 @@ const deleteExistingShareByPath = (
 };
 
 const setupContext = (
-  deriveConfig: DeriveConfig,
+  deriveConfig: DeriveRequest,
   userId: string
 ): ResultAsync<DeriveContext, WebsocketError> => {
   return getKeyShare(deriveConfig.peerShareId, userId).andThen(parentKeyShare =>
@@ -114,83 +45,29 @@ const setupContext = (
   );
 };
 
-const deriveWithoutStepping = (
-  deriveContext: DeriveContext,
-  message: MPCWebsocketMessage | undefined,
-  user: User,
-  output: WebSocketOutput
-) => {
-  getResultDeriveBIP32(deriveContext.context)
-    .map(share => {
-      output.next(saveDerivedShare(user, share, deriveContext));
+export const deriveWithoutStepping = (deriveContext: DeriveContext, user: User) => {
+  return getResultDeriveBIP32(deriveContext.context)
+    .asyncAndThen(share => saveDerivedShare(user, share, deriveContext))
+    .map(({ peerShareId }) => {
       deriveContext.context.free();
-    })
-    .mapErr(err => {
-      output.next(errAsync(err));
-      deriveContext.context.free();
+      return { user, peerShareId };
     });
-};
-
-const deriveWithSteps = async (
-  deriveContext: DeriveContext,
-  wsMsg: MPCWebsocketMessage | undefined,
-  user: User,
-  output: WebSocketOutput
-) => {
-  const { context } = deriveContext;
-
-  if (!wsMsg || wsMsg.type !== 'inProgress') {
-    output.next(errAsync(stepMessageError('Invalid Step Message, closing connection')));
-    return;
-  }
-
-  const stepOutput = step(wsMsg.message, context);
-
-  if (stepOutput.type === 'inProgress') {
-    output.next(okAsync({ type: 'inProgress', message: stepOutput.message }));
-    return;
-  }
-
-  if (stepOutput.type === 'success') {
-    getNewShare(context)
-      .map(share => {
-        output.next(saveDerivedShare(user, share, deriveContext));
-        context.free();
-      })
-      .mapErr(err => {
-        output.next(errAsync(err));
-        context.free();
-      });
-
-    return;
-  }
-
-  if (stepOutput.type === 'error') {
-    output.next(errAsync(mpcInternalError(stepOutput.error)));
-    context.free();
-    return;
-  }
-
-  throw new Error('Unexpected step output');
 };
 
 const saveDerivedShare = (
   user: User,
   share: string,
   deriveContext: DeriveContext
-): ResultAsync<MPCWebsocketMessage, WebsocketError> => {
+): ResultAsync<ShareResult, WebsocketError> => {
   const { parent, deriveConfig } = deriveContext;
 
   return ResultAsync.fromPromise(saveShareBasedOnPath(user, share, parent, deriveConfig), err =>
     databaseError(err, 'Error while saving derived Keyshare to DB')
-  ).map(keyShare => ({ type: 'success', result: keyShare.id }));
+  ).map(keyShare => ({ share: '', peerShareId: keyShare.id }));
 };
 
 type DeriveContext = {
-  deriveConfig: DeriveConfig;
+  deriveConfig: DeriveRequest;
   parent: MpcKeyShare;
   context: Context;
 };
-
-export const deriveBip32WithSteps = deriveBIP32(deriveWithSteps);
-export const deriveBip32WithoutStepping = deriveBIP32(deriveWithoutStepping);

@@ -1,17 +1,12 @@
-import LogoIcon from 'components/shared/icons/logo.component';
-import Title from 'components/shared/title/title.component';
-import { Image, Text, View } from 'utils/wrappers/styled-react-native';
+import { Text, View } from 'utils/wrappers/styled-react-native';
 
 const WelcomeSlide1 = () => {
   return (
-    <View className="flex w-full flex-1 flex-col items-center">
-      <LogoIcon stroke="#fff" style="absolute top-20 z-10 bg-black rounded-xl shadow-black" />
-      <Image className="h-72 w-screen" source={require('../../../assets/images/lines_1.png')} />
-
-      <View className="flex-1 items-center justify-center">
-        <Title style="text-4xl text-slate-400 font-manrope-bold">Not a bank.</Title>
-        <Text className="mt-2 text-center font-manrope-bold text-4xl">But feeling like one.</Text>
-      </View>
+    <View className="flex w-full flex-col px-6">
+      <Text className="font-ibm text-6xl text-white">Bitcoin + everything your bank can do</Text>
+      <Text className="mr-12 mt-6 font-manrope text-lg font-medium text-white">
+        New money that’s save and feels simple. Trully yours and compatible with traditional banks*.
+      </Text>
     </View>
   );
 };

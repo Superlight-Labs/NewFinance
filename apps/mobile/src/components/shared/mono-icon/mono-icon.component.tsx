@@ -19,8 +19,8 @@ const MonoIcon = ({
   iconName,
   style,
   strokeWitdth = 2,
-  height = 24,
-  width = 24,
+  height = 20,
+  width = 20,
   color = 'black',
 }: Props) => {
   const FeatherIcon = getIcon(iconName);
@@ -69,8 +69,34 @@ export type IconName =
   | 'Send'
   | 'Minimize2'
   | 'ChevronDown'
+  | 'ChevronRight'
   | 'CheckCircle'
   | 'AtSign'
   | 'Loading'
   | 'ListRestart'
-  | 'Wallet';
+  | 'Wallet'
+  | 'Euro'
+  | 'Percent'
+  | 'Send'
+  | 'ArrowUp'
+  | 'ArrowDown'
+  | 'Dot'
+  | 'ArrowUpFromDot'
+  | 'ArrowDownToDot'
+  | 'Wallet2'
+  | 'X'
+  | 'Bitcoin'
+  | 'Check'
+  | 'ChevronsUp'
+  | 'ChevronsDown'
+  | 'BellRing'
+  | 'ArrowRight'
+  | 'Plus'
+  | 'ScanLine'
+  | 'Settings2'
+  | 'QrCode'
+  | 'Gift'
+  | 'CircleDot'
+  | 'Circle'
+  | 'CheckCheck'
+  | 'AlertTriangle';

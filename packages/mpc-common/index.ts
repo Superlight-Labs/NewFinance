@@ -3,7 +3,6 @@ import {
   shortenMessage,
 } from './src/websocket/websocket-message-unwrap';
 export { buildPath, indexToNumber } from './src/actions';
-export type { DeriveConfig, SignConfig } from './src/actions';
 export {
   apiError,
   appError,
@@ -14,17 +13,13 @@ export {
   mpcInternalError,
   other,
   stepMessageError,
-  websocketError,
+  mpcApiError as websocketError,
 } from './src/error';
 export type { AppError, WebsocketError } from './src/error';
-export type {
-  ApiConfig,
-  MpcWebsocketHandlerWrapper,
-  WebsocketConfig,
-} from './src/websocket/common';
+export * from './src/schema';
+export type { MpcWebsocketHandlerWrapper, WebsocketConfig } from './src/websocket/common';
 export type {
   HandlerParams,
-  HandlerWithSetupParams,
   MPCWebsocketHandler,
   MPCWebsocketHandlerWithSetup,
   MPCWebsocketStarter,

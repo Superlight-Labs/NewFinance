@@ -1,7 +1,12 @@
-import { appError, indexToNumber, mpcInternalError } from '@superlight-labs/mpc-common';
+import {
+  DeriveFrom,
+  SignWithShare,
+  appError,
+  indexToNumber,
+  mpcInternalError,
+} from '@superlight-labs/mpc-common';
 import * as RnMpc from '@superlight-labs/rn-crypto-mpc';
 import { ResultAsync } from 'neverthrow';
-import { DeriveFrom, SignWithShare } from './mpc-types';
 
 export const initGenerateGenericSecret = () => {
   return ResultAsync.fromPromise(RnMpc.initGenerateGenericSecret(), err => mpcInternalError(err));
@@ -13,14 +18,18 @@ export const initImportGenericSecret = (hexSecret: string) => {
   );
 };
 
-export const initDeriveBip32 = (deriveFrom: DeriveFrom, hardened: boolean) => {
+export type InitDeriveFrom = DeriveFrom & { share: string };
+
+export const initDeriveBip32 = (deriveFrom: InitDeriveFrom, hardened: boolean) => {
   return ResultAsync.fromPromise(
     RnMpc.initDeriveBIP32(deriveFrom.share, indexToNumber(deriveFrom.index), hardened),
     err => mpcInternalError(err, 'Error while creating derive context')
   );
 };
 
-export const initSignEcdsa = (signConfig: SignWithShare) => {
+export type InitSign = SignWithShare & { share: string };
+
+export const initSignEcdsa = (signConfig: InitSign) => {
   const { share, messageToSign, encoding } = signConfig;
 
   return ResultAsync.fromPromise(
@@ -43,4 +52,12 @@ export const getPublicKey = (share: string) => {
 
 export const step = (message: string | null) => {
   return ResultAsync.fromPromise(RnMpc.step(message), err => mpcInternalError(err));
+};
+
+export const getResultDeriveBIP32 = (context: string) => {
+  return ResultAsync.fromPromise(RnMpc.getResultDeriveBIP32(context), err => mpcInternalError(err));
+};
+
+export const getResultSignEcdsa = (context: string) => {
+  return ResultAsync.fromPromise(RnMpc.getDerSignature(context), err => mpcInternalError(err));
 };

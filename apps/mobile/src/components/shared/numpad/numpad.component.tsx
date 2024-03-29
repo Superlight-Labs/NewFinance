@@ -1,3 +1,5 @@
+import * as Haptics from 'expo-haptics';
+import { useGeneralState } from 'state/general.state';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';
 
 const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -10,6 +12,8 @@ type Props = {
 };
 
 const Numpad = ({ value, setValue, maxLength = 10, style = '' }: Props) => {
+  const { currency } = useGeneralState();
+
   const updateState = (num: string) => {
     if (value.length >= maxLength) return;
     // get last char from value
@@ -39,11 +43,15 @@ const Numpad = ({ value, setValue, maxLength = 10, style = '' }: Props) => {
   };
 
   return (
-    <View className={`w-full flex-1 flex-row flex-wrap ${style}`}>
+    <View className={`w-full flex-row flex-wrap ${style}`}>
       {numbers.map(num => (
         <Key key={num} num={num} update={updateState} />
       ))}
-      <Key num="." update={updateState} />
+      {currency !== 'sats' ? (
+        <Key num="." update={updateState} />
+      ) : (
+        <Key num="" update={updateState} />
+      )}
 
       <Key num="0" update={updateState} />
       <Key num="<" update={removeLast} />
@@ -54,10 +62,11 @@ const Numpad = ({ value, setValue, maxLength = 10, style = '' }: Props) => {
 const Key = ({ num, update }: { num: string; update: (num: string) => void }) => {
   return (
     <Pressable
-      className="flex flex-[0_0_33%] items-center p-4"
+      className="flex flex-[0_0_33%] items-center p-6"
       key={num}
+      onPressIn={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
       onPress={() => update(num)}>
-      <Text className="text-2xl">{num}</Text>
+      <Text className="font-manrope text-2xl font-semibold">{num}</Text>
     </Pressable>
   );
 };

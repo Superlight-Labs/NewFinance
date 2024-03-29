@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/IBMPlexSerif-Medium.ttf",
+      "sha1": "1cf27f2db907b431625232d1ff29d1c542c7d841"
+    },
+    {
       "path": "assets/fonts/Inter-Bold.ttf",
       "sha1": "444cdca680f8ce64c16fe5a606dcfbe4b33e7925"
     },
@@ -26,6 +30,10 @@
       "sha1": "7e862264836329a059f38d0fc66b22a4936402e8"
     },
     {
+      "path": "assets/fonts/Manrope-SemiBold.ttf",
+      "sha1": "e423e112f4832916b05308934c10aa84fd14c607"
+    },
+    {
       "path": "assets/images/lines_1.png",
       "sha1": "edc9ffdda40bfdcafbcab576daa0b3f93fe4fdb9"
     },
@@ -43,7 +51,7 @@
     },
     {
       "path": "assets/images/logo.png",
-      "sha1": "20171e44ff638e32bac11289f0e754d1ce63f87c"
+      "sha1": "c46a921b2aac5265beea862ed106dff196264019"
     }
   ]
 }

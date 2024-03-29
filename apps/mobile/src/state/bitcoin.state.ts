@@ -5,6 +5,8 @@ import {
   BitcoinTransaction,
 } from '@superlight-labs/blockchain-api-client/src/blockchains/bitcoin/types';
 import Big from 'big.js';
+import { DataItem } from 'src/types/chart';
+import { getNetValueFromTransaction, toBitcoin } from 'utils/crypto/bitcoin-value';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { SharePair } from './derive.state';
@@ -44,6 +46,11 @@ type BitcoinActions = {
   hasAddress: () => boolean;
   getTotalBalance: () => number;
   getAccountBalance: (account: string) => number;
+  getAccountPerformance: (
+    account: string,
+    bitcoinValue: number,
+    historyPrices: any[]
+  ) => Performance;
   getAccountTransactions: (account: string) => AccountTransaction[];
   getAccExternalAddress: (account: string) => AddressInfo;
   getAccountAddresses: (account: string) => Addresses;
@@ -74,6 +81,8 @@ export const useBitcoinState = create<BitcoinState & BitcoinActions>()(
       hasAddress: () => get().addresses.size > 0,
       getTotalBalance: () => calculateTotalBalance(get().addresses),
       getAccountBalance: (account: string) => calculateAccountBalance(get().addresses, account),
+      getAccountPerformance: (account: string, bitcoinValue: number, historyPrices: any[]) =>
+        calculateAccountPerformance(get().addresses, account, bitcoinValue, historyPrices),
       getAccountTransactions: (account: string) => getAccountTransactions(get().addresses, account),
       getAccountAddresses: (account: string) => getAccountAddresses(get().addresses, account),
       getAccExternalAddress: (account: string) => getAccExternalAddress(get(), account),
@@ -197,10 +206,12 @@ export type Addresses = {
 const calculateTotalBalance = (addresses: Map<string, Map<ChangeIndex, AddressInfo>>): number => {
   const addressesArr = [...addresses.entries()].map(([key, _]) => key);
 
-  return addressesArr.reduce(
+  const balance = addressesArr.reduce(
     (acc, account) => acc + calculateAccountBalance(addresses, account),
     0
   );
+
+  return balance;
 };
 
 /**
@@ -221,6 +232,94 @@ const calculateAccountBalance = (
   }, new Big(0));
 
   return balance.toNumber() || 0;
+};
+
+export type Performance = {
+  percentage: number;
+  absolute: number;
+  average: number;
+};
+
+/**
+ *
+ * @returns Accumulated value of Account in BTC
+ * how this works
+ * average -  the average buyIn of the owned bitcoin, only based on value received on the external address
+ *            (otherwise, if you also use changeAddress and SentAmount, the average buyIn would be near to the current bitcoin price because new transaction will settle with the current price)
+ * absolute - the absolute value change of the owned bitcoin
+ * percentage - the percentage value change of the owned bitcoin
+ */
+const calculateAccountPerformance = (
+  addresses: Map<string, Map<ChangeIndex, AddressInfo>>,
+  account: string,
+  currentBitcoinPrice: number,
+  historyPrices: DataItem[]
+): Performance => {
+  const accountAddresses = addresses.get(account);
+
+  if (!accountAddresses) return { percentage: 0, absolute: 0, average: 0 };
+
+  const external = accountAddresses?.get(0)!;
+  const change = accountAddresses?.get(1)!;
+
+  const buyInVars = external?.transactions.reduce(
+    (value, transaction) => {
+      const netValue = toBitcoin(
+        getNetValueFromTransaction(transaction, external.address, change?.address)
+      );
+
+      //for comparing with history prices - each of the timestamps have to be rounded to the start of the day
+      const valuesAtTransaction = historyPrices.find(historyPriceItem => {
+        return (
+          formatToUnixTimestampAndRoundToStartOfDay(historyPriceItem.time) ===
+          roundToStartOfDay(transaction.time)
+        );
+      });
+
+      const priceAtTransaction = valuesAtTransaction ? valuesAtTransaction.value : 1;
+
+      if (netValue > 0) {
+        // Berechnungen für percentage, absolute und average
+        value.totalValueEur += netValue * priceAtTransaction;
+        value.totalValueBtc += netValue;
+      }
+      return value;
+    },
+    { totalValueBtc: 0, totalValueEur: 0 }
+  );
+  const averageBuyIn = buyInVars.totalValueEur / buyInVars.totalValueBtc;
+
+  const percentageChange = (currentBitcoinPrice / averageBuyIn - 1) * 100;
+
+  const absoluteChange = buyInVars.totalValueBtc * currentBitcoinPrice - buyInVars.totalValueEur;
+
+  return {
+    percentage: isNaN(percentageChange) ? 0 : percentageChange,
+    absolute: isNaN(absoluteChange) ? 0 : absoluteChange,
+    average: isNaN(averageBuyIn) ? 0 : averageBuyIn,
+  };
+};
+
+// convert string with date to unix timestamp in milliseconds
+const formatToUnixTimestampAndRoundToStartOfDay = (inputDate: string) => {
+  const date = new Date(inputDate);
+  const startOfDay = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)
+  );
+  return Math.floor(startOfDay.getTime()); // Unix-Timestamp in Sekunden
+};
+
+//convert timestamp to 0:00 of the same day
+const roundToStartOfDay = (unixTimestamp: number): number => {
+  const date = new Date(unixTimestamp * 1000); // Erstelle ein Date-Objekt aus dem Unix-Timestamp
+
+  // Setze das Datum auf den Anfang des Tages
+  const startOfDay = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)
+  );
+
+  // Konvertiere den Anfang des Tages zurück in Unix-Timestamp und gebe ihn zurück
+  return Math.floor(startOfDay.getTime());
 };
 
 /**
