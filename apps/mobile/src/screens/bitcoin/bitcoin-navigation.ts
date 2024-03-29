@@ -5,4 +5,5 @@ export type BitcoinStackParamList = {
 
   BuyBitcoinStack: undefined;
   SellBitcoin: undefined;
+  ComingSoon: { text: string };
 };

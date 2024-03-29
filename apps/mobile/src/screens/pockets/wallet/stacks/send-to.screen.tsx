@@ -152,16 +152,3 @@ const SendToScreen = ({ navigation, route }: Props) => {
 };
 
 export default SendToScreen;
-
-/*
-
-<KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{
-          flex: 1,
-        }}>
-        <View className="h-full flex-col justify-between bg-white px-5">
-          
-        </View>
-
-*/

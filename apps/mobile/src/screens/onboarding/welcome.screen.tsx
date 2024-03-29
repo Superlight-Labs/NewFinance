@@ -18,7 +18,7 @@ const Welcome = ({ navigation }: Props) => {
       />
 
       <View className="flex h-full flex-col items-stretch justify-between  px-6 pt-8">
-        <View className="h-24"></View>
+        <View className="h-24" />
         <View className="flex flex-row items-center justify-between">
           <View>
             <View className="w-ful mb-2 flex flex-row items-center">

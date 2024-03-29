@@ -69,7 +69,7 @@ const ScanQrScreen = ({ navigation, route }: Props) => {
                 </Pressable>
               </View>
               <View className="h-full w-full items-center justify-center p-12 pb-[50%]">
-                <View className="aspect-square w-full rounded-xl border-[2px] border-white"></View>
+                <View className="aspect-square w-full rounded-xl border-[2px] border-white" />
                 {scanned && (
                   <ButtonComponent
                     style=" m-12 absolute bottom-24"

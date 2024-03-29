@@ -27,7 +27,6 @@ const SetupWallet = ({ navigation, route }: Props) => {
 
   const [walletName] = useState('Main pocket');
   const [_loading, setLoading] = useState(false);
-  const [loadingAuth, setLoadingAuth] = useState(false);
 
   const createProfile = useCreateAuth();
   const { registerUser } = useAuthState();
@@ -43,13 +42,9 @@ const SetupWallet = ({ navigation, route }: Props) => {
 
   const getStarted = useCallback(async () => {
     if (!user) {
-      setLoadingAuth(true);
       const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);
-      perform(createProfile(newDevicePublicKey, username, email), () => {
-        setLoadingAuth(false);
-      }).onSuccess(userData => {
+      perform(createProfile(newDevicePublicKey, username, email), () => {}).onSuccess(userData => {
         registerUser(userData);
-        setLoadingAuth(false);
         createWallet(userData);
       });
     } else {

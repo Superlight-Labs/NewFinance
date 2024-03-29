@@ -72,28 +72,28 @@ const SendReviewScreen = ({
         from: [...(addresses.get(sender.account) || [])].map(([_, a]) => a.address),
         to: [{ address: toAddress, value: amountInBitcoin }],
       } as Partial<GetFeesRequest>)
-      .then(fees => {
+      .then(({ data: feeData }) => {
         if (fee === 0) {
-          setFee(fees.data.medium);
+          setFee(feeData.medium);
           //setCustomFee((getPrice() * fees.data.medium).toFixed(2).toString());
         }
         setFees([
           {
             label: 'Slow',
-            text: '~' + (getPrice() * fees.data.slow).toFixed(2) + currency,
-            value: fees.data.slow,
+            text: '~' + (getPrice() * feeData.slow).toFixed(2) + currency,
+            value: feeData.slow,
             disabled: false,
           },
           {
             label: 'Medium',
-            text: '~' + (getPrice() * fees.data.medium).toFixed(2) + currency,
-            value: fees.data.medium,
+            text: '~' + (getPrice() * feeData.medium).toFixed(2) + currency,
+            value: feeData.medium,
             disabled: false,
           },
           {
             label: 'Fast',
-            text: '~' + (getPrice() * fees.data.fast).toFixed(2) + currency,
-            value: fees.data.fast,
+            text: '~' + (getPrice() * feeData.fast).toFixed(2) + currency,
+            value: feeData.fast,
             disabled: false,
           },
         ]);

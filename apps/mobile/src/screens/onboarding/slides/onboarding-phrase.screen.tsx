@@ -16,7 +16,6 @@ const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 const OnboardingPhraseScreen = ({ navigation }: Props) => {
   const [seedPhrase, setPhrase] = useState('');
   const { deleteBip32, derivedUntilLevel, setSeed } = useDeriveState();
-  const [importOption, setImportOption] = useState<string>('phrase');
 
   useEffect(() => {
     if (derivedUntilLevel !== DerivedUntilLevel.NONE) {

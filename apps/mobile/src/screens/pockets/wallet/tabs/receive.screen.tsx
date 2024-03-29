@@ -48,7 +48,6 @@ const ReceiveStack = ({ route }: Props) => {
           {showQrCode && (
             <QRCodeStyled
               data={`bitcoin:${external.address}`}
-              // eslint-disable-next-line react-native/no-inline-styles
               padding={20}
               innerEyesOptions={{
                 borderRadius: 8,

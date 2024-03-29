@@ -27,7 +27,9 @@ const ChooseFeesScreen = ({ navigation, route }: Props) => {
     setTimeout(() => {
       navigation.navigate({
         name: 'SendReview',
-        params: { customFee: fee },
+        //TODO remove "as any" by passing the correct params. It works because of the merge: true,
+        // but is not relyable as the parent params are only there if the component is used in a specific way
+        params: { customFee: fee } as any,
         merge: true,
       });
     }, 55);
@@ -66,7 +68,6 @@ const ChooseFeesScreen = ({ navigation, route }: Props) => {
               onChangeText={value => setCustomFee(value)}
               onBlur={() => setFee(parseFloat(customFee) / getPrice())}
               autoFocus={false}
-              keyboardType="numeric"
             />
             <Text className="flex items-center font-manrope font-bold text-grey">{currency}</Text>
           </View>

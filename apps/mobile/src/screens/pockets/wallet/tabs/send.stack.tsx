@@ -44,7 +44,7 @@ const SendStack = ({ navigation: _, route }: Props) => {
     ),
   });
 
-  const stackOptions = ({ navigation: _ }: any) => ({
+  const stackOptions = ({ navigation: _navigation }: any) => ({
     title: 'Send',
     headerLargeTitle: false,
     headerShadowVisible: false,

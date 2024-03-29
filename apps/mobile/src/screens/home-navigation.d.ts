@@ -4,4 +4,5 @@ export type HomeTabList = {
   Profile: undefined;
 
   MenuStack: undefined;
+  ComingSoon: { text: string };
 };

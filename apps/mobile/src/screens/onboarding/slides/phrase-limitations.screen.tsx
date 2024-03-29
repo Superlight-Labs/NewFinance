@@ -5,7 +5,7 @@ import { SafeAreaView, ScrollView, Text, View } from 'utils/wrappers/styled-reac
 
 type Props = StackScreenProps<RootStackParamList, 'PhraseLimitations'>;
 
-const PhraseLimitationsScreen = ({ navigation }: Props) => {
+const PhraseLimitationsScreen = ({ navigation: _ }: Props) => {
   return (
     <SafeAreaView>
       <View className="px-5 pt-12">

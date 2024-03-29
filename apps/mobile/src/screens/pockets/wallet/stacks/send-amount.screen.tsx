@@ -35,11 +35,11 @@ const SendScreen = ({ navigation, route }: Props) => {
     else return valueInBTC * getPrice(currency);
   };
 
-  const setAmountToSend = (amount: string) => {
-    if (parseFloat(amount) > balance * getPrice(currency)) setErrorBalance(true);
+  const setAmountToSend = (amountToSend: string) => {
+    if (parseFloat(amountToSend) > balance * getPrice(currency)) setErrorBalance(true);
     else setErrorBalance(false);
-    if (currency === 'BTC' || currency === 'sats' || (amount.split('.')[1] || '').length <= 2)
-      setAmount(amount);
+    if (currency === 'BTC' || currency === 'sats' || (amountToSend.split('.')[1] || '').length <= 2)
+      setAmount(amountToSend);
   };
 
   return (

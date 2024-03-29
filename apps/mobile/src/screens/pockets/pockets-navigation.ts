@@ -19,6 +19,7 @@ export type PocketsStackParamList = {
   Receive: { external: AddressInfo };
   Overview: { account: string };
   Send: { external: AddressInfo };
+  ComingSoon: { text: string };
 };
 
 export type SendStackList = {

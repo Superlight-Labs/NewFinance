@@ -1,6 +1,6 @@
 import { Portal } from '@gorhom/portal';
 import { useEffect, useRef } from 'react';
-import { Animated, Easing, Platform, StyleSheet } from 'react-native';
+import { Animated, Easing, Platform } from 'react-native';
 import { FullWindowOverlay } from 'react-native-screens';
 import { AppMessage, useSnackbarState } from 'state/snackbar.state';
 import { createBugUrl, openWebsite } from 'utils/web-opener';
@@ -110,7 +110,7 @@ const Snackbar = ({ appMessage }: Props) => {
   return (
     <Portal>
       {Platform.OS === 'ios' ? (
-        <FullWindowOverlay style={StyleSheet.absoluteFill}>{renderAnimated()}</FullWindowOverlay>
+        <FullWindowOverlay>{renderAnimated()}</FullWindowOverlay>
       ) : (
         renderAnimated()
       )}
