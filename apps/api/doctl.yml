@@ -15,15 +15,15 @@ services:
       - key: COOKIE_SECRET
         scope: RUN_AND_BUILD_TIME
         type: SECRET
-        value: EV[1:ybc5wxxMiPx+0h8+2YMJ0Aa6/DjdaILq:Naha2mOVsf6RDISXqIzVFqAnHhQ/yGUAQRRhL4ZTLGeEOC/kPsFeBg==]
+        value:
       - key: DB_URL
         scope: RUN_AND_BUILD_TIME
         type: SECRET
-        value: EV[1:bzsJQux/3bs5HJPX3JggEG9+9H2tWLta:oKzTkHhk3UWKKMDbYoTpvMh6AIt+TfT9IOaCzEZo77QpIfUWbHO8RDndKVktef9KjgUldgQOFja9cTH6VkcRaT3sS4RghzaRTjFU5nNIKFJKMiOVnWCUj6eZX2kOR7Xwk3kKxoyMD4lvaPDt4/8Q8deOwoqXo9ZhmPwPFfn46dWx13NGO4//rFDmBZKPG1lJN7dgn+aFPOLqaucZY3M=]
+        value:
       - key: TATUM_TEST_TOKEN
         scope: RUN_AND_BUILD_TIME
         type: SECRET
-        value: EV[1:Ay1eIkCjg5sxOcvYOzqkLhICtDZx2cIq:UoSM/ZvrtDg0htieqtmBGpWf6jv+UP5M7vKQx1choy2+1rGuRIMsjMjeYjHsDhBGA7YXxA==]
+        value:
       - key: TATUM_MAIN_TOKEN
         scope: RUN_AND_BUILD_TIME
       - key: API_HOST
