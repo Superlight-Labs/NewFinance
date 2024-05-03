@@ -1,3 +1,4 @@
+import logger from '@superlight-labs/logger';
 import { Library } from 'ffi-napi';
 import { join } from 'path';
 import { refType, types } from 'ref-napi';
@@ -16,6 +17,8 @@ const errorCodes = {
 };
 
 // Copy from mpc_crypto.h
+
+logger.info({ arch: process.arch }, 'Loading native lib on architecture');
 
 const name = process.arch.includes('arm64') ? 'MPCCrypto-arch64' : 'MPCCrypto';
 

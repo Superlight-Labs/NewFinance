@@ -4,27 +4,19 @@ import {
   MpcWebsocketHandlerWrapper,
   SignResult,
   WebsocketConfig,
-  WebsocketError,
   apiError,
   createMPCWebsocketHandlerWrapper,
   mapWebsocketToAppError,
-  other,
   websocketError,
 } from '@superlight-labs/mpc-common';
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { Result, ResultAsync } from 'neverthrow';
-import { Observable, firstValueFrom } from 'rxjs';
 
 export type RawData = string | ArrayBufferLike | Blob | ArrayBufferView;
 export type Signer = (nonce: string) => ResultAsync<SignResult, AppError>;
 
 export const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
   createMPCWebsocketHandlerWrapper(logger);
-
-export type CreateWebsocketResult<T> = {
-  startResult$: Observable<ResultAsync<T, WebsocketError>>;
-  ws: WebSocket;
-};
 
 export const createNonce = (apiUrl: string): ResultAsync<string, AppError> => {
   return ResultAsync.fromPromise(axios.get<CreateNonceResponse>(`${apiUrl}/auth/get-nonce`), err =>
@@ -56,15 +48,6 @@ export const createRequestor = Result.fromThrowable(
   },
   err => websocketError(err, "Couldn't create websocket")
 );
-
-export const unwrapStartResult = <T>(
-  startResult$: Observable<ResultAsync<T, WebsocketError>>,
-  axios: AxiosInstance
-) => {
-  return ResultAsync.fromPromise(firstValueFrom(startResult$), err =>
-    other(err, 'Error while unwrapping start result')
-  ).map(startResult => ({ startResult, axios }));
-};
 
 export type ApiStepResult = {
   ok: boolean;
