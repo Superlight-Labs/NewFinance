@@ -1,11 +1,8 @@
-import logger from '@superlight-labs/logger';
 import {
   AppError,
-  MpcWebsocketHandlerWrapper,
   SignResult,
   WebsocketConfig,
   apiError,
-  createMPCWebsocketHandlerWrapper,
   mapWebsocketToAppError,
   websocketError,
 } from '@superlight-labs/mpc-common';
@@ -14,9 +11,6 @@ import { Result, ResultAsync } from 'neverthrow';
 
 export type RawData = string | ArrayBufferLike | Blob | ArrayBufferView;
 export type Signer = (nonce: string) => ResultAsync<SignResult, AppError>;
-
-export const wrapMPCWebsocketHandler: MpcWebsocketHandlerWrapper =
-  createMPCWebsocketHandlerWrapper(logger);
 
 export const createNonce = (apiUrl: string): ResultAsync<string, AppError> => {
   return ResultAsync.fromPromise(axios.get<CreateNonceResponse>(`${apiUrl}/auth/get-nonce`), err =>

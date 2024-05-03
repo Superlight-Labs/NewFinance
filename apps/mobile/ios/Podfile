@@ -9,7 +9,7 @@ require Pod::Executable.execute_command('node', ['-p',
 pod 'OpenSSL-Universal', :modular_headers => true, :configurations => ['Release', 'Debug']
 
 
-platform :ios, '13.0'
+platform :ios, '13.4'
 prepare_react_native_project!
 
 
