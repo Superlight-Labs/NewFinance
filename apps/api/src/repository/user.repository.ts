@@ -34,6 +34,26 @@ export const readUser = async (request: GetUserRequest): Promise<User | RouteErr
   return user;
 };
 
+export const isUsernameOrEmailTaken = async (
+  usernameOrEmail: string
+): Promise<boolean | RouteError> => {
+  const usernameOrEmailTaken = await client.user.findFirst({
+    where: {
+      OR: [
+        {
+          username: usernameOrEmail,
+        },
+        {
+          email: usernameOrEmail,
+        },
+      ],
+    },
+  });
+
+  if (usernameOrEmailTaken) return true;
+  return false;
+};
+
 export const readUserKeyShareByPath = async (
   user: User,
   path: string

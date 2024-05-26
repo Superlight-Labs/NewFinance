@@ -1,6 +1,9 @@
 import { Static, Type } from '@fastify/type-provider-typebox';
-import { nonceRoute, setNonceRoute } from '@lib/routes/rest/rest-handlers';
+import { other } from '@lib/routes/rest/rest-error';
+import { nonceRoute, route, setNonceRoute } from '@lib/routes/rest/rest-handlers';
+import { getSafeResultAsync } from '@lib/utils/neverthrow';
 import { FastifyInstance, FastifyRequest, FastifySchema } from 'fastify';
+import { isUsernameOrEmailTaken } from 'src/repository/user.repository';
 import { createNewUser, verifyUser } from 'src/service/data/user.service';
 import { CreateUserResponse, VerifyUserRequest } from '../repository/user';
 
@@ -22,10 +25,25 @@ const verifyUserSchema: FastifySchema = {
   },
 };
 
+const isUsernameOrEmailTakenSchema: FastifySchema = {
+  params: {
+    type: 'object',
+    required: ['usernameOrEmail'],
+    properties: {
+      usernameOrEmail: { type: 'string', maxLength: 64, minLength: 3 },
+    },
+  },
+};
+
 export type CreateUserRequest = Static<typeof createUserSchema>;
 export const registerUserRoutes = (server: FastifyInstance) => {
   server.post('/user/create', { schema: { body: createUserSchema } }, postCreateUser);
   server.post('/user/verify', { schema: verifyUserSchema }, postVerifyUser);
+  server.get(
+    '/user/istaken/:usernameOrEmail',
+    { schema: isUsernameOrEmailTakenSchema },
+    getIsUsernameOrEmailTaken
+  );
 };
 
 const postCreateUser = setNonceRoute<CreateUserResponse>((req: FastifyRequest, nonce: string) => {
@@ -34,4 +52,14 @@ const postCreateUser = setNonceRoute<CreateUserResponse>((req: FastifyRequest, n
 
 const postVerifyUser = nonceRoute<boolean>((req: FastifyRequest, nonce: string) => {
   return verifyUser(req.body as VerifyUserRequest, nonce);
+});
+
+const getIsUsernameOrEmailTaken = route<boolean>((req: FastifyRequest) => {
+  const params = req.params as any;
+
+  const isUsernameTakenResult = getSafeResultAsync(
+    isUsernameOrEmailTaken(params.usernameOrEmail),
+    e => other('Error while reading Username/Email from DB', e)
+  );
+  return isUsernameTakenResult;
 });

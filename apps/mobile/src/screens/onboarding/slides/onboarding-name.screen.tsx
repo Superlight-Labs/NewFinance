@@ -1,12 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useQuery } from '@tanstack/react-query';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import TextInputComponent from 'components/shared/input/text/text-input.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
+import { useDebounce } from 'hooks/useDebounced';
 import { styled } from 'nativewind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { RootStackParamList } from 'src/app-navigation';
+import { backend } from 'utils/superlight-api';
 import { Image, Pressable, SafeAreaView, Text, View } from 'utils/wrappers/styled-react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
@@ -14,17 +17,49 @@ type Props = StackScreenProps<RootStackParamList, 'Onboarding'>;
 const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 
 const OnboardingScreen = ({ navigation, route }: Props) => {
+  const [isTaken, setIsTaken] = useState(false);
   const [username, setUsername] = useState('');
   const { withPhrase } = route.params;
+  const [isManualLoading, setIsManualLoading] = useState(false);
 
   const navigator = useNavigation();
 
-  const isDisabled = () => {
-    if (username.length < 3) return true;
-    if (username.length > 36) return true;
+  const debouncedUsername = useDebounce(username, 500);
 
-    return false;
+  const setAndCheckUsername = (input: string) => {
+    const clearedInput = input.replace(/\s/g, '');
+    setUsername(clearedInput);
+    setIsManualLoading(true); // Setze den manuellen Ladezustand auf true
   };
+
+  const {
+    data: takenRes,
+    refetch,
+    isLoading: queryLoading,
+  } = useQuery(
+    ['user/istaken', debouncedUsername],
+    () => backend.get(`/user/istaken/${debouncedUsername}`).then(res => res.data),
+    {
+      enabled: false, // Deaktiviert die automatische Ausführung der Abfrage
+      retry: false,
+      onSettled: () => setIsManualLoading(false),
+    }
+  );
+
+  useEffect(() => {
+    if (debouncedUsername.length >= 3) {
+      refetch();
+    }
+  }, [debouncedUsername]);
+
+  useEffect(() => {
+    if (takenRes !== undefined) {
+      setIsTaken(takenRes);
+    }
+  }, [takenRes]);
+
+  const isButtonDisabled =
+    username.length < 3 || username.length > 36 || isTaken || queryLoading || isManualLoading;
 
   const nextOnboardingStep = () => {
     navigation.navigate('OnboardingEmail', {
@@ -64,16 +99,21 @@ const OnboardingScreen = ({ navigation, route }: Props) => {
                 style="text-center px-2 border-b-0 text-3xl"
                 placeHolder="username"
                 value={username}
-                onChangeText={setUsername}
+                onChangeText={setAndCheckUsername}
                 autoFocus={true}
               />
             </View>
+            {isTaken && (
+              <Text className="mt-2 font-manrope text-xs text-[#FF000F]">
+                Username already taken
+              </Text>
+            )}
           </View>
         </View>
         <View className="pb-4">
           <ButtonComponent
             style="bg-[#0AAFFF]"
-            disabled={isDisabled()}
+            disabled={isButtonDisabled}
             onPress={nextOnboardingStep}>
             Next
           </ButtonComponent>

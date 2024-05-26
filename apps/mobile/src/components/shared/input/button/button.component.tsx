@@ -2,6 +2,7 @@ import MonoIcon, { IconName } from 'components/shared/mono-icon/mono-icon.compon
 import * as Haptics from 'expo-haptics';
 import { styled } from 'nativewind';
 import { ReactNode } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { Text, TouchableOpacity, View } from 'utils/wrappers/styled-react-native';
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
   disabled?: boolean;
   haptic?: boolean;
   iconName?: IconName;
+  loading?: boolean;
 };
 
 const Button = ({
@@ -22,6 +24,7 @@ const Button = ({
   iconName,
   disabled = false,
   haptic = true,
+  loading = false,
 }: Props) => {
   const bg = disabled ? 'opacity-50' : 'opacity-100';
 
@@ -52,10 +55,17 @@ const Button = ({
             </Text>
           </View>
         )}
-        {!iconName && (
+        {!iconName && !loading && (
           <Text
             className={`group-isolate-active:text-red font-manrope text-base font-bold text-white ${textStyle}`}>
             {children}
+          </Text>
+        )}
+        {!iconName && loading && (
+          <Text
+            className={`group-isolate-active:text-red font-manrope text-base font-bold text-white ${textStyle}`}>
+            {' '}
+            <ActivityIndicator color={'white'} />
           </Text>
         )}
         {iconName && (
