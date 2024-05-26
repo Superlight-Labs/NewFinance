@@ -1,5 +1,5 @@
 import { AccountTransaction } from 'state/bitcoin.state';
-import { FlatList, View } from 'utils/wrappers/styled-react-native';
+import { FlatList, Text, View } from 'utils/wrappers/styled-react-native';
 import Transaction from './transaction.component';
 
 type Props = {
@@ -39,6 +39,11 @@ const TransactionList = ({
             );
           }}
         />
+      )}
+      {transactions.length === 0 && (
+        <View className="flex justify-center">
+          <Text className=" font-manrope-semibold text-xs text-grey">No transactions yet...</Text>
+        </View>
       )}
     </View>
   );

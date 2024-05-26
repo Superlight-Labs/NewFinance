@@ -16,7 +16,6 @@ const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 const OnboardingPhraseScreen = ({ navigation }: Props) => {
   const [seedPhrase, setPhrase] = useState('');
   const { deleteBip32, derivedUntilLevel, setSeed } = useDeriveState();
-  const [importOption, setImportOption] = useState<string>('phrase');
 
   useEffect(() => {
     if (derivedUntilLevel !== DerivedUntilLevel.NONE) {
@@ -53,7 +52,7 @@ const OnboardingPhraseScreen = ({ navigation }: Props) => {
             <Text className="mt-4 px-12 text-center font-manrope text-base font-semibold text-[#8E8D95]">
               Your recovery phrase will be used to import your wallet.
             </Text>
-            <View className="mt-8 flex h-14 w-full">
+            <View className="relative mt-8 h-20 w-full justify-center">
               <RecoveryPhraseInputComponent setPhrase={setPhrase} />
             </View>
             <Pressable onPress={() => navigation.navigate('PhraseLimitations')}>

@@ -80,17 +80,17 @@ const SendScreen = ({ navigation, route }: Props) => {
         </View>
         <Numpad style="mb-6" maxLength={10} value={amount} setValue={setAmountToSend} />
         <ButtonComponent
+          style="bg-[#0AAFFF]"
           disabled={
             Number.isNaN(parseFloat(amount)) ||
             parseFloat(amount) <= 0 ||
             !balance ||
             parseFloat(amount) > toCurrentCurrency(balance)
           }
-          style=""
           onPress={() =>
             navigation.navigate('SendTo', { amount: parseFloat(amount), currency, ...route.params })
           }>
-          Next
+          Send to
         </ButtonComponent>
       </View>
     </SafeAreaView>

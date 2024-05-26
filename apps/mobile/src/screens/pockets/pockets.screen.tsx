@@ -20,6 +20,7 @@ const Pockets = ({ navigation }: Props) => {
     accounts,
     getAccountBalance,
     hasAddress,
+    setHasHydrated,
     hasHydrated: bitcoinHydrated,
   } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
@@ -30,7 +31,7 @@ const Pockets = ({ navigation }: Props) => {
   useEffect(() => {
     if (!bitcoinHydrated && deriveHydrated) {
       console.log('!!! DIFF IN STATE HYDRATION. Try to uncomment line bellow !!!');
-      // setHasHydrated(true);
+      setHasHydrated(true);
     }
 
     if (bitcoinHydrated && loading) {

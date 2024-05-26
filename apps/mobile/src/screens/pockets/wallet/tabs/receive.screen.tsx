@@ -3,7 +3,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import Button from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 //import * as Sharing from 'expo-sharing';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Share } from 'react-native';
 import QRCodeStyled from 'react-native-qrcode-styled';
 import { PocketsStackParamList } from 'screens/pockets/pockets-navigation';
 import { useSnackbarState } from 'state/snackbar.state';
@@ -15,6 +16,7 @@ type Props = StackScreenProps<PocketsStackParamList, 'Receive'>;
 const ReceiveStack = ({ route }: Props) => {
   const { external } = route.params;
   const { setMessage } = useSnackbarState();
+  const qrCode = useRef(null);
 
   const [showQrCode, setShowQrCode] = useState(false);
   const [showFullAddress, setShowFullAddress] = useState<boolean>(false);
@@ -36,9 +38,11 @@ const ReceiveStack = ({ route }: Props) => {
     setMessage({ level: 'info', message: 'Copied your Address to clipboard' });
   };
 
-  const shareAdress = () => {
+  const shareAdress = async () => {
     console.log('should share');
-    //Sharing.shareAsync(`bitcoin:${external.address}`);
+    await Share.share({
+      message: 'Send me bitcoin to my address through NewFinance: ' + external.address,
+    });
   };
 
   return (
@@ -47,6 +51,7 @@ const ReceiveStack = ({ route }: Props) => {
         <View className="flex items-center justify-center px-14">
           {showQrCode && (
             <QRCodeStyled
+              ref={qrCode}
               data={`bitcoin:${external.address}`}
               // eslint-disable-next-line react-native/no-inline-styles
               padding={20}

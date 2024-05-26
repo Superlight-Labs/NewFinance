@@ -42,6 +42,7 @@ const SetupWallet = ({ navigation, route }: Props) => {
   const [started, setStarted] = useState(false);
 
   const getStarted = useCallback(async () => {
+    console.log('user: ', user);
     if (!user) {
       setLoadingAuth(true);
       const newDevicePublicKey = await generateKeyPair(constants.deviceKeyName);

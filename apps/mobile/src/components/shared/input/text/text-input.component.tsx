@@ -50,6 +50,7 @@ const Input = ({
         textContentType={textContentType}
         inputMode={inputMode}
         autoFocus={autoFocus}
+        keyboardAppearance="light"
         enablesReturnKeyAutomatically={true}
       />
     </View>

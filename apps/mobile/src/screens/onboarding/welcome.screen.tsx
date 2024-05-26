@@ -51,13 +51,10 @@ const Welcome = ({ navigation }: Props) => {
             onPress={() => navigation.navigate('Onboarding', { withPhrase: false })}>
             Create a new wallet
           </Button>
-          <Pressable
-            className="flex items-center justify-center py-6"
-            onPress={() => navigation.navigate('OnboardingPhrase')}>
-            <Text className="font-manrope text-base font-semibold text-black">
-              Add an existing wallet
-            </Text>
-          </Pressable>
+          <Button textStyle="text-black" onPress={() => navigation.navigate('OnboardingPhrase')}>
+            Add an existing wallet
+          </Button>
+
           <View className="mt-3 px-12">
             <Text className="text-center font-manrope text-xs font-semibold text-[#8E8D95]">
               By continuing, I agree to the

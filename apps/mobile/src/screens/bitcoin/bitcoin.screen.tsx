@@ -105,7 +105,7 @@ const Bitcoin = ({ navigation }: Props) => {
         </ButtonComponent>
 
         <ButtonComponent
-          onPress={() => navigation.navigate('BuyBitcoinStack')}
+          onPress={() => navigation.navigate('ComingSoon', { text: 'Buy Bitcoin' })}
           style={`flex-1  ml-1 ${isChartUp ? 'bg-[#51DC78]' : 'bg-[#DC5151]'}`}>
           Buy
         </ButtonComponent>

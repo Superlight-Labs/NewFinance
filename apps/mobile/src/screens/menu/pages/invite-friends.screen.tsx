@@ -28,7 +28,7 @@ const infos = [
     text2:
       'Your invited friends accept the invitations an create/import at least one wallet with NewFinance.',
     heading3: 'Get rewarded with main release',
-    text3: 'You get the a 30€ bonus in Bitcoin with the main release of NewFinance',
+    text3: 'You get the a 30€ bonus in Bitcoin with the main release of NewFinance.',
   },
 ];
 
@@ -43,7 +43,7 @@ const InviteFriends = () => {
   };
 
   return (
-    <SafeAreaView className="h-full bg-white">
+    <SafeAreaView className="flex h-full bg-white">
       <View className="mt-12">
         <Text className="mx-5 font-[system] text-[32px] font-[700] leading-[32px] text-black">
           Invite friends
@@ -70,8 +70,8 @@ const InviteFriends = () => {
         </ScrollView>
         <View className="mt-10 px-5">
           <Text className="font-manrope text-lg font-bold">How it works </Text>
-          <View>
-            <View className="mt-6 flex-row">
+          <View className="">
+            <View className=" mt-6 flex-row">
               <View className="mr-2">
                 <MonoIcon height={16} width={16} iconName="CircleDot" style="mt-0.5" />
               </View>
@@ -101,11 +101,11 @@ const InviteFriends = () => {
               <View className="mr-2">
                 <MonoIcon height={16} width={16} iconName="Circle" style="mt-0.5" color="#8E8D95" />
               </View>
-              <View>
+              <View className="">
                 <Text className="font-manrope text-sm font-bold">
                   {infos[shownBenefit].heading3}
                 </Text>
-                <Text className="font-manrope text-sm font-medium text-grey">
+                <Text className="flex-wrap font-manrope text-sm font-medium text-grey">
                   {infos[shownBenefit].text3}
                 </Text>
               </View>
