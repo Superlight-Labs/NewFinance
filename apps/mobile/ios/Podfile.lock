@@ -413,7 +413,7 @@ PODS:
     - React-Core
   - react-native-pager-view (6.2.1):
     - React-Core
-  - react-native-safe-area-context (4.10.1):
+  - react-native-safe-area-context (4.10.4):
     - React-Core
   - react-native-secure-encryption-module (0.0.7):
     - React-Core
@@ -534,10 +534,10 @@ PODS:
     - React-Core
   - RNCClipboard (1.14.1):
     - React-Core
-  - RNGestureHandler (2.16.1):
+  - RNGestureHandler (2.16.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNReanimated (3.10.0):
+  - RNReanimated (3.12.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
@@ -545,7 +545,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
-  - RNSVG (13.14.0):
+  - RNSVG (13.14.1):
     - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
@@ -847,7 +847,7 @@ SPEC CHECKSUMS:
   React-logger: 8da4802de77a0eb62512396ad6bb1769904c2f0e
   react-native-background-actions: ecffd3f0864140ef6cf21c29be6819a02b531a52
   react-native-pager-view: d211379f61895b6349bd7e571b44a26d005c2975
-  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
+  react-native-safe-area-context: 399a5859f6acbdf67f671c69b53113f535f3b5b0
   react-native-secure-encryption-module: 6aa06734d289cf983e5629647c1e335dcc28e7a9
   React-NativeModulesApple: 3107f777453f953906d9ba9dc5f8cbd91a6ef913
   React-perflogger: daabc494c6328efc1784a4b49b8b74fca305d11c
@@ -869,16 +869,16 @@ SPEC CHECKSUMS:
   rn-crypto-mpc: 5f9da07ccce60b108ac06a15d13fe59d6033ffee
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
-  RNGestureHandler: 57b260d9fb69c5dd2bb3a7e4dadcf0d2d4a7027c
-  RNReanimated: e1ec9dbbd9540234d005557edcf324411b2a7124
+  RNGestureHandler: 982741f345785f2927e7b28f67dc83679cf3bfc8
+  RNReanimated: 108a53626a492df35db30b98fc922a7189d1c601
   RNScreens: b8d370282cdeae9df85dd5eab20c88eb5181243b
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: c32e0be1a17f8f1f0e633a3122f7666441f52c82
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
 
-PODFILE CHECKSUM: e4f1c7ac1190db18287e1bab8c7869f79c025f66
+PODFILE CHECKSUM: 656e0d5bddeeb151719cd6ddd28543199fb5b908
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
