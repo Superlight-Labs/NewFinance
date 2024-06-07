@@ -8,10 +8,6 @@
     "lint": "eslint \"./src/**/*.ts\"",
     "dev": "ts-node-dev --inspect --respawn -r tsconfig-paths/register --watch --exit-child --transpile-only ./index.ts | pino-pretty"
   },
-  "volta": {
-    "node": "16.20.0",
-    "yarn": "1.22.19"
-  },
   "keywords": [
     "mpc",
     "bitcoin",
@@ -37,7 +33,6 @@
     "ffi-napi": "^4.0.3",
     "neverthrow": "^6.0.0",
     "ref-napi": "^3.0.3",
-    "rxjs": "^7.8.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2"
   },

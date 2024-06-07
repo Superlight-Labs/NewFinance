@@ -8,7 +8,7 @@ ingress:
       match:
         path:
           prefix: /
-name: monkfish-app
+name: newfinance-api
 region: fra
 services:
   - envs:

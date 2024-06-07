@@ -3,7 +3,7 @@ version: "3.8"
 services:
   api:
     # Needed to run image on Mac M1
-    # platform: linux/x86_64
+    platform: linux/x86_64
     # image: superlight/superlight-api:latest
     # In case you want to build locally, replace "image:"" with this
     build:
@@ -16,7 +16,17 @@ services:
       - API_PORT=${API_PORT}
       - COOKIE_SECRET=${COOKIE_SECRET}
       - LOG_LEVEL=${LOG_LEVEL}
-      - DB_URL=${DB_URL}
+      - DB_URL=postgres://postgres:postgres@db/superlight
       - TATUM_TEST_TOKEN=${TATUM_TEST_TOKEN}
       - TATUM_MAIN_TOKEN=${TATUM_MAIN_TOKEN}
     domainname: "${API_DOMAIN_NAME}"
+    links:
+      - db
+
+  db:
+    extends:
+      file: ./packages/database/docker-compose.yml
+      service: db
+volumes:
+  db:
+    driver: local
