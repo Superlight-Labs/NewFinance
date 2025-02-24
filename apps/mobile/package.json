@@ -13,6 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@gorhom/portal": "1.0.14",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-clipboard/clipboard": "^1.10.0",
     "@react-native/gradle-plugin": "^0.72.11",
@@ -65,8 +66,7 @@
     "text-encoder-lite": "^2.0.0",
     "tiny-secp256k1": "1.1.6",
     "util": "^0.12.5",
-    "zustand": "^4.3.6",
-    "@gorhom/portal": "1.0.14"
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

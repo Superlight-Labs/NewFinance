@@ -45,7 +45,7 @@
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
   "volta": {
-    "node": "18.12.0",
+    "node": "20.11.1",
     "yarn": "1.22.19"
   },
   "devDependencies": {

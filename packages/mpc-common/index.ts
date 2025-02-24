@@ -1,7 +1,4 @@
-import {
-  createMPCWebsocketHandlerWrapper,
-  shortenMessage,
-} from './src/websocket/websocket-message-unwrap';
+import { shortenMessage } from './src/websocket/websocket-message-unwrap';
 export { buildPath, indexToNumber } from './src/actions';
 export {
   apiError,
@@ -17,7 +14,7 @@ export {
 } from './src/error';
 export type { AppError, WebsocketError } from './src/error';
 export * from './src/schema';
-export type { MpcWebsocketHandlerWrapper, WebsocketConfig } from './src/websocket/common';
+export type { WebsocketConfig } from './src/websocket/common';
 export type {
   HandlerParams,
   MPCWebsocketHandler,
@@ -31,7 +28,5 @@ export type {
   MPCWebscocketInit,
   MPCWebsocketInProgress,
   MPCWebsocketMessage,
-  MPCWebsocketResult,
-  WebSocketOutput,
 } from './src/websocket/websocket-messages';
-export { createMPCWebsocketHandlerWrapper, shortenMessage };
+export { shortenMessage };
