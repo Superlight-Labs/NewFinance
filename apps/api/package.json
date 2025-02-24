@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "concurrently": "^7.2.0",
-    "elliptic": "^6.5.4",
+    "elliptic": "^6.6.1",
     "eslint": "^8.19.0",
     "eslint-plugin-neverthrow": "^1.1.4",
     "nodemon": "^2.0.16",
