@@ -4,13 +4,13 @@
  *
  * @format
  */
-
 import logger from '@superlight-labs/logger';
 import 'react-native-gesture-handler';
 
 import { API_URL, REACTOTRON_COMMANDS } from '@env';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useDeleteLocalData } from 'hooks/useDeleteLocalData';
+import React from 'react';
 import reactotron from 'reactotron-react-native';
 import { View } from 'utils/wrappers/styled-react-native';
 import AppNavigation from './App.navigation';
@@ -22,8 +22,10 @@ if (__DEV__) {
 
 console.log({ API_URL });
 
-function App(): JSX.Element {
+function App() {
   const { deleteLocalData: logout } = useDeleteLocalData();
+
+  logger.info('hi');
 
   const queryClient = new QueryClient();
 

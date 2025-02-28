@@ -73,11 +73,7 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
 
         await new Promise<void>(resolve => {
           const { onSuccess } = perform(
-            deriveAndSaveMaster(secretShare)
-              .andThen(deriveAndSavePurpose)
-              .andThen(deriveAndSaveCoinType)
-              .andThen(deriveAndSaveAccount)
-              .andThen(deriveAddresses),
+            deriveAndSaveMaster(secretShare).andThen(deriveAndSaveAccount).andThen(deriveAddresses),
             naviagteBack
           );
 

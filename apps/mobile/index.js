@@ -3,12 +3,13 @@
  */
 import './shim.js';
 
-import { AppRegistry } from 'react-native';
+import { registerRootComponent } from 'expo';
 import App from './src/App';
 
 const appName = {
   name: 'NewFinance',
   displayName: 'NewFinance',
+  version: '1.0.0',
 };
 
-AppRegistry.registerComponent(appName.name, () => App);
+registerRootComponent(App);
