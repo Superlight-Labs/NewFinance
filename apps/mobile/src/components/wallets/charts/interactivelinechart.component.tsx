@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import { LineChart } from '@superlight-labs/rn-svg-charts';
 import * as Haptics from 'expo-haptics';
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, PanResponder, View } from 'react-native';
@@ -179,39 +178,7 @@ const InteractiveLineChart = ({
           height: height,
           alignSelf: 'stretch',
         }}>
-        <View style={{ flex: 1 }} {...panResponder.panHandlers}>
-          <LineChart
-            style={{
-              flex: 1,
-              height: height,
-              borderRadius: 10,
-              zIndex: 1,
-            }}
-            data={currentData.map(item => item.value)}
-            svg={{
-              stroke: isUp(currentData) ? '#01DC0A' : '#FD291D',
-              strokeWidth: '2px',
-              strokeLinecap: 'round',
-              strokeLinejoin: 'round',
-            }}
-            contentInset={{ top: 20, bottom: 40, right: 12 }}
-            animate={true}
-            animationDuration={1000}>
-            <Line
-              x1={0}
-              y1={calcYLinePosition(currentData)}
-              x2={'110%'}
-              y2={calcYLinePosition(currentData)}
-              stroke={'#010001'}
-              strokeWidth={2}
-              strokeDasharray={'0.3,6'}
-              strokeLinecap="round"
-              // @ts-ignore
-              belowChart={true}
-            />
-            <Tooltip x={undefined} y={undefined} ticks={undefined} />
-          </LineChart>
-        </View>
+        <View style={{ flex: 1 }} {...panResponder.panHandlers}></View>
       </View>
     </View>
   );

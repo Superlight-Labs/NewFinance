@@ -176,7 +176,6 @@ const BitcoinPreview = ({ onChartStart, onChartRelease, isCurrentChartUp }: Prop
             onChartRelease();
           }}
         />
-
         <TimePeriodPicker onValueChange={value => changeTimeFrame(value)} />
       </View>
     </View>

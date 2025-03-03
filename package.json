@@ -36,7 +36,7 @@
   "license": "AGPL-3.0",
   "volta": {
     "node": "20.11.1",
-    "yarn": "1.22.19"
+    "yarn": "1.22.22"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
