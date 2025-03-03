@@ -3,7 +3,7 @@ import logger from '@superlight-labs/logger';
 import bip21 from 'bip21';
 import ButtonComponent from 'components/shared/input/button/button.component';
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
-import { BarCodeEvent, BarCodeScanner, PermissionResponse } from 'expo-barcode-scanner';
+import { BarCodeEvent, BarCodeScanner, PermissionResponse } from 'expo-camera';
 import { useEffect, useState } from 'react';
 import { SendStackList } from 'screens/pockets/pockets-navigation';
 import { Pressable, Text, View } from 'utils/wrappers/styled-react-native';

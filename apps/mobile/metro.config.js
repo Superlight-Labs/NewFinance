@@ -7,15 +7,22 @@
 const MetroSymlinksResolver = require('@rnx-kit/metro-resolver-symlinks');
 const path = require('path');
 
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const { mergeConfig } = require('@react-native/metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
+
+// Find the project and workspace directories
+const projectRoot = path.resolve(__dirname, './');
+// This can be replaced with `find-yarn-workspace-root`
+const monorepoRoot = path.resolve(projectRoot, '../..');
+
 /**
  * Metro configuration
- * https://facebook.github.io/metro/docs/configuration
+ * https://reactnative.dev/docs/metro
  *
- * @type {import('metro-config').MetroConfig}
+ * @type {import('@react-native/metro-config').MetroConfig}
  */
 const config = {
-  projectRoot: path.resolve(__dirname, './'),
+  projectRoot,
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -26,6 +33,7 @@ const config = {
   },
   resolver: {
     resolveRequest: MetroSymlinksResolver(),
+    nodeModulesPaths: [projectRoot, monorepoRoot],
     extraNodeModules: {
       stream: require.resolve('readable-stream'),
       crypto: require.resolve('expo-crypto'),

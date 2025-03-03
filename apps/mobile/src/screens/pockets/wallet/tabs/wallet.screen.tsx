@@ -9,6 +9,8 @@ import RoundButtonComponent from 'components/shared/input/round-button/round-but
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import TransactionList from 'components/wallets/transactions/transaction-list.component';
 import WalletMainItem from 'components/wallets/wallet-item/wallet-main-item.component';
+import useBitcoinPrice from 'hooks/useBitcoinData';
+import { useEffect } from 'react';
 import { RefreshControl } from 'react-native';
 import { PocketsStackParamList } from 'screens/pockets/pockets-navigation';
 
@@ -19,6 +21,7 @@ const Wallet = ({ navigation, route }: Props) => {
   const { derivedUntilLevel } = useDeriveState();
   const { getAccountBalance, getAccountTransactions } = useBitcoinState();
   const { refreshing, update } = useUpdateWalletData();
+  const { updateBitcoinPrice } = useBitcoinPrice();
 
   const { getAccountAddresses } = useBitcoinState();
   const addresses = getAccountAddresses(account);
@@ -29,6 +32,10 @@ const Wallet = ({ navigation, route }: Props) => {
   } = addresses;
 
   const transactions = uniqueTransactions(getAccountTransactions(account));
+
+  useEffect(() => {
+    updateBitcoinPrice();
+  }, []);
 
   return (
     <ScrollView
