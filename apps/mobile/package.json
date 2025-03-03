@@ -1,7 +1,6 @@
 {
   "name": "@superlight-labs/mobile",
   "version": "0.0.1",
-  "main": "index.js",
   "private": true,
   "scripts": {
     "postinstall": "pod-install",
@@ -41,7 +40,7 @@
     "der-bitcoinjs-lib": "0.0.2",
     "ecpair": "^1.0.1",
     "eslint-plugin-neverthrow": "^1.1.4",
-    "expo": "^52.0.27",
+    "expo": "^52.0.37",
     "expo-camera": "~16.0.17",
     "expo-constants": "^17.0.7",
     "expo-crypto": "^14.0.2",

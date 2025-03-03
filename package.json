@@ -10,16 +10,7 @@
       "packages/config/*"
     ],
     "nohoist": [
-      "**/@expo",
-      "**/@expo/**",
-      "**/expo",
-      "**/expo/**",
-      "**/react-native",
-      "**/react-native/**",
-      "**/@react-native",
-      "**/@react-native/**",
       "**/nativewind",
-      "**/react",
       "**/zustand",
       "**/@tanstack/react-query"
     ]
@@ -40,7 +31,6 @@
     "pod-install": "yarn workspace @superlight-labs/mobile run postinstall"
   },
   "description": "MPC Crypto App with Banking UX. Fair, secure, elegant",
-  "main": "index.js",
   "repository": "https://github.com/Superlight-Labs/NewFinance.git",
   "author": "Laurenz Honauer <laurenz.honauer@gmail.com>",
   "license": "AGPL-3.0",
@@ -65,5 +55,5 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.2.0"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@1.22.22"
 }
