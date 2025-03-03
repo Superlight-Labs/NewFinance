@@ -34,7 +34,7 @@ const Button = ({
       disabled={disabled}
       activeOpacity={0.7}
       onPress={haptic ? pressWithHaptic : onPress}
-      className={`group flex-row items-center  rounded px-2 py-3.5 transition-all active:opacity-70 ${
+      className={`group flex-row items-center rounded  bg-black px-2 py-3.5 transition-all active:opacity-70 ${
         iconName ? 'justify-between' : 'justify-center'
       } ${bg}  ${style}`}>
       <View

@@ -40,8 +40,8 @@ const useBitcoinPrice = () => {
     }
   };
 
-  const getPrice = (usedCurrency?: string) => {
-    return currentPrices[usedCurrency ? usedCurrency : currency.toLowerCase()] || null;
+  const getPrice = (usedCurrency: Currency = 'BTC') => {
+    return currentPrices[usedCurrency ? usedCurrency : currency.toLowerCase()] || 0;
   };
 
   const getPriceFromSatoshis = (sats: number) => {

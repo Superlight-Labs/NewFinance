@@ -35,33 +35,6 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
     deriveAddresses,
   } = useDeriveSteps(user);
 
-  const _deriveInBackground =
-    (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
-      BackgroundService.on('expiration', () => {
-        console.log('I am being closed :(');
-      });
-
-      const prom = (_: unknown) =>
-        new Promise<void>(resolve => {
-          const { onSuccess } = perform(
-            deriveAndSaveMaster(secretShare)
-              .andThen(deriveAndSavePurpose)
-              .andThen(deriveAndSaveCoinType)
-              .andThen(deriveAndSaveAccount)
-              .andThen(deriveAddresses),
-            naviagteBack
-          );
-
-          onSuccess(() => {
-            onSuccessCb;
-            BackgroundService.stop();
-            resolve();
-          });
-        });
-
-      return await BackgroundService.start(prom, options);
-    };
-
   const deriveInForeground =
     (secretShare: ShareResult | undefined) => async (onSuccessCb: () => void) => {
       BackgroundService.on('expiration', () => {
@@ -73,7 +46,7 @@ export const useCreateBitcoinWallet = (naviagteBack: () => void) => {
 
         await new Promise<void>(resolve => {
           const { onSuccess } = perform(
-            deriveAndSaveMaster(secretShare).andThen(deriveAndSaveAccount).andThen(deriveAddresses),
+            deriveAndSaveMaster(secretShare).andThen(deriveAddresses),
             naviagteBack
           );
 

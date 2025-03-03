@@ -86,7 +86,6 @@ const SendScreen = ({ navigation, route }: Props) => {
             !balance ||
             parseFloat(amount) > toCurrentCurrency(balance)
           }
-          style=""
           onPress={() =>
             navigation.navigate('SendTo', { amount: parseFloat(amount), currency, ...route.params })
           }>

@@ -43,9 +43,7 @@ const Pockets = ({ navigation }: Props) => {
   }, [bitcoinHydrated, deriveHydrated, loading]);
 
   const updateAll = () => {
-    for (const [key, _] of accounts) {
-      update(key);
-    }
+    update('Main pocket');
   };
 
   return (

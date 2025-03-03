@@ -74,26 +74,26 @@ const SendReviewScreen = ({
       } as Partial<GetFeesRequest>)
       .then(({ data: feeData }) => {
         if (fee === 0) {
-          setFee(feeData.medium);
+          setFee(Number.parseFloat(feeData.medium));
           //setCustomFee((getPrice() * fees.data.medium).toFixed(2).toString());
         }
         setFees([
           {
             label: 'Slow',
-            text: '~' + (getPrice() * feeData.slow).toFixed(2) + currency,
-            value: feeData.slow,
+            text: '~' + (getPrice() * Number.parseFloat(feeData.slow)).toFixed(2) + currency,
+            value: Number.parseFloat(feeData.slow),
             disabled: false,
           },
           {
             label: 'Medium',
-            text: '~' + (getPrice() * feeData.medium).toFixed(2) + currency,
-            value: feeData.medium,
+            text: '~' + (getPrice() * Number.parseFloat(feeData.medium)).toFixed(2) + currency,
+            value: Number.parseFloat(feeData.medium),
             disabled: false,
           },
           {
             label: 'Fast',
-            text: '~' + (getPrice() * feeData.fast).toFixed(2) + currency,
-            value: feeData.fast,
+            text: '~' + (getPrice() * Number.parseFloat(feeData.fast)).toFixed(2) + currency,
+            value: Number.parseFloat(feeData.fast),
             disabled: false,
           },
         ]);

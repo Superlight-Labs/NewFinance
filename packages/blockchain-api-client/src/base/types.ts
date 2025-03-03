@@ -66,9 +66,9 @@ export interface UTXO {
 }
 
 export interface Fees {
-  fast: number;
-  medium: number;
-  slow: number;
+  fast: string;
+  medium: string;
+  slow: string;
 }
 
 export interface BroadcastTransaction {

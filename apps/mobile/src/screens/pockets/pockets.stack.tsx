@@ -2,9 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MonoIcon from 'components/shared/mono-icon/mono-icon.component';
 import React from 'react';
-import SetupWallet from 'screens/onboarding/slides/setup-wallet.screen';
 import { Pressable } from 'utils/wrappers/styled-react-native';
-import CreatePocket from './create/create-pocket.screen';
 import { PocketsStackParamList } from './pockets-navigation';
 import Pockets from './pockets.screen';
 import TransactionDetailsScreen from './wallet/stacks/transaction-details.screen';
@@ -55,13 +53,7 @@ const PocketsStack = () => {
               }}
             />
             <SubStack.Screen name="Wallet" component={Wallet} options={substackScreensOptions} />
-            <SubStack.Screen
-              name="CreatePocket"
-              component={CreatePocket}
-              options={{
-                presentation: 'modal',
-              }}
-            />
+
             <SubStack.Screen
               name="TransactionDetails"
               component={TransactionDetailsScreen}
@@ -88,7 +80,6 @@ const PocketsStack = () => {
                 headerShown: true,
               }}
             />
-            <SubStack.Screen name="SetupWallet" component={SetupWallet} />
           </SubStack.Navigator>
         )}
       </Stack.Screen>
