@@ -64,7 +64,7 @@
     "react-native-vector-icons": "^9.2.0",
     "readable-stream": "^4.3.0",
     "text-encoder-lite": "^2.0.0",
-    "tiny-secp256k1": "1.1.6",
+    "tiny-secp256k1": "1.1.7",
     "util": "^0.12.5",
     "zustand": "^4.3.6"
   },
